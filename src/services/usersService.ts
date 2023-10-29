@@ -14,14 +14,25 @@ const getUserById = async (id: string) => {
 };
 
 const addUser = async (newUser: NewUser) => {
-  const { username, password, fullName, email, country, age } = newUser;
+  const {
+    username,
+    studentId,
+    password,
+    fullName,
+    major,
+    email,
+    country,
+    age,
+  } = newUser;
 
   const saltRounds = 10;
   const passwordHash = await bcrypt.hash(password, saltRounds);
 
   const addedUser = new User({
     username,
+    studentId,
     fullName,
+    major,
     email,
     country,
     age,

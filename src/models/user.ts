@@ -11,6 +11,15 @@ const userSchema = new Schema<IUser>({
     type: String,
     required: true,
   },
+  major: {
+    type: String,
+    enum: ["SE", "BM", "IT", "ME", "CIE", "AD", "AE"],
+    required: true,
+  },
+  studentId: {
+    type: String,
+    required: true,
+  },
   email: {
     type: String,
     required: true,

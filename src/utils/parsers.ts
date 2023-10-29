@@ -1,4 +1,4 @@
-import { Credentials, NewUser } from "../types";
+import { Credentials, Major, NewUser } from "../types";
 
 const parseNumber = (num: unknown, what: string): number => {
   if (isNaN(Number(num))) throw new Error(`invalid value for ${what}: ${num}`);
@@ -17,16 +17,31 @@ const parseString = (text: unknown, what: string): string => {
   return text;
 };
 
+const isMajor = (major: string): major is Major => {
+  return Object.values(Major).map((m) => m.toString()).includes(major);
+};
+
+const parseMajor = (major: unknown): Major => {
+  if (!major || !isString(major) || !isMajor(major))
+    throw new Error(`invalid value for major: ${major}`);
+
+  return major;
+};
+
 export const toNewUser = (object: unknown): NewUser => {
   if (!object || typeof object !== "object")
     throw new Error("Data missing or invalid");
 
   if (!("username" in object)) throw new Error("user username missing");
+  if (!("studentId" in object)) throw new Error("user studentId missing");
   if (!("password" in object)) throw new Error("user password missing");
+  if (!("major" in object)) throw new Error("user major missing");
   if (!("email" in object)) throw new Error("user email missing");
 
   const newUser: NewUser = {
     username: parseString(object.username, "username"),
+    studentId: parseString(object.studentId, "studentId"),
+    major: parseMajor(object.major),
     password: parseString(object.password, "password"),
     email: parseString(object.email, "email"),
   };
