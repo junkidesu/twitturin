@@ -27,6 +27,12 @@
                 "argsIgnorePattern": "^_"
             }
         ],
+        "@typescript-eslint/no-misused-promises": [
+            "error",
+            {
+                "checksVoidReturn": false
+            }
+        ],
         "no-case-declarations": "off"
     },
     "parser": "@typescript-eslint/parser",

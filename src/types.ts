@@ -1,8 +1,15 @@
-export interface IUser {
+interface BasicUser {
   username: string;
   fullName?: string;
-  passwordHash: string;
   email: string;
   age?: number;
   country?: string;
+}
+
+export interface IUser extends BasicUser {
+    passwordHash: string;
+}
+
+export interface NewUser extends BasicUser {
+  password: string;
 }
