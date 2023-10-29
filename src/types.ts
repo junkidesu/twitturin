@@ -1,3 +1,5 @@
+import { Types } from "mongoose";
+
 export enum Major {
   Se = "SE",
   Bm = "BM",
@@ -29,4 +31,14 @@ export interface NewUser extends BasicUser {
 export interface Credentials {
   username: string;
   password: string;
+}
+
+export interface ITweet {
+  content: string;
+  author: Types.ObjectId;
+}
+
+export interface NewTweet {
+  content: string;
+  author: string;
 }

@@ -1,8 +1,9 @@
 import express from "express";
 import mongoose from "mongoose";
 import env from "./utils/config";
-import usersRouter from "./routes/users";
 import authRouter from "./routes/auth";
+import usersRouter from "./routes/users";
+import tweetsRouter from "./routes/tweets";
 
 console.log("connecting to MongoDB");
 mongoose
@@ -20,7 +21,8 @@ app.get("/ping", (_req, res) => {
   res.send("pong");
 });
 
-app.use("/api/users", usersRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/tweets", tweetsRouter);
 
 export default app;
