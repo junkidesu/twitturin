@@ -1,6 +1,6 @@
 import express from "express";
 import usersService from "../services/usersService";
-import { NewUser } from "../types";
+import { toNewUser } from "../utils/parsers";
 
 const router = express.Router();
 
@@ -13,13 +13,15 @@ router.get("/", (_req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const newUser = req.body as NewUser;
+    const newUser = toNewUser(req.body);
 
     const addedUser = await usersService.addUser(newUser);
 
     res.status(201).json(addedUser);
   } catch (error) {
-    console.log(error);
+    if (error && typeof error === "object" && "message" in error) {
+      res.status(400).json({ error: error.message });
+    }
   }
 });
 
