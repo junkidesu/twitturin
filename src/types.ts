@@ -29,16 +29,11 @@ export interface NewUser extends BasicUser {
 }
 
 export interface Credentials {
-  username: string;
+  studentId: string;
   password: string;
 }
 
 export interface ITweet {
   content: string;
   author: Types.ObjectId;
-}
-
-export interface NewTweet {
-  content: string;
-  author: string;
 }

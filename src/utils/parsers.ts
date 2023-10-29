@@ -18,7 +18,9 @@ const parseString = (text: unknown, what: string): string => {
 };
 
 const isMajor = (major: string): major is Major => {
-  return Object.values(Major).map((m) => m.toString()).includes(major);
+  return Object.values(Major)
+    .map((m) => m.toString())
+    .includes(major);
 };
 
 const parseMajor = (major: unknown): Major => {
@@ -65,11 +67,11 @@ export const toCredentials = (object: unknown): Credentials => {
   if (!object || typeof object !== "object")
     throw new Error("Data missing or invalid");
 
-  if (!("username" in object)) throw new Error("username missing");
+  if (!("studentId" in object)) throw new Error("studentId missing");
   if (!("password" in object)) throw new Error("password missing");
 
   const credentials: Credentials = {
-    username: parseString(object.username, "username"),
+    studentId: parseString(object.studentId, "studentId"),
     password: parseString(object.password, "password"),
   };
 

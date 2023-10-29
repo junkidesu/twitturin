@@ -9,8 +9,8 @@ const router = express.Router();
 
 router.post("/", async (req, res) => {
   try {
-    const { username, password } = toCredentials(req.body);
-    const user = await User.findOne({ username });
+    const { studentId, password } = toCredentials(req.body);
+    const user = await User.findOne({ studentId });
 
     if (!user) return res.status(404).json({ error: "user not found" });
 
@@ -20,7 +20,7 @@ router.post("/", async (req, res) => {
       res.status(401).json({ error: "username or password incorrect" });
 
     const userForToken = {
-      username,
+      username: user.username,
       id: user._id,
       studentId: user.studentId,
     };
@@ -28,7 +28,7 @@ router.post("/", async (req, res) => {
     const token = jwt.sign(userForToken, env.SECRET);
 
     return res.json({
-      username,
+      username: user.username,
       id: user._id,
       studentId: user.studentId,
       token,
