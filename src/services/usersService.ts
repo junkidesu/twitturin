@@ -7,6 +7,12 @@ const getAllUsers = async () => {
   return users;
 };
 
+const getUserById = async (id: string) => {
+  const user = await User.findById(id);
+
+  return user;
+};
+
 const addUser = async (newUser: NewUser) => {
   const { username, password, fullName, email, country, age } = newUser;
 
@@ -27,4 +33,4 @@ const addUser = async (newUser: NewUser) => {
   return addedUser;
 };
 
-export default { getAllUsers, addUser };
+export default { getAllUsers, getUserById, addUser };

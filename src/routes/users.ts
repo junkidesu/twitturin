@@ -10,6 +10,14 @@ router.get("/", async (_req, res) => {
   res.json(users);
 });
 
+router.get("/:id", async (req, res) => {
+  const user = await usersService.getUserById(req.params.id);
+
+  if (!user) return res.status(404).json({ error: "user not found" });
+
+  return res.json(user);
+});
+
 router.post("/", async (req, res) => {
   try {
     const newUser = toNewUser(req.body);
