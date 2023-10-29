@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import config from "./utils/config";
+import usersRouter from "./routes/users";
 
 console.log('connecting to MongoDB');
 mongoose.connect(config.MONGODB_URI)
@@ -12,5 +13,7 @@ const app = express();
 app.get("/ping", (_req, res) => {
   res.send("pong");
 });
+
+app.use("/api/users", usersRouter);
 
 export default app;

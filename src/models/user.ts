@@ -19,6 +19,6 @@ const userSchema = new Schema<IUser>({
   country: String,
 });
 
-const User = model("User", userSchema);
+const User = model<IUser>("User", userSchema);
 
 export default User;
