@@ -1,4 +1,4 @@
-import { NewUser } from "../types";
+import { Credentials, NewUser } from "../types";
 
 const parseNumber = (num: unknown, what: string): number => {
   if (isNaN(Number(num))) throw new Error(`invalid value for ${what}: ${num}`);
@@ -21,9 +21,9 @@ export const toNewUser = (object: unknown): NewUser => {
   if (!object || typeof object !== "object")
     throw new Error("Data missing or invalid");
 
-  if (!("username" in object)) throw new Error("username missing");
-  if (!("password" in object)) throw new Error("password missing");
-  if (!("email" in object)) throw new Error("email missing");
+  if (!("username" in object)) throw new Error("user username missing");
+  if (!("password" in object)) throw new Error("user password missing");
+  if (!("email" in object)) throw new Error("user email missing");
 
   const newUser: NewUser = {
     username: parseString(object.username, "username"),
@@ -44,4 +44,19 @@ export const toNewUser = (object: unknown): NewUser => {
   }
 
   return newUser;
+};
+
+export const toCredentials = (object: unknown): Credentials => {
+  if (!object || typeof object !== "object")
+    throw new Error("Data missing or invalid");
+
+  if (!("username" in object)) throw new Error("username missing");
+  if (!("password" in object)) throw new Error("password missing");
+
+  const credentials: Credentials = {
+    username: parseString(object.username, "username"),
+    password: parseString(object.password, "password"),
+  };
+
+  return credentials;
 };

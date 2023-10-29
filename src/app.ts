@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import env from "./utils/config";
 import usersRouter from "./routes/users";
+import authRouter from "./routes/auth";
 
 console.log("connecting to MongoDB");
 mongoose
@@ -20,5 +21,6 @@ app.get("/ping", (_req, res) => {
 });
 
 app.use("/api/users", usersRouter);
+app.use("/api/auth", authRouter);
 
 export default app;

@@ -13,3 +13,8 @@ export interface IUser extends BasicUser {
 export interface NewUser extends BasicUser {
   password: string;
 }
+
+export interface Credentials {
+  username: string;
+  password: string;
+}
