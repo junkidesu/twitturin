@@ -19,8 +19,7 @@ switch (process.env.NODE_ENV) {
     MONGODB_URI = process.env.DEV_MONGODB_URI;
 }
 
-if (!PORT || !MONGODB_URI)
-  throw new Error("Missing environmental variables");
+if (!PORT || !MONGODB_URI) throw new Error("Missing environmental variables");
 
 const env = { PORT: Number(PORT), MONGODB_URI };
 

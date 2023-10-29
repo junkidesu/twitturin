@@ -7,7 +7,7 @@ interface BasicUser {
 }
 
 export interface IUser extends BasicUser {
-    passwordHash: string;
+  passwordHash: string;
 }
 
 export interface NewUser extends BasicUser {

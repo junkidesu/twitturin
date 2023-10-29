@@ -1,12 +1,15 @@
 import express from "express";
 import mongoose from "mongoose";
-import config from "./utils/config";
+import env from "./utils/config";
 import usersRouter from "./routes/users";
 
-console.log('connecting to MongoDB');
-mongoose.connect(config.MONGODB_URI)
+console.log("connecting to MongoDB");
+mongoose
+  .connect(env.MONGODB_URI)
   .then(() => console.log(`connected to MongoDB`))
-  .catch(error => console.log(error));
+  .catch((error) =>
+    console.log("error connecting to MongoDB:", error.message as string)
+  );
 
 const app = express();
 

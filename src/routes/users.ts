@@ -4,11 +4,10 @@ import { toNewUser } from "../utils/parsers";
 
 const router = express.Router();
 
-router.get("/", (_req, res) => {
-  usersService
-    .getAllUsers()
-    .then((users) => res.json(users))
-    .catch((error) => console.log(error));
+router.get("/", async (_req, res) => {
+  const users = await usersService.getAllUsers();
+
+  res.json(users);
 });
 
 router.post("/", async (req, res) => {
