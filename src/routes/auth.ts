@@ -22,12 +22,15 @@ router.post("/", async (req, res) => {
     const userForToken = {
       username,
       id: user._id,
+      studentId: user.studentId,
     };
+
     const token = jwt.sign(userForToken, env.SECRET);
 
     return res.json({
       username,
       id: user._id,
+      studentId: user.studentId,
       token,
     });
   } catch (error) {
