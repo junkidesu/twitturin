@@ -26,9 +26,13 @@ router.post("/", async (req, res) => {
 
     res.status(201).json(addedUser);
   } catch (error) {
-    if (error && typeof error === "object" && "message" in error) {
-      res.status(400).json({ error: error.message });
+    let errorMessage = "an error occurred: ";
+
+    if (error instanceof Error) {
+      errorMessage += error.message;
     }
+
+    res.status(400).json({ error: errorMessage });
   }
 });
 
