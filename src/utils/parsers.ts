@@ -1,7 +1,7 @@
-import { Credentials, Major, NewUser } from "../types";
+import { Credentials, Major, NewUser, ParseError } from "../types";
 
 const parseNumber = (num: unknown, what: string): number => {
-  if (isNaN(Number(num))) throw new Error(`invalid value for ${what}: ${num}`);
+  if (isNaN(Number(num))) throw new ParseError(`invalid value for ${what}: ${num}`);
 
   return Number(num);
 };
@@ -12,7 +12,7 @@ const isString = (text: unknown): text is string => {
 
 const parseString = (text: unknown, what: string): string => {
   if (!text || !isString(text))
-    throw new Error(`Invalid value for ${what}: ${text}`);
+    throw new ParseError(`Invalid value for ${what}: ${text}`);
 
   return text;
 };
@@ -25,20 +25,20 @@ const isMajor = (major: string): major is Major => {
 
 const parseMajor = (major: unknown): Major => {
   if (!major || !isString(major) || !isMajor(major))
-    throw new Error(`invalid value for major: ${major}`);
+    throw new ParseError(`invalid value for major: ${major}`);
 
   return major;
 };
 
 export const toNewUser = (object: unknown): NewUser => {
   if (!object || typeof object !== "object")
-    throw new Error("Data missing or invalid");
+    throw new ParseError("Data missing or invalid");
 
-  if (!("username" in object)) throw new Error("user username missing");
-  if (!("studentId" in object)) throw new Error("user studentId missing");
-  if (!("password" in object)) throw new Error("user password missing");
-  if (!("major" in object)) throw new Error("user major missing");
-  if (!("email" in object)) throw new Error("user email missing");
+  if (!("username" in object)) throw new ParseError("user username missing");
+  if (!("studentId" in object)) throw new ParseError("user studentId missing");
+  if (!("password" in object)) throw new ParseError("user password missing");
+  if (!("major" in object)) throw new ParseError("user major missing");
+  if (!("email" in object)) throw new ParseError("user email missing");
 
   const newUser: NewUser = {
     username: parseString(object.username, "username"),
@@ -65,10 +65,10 @@ export const toNewUser = (object: unknown): NewUser => {
 
 export const toCredentials = (object: unknown): Credentials => {
   if (!object || typeof object !== "object")
-    throw new Error("Data missing or invalid");
+    throw new ParseError("Data missing or invalid");
 
-  if (!("studentId" in object)) throw new Error("studentId missing");
-  if (!("password" in object)) throw new Error("password missing");
+  if (!("studentId" in object)) throw new ParseError("studentId missing");
+  if (!("password" in object)) throw new ParseError("password missing");
 
   const credentials: Credentials = {
     studentId: parseString(object.studentId, "studentId"),

@@ -37,3 +37,10 @@ export interface ITweet {
   content: string;
   author: Types.ObjectId;
 }
+
+export class ParseError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "ParseError";
+  }
+}
