@@ -43,6 +43,10 @@ export interface NewTweet {
   author: string;
 }
 
+export interface PopulatedTweets {
+  tweets: [ITweet];
+}
+
 export interface TokenData {
   token: string;
   id: Types.ObjectId;
