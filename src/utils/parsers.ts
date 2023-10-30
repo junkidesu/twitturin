@@ -1,7 +1,8 @@
-import { Credentials, Major, NewUser, ParseError } from "../types";
+import { Credentials, NewTweet, Major, NewUser, ParseError } from "../types";
 
 const parseNumber = (num: unknown, what: string): number => {
-  if (isNaN(Number(num))) throw new ParseError(`invalid value for ${what}: ${num}`);
+  if (isNaN(Number(num)))
+    throw new ParseError(`invalid value for ${what}: ${num}`);
 
   return Number(num);
 };
@@ -76,4 +77,17 @@ export const toCredentials = (object: unknown): Credentials => {
   };
 
   return credentials;
+};
+
+export const toNewTweet = (object: unknown): NewTweet => {
+  if (!object || typeof object !== "object")
+    throw new ParseError("Data missing or invalid");
+
+  if (!("content" in object)) throw new ParseError("content missing");
+  if (!("author" in object)) throw new ParseError("author missing");
+
+  return {
+    content: parseString(object.content, "content"),
+    author: parseString(object.author, "author"),
+  };
 };

@@ -1,4 +1,5 @@
 import express from "express";
+import { toNewTweet } from "../utils/parsers";
 import tweetsService from "../services/tweetsService";
 import { AuthError } from "../types";
 
@@ -13,12 +14,12 @@ router.post("/", async (req, res, next) => {
   try {
     if (!req.user) throw new AuthError("must be authenticated to post");
 
-    const { content } = req.body as { content: string };
-
-    const addedTweet = await tweetsService.addTweet({
-      content,
+    const newTweet = toNewTweet({
+      ...req.body,
       author: req.user._id.toString(),
     });
+
+    const addedTweet = await tweetsService.addTweet(newTweet);
 
     res.status(201).send(addedTweet);
   } catch (error) {
