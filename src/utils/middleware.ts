@@ -34,7 +34,6 @@ export const userExtractor = async (
     const decodedToken = jwt.verify(token, env.SECRET);
     const user = await extractUser(decodedToken);
     req.user = user;
-    console.log(req.user);
     next();
   } catch (error) {
     next(error);
