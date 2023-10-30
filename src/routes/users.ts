@@ -18,7 +18,7 @@ router.get("/:id", async (req, res) => {
   return res.json(user);
 });
 
-router.post("/", async (req, res) => {
+router.post("/", async (req, res, next) => {
   try {
     const newUser = toNewUser(req.body);
 
@@ -26,13 +26,7 @@ router.post("/", async (req, res) => {
 
     res.status(201).json(addedUser);
   } catch (error) {
-    let errorMessage = "an error occurred: ";
-
-    if (error instanceof Error) {
-      errorMessage += error.message;
-    }
-
-    res.status(400).json({ error: errorMessage });
+    next(error);
   }
 });
 
