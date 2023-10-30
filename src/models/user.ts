@@ -10,6 +10,8 @@ const userSchema = new Schema<IUser>(
       type: String,
       required: true,
       unique: true,
+      minLength: [3, "username must be at least 3 characters long"],
+      maxLength: [15, "username must be at most 15 characters long"],
     },
     fullName: String,
     passwordHash: {
@@ -25,12 +27,22 @@ const userSchema = new Schema<IUser>(
       type: String,
       required: true,
       unique: true,
+      validate: {
+        validator: (v: string): boolean => {
+          return /^(u|se|ad|bm)(0|1)(\d){4}$/.test(v);
+        },
+      },
     },
     email: {
       type: String,
       required: true,
+      validate: {
+        validator: (v: string): boolean => {
+          return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+        },
+      },
     },
-    age: Number,
+    age: { type: Number, min: 1 },
     country: String,
   },
   {
@@ -48,7 +60,7 @@ const userSchema = new Schema<IUser>(
   }
 );
 
-userSchema.plugin(uniqueValidator, { message: '{PATH} must be unique'});
+userSchema.plugin(uniqueValidator, { message: "{PATH} must be unique" });
 
 userSchema.virtual("tweets", {
   ref: "Tweet",
