@@ -1,16 +1,21 @@
 import { Schema, model } from "mongoose";
 import { ITweet } from "../types";
 
-const tweetSchema = new Schema<ITweet>({
-  content: {
-    type: String,
-    required: true,
+const tweetSchema = new Schema<ITweet>(
+  {
+    content: {
+      type: String,
+      required: true,
+    },
+    author: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
-  author: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 tweetSchema.set("toJSON", {
   transform: (_document, returnedObject) => {
