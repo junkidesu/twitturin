@@ -38,6 +38,11 @@ export interface ITweet {
   author: Types.ObjectId;
 }
 
+export interface NewTweet {
+  content: string;
+  author: string;
+}
+
 export interface TokenData {
   token: string;
   id: Types.ObjectId;
