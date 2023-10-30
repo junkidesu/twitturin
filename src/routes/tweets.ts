@@ -39,4 +39,18 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+router.delete("/:id", async (req, res, next) => {
+  try {
+    if (!req.user) throw new AuthError("authentication required");
+
+    const userId = req.user._id.toString();
+
+    await tweetsService.removeTweet(req.params.id, userId);
+
+    res.status(204).end();
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default router;
