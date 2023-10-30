@@ -1,8 +1,8 @@
 import Tweet from "../models/tweet";
-import { NewTweet } from "../types";
+import { NewTweet, PopulatedAuthor } from "../types";
 
 const getAllTweets = async () => {
-  const tweets = await Tweet.find({});
+  const tweets = await Tweet.find({}).populate<PopulatedAuthor>("author");
 
   return tweets;
 };
