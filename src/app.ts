@@ -4,7 +4,7 @@ import env from "./utils/config";
 import authRouter from "./routes/auth";
 import usersRouter from "./routes/users";
 import tweetsRouter from "./routes/tweets";
-import { errorHandler } from "./utils/middleware";
+import { errorHandler, userExtractor } from "./utils/middleware";
 
 console.log("connecting to MongoDB");
 mongoose
@@ -22,6 +22,7 @@ app.get("/ping", (_req, res) => {
   res.send("pong");
 });
 
+app.use(userExtractor);
 app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/tweets", tweetsRouter);
