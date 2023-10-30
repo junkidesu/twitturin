@@ -1,7 +1,8 @@
 import express from "express";
 import { toEditTweet, toNewTweet } from "../utils/parsers";
 import tweetsService from "../services/tweetsService";
-import { AuthError, NotFoundError } from "../types";
+import { NotFoundError } from "../types";
+import { requireAuthentication, requireAuthor } from "../utils/middleware";
 
 const router = express.Router();
 
@@ -22,13 +23,12 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
+router.post("/", requireAuthentication);
 router.post("/", async (req, res, next) => {
   try {
-    if (!req.user) throw new AuthError("must be authenticated to post");
-
     const newTweet = toNewTweet({
       ...req.body,
-      author: req.user._id.toString(),
+      author: req.user!._id.toString(),
     });
 
     const addedTweet = await tweetsService.addTweet(newTweet);
@@ -39,13 +39,11 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+router.delete("/:id", requireAuthentication);
+router.delete("/:id", requireAuthor);
 router.delete("/:id", async (req, res, next) => {
   try {
-    if (!req.user) throw new AuthError("authentication required");
-
-    const userId = req.user._id.toString();
-
-    await tweetsService.removeTweet(req.params.id, userId);
+    await tweetsService.removeTweet(req.params.id);
 
     res.status(204).end();
   } catch (error) {
@@ -53,15 +51,15 @@ router.delete("/:id", async (req, res, next) => {
   }
 });
 
+router.put("/:id", requireAuthentication);
+router.put("/:id", requireAuthor);
 router.put("/:id", async (req, res, next) => {
   try {
-    if (!req.user) throw new AuthError("authentication required");
     const toEdit = toEditTweet(req.body);
 
     const updatedTweet = await tweetsService.editTweet(
       req.params.id,
       toEdit,
-      req.user._id.toString()
     );
 
     res.json(updatedTweet);

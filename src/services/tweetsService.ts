@@ -3,7 +3,6 @@ import {
   NewTweet,
   EditTweet,
   PopulatedAuthor,
-  AuthError,
   NotFoundError,
 } from "../types";
 
@@ -25,24 +24,18 @@ const addTweet = async (newTweet: NewTweet) => {
   return addedTweet;
 };
 
-const removeTweet = async (id: string, userId: string) => {
+const removeTweet = async (id: string) => {
   const tweet = await Tweet.findById(id);
 
   if (!tweet) throw new NotFoundError("tweet not found");
-
-  if (tweet.author.toString() !== userId)
-    throw new AuthError("tweet can only be removed by author");
 
   await Tweet.findByIdAndRemove(id);
 };
 
-const editTweet = async (id: string, toEdit: EditTweet, userId: string) => {
+const editTweet = async (id: string, toEdit: EditTweet) => {
   const tweet = await Tweet.findById(id);
 
   if (!tweet) throw new NotFoundError("tweet not found");
-
-  if (tweet.author.toString() !== userId)
-    throw new AuthError("tweet can only be edited by author");
 
   const updatedTweet = await Tweet.findByIdAndUpdate(id, toEdit, {
     new: true,
