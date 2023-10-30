@@ -43,6 +43,10 @@ export interface NewTweet {
   author: string;
 }
 
+export interface EditTweet {
+  content?: string;
+}
+
 export interface PopulatedTweets {
   tweets: [ITweet];
 }

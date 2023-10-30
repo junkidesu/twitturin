@@ -1,5 +1,11 @@
 import Tweet from "../models/tweet";
-import { NewTweet, PopulatedAuthor, AuthError, NotFoundError } from "../types";
+import {
+  NewTweet,
+  EditTweet,
+  PopulatedAuthor,
+  AuthError,
+  NotFoundError,
+} from "../types";
 
 const getAllTweets = async () => {
   const tweets = await Tweet.find({}).populate<PopulatedAuthor>("author");
@@ -30,4 +36,21 @@ const removeTweet = async (id: string, userId: string) => {
   await Tweet.findByIdAndRemove(id);
 };
 
-export default { getAllTweets, addTweet, getTweetById, removeTweet };
+const editTweet = async (id: string, toEdit: EditTweet, userId: string) => {
+  const tweet = await Tweet.findById(id);
+
+  if (!tweet) throw new NotFoundError("tweet not found");
+
+  if (tweet.author.toString() !== userId)
+    throw new AuthError("tweet can only be edited by author");
+
+  const updatedTweet = await Tweet.findByIdAndUpdate(id, toEdit, {
+    new: true,
+    context: "query",
+    runValidators: true,
+  }).populate<PopulatedAuthor>("author");
+
+  return updatedTweet;
+};
+
+export default { getAllTweets, addTweet, getTweetById, removeTweet, editTweet };

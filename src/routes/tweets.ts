@@ -1,5 +1,5 @@
 import express from "express";
-import { toNewTweet } from "../utils/parsers";
+import { toEditTweet, toNewTweet } from "../utils/parsers";
 import tweetsService from "../services/tweetsService";
 import { AuthError, NotFoundError } from "../types";
 
@@ -48,6 +48,23 @@ router.delete("/:id", async (req, res, next) => {
     await tweetsService.removeTweet(req.params.id, userId);
 
     res.status(204).end();
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.put("/:id", async (req, res, next) => {
+  try {
+    if (!req.user) throw new AuthError("authentication required");
+    const toEdit = toEditTweet(req.body);
+
+    const updatedTweet = await tweetsService.editTweet(
+      req.params.id,
+      toEdit,
+      req.user._id.toString()
+    );
+
+    res.json(updatedTweet);
   } catch (error) {
     next(error);
   }
