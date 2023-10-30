@@ -48,6 +48,8 @@ export const errorHandler = (
 ) => {
   console.log(error.message);
 
+  if (error.name === "ValidationError")
+    return res.status(400).json({ error: `ValidationError: ${error.message}` });
   if (error.name === "ParseError")
     return res.status(400).json({ error: `ParseError: ${error.message}` });
   if (error.name === "NotFoundError")

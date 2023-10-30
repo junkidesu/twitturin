@@ -2,12 +2,14 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Schema, model } from "mongoose";
 import { IUser } from "../types";
+import uniqueValidator from "mongoose-unique-validator";
 
 const userSchema = new Schema<IUser>(
   {
     username: {
       type: String,
       required: true,
+      unique: true,
     },
     fullName: String,
     passwordHash: {
@@ -22,6 +24,7 @@ const userSchema = new Schema<IUser>(
     studentId: {
       type: String,
       required: true,
+      unique: true,
     },
     email: {
       type: String,
@@ -44,6 +47,8 @@ const userSchema = new Schema<IUser>(
     },
   }
 );
+
+userSchema.plugin(uniqueValidator, { message: '{PATH} must be unique'});
 
 userSchema.virtual("tweets", {
   ref: "Tweet",
