@@ -7,10 +7,16 @@ const getAllTweets = async () => {
   return tweets;
 };
 
+const getTweetById = async (id: string) => {
+  const tweet = await Tweet.findById(id).populate<PopulatedAuthor>("author");
+
+  return tweet;
+};
+
 const addTweet = async (newTweet: NewTweet) => {
   const addedTweet = await new Tweet(newTweet).save();
 
   return addedTweet;
 };
 
-export default { getAllTweets, addTweet };
+export default { getAllTweets, addTweet, getTweetById };
