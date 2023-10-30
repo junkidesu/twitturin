@@ -38,9 +38,30 @@ export interface ITweet {
   author: Types.ObjectId;
 }
 
+export interface TokenData {
+  token: string;
+  id: Types.ObjectId;
+  studentId: string;
+  username: string;
+}
+
 export class ParseError extends Error {
   constructor(message: string) {
     super(message);
     this.name = "ParseError";
+  }
+}
+
+export class AuthError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "AuthError";
+  }
+}
+
+export class NotFoundError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "NotFoundError";
   }
 }
