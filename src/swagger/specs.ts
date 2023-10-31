@@ -1,5 +1,13 @@
 import swaggerJsdoc from "swagger-jsdoc";
-import { NewUser, User, EditUser, AuthData, TokenData, Error } from "./schemas";
+import {
+  NewUser,
+  User,
+  EditUser,
+  AuthData,
+  TokenData,
+  Tweet,
+  Error,
+} from "./schemas";
 
 const options: swaggerJsdoc.Options = {
   definition: {
@@ -42,11 +50,12 @@ const options: swaggerJsdoc.Options = {
         User,
         EditUser,
         AuthData,
+        Tweet,
         TokenData,
       },
       responses: {
         Error,
-      }
+      },
     },
     tags: [
       {
@@ -56,6 +65,10 @@ const options: swaggerJsdoc.Options = {
       {
         name: "users",
         description: "the API endpoints for user management",
+      },
+      {
+        name: "tweets",
+        description: "the API endpoints for managing tweets",
       },
     ],
   },

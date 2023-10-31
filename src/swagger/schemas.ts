@@ -176,6 +176,43 @@ export const TokenData = {
   },
 };
 
+export const Tweet = {
+  type: "object",
+  required: ["id", "content", "author"],
+  properties: {
+    id: {
+      type: "string",
+      format: "MongoDB id",
+      description: "The MongoDB id of the tweet.",
+    },
+    content: {
+      type: "string",
+      description: "The content of the tweet.",
+    },
+    author: {
+      type: "object",
+      additionalProperties: {
+        $ref: "#/components/schemas/User",
+      },
+      description: "The author of the tweet, in JSON format.",
+    },
+  },
+  example: {
+    content: "updated content at 1:45",
+    author: {
+      username: "nonexisting",
+      major: "SE",
+      studentId: "se99999",
+      email: "unknown@example.com",
+      country: "Uzbekistan",
+      id: "653fe7dd0e51f6d650fc10a0",
+    },
+    createdAt: "2023-10-30T20:17:24.531Z",
+    updatedAt: "2023-10-30T20:49:19.585Z",
+    id: "65400f54543880dabb0a6315",
+  },
+};
+
 export const Error = {
   type: "object",
   properties: {
