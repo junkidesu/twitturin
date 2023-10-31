@@ -6,6 +6,22 @@ import { requireAuthentication, requireAuthor } from "../utils/middleware";
 
 const router = express.Router();
 
+/**
+ * @openapi
+ * /tweets:
+ *   get:
+ *     summary: Get all tweets.
+ *     tags: [tweets]
+ *     responses:
+ *       200:
+ *         description: The list of all tweets.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Tweet'
+ */
 router.get("/", async (_req, res) => {
   const tweets = await tweetsService.getAllTweets();
   return res.json(tweets);
