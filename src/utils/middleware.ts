@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { AuthError, IUser, NotFoundError } from "../types";
+import { AuthError, User, NotFoundError } from "../types";
 import { Types } from "mongoose";
 import env from "./config";
-import User from "../models/user";
-import Tweet from "../models/tweet";
+import UserModel from "../models/user";
+import TweetModel from "../models/tweet";
 
 const parseToken = (text: string): string => {
   if (!text || !text.startsWith("Bearer "))
@@ -17,7 +17,7 @@ const extractUser = async (tokenData: unknown) => {
   if (!tokenData || typeof tokenData !== "object" || !("id" in tokenData))
     throw new AuthError("token missing or invalid");
 
-  const user = await User.findById(tokenData.id);
+  const user = await UserModel.findById(tokenData.id);
 
   if (!user) return undefined;
 
@@ -61,10 +61,10 @@ export const requireAuthentication = (
 };
 
 const checkAuthor = async (
-  user: IUser & { _id: Types.ObjectId },
+  user: User & { _id: Types.ObjectId },
   id: string
 ) => {
-  const tweet = await Tweet.findById(id);
+  const tweet = await TweetModel.findById(id);
 
   if (!tweet) throw new NotFoundError("tweet not found");
 
@@ -89,7 +89,7 @@ export const requireAuthor = async (
   }
 };
 
-const checkSameUser = (user: IUser & { _id: Types.ObjectId }, id: string) => {
+const checkSameUser = (user: User & { _id: Types.ObjectId }, id: string) => {
   if (user._id.toString() !== id)
     throw new AuthError("action can only be done by same user");
 };

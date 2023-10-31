@@ -1,4 +1,4 @@
-import Tweet from "../models/tweet";
+import TweetModel from "../models/tweet";
 import {
   NewTweet,
   EditTweet,
@@ -7,37 +7,37 @@ import {
 } from "../types";
 
 const getAllTweets = async () => {
-  const tweets = await Tweet.find({}).populate<PopulatedAuthor>("author");
+  const tweets = await TweetModel.find({}).populate<PopulatedAuthor>("author");
 
   return tweets;
 };
 
 const getTweetById = async (id: string) => {
-  const tweet = await Tweet.findById(id).populate<PopulatedAuthor>("author");
+  const tweet = await TweetModel.findById(id).populate<PopulatedAuthor>("author");
 
   return tweet;
 };
 
 const addTweet = async (newTweet: NewTweet) => {
-  const addedTweet = await new Tweet(newTweet).save();
+  const addedTweet = await new TweetModel(newTweet).save();
 
   return addedTweet;
 };
 
 const removeTweet = async (id: string) => {
-  const tweet = await Tweet.findById(id);
+  const tweet = await TweetModel.findById(id);
 
   if (!tweet) throw new NotFoundError("tweet not found");
 
-  await Tweet.findByIdAndRemove(id);
+  await TweetModel.findByIdAndRemove(id);
 };
 
 const editTweet = async (id: string, toEdit: EditTweet) => {
-  const tweet = await Tweet.findById(id);
+  const tweet = await TweetModel.findById(id);
 
   if (!tweet) throw new NotFoundError("tweet not found");
 
-  const updatedTweet = await Tweet.findByIdAndUpdate(id, toEdit, {
+  const updatedTweet = await TweetModel.findByIdAndUpdate(id, toEdit, {
     new: true,
     context: "query",
     runValidators: true,

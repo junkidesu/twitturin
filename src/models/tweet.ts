@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
-import { ITweet } from "../types";
+import { Tweet } from "../types";
 
-const tweetSchema = new Schema<ITweet>(
+const TweetSchema = new Schema<Tweet>(
   {
     content: {
       type: String,
@@ -20,7 +20,7 @@ const tweetSchema = new Schema<ITweet>(
   }
 );
 
-tweetSchema.set("toJSON", {
+TweetSchema.set("toJSON", {
   transform: (_document, returnedObject) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     returnedObject.id = returnedObject._id;
@@ -29,6 +29,6 @@ tweetSchema.set("toJSON", {
   },
 });
 
-const Tweet = model<ITweet>("Tweet", tweetSchema);
+const TweetModel = model<Tweet>("Tweet", TweetSchema);
 
-export default Tweet;
+export default TweetModel;

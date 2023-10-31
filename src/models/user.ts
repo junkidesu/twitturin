@@ -1,10 +1,10 @@
 /* eslint-disable no-self-assign */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Schema, model } from "mongoose";
-import { IUser } from "../types";
+import { User } from "../types";
 import uniqueValidator from "mongoose-unique-validator";
 
-const userSchema = new Schema<IUser>(
+const UserSchema = new Schema<User>(
   {
     username: {
       type: String,
@@ -60,14 +60,14 @@ const userSchema = new Schema<IUser>(
   }
 );
 
-userSchema.plugin(uniqueValidator, { message: "{PATH} must be unique" });
+UserSchema.plugin(uniqueValidator, { message: "{PATH} must be unique" });
 
-userSchema.virtual("tweets", {
+UserSchema.virtual("tweets", {
   ref: "Tweet",
   localField: "_id",
   foreignField: "author",
 });
 
-const User = model<IUser>("User", userSchema);
+const UserModel = model<User>("User", UserSchema);
 
-export default User;
+export default UserModel;

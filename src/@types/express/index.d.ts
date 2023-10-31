@@ -1,10 +1,10 @@
 import { Document, Types } from "mongoose";
-import { IUser } from "../../types";
+import { User } from "../../types";
 
 declare global {
   namespace Express {
     export interface Request {
-      user?: Document<unknown, object, IUser> & IUser & { _id: Types.ObjectId };
+      user?: Document<unknown, object, User> & User & { _id: Types.ObjectId };
     }
   }
 }

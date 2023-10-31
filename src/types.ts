@@ -20,7 +20,7 @@ interface BasicUser {
   country?: string;
 }
 
-export interface IUser extends BasicUser {
+export interface User extends BasicUser {
   passwordHash: string;
 }
 
@@ -39,7 +39,7 @@ export interface Credentials {
   password: string;
 }
 
-export interface ITweet {
+export interface Tweet {
   content: string;
   author: Types.ObjectId;
 }
@@ -54,11 +54,11 @@ export interface EditTweet {
 }
 
 export interface PopulatedTweets {
-  tweets: [ITweet];
+  tweets: [Tweet];
 }
 
 export interface PopulatedAuthor {
-  author: IUser;
+  author: User;
 }
 
 export interface TokenData {

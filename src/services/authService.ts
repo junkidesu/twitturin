@@ -1,4 +1,4 @@
-import User from "../models/user";
+import UserModel from "../models/user";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import env from "../utils/config";
@@ -8,7 +8,7 @@ const authenticate = async ({
   studentId,
   password,
 }: Credentials): Promise<TokenData> => {
-  const user = await User.findOne({ studentId });
+  const user = await UserModel.findOne({ studentId });
 
   if (!user) throw new NotFoundError("user not found");
 
