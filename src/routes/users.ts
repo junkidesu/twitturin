@@ -6,10 +6,10 @@ import { requireAuthentication, requireSameUser } from "../utils/middleware";
 const router = express.Router();
 
 /**
- * @swagger
+ * @openapi
  * /users:
  *   get:
- *     summary: Get the list of all users.
+ *     summary: Get all users.
  *     tags: [users]
  *     responses:
  *       200:
