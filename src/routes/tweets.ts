@@ -23,8 +23,7 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.post("/", requireAuthentication);
-router.post("/", async (req, res, next) => {
+router.post("/", requireAuthentication, async (req, res, next) => {
   try {
     const newTweet = toNewTweet({
       ...req.body,
@@ -39,33 +38,36 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.delete("/:id", requireAuthentication);
-router.delete("/:id", requireAuthor);
-router.delete("/:id", async (req, res, next) => {
-  try {
-    await tweetsService.removeTweet(req.params.id);
+router.delete(
+  "/:id",
+  requireAuthentication,
+  requireAuthor,
+  async (req, res, next) => {
+    try {
+      await tweetsService.removeTweet(req.params.id);
 
-    res.status(204).end();
-  } catch (error) {
-    next(error);
+      res.status(204).end();
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
-router.put("/:id", requireAuthentication);
-router.put("/:id", requireAuthor);
-router.put("/:id", async (req, res, next) => {
-  try {
-    const toEdit = toEditTweet(req.body);
+router.put(
+  "/:id",
+  requireAuthentication,
+  requireAuthor,
+  async (req, res, next) => {
+    try {
+      const toEdit = toEditTweet(req.body);
 
-    const updatedTweet = await tweetsService.editTweet(
-      req.params.id,
-      toEdit,
-    );
+      const updatedTweet = await tweetsService.editTweet(req.params.id, toEdit);
 
-    res.json(updatedTweet);
-  } catch (error) {
-    next(error);
+      res.json(updatedTweet);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 export default router;
