@@ -27,6 +27,39 @@ router.get("/", async (_req, res) => {
   return res.json(tweets);
 });
 
+/**
+ * @openapi
+ * /tweets/{id}:
+ *   get:
+ *     summary: Get a specific tweet by its id.
+ *     tags: [tweets]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The MongoDB id of the tweet.
+ *     responses:
+ *       200:
+ *         description: The tweet with the specified id.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Tweet'
+ *       400:
+ *         description: The provided id is not a valid MongoDB id.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       404:
+ *         description: The tweet with the specified id was not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ */
 router.get("/:id", async (req, res, next) => {
   try {
     const tweet = await tweetsService.getTweetById(req.params.id);
@@ -39,6 +72,40 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
+/**
+ * @openapi
+ * /tweets:
+ *   post:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Post a new tweet.
+ *     tags: [tweets]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/NewTweet'
+ *     responses:
+ *       201:
+ *         description: The new tweet.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Tweet'
+ *       400:
+ *         description: Invalid tweet content.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       401:
+ *         description: Invalid or missing JWT.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ */
 router.post("/", requireAuthentication, async (req, res, next) => {
   try {
     const newTweet = toNewTweet({

@@ -196,6 +196,16 @@ export const Tweet = {
       },
       description: "The author of the tweet, in JSON format.",
     },
+    createdAt: {
+      type: "string",
+      format: "date",
+      description: "The time when the tweet was posted.",
+    },
+    updatedAt: {
+      type: "string",
+      format: "date",
+      description: "The time when the tweet was edited.",
+    },
   },
   example: {
     content: "updated content at 1:45",
@@ -210,6 +220,26 @@ export const Tweet = {
     createdAt: "2023-10-30T20:17:24.531Z",
     updatedAt: "2023-10-30T20:49:19.585Z",
     id: "65400f54543880dabb0a6315",
+  },
+};
+
+export const NewTweet = {
+  type: "object",
+  required: ["content", "author"],
+  properties: {
+    content: {
+      type: "string",
+      description: "The content of the tweet.",
+    },
+    author: {
+      type: "string",
+      format: "MongoDB id",
+      description: "The MongoDB id of the author.",
+    },
+  },
+  example: {
+    content: "updated content at 1:45",
+    author: "653fe7dd0e51f6d650fc10a0",
   },
 };
 
