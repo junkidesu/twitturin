@@ -41,4 +41,12 @@ const editUser = async (id: string, toEdit: EditUser) => {
   return updatedUser;
 };
 
-export default { getAllUsers, getUserById, addUser, editUser };
+const removeUser = async (id: string) => {
+  const user = await User.findById(id);
+
+  if (!user) throw new NotFoundError("user not found");
+
+  await User.findByIdAndRemove(id);
+};
+
+export default { getAllUsers, getUserById, addUser, editUser, removeUser };

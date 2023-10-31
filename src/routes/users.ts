@@ -45,4 +45,15 @@ router.put("/:id", async (req, res, next) => {
   }
 });
 
+router.delete("/:id", requireAuthentication);
+router.delete("/:id", requireSameUser);
+router.delete("/:id", async (req, res, next) => {
+  try {
+    await usersService.removeUser(req.params.id);
+    res.status(204).end();
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default router;
