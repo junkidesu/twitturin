@@ -8,7 +8,7 @@
     "tsc": "tsc",
     "lint": "eslint --ext .ts .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cross-env NODE_ENV=production node build/index.js"
+    "start": "cross-env NODE_ENV=production node dist/index.js"
   },
   "author": "Anvar Sheryatullaev",
   "license": "ISC",
