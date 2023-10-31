@@ -89,6 +89,26 @@ export const requireAuthor = async (
   }
 };
 
+const checkSameUser = (user: IUser & { _id: Types.ObjectId }, id: string) => {
+  if (user._id.toString() !== id)
+    throw new AuthError("action can only be done by same user");
+};
+
+export const requireSameUser = (
+  req: Request,
+  _res: Response,
+  next: NextFunction
+) => {
+  if (!req.user || !("id" in req.params)) return next();
+
+  try {
+    checkSameUser(req.user, req.params.id);
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const errorHandler = (
   error: Error,
   _req: Request,

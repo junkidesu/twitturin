@@ -1,7 +1,7 @@
 import express from "express";
 import usersService from "../services/usersService";
 import { toNewUser, toEditUser } from "../utils/parsers";
-import { requireAuthentication } from "../utils/middleware";
+import { requireAuthentication, requireSameUser } from "../utils/middleware";
 
 const router = express.Router();
 
@@ -32,6 +32,7 @@ router.post("/", async (req, res, next) => {
 });
 
 router.put("/:id", requireAuthentication);
+router.put("/:id", requireSameUser);
 router.put("/:id", async (req, res, next) => {
   try {
     const toEdit = toEditUser(req.body);
