@@ -1,6 +1,7 @@
 import express from "express";
 import usersService from "../services/usersService";
-import { toNewUser } from "../utils/parsers";
+import { toNewUser, toEditUser } from "../utils/parsers";
+import { requireAuthentication } from "../utils/middleware";
 
 const router = express.Router();
 
@@ -25,6 +26,19 @@ router.post("/", async (req, res, next) => {
     const addedUser = await usersService.addUser(newUser);
 
     res.status(201).json(addedUser);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.put("/:id", requireAuthentication);
+router.put("/:id", async (req, res, next) => {
+  try {
+    const toEdit = toEditUser(req.body);
+
+    const updatedUser = await usersService.editUser(req.params.id, toEdit);
+
+    res.json(updatedUser);
   } catch (error) {
     next(error);
   }

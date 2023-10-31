@@ -1,6 +1,6 @@
 import User from "../models/user";
 import bcrypt from "bcrypt";
-import { NewUser, PopulatedTweets } from "../types";
+import { EditUser, NewUser, NotFoundError, PopulatedTweets } from "../types";
 
 const getAllUsers = async () => {
   const users = await User.find({}).populate<PopulatedTweets>("tweets");
@@ -27,4 +27,18 @@ const addUser = async (newUser: NewUser) => {
   return addedUser;
 };
 
-export default { getAllUsers, getUserById, addUser };
+const editUser = async (id: string, toEdit: EditUser) => {
+  const user = await User.findById(id);
+
+  if (!user) throw new NotFoundError("user not found");
+
+  const updatedUser = await User.findByIdAndUpdate(id, toEdit, {
+    new: true,
+    runValidators: true,
+    context: "query",
+  }).populate<PopulatedTweets>("tweets");
+
+  return updatedUser;
+};
+
+export default { getAllUsers, getUserById, addUser, editUser };

@@ -28,6 +28,12 @@ export interface NewUser extends BasicUser {
   password: string;
 }
 
+export interface EditUser {
+  username?: string;
+  email?: string;
+  country?: string;
+}
+
 export interface Credentials {
   studentId: string;
   password: string;

@@ -5,6 +5,7 @@ import {
   Major,
   NewUser,
   ParseError,
+  EditUser,
 } from "../types";
 
 const parseNumber = (num: unknown, what: string): number => {
@@ -69,6 +70,21 @@ export const toNewUser = (object: unknown): NewUser => {
   }
 
   return newUser;
+};
+
+export const toEditUser = (object: unknown): EditUser => {
+  if (!object || typeof object !== "object")
+    throw new ParseError("data missing or invalid");
+
+  return {
+    username:
+      "username" in object
+        ? parseString(object.username, "username")
+        : undefined,
+    email: "email" in object ? parseString(object.email, "email") : undefined,
+    country:
+      "country" in object ? parseString(object.country, "country") : undefined,
+  };
 };
 
 export const toCredentials = (object: unknown): Credentials => {
