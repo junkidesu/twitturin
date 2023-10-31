@@ -6,6 +6,8 @@ import authRouter from "./routes/auth";
 import usersRouter from "./routes/users";
 import tweetsRouter from "./routes/tweets";
 import { errorHandler, userExtractor } from "./utils/middleware";
+import specs from "./swagger/specs";
+import swaggerUi from "swagger-ui-express";
 
 console.log("connecting to MongoDB");
 mongoose
@@ -28,6 +30,9 @@ app.use(userExtractor);
 app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/tweets", tweetsRouter);
+
+if (env.NODE_ENV === "development")
+  app.use("/docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 app.use(errorHandler);
 

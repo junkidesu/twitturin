@@ -24,6 +24,11 @@ const SECRET = process.env.SECRET;
 if (!PORT || !MONGODB_URI || !SECRET)
   throw new Error("Missing environmental variables");
 
-const env = { PORT: Number(PORT), MONGODB_URI, SECRET };
+const env = {
+  PORT: Number(PORT),
+  MONGODB_URI,
+  SECRET,
+  NODE_ENV: process.env.NODE_ENV || "development",
+};
 
 export default env;
