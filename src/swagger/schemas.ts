@@ -243,6 +243,17 @@ export const NewTweet = {
   },
 };
 
+export const EditTweet = {
+  type: "object",
+  required: ["content"],
+  properties: {
+    content: {
+      type: "string",
+      description: "The new content of the tweet.",
+    },
+  },
+};
+
 export const Error = {
   type: "object",
   properties: {

@@ -8,6 +8,7 @@ import {
   Tweet,
   NewTweet,
   Error,
+  EditTweet,
 } from "./schemas";
 
 const options: swaggerJsdoc.Options = {
@@ -54,6 +55,7 @@ const options: swaggerJsdoc.Options = {
         Tweet,
         NewTweet,
         TokenData,
+        EditTweet,
       },
       responses: {
         Error,

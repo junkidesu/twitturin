@@ -174,6 +174,53 @@ router.delete(
   }
 );
 
+/**
+ * @openapi
+ * /tweets/{id}:
+ *   put:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Edit a tweet with the given id.
+ *     tags: [tweets] 
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The MongoDB id of the tweet.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/EditTweet'
+ *     responses:
+ *       200:
+ *         description: Tweet successfully edited.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Tweet'
+ *       400:
+ *         description: invalid data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       401:
+ *         description: JWT missing or invalid; tweet edited not by author.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       404:
+ *         description: Tweet with the given MongoDB id not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ */
 router.put(
   "/:id",
   requireAuthentication,
