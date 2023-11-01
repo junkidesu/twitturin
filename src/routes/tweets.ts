@@ -121,6 +121,44 @@ router.post("/", requireAuthentication, async (req, res, next) => {
   }
 });
 
+/**
+ * @swagger
+ * /tweets/{id}:
+ *   delete:
+ *     tags: [tweets]
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Delete a tweet with the given id.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The MongoDB id of the tweet.
+ *     responses:
+ *       204:
+ *         description: Successfully removed the tweet with the given id.
+ *       400:
+ *         description: Invalid MongoDB id.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       401:
+ *         description: Invalid or missing token; tweet not being removed by author.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       404:
+ *         description: Tweet with the given MongoDB id not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *
+ */
 router.delete(
   "/:id",
   requireAuthentication,
