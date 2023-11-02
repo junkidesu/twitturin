@@ -1,7 +1,6 @@
 import express from "express";
 import { toEditTweet, toNewTweet } from "../utils/parsers";
 import tweetsService from "../services/tweetsService";
-import { NotFoundError } from "../types";
 import { requireAuthentication, requireAuthor } from "../utils/middleware";
 
 const router = express.Router();
@@ -63,8 +62,6 @@ router.get("/", async (_req, res) => {
 router.get("/:id", async (req, res, next) => {
   try {
     const tweet = await tweetsService.getTweetById(req.params.id);
-
-    if (!tweet) throw new NotFoundError("tweet not found");
 
     res.json(tweet);
   } catch (error) {
