@@ -99,10 +99,16 @@ export const requireSameUser = (
   _res: Response,
   next: NextFunction
 ) => {
-  if (!req.user || !("id" in req.params)) return next();
+  if (!req.user || (!("id" in req.params) && !("userId" in req.params)))
+    return next();
 
   try {
-    checkSameUser(req.user, req.params.id);
+    if ("userId" in req.params) {
+      checkSameUser(req.user, req.params.userId);
+    } else {
+      checkSameUser(req.user, req.params.id);
+    }
+
     next();
   } catch (error) {
     next(error);
