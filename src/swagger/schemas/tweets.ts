@@ -69,6 +69,13 @@ export const Tweet = {
       },
       description: "The author of the tweet, in JSON format.",
     },
+    likes: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/TweetAuthor",
+      },
+      description: "The list of the users who liked this post.",
+    },
   },
   example: {
     content: "updated content at 1:45",
@@ -80,6 +87,7 @@ export const Tweet = {
       country: "Uzbekistan",
       id: "653fe7dd0e51f6d650fc10a0",
     },
+    likes: [],
     createdAt: "2023-10-30T20:17:24.531Z",
     updatedAt: "2023-10-30T20:49:19.585Z",
     id: "65400f54543880dabb0a6315",

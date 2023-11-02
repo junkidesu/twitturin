@@ -238,9 +238,47 @@ router.put(
   }
 );
 
+/**
+ * @openapi
+ * /tweets/{id}/likes:
+ *   post:
+ *     summary: Like a tweet with the given id.
+ *     security:
+ *       - bearerAuth: []
+ *     tags: [tweets]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The MongoDB id of the tweet.
+ *     responses:
+ *       200:
+ *         description: Tweet liked.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Tweet'
+ *       401:
+ *         description: JWT missing or invalid.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       404:
+ *         description: Tweet with the given MongoDB id not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ */
 router.post("/:id/likes", requireAuthentication, async (req, res, next) => {
   try {
-    const likedTweet = await tweetsService.likeTweet(req.params.id, req.user!._id);
+    const likedTweet = await tweetsService.likeTweet(
+      req.params.id,
+      req.user!._id
+    );
 
     res.json(likedTweet);
   } catch (error) {
