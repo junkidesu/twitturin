@@ -287,6 +287,50 @@ router.post("/:id/likes", requireAuthentication, async (req, res, next) => {
   }
 });
 
+/**
+ * @openapi
+ * /tweets/{id}/likes/{userId}:
+ *   delete:
+ *     security:
+ *       - bearerAuth: []
+ *     tags: [tweets]
+ *     summary: Remove a like from the tweet with the given id.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The MongoDB id of the tweet.
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The MongoDB id of the user.
+ *     responses:
+ *       204:
+ *         description: Like successfully removed.
+ *       400:
+ *         description: invalid MongoDB id or userId
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       401:
+ *         description: JWT missing or invalid; user removes someone else's like
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       404:
+ *         description: Tweet with the given MongoDB id not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       
+ */
 router.delete(
   "/:id/likes/:userId",
   requireAuthentication,
