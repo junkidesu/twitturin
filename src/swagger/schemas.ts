@@ -176,6 +176,35 @@ export const TokenData = {
   },
 };
 
+export const TweetAuthor = {
+  type: "object",
+  allOf: [
+    {
+      $ref: "#/components/schemas/BaseUser",
+    },
+    {
+      type: "object",
+    },
+  ],
+  properties: {
+    id: {
+      type: "string",
+      format: "MongoDB id",
+      description: "the MongoDB id of the author of the tweet",
+    },
+  },
+  example: {
+    id: "653fe7bb0e51f6d650fc109e",
+    username: "johndoe01",
+    studentId: "se12345",
+    email: "somenonexistingemail@gmail.com",
+    fullName: "John Doe",
+    major: "SE",
+    age: 21,
+    country: "Uzbekistan",
+  },
+};
+
 export const BaseTweet = {
   type: "object",
   required: ["id", "content", "createdAt", "updatedAt"],
@@ -243,7 +272,7 @@ export const Tweet = {
     author: {
       type: "object",
       additionalProperties: {
-        $ref: "#/components/schemas/User",
+        $ref: "#/components/schemas/TweetAuthor",
       },
       description: "The author of the tweet, in JSON format.",
     },
