@@ -55,12 +55,12 @@ export interface EditTweet {
 }
 
 export interface PopulatedUser {
-  tweets: [Tweet];
+  tweets: Tweet[];
 }
 
 export interface PopulatedTweet {
   author: User;
-  likes: [User];
+  likes: User[];
 }
 
 export interface TokenData {

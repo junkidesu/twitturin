@@ -65,6 +65,16 @@ const likeTweet = async (id: string, userId: Types.ObjectId) => {
   return likedTweet.populate<PopulatedTweet>(["author", "likes"]);
 };
 
+const removeLike = async (id: string, userId: Types.ObjectId) => {
+  const tweet = await TweetModel.findById(id);
+
+  if (!tweet) throw new NotFoundError("tweet not found");
+
+  tweet.likes = tweet.likes.filter(u => u.toString() !== userId.toString());
+
+  await tweet.save();
+};
+
 export default {
   getAllTweets,
   addTweet,
@@ -72,4 +82,5 @@ export default {
   removeTweet,
   editTweet,
   likeTweet,
+  removeLike,
 };

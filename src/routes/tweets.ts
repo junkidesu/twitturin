@@ -1,7 +1,11 @@
 import express from "express";
 import { toEditTweet, toNewTweet } from "../utils/parsers";
 import tweetsService from "../services/tweetsService";
-import { requireAuthentication, requireAuthor } from "../utils/middleware";
+import {
+  requireAuthentication,
+  requireAuthor,
+  requireSameUser,
+} from "../utils/middleware";
 
 const router = express.Router();
 
@@ -282,5 +286,19 @@ router.post("/:id/likes", requireAuthentication, async (req, res, next) => {
     next(error);
   }
 });
+
+router.delete(
+  "/:id/likes/:userId",
+  requireAuthentication,
+  requireSameUser,
+  async (req, res, next) => {
+    try {
+      await tweetsService.removeLike(req.params.id, req.user!._id);
+      res.status(204).end();
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 export default router;
