@@ -9,13 +9,19 @@ import { errorHandler, userExtractor } from "./utils/middleware";
 import specs from "./swagger/specs";
 import swaggerUi from "swagger-ui-express";
 
-console.log("connecting to MongoDB");
-mongoose
-  .connect(env.MONGODB_URI)
-  .then(() => console.log(`connected to MongoDB`))
-  .catch((error) =>
-    console.log("error connecting to MongoDB:", error.message as string)
-  );
+const connectDb = async () => {
+  try {
+    console.log("connecting to MongoDB");
+
+    await mongoose.connect(env.MONGODB_URI);
+
+    console.log("connected to MongoDB");
+  } catch (error) {
+    console.log("error connecting to MongoDB", error);
+  }
+};
+
+void connectDb();
 
 const app = express();
 
