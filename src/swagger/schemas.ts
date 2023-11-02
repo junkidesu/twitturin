@@ -1,15 +1,10 @@
-export const NewUser = {
+export const BaseUser = {
   type: "object",
-  required: ["username", "password", "studentId", "email", "major"],
+  required: ["username", "studentId", "email", "major"],
   properties: {
     username: {
       type: "string",
       description: "the username of the user",
-    },
-    password: {
-      type: "string",
-      format: "password",
-      description: "the password of the user",
     },
     fullName: {
       type: "string",
@@ -37,6 +32,26 @@ export const NewUser = {
     age: {
       type: "number",
       description: "the age of the user",
+    },
+  },
+};
+
+export const NewUser = {
+  type: "object",
+  required: ["password"],
+  allOf: [
+    {
+      $ref: "#/components/schemas/BaseUser",
+    },
+    {
+      type: "object",
+    },
+  ],
+  properties: {
+    password: {
+      type: "string",
+      format: "password",
+      description: "the password of the user",
     },
   },
   example: {
@@ -53,14 +68,14 @@ export const NewUser = {
 
 export const User = {
   type: "object",
-  required: [
-    "id",
-    "username",
-    "password",
-    "studentId",
-    "email",
-    "tweets",
-    "major",
+  required: ["id", "tweets"],
+  allOf: [
+    {
+      $ref: "#/components/schemas/BaseUser",
+    },
+    {
+      type: "object",
+    },
   ],
   properties: {
     id: {
@@ -68,43 +83,12 @@ export const User = {
       format: "MongoDB identifier",
       description: "the id of the MongoDB document corresponding to the user",
     },
-    username: {
-      type: "string",
-      description: "the username of the user",
-    },
-    fullName: {
-      type: "string",
-      description: "the full name of the user",
-    },
-    studentId: {
-      type: "string",
-      format: "TTPU student ID",
-      description: "the student ID given to each student of TTPU",
-    },
-    email: {
-      type: "string",
-      format: "email",
-      description: "the email of the user",
-    },
-    major: {
-      type: "string",
-      format: "TTPU major",
-      description: "the major of the user",
-    },
     tweets: {
       type: "array",
       description: "the tweets posted by the user",
       items: {
-        $ref: "#/components/schemas/TweetItem",
+        $ref: "#/components/schemas/UserTweet",
       },
-    },
-    country: {
-      type: "string",
-      description: "the country of residence of the user",
-    },
-    age: {
-      type: "number",
-      description: "the age of the user",
     },
   },
   example: {
@@ -116,6 +100,7 @@ export const User = {
     major: "SE",
     age: 21,
     country: "Uzbekistan",
+    tweets: [],
   },
 };
 
@@ -236,14 +221,7 @@ export const UserTweet = {
   },
   example: {
     content: "updated content at 1:45",
-    author: {
-      username: "nonexisting",
-      major: "SE",
-      studentId: "se99999",
-      email: "unknown@example.com",
-      country: "Uzbekistan",
-      id: "653fe7dd0e51f6d650fc10a0",
-    },
+    author: "653fe7dd0e51f6d650fc10a0",
     createdAt: "2023-10-30T20:17:24.531Z",
     updatedAt: "2023-10-30T20:49:19.585Z",
     id: "65400f54543880dabb0a6315",

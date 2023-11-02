@@ -1,5 +1,6 @@
 import swaggerJsdoc from "swagger-jsdoc";
 import {
+  BaseUser,
   NewUser,
   User,
   EditUser,
@@ -50,13 +51,14 @@ const options: swaggerJsdoc.Options = {
         },
       },
       schemas: {
+        BaseUser,
         NewUser,
         User,
         EditUser,
         AuthData,
         BaseTweet,
         Tweet,
-        TweetInUser: UserTweet,
+        UserTweet,
         NewTweet,
         TokenData,
         EditTweet,
