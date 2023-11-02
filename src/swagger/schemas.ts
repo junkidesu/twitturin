@@ -53,7 +53,15 @@ export const NewUser = {
 
 export const User = {
   type: "object",
-  required: ["id", "username", "password", "studentId", "email", "major"],
+  required: [
+    "id",
+    "username",
+    "password",
+    "studentId",
+    "email",
+    "tweets",
+    "major",
+  ],
   properties: {
     id: {
       type: "string",
@@ -82,6 +90,13 @@ export const User = {
       type: "string",
       format: "TTPU major",
       description: "the major of the user",
+    },
+    tweets: {
+      type: "array",
+      description: "the tweets posted by the user",
+      items: {
+        $ref: "#/components/schemas/TweetItem",
+      },
     },
     country: {
       type: "string",
@@ -176,9 +191,9 @@ export const TokenData = {
   },
 };
 
-export const Tweet = {
+export const BaseTweet = {
   type: "object",
-  required: ["id", "content", "author"],
+  required: ["id", "content", "createdAt", "updatedAt"],
   properties: {
     id: {
       type: "string",
@@ -189,13 +204,6 @@ export const Tweet = {
       type: "string",
       description: "The content of the tweet.",
     },
-    author: {
-      type: "object",
-      additionalProperties: {
-        $ref: "#/components/schemas/User",
-      },
-      description: "The author of the tweet, in JSON format.",
-    },
     createdAt: {
       type: "string",
       format: "date",
@@ -205,6 +213,61 @@ export const Tweet = {
       type: "string",
       format: "date",
       description: "The time when the tweet was edited.",
+    },
+  },
+};
+
+export const UserTweet = {
+  type: "object",
+  required: ["author"],
+  allOf: [
+    {
+      $ref: "#/components/schemas/BaseTweet",
+    },
+    {
+      type: "object",
+    },
+  ],
+  properties: {
+    author: {
+      type: "string",
+      description: "The MongoDB id of the author of the tweet.",
+    },
+  },
+  example: {
+    content: "updated content at 1:45",
+    author: {
+      username: "nonexisting",
+      major: "SE",
+      studentId: "se99999",
+      email: "unknown@example.com",
+      country: "Uzbekistan",
+      id: "653fe7dd0e51f6d650fc10a0",
+    },
+    createdAt: "2023-10-30T20:17:24.531Z",
+    updatedAt: "2023-10-30T20:49:19.585Z",
+    id: "65400f54543880dabb0a6315",
+  },
+};
+
+export const Tweet = {
+  type: "object",
+  required: ["author"],
+  allOf: [
+    {
+      $ref: "#/components/schemas/BaseTweet",
+    },
+    {
+      type: "object",
+    },
+  ],
+  properties: {
+    author: {
+      type: "object",
+      additionalProperties: {
+        $ref: "#/components/schemas/User",
+      },
+      description: "The author of the tweet, in JSON format.",
     },
   },
   example: {
