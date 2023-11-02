@@ -60,7 +60,7 @@ const likeTweet = async (id: string, userId: Types.ObjectId) => {
   if (!likesStrings.includes(userId.toString()))
     tweet.likes = tweet.likes.concat(userId);
 
-  const likedTweet = await tweet.save();
+  const likedTweet = await tweet.save({ timestamps: { updatedAt: false } });
 
   return likedTweet.populate<PopulatedTweet>(["author", "likes"]);
 };
@@ -70,9 +70,9 @@ const removeLike = async (id: string, userId: Types.ObjectId) => {
 
   if (!tweet) throw new NotFoundError("tweet not found");
 
-  tweet.likes = tweet.likes.filter(u => u.toString() !== userId.toString());
+  tweet.likes = tweet.likes.filter((u) => u.toString() !== userId.toString());
 
-  await tweet.save();
+  await tweet.save({ timestamps: { updatedAt: false } });
 };
 
 export default {
