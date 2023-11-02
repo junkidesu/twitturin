@@ -3,7 +3,7 @@ import TweetModel from "../models/tweet";
 import { NewTweet, EditTweet, PopulatedTweet, NotFoundError } from "../types";
 
 const getAllTweets = async () => {
-  const tweets = await TweetModel.find({}).populate<PopulatedTweet>("author");
+  const tweets = await TweetModel.find({}).populate<PopulatedTweet>(["author", "likes"]);
 
   return tweets;
 };
