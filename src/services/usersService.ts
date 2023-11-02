@@ -11,6 +11,8 @@ const getAllUsers = async () => {
 const getUserById = async (id: string) => {
   const user = await UserModel.findById(id).populate<PopulatedUser>("tweets");
 
+  if (!user) throw new NotFoundError("user not found");
+
   return user;
 };
 
