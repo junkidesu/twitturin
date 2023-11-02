@@ -14,6 +14,13 @@ const TweetSchema = new Schema<Tweet>(
       required: true,
       ref: "User",
     },
+    likes: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        default: [],
+      },
+    ],
   },
   {
     timestamps: true,

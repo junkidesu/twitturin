@@ -181,7 +181,7 @@ router.delete(
  *     security:
  *       - bearerAuth: []
  *     summary: Edit a tweet with the given id.
- *     tags: [tweets] 
+ *     tags: [tweets]
  *     parameters:
  *       - in: path
  *         name: id
@@ -237,5 +237,15 @@ router.put(
     }
   }
 );
+
+router.post("/:id/likes", requireAuthentication, async (req, res, next) => {
+  try {
+    const likedTweet = await tweetsService.likeTweet(req.params.id, req.user!._id);
+
+    res.json(likedTweet);
+  } catch (error) {
+    next(error);
+  }
+});
 
 export default router;

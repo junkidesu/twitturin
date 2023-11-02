@@ -1,15 +1,15 @@
 import UserModel from "../models/user";
 import bcrypt from "bcrypt";
-import { EditUser, NewUser, NotFoundError, PopulatedTweets } from "../types";
+import { EditUser, NewUser, NotFoundError, PopulatedUser } from "../types";
 
 const getAllUsers = async () => {
-  const users = await UserModel.find({}).populate<PopulatedTweets>("tweets");
+  const users = await UserModel.find({}).populate<PopulatedUser>("tweets");
 
   return users;
 };
 
 const getUserById = async (id: string) => {
-  const user = await UserModel.findById(id).populate<PopulatedTweets>("tweets");
+  const user = await UserModel.findById(id).populate<PopulatedUser>("tweets");
 
   return user;
 };
@@ -36,7 +36,7 @@ const editUser = async (id: string, toEdit: EditUser) => {
     new: true,
     runValidators: true,
     context: "query",
-  }).populate<PopulatedTweets>("tweets");
+  }).populate<PopulatedUser>("tweets");
 
   return updatedUser;
 };
