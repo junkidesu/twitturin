@@ -1,18 +1,6 @@
 import swaggerJsdoc from "swagger-jsdoc";
-import {
-  BaseUser,
-  NewUser,
-  User,
-  EditUser,
-  AuthData,
-  TokenData,
-  BaseTweet,
-  Tweet,
-  UserTweet,
-  NewTweet,
-  Error,
-  EditTweet,
-} from "./schemas";
+import schemas from "./schemas";
+import { Error } from "./responses";
 
 const options: swaggerJsdoc.Options = {
   definition: {
@@ -50,19 +38,7 @@ const options: swaggerJsdoc.Options = {
           bearerFormat: "JWT",
         },
       },
-      schemas: {
-        BaseUser,
-        NewUser,
-        User,
-        EditUser,
-        AuthData,
-        BaseTweet,
-        Tweet,
-        UserTweet,
-        NewTweet,
-        TokenData,
-        EditTweet,
-      },
+      schemas,
       responses: {
         Error,
       },
