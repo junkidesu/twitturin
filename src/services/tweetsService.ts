@@ -9,9 +9,10 @@ const getAllTweets = async () => {
 };
 
 const getTweetById = async (id: string) => {
-  const tweet = await TweetModel.findById(id).populate<PopulatedTweet>(
-    "author"
-  );
+  const tweet = await TweetModel.findById(id).populate<PopulatedTweet>([
+    "author",
+    "likes",
+  ]);
 
   return tweet;
 };
@@ -19,7 +20,7 @@ const getTweetById = async (id: string) => {
 const addTweet = async (newTweet: NewTweet) => {
   const addedTweet = await new TweetModel(newTweet).save();
 
-  return addedTweet;
+  return addedTweet.populate<PopulatedTweet>(["author", "likes"]);
 };
 
 const removeTweet = async (id: string) => {
@@ -39,7 +40,7 @@ const editTweet = async (id: string, toEdit: EditTweet) => {
     new: true,
     context: "query",
     runValidators: true,
-  }).populate<PopulatedTweet>("author");
+  }).populate<PopulatedTweet>(["author", "likes"]);
 
   return updatedTweet;
 };
