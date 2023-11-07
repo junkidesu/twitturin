@@ -42,7 +42,7 @@ export interface Credentials {
 export interface Tweet {
   content: string;
   author: Types.ObjectId;
-  likes: Types.ObjectId[];
+  likedBy: Types.ObjectId[];
 }
 
 export interface NewTweet {
@@ -60,7 +60,7 @@ export interface PopulatedUser {
 
 export interface PopulatedTweet {
   author: User;
-  likes: User[];
+  likedBy: User[];
 }
 
 export interface TokenData {

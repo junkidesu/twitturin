@@ -5,7 +5,7 @@ import { NewTweet, EditTweet, PopulatedTweet, NotFoundError } from "../types";
 const getAllTweets = async () => {
   const tweets = await TweetModel.find({}).populate<PopulatedTweet>([
     "author",
-    "likes",
+    "likedBy",
   ]);
 
   return tweets;
@@ -14,7 +14,7 @@ const getAllTweets = async () => {
 const getTweetById = async (id: string) => {
   const tweet = await TweetModel.findById(id).populate<PopulatedTweet>([
     "author",
-    "likes",
+    "likedBy",
   ]);
 
   if (!tweet) throw new NotFoundError("tweet not found");
@@ -25,7 +25,7 @@ const getTweetById = async (id: string) => {
 const addTweet = async (newTweet: NewTweet) => {
   const addedTweet = await new TweetModel(newTweet).save();
 
-  return addedTweet.populate<PopulatedTweet>(["author", "likes"]);
+  return addedTweet.populate<PopulatedTweet>(["author", "likedBy"]);
 };
 
 const removeTweet = async (id: string) => {
@@ -45,7 +45,7 @@ const editTweet = async (id: string, toEdit: EditTweet) => {
     new: true,
     context: "query",
     runValidators: true,
-  }).populate<PopulatedTweet>(["author", "likes"]);
+  }).populate<PopulatedTweet>(["author", "likedBy"]);
 
   return updatedTweet;
 };
@@ -55,14 +55,14 @@ const likeTweet = async (id: string, userId: Types.ObjectId) => {
 
   if (!tweet) throw new NotFoundError("tweet not found");
 
-  const likesStrings = tweet.likes.map((u) => u.toString());
+  const likesStrings = tweet.likedBy.map((u) => u.toString());
 
   if (!likesStrings.includes(userId.toString()))
-    tweet.likes = tweet.likes.concat(userId);
+    tweet.likedBy = tweet.likedBy.concat(userId);
 
   const likedTweet = await tweet.save({ timestamps: { updatedAt: false } });
 
-  return likedTweet.populate<PopulatedTweet>(["author", "likes"]);
+  return likedTweet.populate<PopulatedTweet>(["author", "likedBy"]);
 };
 
 const removeLike = async (id: string, userId: Types.ObjectId) => {
@@ -70,7 +70,9 @@ const removeLike = async (id: string, userId: Types.ObjectId) => {
 
   if (!tweet) throw new NotFoundError("tweet not found");
 
-  tweet.likes = tweet.likes.filter((u) => u.toString() !== userId.toString());
+  tweet.likedBy = tweet.likedBy.filter(
+    (u) => u.toString() !== userId.toString()
+  );
 
   await tweet.save({ timestamps: { updatedAt: false } });
 };
