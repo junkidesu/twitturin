@@ -1,6 +1,7 @@
 import { useState } from "react";
-import styled from "styled-components";
-import GlobalStyle from "./theme";
+import styled, { ThemeProvider } from "styled-components";
+import lightTheme from "./themes/lightTheme";
+import GlobalStyle from "./GlobalStyle";
 import Header from "./components/Header";
 import { tweetData } from "./data/sample";
 import TweetList from "./components/tweets/TweetList";
@@ -32,7 +33,7 @@ const App = () => {
   const [tweets, setTweets] = useState<Tweet[]>(tweetData);
 
   return (
-    <div>
+    <ThemeProvider theme={lightTheme}>
       <GlobalStyle />
 
       <Header />
@@ -44,7 +45,7 @@ const App = () => {
           <Route path="/sign-up" element={<SignUpPage />} />
         </Routes>
       </PageWrapper>
-    </div>
+    </ThemeProvider>
   );
 };
 
