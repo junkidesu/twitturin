@@ -48,16 +48,28 @@ const InputWrapper = styled.div`
 `;
 
 interface InputProps {
-  placeholder: string;
+  placeholder?: string;
   value?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   type?: string;
+  required?: boolean;
 }
 
-const Input = ({ placeholder, value, onChange, type }: InputProps) => {
+const Input = ({
+  placeholder,
+  value,
+  onChange,
+  type,
+  required,
+}: InputProps) => {
   return (
     <InputWrapper>
-      <InputField type={type} value={value} onChange={onChange} />
+      <InputField
+        type={type}
+        value={value}
+        onChange={onChange}
+        required={required}
+      />
 
       <Placeholder $empty={value === ""}>{placeholder}</Placeholder>
     </InputWrapper>

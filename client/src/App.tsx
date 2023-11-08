@@ -7,6 +7,7 @@ import TweetList from "./components/tweets/TweetList";
 import { Tweet } from "./types";
 import Modal from "./components/containers/Modal";
 import LoginForm from "./components/LoginForm";
+import SignUpForm from "./components/SignUpForm";
 import { Routes, Route } from "react-router-dom";
 
 const PageWrapper = styled.div`
@@ -17,6 +18,12 @@ const PageWrapper = styled.div`
 const LoginPage = () => (
   <Modal>
     <LoginForm />
+  </Modal>
+);
+
+const SignUpPage = () => (
+  <Modal>
+    <SignUpForm />
   </Modal>
 );
 
@@ -34,7 +41,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<TweetList tweets={tweets} />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/sign-up" element={null} />
+          <Route path="/sign-up" element={<SignUpPage />} />
         </Routes>
       </PageWrapper>
     </div>

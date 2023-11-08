@@ -1,8 +1,10 @@
 import styled from "styled-components";
 import VerticalContainer from "./containers/VerticalContainer";
 import useField from "../hooks/useField";
-import Button from "./core/Button";
 import Input from "./core/Input";
+import Button from "./core/Button";
+import { Major } from "../types";
+import Select from "./core/Select";
 
 const LogoText = styled.p`
   color: teal;
@@ -12,38 +14,44 @@ const LogoText = styled.p`
   transition: 0.3s;
 `;
 
-const LoginWrapper = styled(VerticalContainer)`
+const SignUpWrapper = styled(VerticalContainer)`
   justify-content: center;
   padding: 1em;
   border-radius: 15px;
   box-sizing: border-box;
   overflow: hidden;
   background-color: #eeeeee;
-  height: 500px;
   width: 500px;
 `;
 
-const LoginForm = () => {
-  const studentId = useField("text", "Student ID");
+const majors = Object.values(Major).map((m) => m.toString());
+
+const SignUpForm = () => {
+  const studentId = useField("text", "StudentID");
+  const username = useField("text", "Username");
   const password = useField("password", "Password");
+  const major = useField(undefined, "Major");
+  const email = useField("email", "Email");
 
   return (
-    <LoginWrapper gap="2em" $center>
-      <LogoText>Log in to Twittur</LogoText>
+    <SignUpWrapper $center gap="2em">
+      <LogoText>Join Twittur today</LogoText>
 
       <form onSubmit={(e) => e.preventDefault()}>
-        <VerticalContainer gap="1em">
+        <VerticalContainer>
           <Input {...studentId} required />
-
+          <Input {...username} required />
+          <Select options={majors} {...major} />
           <Input {...password} required />
+          <Input {...email} required />
 
           <Button $bg="white" $fg="teal" $rounded>
-            Log in
+            Sign Up
           </Button>
         </VerticalContainer>
       </form>
-    </LoginWrapper>
+    </SignUpWrapper>
   );
 };
 
-export default LoginForm;
+export default SignUpForm;
