@@ -2,6 +2,7 @@ import styled from "styled-components";
 import VerticalContainer from "./VerticalContainer";
 import IconButton from "./IconButton";
 import closeIcon from "../assets/close.svg";
+import { useNavigate } from "react-router-dom";
 
 const ModalWrapper = styled(VerticalContainer)`
   justify-content: space-around;
@@ -23,18 +24,14 @@ const CloseButton = styled(IconButton)`
 
 const Modal = ({
   children,
-  visible,
-  setVisible,
 }: {
   children: React.ReactNode;
-  visible: boolean;
-  setVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  if (!visible) return null;
+  const navigate = useNavigate();
 
   return (
     <ModalWrapper $center>
-      <CloseButton icon={closeIcon} onClick={() => setVisible(false)} />
+      <CloseButton icon={closeIcon} onClick={() => navigate("/")} />
       {children}
     </ModalWrapper>
   );

@@ -7,6 +7,7 @@ import TweetList from "./components/TweetList";
 import { Tweet } from "./types";
 import Modal from "./components/Modal";
 import LoginForm from "./components/LoginForm";
+import { Routes, Route } from "react-router-dom";
 
 const PageWrapper = styled.div`
   margin: 0 auto;
@@ -16,20 +17,25 @@ const PageWrapper = styled.div`
 const App = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [tweets, setTweets] = useState<Tweet[]>(tweetData);
-  const [visible, setVisible] = useState<boolean>(true);
 
   return (
     <div>
       <GlobalStyle />
 
-      <Modal visible={visible} setVisible={setVisible}>
-        <LoginForm />
-      </Modal>
-
       <Header />
 
       <PageWrapper>
-        <TweetList tweets={tweets} />
+        <Routes>
+          <Route path="/" element={<TweetList tweets={tweets} />} />
+          <Route
+            path="/login"
+            element={
+              <Modal>
+                <LoginForm />
+              </Modal>
+            }
+          />
+        </Routes>
       </PageWrapper>
     </div>
   );
