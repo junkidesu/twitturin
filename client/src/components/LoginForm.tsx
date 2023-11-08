@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import VerticalContainer from "./containers/VerticalContainer";
-import { useState } from "react";
+import useField from "../hooks/useField";
 import Button from "./core/Button";
 import Input from "./core/Input";
 
@@ -24,8 +24,8 @@ const LoginWrapper = styled(VerticalContainer)`
 `;
 
 const LoginForm = () => {
-  const [studentId, setStudentId] = useState("");
-  const [password, setPassword] = useState("");
+  const studentId = useField("text");
+  const password = useField("password");
 
   return (
     <LoginWrapper gap="2em" $center>
@@ -33,18 +33,9 @@ const LoginForm = () => {
 
       <form onSubmit={(e) => e.preventDefault()}>
         <VerticalContainer gap="1em">
-          <Input
-            placeholder="Student ID"
-            value={studentId}
-            onChange={(e) => setStudentId(e.target.value)}
-          />
+          <Input placeholder="Student ID" {...studentId} />
 
-          <Input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <Input placeholder="Password" {...password} />
 
           <Button $bg="white" $fg="teal" $rounded>
             Log in
