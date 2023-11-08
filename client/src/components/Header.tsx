@@ -7,7 +7,7 @@ const HeaderContainer = styled.header`
   justify-items: center;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(45deg, turquoise, teal, slategrey);
+  background: linear-gradient(45deg, #40e0d0bb, #008080bb, #708090bb);
   padding: 1em;
   margin-bottom: 0.5em;
 `;
