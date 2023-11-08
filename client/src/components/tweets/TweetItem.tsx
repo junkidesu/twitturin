@@ -1,13 +1,13 @@
 import styled from "styled-components";
-import { Tweet } from "../types";
-import emptyProfilePicture from "../assets/empty-profile-picture.png";
-import emptyHeart from "../assets/heart.svg";
-import repliesIcon from "../assets/replies.svg";
-import shareIcon from "../assets/share.svg";
-import VerticalContainer from "./VerticalContainer";
-import HorizontalContainer from "./HorizontalContainer";
-import IconButton from "./IconButton";
-import Link from "./Link";
+import { Tweet } from "../../types";
+import emptyProfilePicture from "../../assets/images/empty-profile-picture.png";
+import emptyHeart from "../../assets/icons/heart.svg";
+import repliesIcon from "../../assets/icons/replies.svg";
+import shareIcon from "../../assets/icons/share.svg";
+import VerticalContainer from "../containers/VerticalContainer";
+import HorizontalContainer from "../containers/HorizontalContainer";
+import IconButton from "../core/IconButton";
+import Link from "../core/Link";
 
 const TweetContainer = styled(HorizontalContainer)`
   display: flex;

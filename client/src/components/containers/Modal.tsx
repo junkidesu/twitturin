@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import VerticalContainer from "./VerticalContainer";
-import IconButton from "./IconButton";
-import closeIcon from "../assets/close.svg";
+import IconButton from "../core/IconButton";
+import closeIcon from "../../assets/icons/close.svg";
 import { useNavigate } from "react-router-dom";
 
 const ModalWrapper = styled(VerticalContainer)`

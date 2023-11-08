@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import RouterLink from "./RouterLink";
-import HorizontalContainer from "./HorizontalContainer";
-import Button from "./Button";
+import RouterLink from "./core/RouterLink";
+import HorizontalContainer from "./containers/HorizontalContainer";
+import Button from "./core/Button";
 
 const AuthButton = styled(Button)`
   &:hover {
@@ -51,7 +51,7 @@ const Header = () => {
             Sign in
           </AuthButton>
         </RouterLink>
-        <RouterLink to="/">
+        <RouterLink to="sign-up/">
           <AuthButton $fg="#eeeeee" $bg="transparent">
             Sign up
           </AuthButton>

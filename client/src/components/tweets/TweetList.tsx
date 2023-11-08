@@ -1,6 +1,6 @@
-import { Tweet } from "../types";
+import { Tweet } from "../../types";
 import TweetItem from "./TweetItem";
-import VerticalContainer from "./VerticalContainer";
+import VerticalContainer from "../containers/VerticalContainer";
 
 const TweetList = ({ tweets }: { tweets: Tweet[] }) => {
   return (

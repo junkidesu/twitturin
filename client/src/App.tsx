@@ -3,9 +3,9 @@ import styled from "styled-components";
 import GlobalStyle from "./theme";
 import Header from "./components/Header";
 import { tweetData } from "./data/sample";
-import TweetList from "./components/TweetList";
+import TweetList from "./components/tweets/TweetList";
 import { Tweet } from "./types";
-import Modal from "./components/Modal";
+import Modal from "./components/containers/Modal";
 import LoginForm from "./components/LoginForm";
 import { Routes, Route } from "react-router-dom";
 

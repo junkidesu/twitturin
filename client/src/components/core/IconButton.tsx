@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import HorizontalContainer from "./HorizontalContainer";
+import HorizontalContainer from "../containers/HorizontalContainer";
 import Icon from "./Icon";
 
 const ButtonWrapper = styled(HorizontalContainer)`

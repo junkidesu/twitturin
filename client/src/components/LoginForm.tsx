@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import VerticalContainer from "./VerticalContainer";
+import VerticalContainer from "./containers/VerticalContainer";
 import { useState } from "react";
-import Button from "./Button";
-import Input from "./Input";
+import Button from "./core/Button";
+import Input from "./core/Input";
 
 const LogoText = styled.p`
   color: teal;
