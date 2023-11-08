@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
 const Link = styled.a`
-  font-size: 1em;
+  font-size: ${(props) => props.theme.fontSizes.small};
   cursor: pointer;
 
   &:hover {
     text-decoration: underline;
-    color: teal;
+    color: ${(props) => props.theme.colors.primary};
   }
 `;
 

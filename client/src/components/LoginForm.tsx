@@ -5,7 +5,7 @@ import Button from "./core/Button";
 import Input from "./core/Input";
 
 const LogoText = styled.p`
-  color: teal;
+  color: ${(props) => props.theme.colors.primary};
   margin: 0;
   font-weight: bold;
   font-size: 2em;
@@ -18,7 +18,7 @@ const LoginWrapper = styled(VerticalContainer)`
   border-radius: 15px;
   box-sizing: border-box;
   overflow: hidden;
-  background-color: #eeeeee;
+  background-color: ${(props) => props.theme.colors.background};
   height: 500px;
   width: 500px;
 `;
@@ -37,9 +37,7 @@ const LoginForm = () => {
 
           <Input {...password} required />
 
-          <Button $bg="white" $fg="teal" $rounded>
-            Log in
-          </Button>
+          <Button $rounded>Log in</Button>
         </VerticalContainer>
       </form>
     </LoginWrapper>

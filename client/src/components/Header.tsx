@@ -2,6 +2,7 @@ import styled from "styled-components";
 import RouterLink from "./core/RouterLink";
 import HorizontalContainer from "./containers/HorizontalContainer";
 import Button from "./core/Button";
+import lightTheme from "../themes/lightTheme";
 
 const AuthButton = styled(Button)`
   &:hover {
@@ -28,13 +29,13 @@ const HeaderContainer = styled.header`
 `;
 
 const LogoText = styled.div`
-  color: #eeeeee;
+  color: ${(props) => props.theme.colors.background};
   transition: 0.3s;
   font-weight: bold;
-  font-size: 2em;
+  font-size: ${(props) => props.theme.fontSizes.large};
 
   &:hover {
-    text-shadow: 5px 5px 10px turquoise;
+    text-shadow: 5px 5px 10px ${(props) => props.theme.colors.secondary};
   }
 `;
 
@@ -47,12 +48,12 @@ const Header = () => {
 
       <AuthLinks gap="1em">
         <RouterLink to="/login">
-          <AuthButton $fg="#eeeeee" $bg="transparent">
+          <AuthButton $fg={lightTheme.colors.background} $bg="transparent">
             Sign in
           </AuthButton>
         </RouterLink>
         <RouterLink to="sign-up/">
-          <AuthButton $fg="#eeeeee" $bg="transparent">
+          <AuthButton $fg={lightTheme.colors.background} $bg="transparent">
             Sign up
           </AuthButton>
         </RouterLink>

@@ -12,7 +12,7 @@ import Link from "../core/Link";
 const TweetContainer = styled(HorizontalContainer)`
   display: flex;
   background-color: white;
-  border: 2px solid #aaaaaa;
+  border: 2px solid ${(props) => props.theme.colors.grey4};
   border-radius: 5px;
   padding: 1em;
 `;
@@ -22,7 +22,7 @@ const FullName = styled(Link)`
 `;
 
 const Username = styled(Link)`
-  color: #555555;
+  color: ${(props) => props.theme.colors.grey2};
 `;
 
 const ProfilePicture = styled.img`
@@ -33,7 +33,6 @@ const ProfilePicture = styled.img`
 `;
 
 const TweetBody = styled(VerticalContainer)`
-  font-size: 1em;
   padding-left: 1em;
   gap: 1em;
 `;

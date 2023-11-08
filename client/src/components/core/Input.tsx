@@ -4,8 +4,9 @@ const Placeholder = styled.span<{ $empty?: boolean }>`
   position: absolute;
   left: 0.5em;
   top: ${(props) => (props.$empty ? "" : "0.5em")};
-  font-size: ${(props) => (props.$empty ? "1.5em" : "1em")};
-  color: #555555;
+  font-size: ${(props) =>
+    props.$empty ? "1.5em" : props.theme.fontSizes.small};
+  color: ${(props) => props.theme.colors.grey2};
   user-select: none;
   transition: 0.1s;
 `;
@@ -14,8 +15,8 @@ const InputField = styled.input`
   appearance: none;
   outline: none;
   border: none;
-  color: #252525;
-  font-size: 1.3em;
+  color: inherit;
+  font-size: ${props => props.theme.fontSizes.medium};
   padding: 0.5em;
   margin-top: 1em;
   background: transparent;

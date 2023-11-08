@@ -45,7 +45,7 @@ const SignUpForm = () => {
           <Input {...password} required />
           <Input {...email} required />
 
-          <Button $bg="white" $fg="teal" $rounded>
+          <Button $rounded>
             Sign Up
           </Button>
         </VerticalContainer>

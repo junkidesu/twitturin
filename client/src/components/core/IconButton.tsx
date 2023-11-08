@@ -8,11 +8,16 @@ const ButtonWrapper = styled(HorizontalContainer)`
   box-sizing: border-box;
   padding: 0.3em;
   transition: 0.3s;
+  color: ${(props) => props.theme.colors.grey2};
 
   &:hover {
-    background-color: #cccccc;
+    background-color: ${(props) => props.theme.colors.grey4};
     transition: 0.3s;
   }
+`;
+
+const Label = styled.span`
+  font-size: ${(props) => props.theme.fontSizes.extraSmall};
 `;
 
 const IconButton = ({
@@ -37,7 +42,7 @@ const IconButton = ({
   return (
     <ButtonWrapper gap="0.3em" $center onClick={onClick} className={className}>
       <Icon src={icon} />
-      <span style={{ color: "#555555" }}>{label}</span>
+      <Label>{label}</Label>
     </ButtonWrapper>
   );
 };
