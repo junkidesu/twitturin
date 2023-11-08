@@ -55,23 +55,12 @@ interface InputProps {
   required?: boolean;
 }
 
-const Input = ({
-  placeholder,
-  value,
-  onChange,
-  type,
-  required,
-}: InputProps) => {
+const Input = (props: InputProps) => {
   return (
     <InputWrapper>
-      <InputField
-        type={type}
-        value={value}
-        onChange={onChange}
-        required={required}
-      />
+      <InputField {...props} placeholder={undefined} />
 
-      <Placeholder $empty={value === ""}>{placeholder}</Placeholder>
+      <Placeholder $empty={props.value === ""}>{props.placeholder}</Placeholder>
     </InputWrapper>
   );
 };
