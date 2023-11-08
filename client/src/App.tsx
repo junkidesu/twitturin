@@ -14,6 +14,12 @@ const PageWrapper = styled.div`
   max-width: 40%;
 `;
 
+const LoginPage = () => (
+  <Modal>
+    <LoginForm />
+  </Modal>
+);
+
 const App = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [tweets, setTweets] = useState<Tweet[]>(tweetData);
@@ -27,14 +33,8 @@ const App = () => {
       <PageWrapper>
         <Routes>
           <Route path="/" element={<TweetList tweets={tweets} />} />
-          <Route
-            path="/login"
-            element={
-              <Modal>
-                <LoginForm />
-              </Modal>
-            }
-          />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/sign-up" element={null} />
         </Routes>
       </PageWrapper>
     </div>

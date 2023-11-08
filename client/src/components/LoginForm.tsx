@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import VerticalContainer from "./VerticalContainer";
 import { useState } from "react";
+import Button from "./Button";
 import Input from "./Input";
 
 const LogoText = styled.p`
@@ -20,23 +21,6 @@ const LoginWrapper = styled(VerticalContainer)`
   background-color: #eeeeee;
   height: 500px;
   width: 500px;
-`;
-
-const Button = styled.button`
-  color: teal;
-  font-size: 1.5em;
-  padding: 0.5em;
-  border: 3px solid teal;
-  border-radius: 10em;
-  min-width: 10em;
-  background-color: white;
-  transition: 0.1s;
-
-  &:hover {
-    background-color: teal;
-    color: white;
-    transition: 0.1s;
-  }
 `;
 
 const LoginForm = () => {
@@ -62,7 +46,9 @@ const LoginForm = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          <Button>Log in</Button>
+          <Button $bg="white" $fg="teal" $rounded>
+            Log in
+          </Button>
         </VerticalContainer>
       </form>
     </LoginWrapper>

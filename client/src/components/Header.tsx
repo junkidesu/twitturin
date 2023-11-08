@@ -1,27 +1,11 @@
 import styled from "styled-components";
-import Link from "./Link";
 import RouterLink from "./RouterLink";
 import HorizontalContainer from "./HorizontalContainer";
+import Button from "./Button";
 
-const NavLink = styled(Link)`
-  color: #eeeeee;
-  transition: 0.3s;
-
+const AuthButton = styled(Button)`
   &:hover {
-    text-decoration: none;
-    color: #eeeeee;
-    transition: 0.3s;
-  }
-`;
-
-const AuthLink = styled(NavLink)`
-  font-size: 1.3em;
-  padding: 0.5em;
-  border: 2px solid #eeeeee;
-  border-radius: 5px;
-
-  &:hover {
-    background-color: #eeeeee;
+    background-color: ${(props) => props.$fg};
     color: slategray;
   }
 `;
@@ -43,7 +27,9 @@ const HeaderContainer = styled.header`
   margin-bottom: 0.5em;
 `;
 
-const LogoText = styled(NavLink)`
+const LogoText = styled.div`
+  color: #eeeeee;
+  transition: 0.3s;
   font-weight: bold;
   font-size: 2em;
 
@@ -55,14 +41,20 @@ const LogoText = styled(NavLink)`
 const Header = () => {
   return (
     <HeaderContainer>
-      <LogoText>Twittur</LogoText>
+      <RouterLink to="/">
+        <LogoText>Twittur</LogoText>
+      </RouterLink>
 
       <AuthLinks gap="1em">
         <RouterLink to="/login">
-          <AuthLink>Sign in</AuthLink>
+          <AuthButton $fg="#eeeeee" $bg="transparent">
+            Sign in
+          </AuthButton>
         </RouterLink>
         <RouterLink to="/">
-          <AuthLink>Sign up</AuthLink>
+          <AuthButton $fg="#eeeeee" $bg="transparent">
+            Sign up
+          </AuthButton>
         </RouterLink>
       </AuthLinks>
     </HeaderContainer>
