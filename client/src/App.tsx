@@ -1,31 +1,29 @@
+import { useState } from "react";
 import styled from "styled-components";
 import GlobalStyle from "./theme";
+import Header from "./components/Header";
+import { tweetData } from "./data/sample";
+import TweetList from "./components/TweetList";
+import { Tweet } from "./types";
 
-const Header = styled.header`
-  position: sticky;
-  top: 0;
-  display: flex;
-  justify-items: center;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(45deg, turquoise, teal, slategrey);
-  padding: 1em;
-`;
-
-const LogoText = styled.p`
-  color: #eeeeee;
-  margin: 0;
-  font-weight: bold;
-  font-size: 2em;
+const PageWrapper = styled.div`
+  margin: 0 auto;
+  max-width: 40%;
 `;
 
 const App = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [tweets, setTweets] = useState<Tweet[]>(tweetData);
+
   return (
     <div>
       <GlobalStyle />
-      <Header>
-        <LogoText>Twitturin</LogoText>
-      </Header>
+
+      <Header />
+
+      <PageWrapper>
+        <TweetList tweets={tweets} />
+      </PageWrapper>
     </div>
   );
 };
