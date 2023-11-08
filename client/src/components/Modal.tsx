@@ -5,7 +5,6 @@ import closeIcon from "../assets/close.svg";
 
 const ModalWrapper = styled(VerticalContainer)`
   justify-content: space-around;
-  align-items: center;
   position: fixed;
   background-color: #555555cc;
   left: 0;
@@ -34,7 +33,7 @@ const Modal = ({
   if (!visible) return null;
 
   return (
-    <ModalWrapper>
+    <ModalWrapper $center>
       <CloseButton icon={closeIcon} onClick={() => setVisible(false)} />
       {children}
     </ModalWrapper>

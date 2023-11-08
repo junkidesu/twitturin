@@ -31,7 +31,7 @@ const LogoText = styled(Link)`
 const Header = () => {
   return (
     <HeaderContainer>
-      <LogoText>Twitturin</LogoText>
+      <LogoText>Twittur</LogoText>
     </HeaderContainer>
   );
 };

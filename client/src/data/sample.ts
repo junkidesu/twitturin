@@ -121,7 +121,7 @@ export const tweetData: Tweet[] = [
     createdAt: "2023-11-07T19:32:52.487Z",
     updatedAt: "2023-11-07T19:32:52.487Z",
     likes: 0,
-    id: "654a90e45c86a2d1bbc004ab",
+    id: "654a90e45c86a2d1bbc004bd",
   },
   {
     content: "I agree with John Doe on beef",
@@ -150,7 +150,7 @@ export const tweetData: Tweet[] = [
     createdAt: "2023-11-07T19:30:53.047Z",
     updatedAt: "2023-11-07T19:30:53.047Z",
     likes: 1,
-    id: "654a906d5c86a2d1bbc0049c",
+    id: "654a906d5c86a2d1bbc004de",
   },
 ];
 

@@ -28,14 +28,14 @@ const IconButton = ({
 }) => {
   if (label === undefined) {
     return (
-      <ButtonWrapper center onClick={onClick} className={className}>
+      <ButtonWrapper $center onClick={onClick} className={className}>
         <Icon src={icon} />
       </ButtonWrapper>
     );
   }
 
   return (
-    <ButtonWrapper gap="0.3em" center onClick={onClick} className={className}>
+    <ButtonWrapper gap="0.3em" $center onClick={onClick} className={className}>
       <Icon src={icon} />
       <span style={{ color: "#555555" }}>{label}</span>
     </ButtonWrapper>

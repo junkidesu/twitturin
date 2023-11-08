@@ -6,6 +6,7 @@ import { tweetData } from "./data/sample";
 import TweetList from "./components/TweetList";
 import { Tweet } from "./types";
 import Modal from "./components/Modal";
+import LoginForm from "./components/LoginForm";
 
 const PageWrapper = styled.div`
   margin: 0 auto;
@@ -22,7 +23,7 @@ const App = () => {
       <GlobalStyle />
 
       <Modal visible={visible} setVisible={setVisible}>
-        this is a modal component
+        <LoginForm />
       </Modal>
 
       <Header />
