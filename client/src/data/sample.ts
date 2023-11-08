@@ -105,6 +105,53 @@ export const tweetData: Tweet[] = [
     likes: 0,
     id: "654a90e45c86a2d1bbc004ab",
   },
+  {
+    content: "I hate beef",
+    author: {
+      username: "johndoe03",
+      fullName: "John Doe",
+      major: "IT" as Major,
+      studentId: "u12345",
+      email: "email2@email.com",
+      age: 25,
+      country: "Uzbekistan",
+      id: "654a903a5c86a2d1bbc00495",
+    },
+    likedBy: [],
+    createdAt: "2023-11-07T19:32:52.487Z",
+    updatedAt: "2023-11-07T19:32:52.487Z",
+    likes: 0,
+    id: "654a90e45c86a2d1bbc004ab",
+  },
+  {
+    content: "I agree with John Doe on beef",
+    author: {
+      username: "luminous-or-me",
+      fullName: "Anwar Sh.",
+      major: "SE" as Major,
+      studentId: "se13217",
+      email: "email@email.com",
+      age: 20,
+      country: "Uzbekistan",
+      id: "654a90095c86a2d1bbc00490",
+    },
+    likedBy: [
+      {
+        username: "johndoe03",
+        fullName: "John Doe",
+        major: "IT" as Major,
+        studentId: "u12345",
+        email: "email2@email.com",
+        age: 25,
+        country: "Uzbekistan",
+        id: "654a903a5c86a2d1bbc00495",
+      },
+    ],
+    createdAt: "2023-11-07T19:30:53.047Z",
+    updatedAt: "2023-11-07T19:30:53.047Z",
+    likes: 1,
+    id: "654a906d5c86a2d1bbc0049c",
+  },
 ];
 
 export const userData: User[] = [

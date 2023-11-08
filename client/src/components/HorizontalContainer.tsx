@@ -8,7 +8,7 @@ interface ContainerProps {
 const ListContainer = styled.div<ContainerProps>`
   display: flex;
   align-items: ${(props) => (props.center ? "center" : "none")};
-  gap: ${(props) => props.gap || "0.5em"};
+  gap: ${(props) => props.gap || "0"};
 `;
 
 const HorizontalContainer = styled(ListContainer)`

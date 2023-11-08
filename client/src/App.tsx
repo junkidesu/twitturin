@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import { tweetData } from "./data/sample";
 import TweetList from "./components/TweetList";
 import { Tweet } from "./types";
+import Modal from "./components/Modal";
 
 const PageWrapper = styled.div`
   margin: 0 auto;
@@ -14,10 +15,15 @@ const PageWrapper = styled.div`
 const App = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [tweets, setTweets] = useState<Tweet[]>(tweetData);
+  const [visible, setVisible] = useState<boolean>(true);
 
   return (
     <div>
       <GlobalStyle />
+
+      <Modal visible={visible} setVisible={setVisible}>
+        this is a modal component
+      </Modal>
 
       <Header />
 

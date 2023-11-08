@@ -53,7 +53,7 @@ const TweetItem = ({ tweet }: { tweet: Tweet }) => (
 
       <div>{tweet.content}</div>
 
-      <HorizontalContainer>
+      <HorizontalContainer gap="0.5em">
         <IconButton icon={emptyHeart} label={tweet.likes} />
 
         <IconButton icon={repliesIcon} label={0} />
