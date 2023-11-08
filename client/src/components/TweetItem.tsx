@@ -4,13 +4,12 @@ import emptyProfilePicture from "../assets/empty-profile-picture.png";
 import emptyHeart from "../assets/heart.svg";
 import repliesIcon from "../assets/replies.svg";
 import shareIcon from "../assets/share.svg";
+import VerticalContainer from "./VerticalContainer";
+import HorizontalContainer from "./HorizontalContainer";
+import IconButton from "./IconButton";
+import Link from "./Link";
 
-const Icon = styled.img`
-  width: 1.2em;
-  height: 1.2em;
-`;
-
-const TweetContainer = styled.div`
+const TweetContainer = styled(HorizontalContainer)`
   display: flex;
   background-color: white;
   border: 2px solid #aaaaaa;
@@ -18,17 +17,11 @@ const TweetContainer = styled.div`
   padding: 1em;
 `;
 
-const AuthorInfo = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
-`;
-
-const FullName = styled.div`
+const FullName = styled(Link)`
   font-weight: bold;
 `;
 
-const Username = styled.div`
+const Username = styled(Link)`
   color: #555555;
 `;
 
@@ -39,58 +32,34 @@ const ProfilePicture = styled.img`
   border-radius: 10em;
 `;
 
-const TweetButtons = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
-`;
-
-const TweetButton = styled.button`
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
-  background-color: transparent;
-  border: none;
-  color: #555555;
-`;
-
-const TweetBody = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5em;
+const TweetBody = styled(VerticalContainer)`
   font-size: 1em;
   padding-left: 1em;
+  gap: 1em;
 `;
 
 const TweetItem = ({ tweet }: { tweet: Tweet }) => (
   <TweetContainer>
-    <ProfilePicture src={emptyProfilePicture} />
+    <Link>
+      <ProfilePicture src={emptyProfilePicture} />
+    </Link>
 
     <TweetBody>
-      <AuthorInfo>
+      <HorizontalContainer center>
         <FullName>{tweet.author.fullName}</FullName>
 
         <Username>@{tweet.author.username}</Username>
-      </AuthorInfo>
+      </HorizontalContainer>
 
       <div>{tweet.content}</div>
 
-      <TweetButtons>
-        <TweetButton>
-          <Icon src={emptyHeart} />
-          <span>{tweet.likes}</span>
-        </TweetButton>
+      <HorizontalContainer>
+        <IconButton icon={emptyHeart} label={tweet.likes} />
 
-        <TweetButton>
-          <Icon src={shareIcon} />
-          <span>0</span>
-        </TweetButton>
+        <IconButton icon={repliesIcon} label={0} />
 
-        <TweetButton>
-          <Icon src={repliesIcon} />
-          <span>0</span>
-        </TweetButton>
-      </TweetButtons>
+        <IconButton icon={shareIcon} label={0} />
+      </HorizontalContainer>
     </TweetBody>
   </TweetContainer>
 );
