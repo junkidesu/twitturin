@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const SelectWrapper = styled.select`
   background-color: white;
-  color: #252525;
+  color: ${(props) => props.theme.colors.grey1};
   font-size: 1.3em;
   padding: 0.5em;
   width: 100%;

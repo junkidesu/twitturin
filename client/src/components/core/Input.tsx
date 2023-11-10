@@ -5,7 +5,7 @@ const Placeholder = styled.span<{ $empty?: boolean }>`
   left: 0.5em;
   top: ${(props) => (props.$empty ? "" : "0.5em")};
   font-size: ${(props) =>
-    props.$empty ? "1.5em" : props.theme.fontSizes.small};
+    props.$empty ? props.theme.fontSizes.medium : props.theme.fontSizes.extraSmall};
   color: ${(props) => props.theme.colors.grey2};
   user-select: none;
   transition: 0.1s;
