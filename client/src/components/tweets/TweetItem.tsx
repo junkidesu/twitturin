@@ -9,7 +9,7 @@ import HorizontalContainer from "../containers/HorizontalContainer";
 import IconButton from "../core/IconButton";
 import Link from "../core/Link";
 
-const TweetContainer = styled(HorizontalContainer)`
+const Wrapper = styled(HorizontalContainer)`
   display: flex;
   background-color: white;
   border: 2px solid ${(props) => props.theme.colors.grey4};
@@ -32,18 +32,18 @@ const ProfilePicture = styled.img`
   border-radius: 10em;
 `;
 
-const TweetBody = styled(VerticalContainer)`
+const Body = styled(VerticalContainer)`
   padding-left: 1em;
   gap: 1em;
 `;
 
 const TweetItem = ({ tweet }: { tweet: Tweet }) => (
-  <TweetContainer>
+  <Wrapper>
     <Link>
       <ProfilePicture src={emptyProfilePicture} />
     </Link>
 
-    <TweetBody>
+    <Body>
       <HorizontalContainer $center>
         <FullName>{tweet.author.fullName}</FullName>
 
@@ -59,8 +59,8 @@ const TweetItem = ({ tweet }: { tweet: Tweet }) => (
 
         <IconButton icon={shareIcon} label={0} />
       </HorizontalContainer>
-    </TweetBody>
-  </TweetContainer>
+    </Body>
+  </Wrapper>
 );
 
 export default TweetItem;
