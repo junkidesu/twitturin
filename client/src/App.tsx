@@ -46,7 +46,7 @@ const App = () => {
           <Route path="/sign-up" element={<SignUpPage />} />
           <Route
             path="/users/:id"
-            element={<UserProfile user={userData[0]} />}
+            element={<UserProfile user={userData[1]} />}
           />
         </Routes>
       </PageWrapper>
