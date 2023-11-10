@@ -52,7 +52,7 @@ export const UserTweet = {
 
 export const Tweet = {
   type: "object",
-  required: ["author"],
+  required: ["author", "likedBy", "likes"],
   allOf: [
     {
       $ref: "#/components/schemas/BaseTweet",
@@ -69,12 +69,16 @@ export const Tweet = {
       },
       description: "The author of the tweet, in JSON format.",
     },
-    likes: {
+    likedBy: {
       type: "array",
       items: {
         $ref: "#/components/schemas/TweetAuthor",
       },
       description: "The list of the users who liked this post.",
+    },
+    likes: {
+      type: "number",
+      description: "The number of likes of the tweet.",
     },
   },
   example: {
@@ -87,7 +91,8 @@ export const Tweet = {
       country: "Uzbekistan",
       id: "653fe7dd0e51f6d650fc10a0",
     },
-    likes: [],
+    likedBy: [],
+    likes: 0,
     createdAt: "2023-10-30T20:17:24.531Z",
     updatedAt: "2023-10-30T20:49:19.585Z",
     id: "65400f54543880dabb0a6315",
@@ -96,21 +101,15 @@ export const Tweet = {
 
 export const NewTweet = {
   type: "object",
-  required: ["content", "author"],
+  required: ["content"],
   properties: {
     content: {
       type: "string",
       description: "The content of the tweet.",
     },
-    author: {
-      type: "string",
-      format: "MongoDB id",
-      description: "The MongoDB id of the author.",
-    },
   },
   example: {
     content: "updated content at 1:45",
-    author: "653fe7dd0e51f6d650fc10a0",
   },
 };
 

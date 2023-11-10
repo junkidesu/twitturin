@@ -14,7 +14,7 @@ const TweetSchema = new Schema<Tweet>(
       required: true,
       ref: "User",
     },
-    likes: [
+    likedBy: [
       {
         type: Schema.Types.ObjectId,
         ref: "User",
@@ -24,16 +24,23 @@ const TweetSchema = new Schema<Tweet>(
   },
   {
     timestamps: true,
+    toJSON: {
+      transform: (_document, returnedObject) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        returnedObject.id = returnedObject._id;
+        delete returnedObject._id;
+        delete returnedObject.__v;
+      },
+      virtuals: true,
+    },
+    toObject: {
+      virtuals: true,
+    },
   }
 );
 
-TweetSchema.set("toJSON", {
-  transform: (_document, returnedObject) => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    returnedObject.id = returnedObject._id;
-    delete returnedObject._id;
-    delete returnedObject.__v;
-  },
+TweetSchema.virtual("likes").get(function (): number {
+  return this.likedBy.length;
 });
 
 const TweetModel = model<Tweet>("Tweet", TweetSchema);
