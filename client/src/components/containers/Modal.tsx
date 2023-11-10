@@ -12,7 +12,7 @@ const ModalWrapper = styled(VerticalContainer)`
   right: 0;
   top: 0;
   bottom: 0;
-  z-index: 1;
+  z-index: 1000;
   backdrop-filter: blur(3px);
 `;
 

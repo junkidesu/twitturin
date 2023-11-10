@@ -26,6 +26,7 @@ const HeaderContainer = styled.header`
   background: linear-gradient(45deg, #40e0d0bb, #008080bb, #708090bb);
   padding: 1em;
   margin-bottom: 0.5em;
+  z-index: 100;
 `;
 
 const LogoText = styled.div`
