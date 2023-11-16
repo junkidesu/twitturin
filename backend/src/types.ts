@@ -71,13 +71,12 @@ export interface PopulatedUser {
 export interface PopulatedTweet {
   author: User;
   likedBy: User[];
-  replies: Reply[];
+  replies: PopulatedReply[];
 }
 
 export interface PopulatedReply {
   content: string;
   author: User;
-  tweet: Tweet;
 }
 
 export interface TokenData {

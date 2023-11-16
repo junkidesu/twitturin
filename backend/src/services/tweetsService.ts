@@ -1,4 +1,4 @@
-import { Types } from "mongoose";
+import { PopulateOptions, Types } from "mongoose";
 import TweetModel from "../models/tweet";
 import {
   NewTweet,
@@ -6,24 +6,33 @@ import {
   PopulatedTweet,
   NotFoundError,
   NewReply,
+  PopulatedReply,
 } from "../types";
 import ReplyModel from "../models/reply";
 
+const options: PopulateOptions[] = [
+  {
+    path: "author",
+  },
+  {
+    path: "likedBy",
+  },
+  {
+    path: "replies",
+    populate: {
+      path: "author",
+    },
+  },
+];
+
 const getAllTweets = async () => {
-  const tweets = await TweetModel.find({}).populate<PopulatedTweet>([
-    "author",
-    "likedBy",
-    "replies",
-  ]);
+  const tweets = await TweetModel.find({}).populate<PopulatedTweet>(options);
 
   return tweets;
 };
 
 const getTweetById = async (id: string) => {
-  const tweet = await TweetModel.findById(id).populate<PopulatedTweet>([
-    "author",
-    "likedBy",
-  ]);
+  const tweet = await TweetModel.findById(id).populate<PopulatedTweet>(options);
 
   if (!tweet) throw new NotFoundError("tweet not found");
 
@@ -33,7 +42,7 @@ const getTweetById = async (id: string) => {
 const addTweet = async (newTweet: NewTweet) => {
   const addedTweet = await new TweetModel(newTweet).save();
 
-  return addedTweet.populate<PopulatedTweet>(["author", "likedBy"]);
+  return addedTweet.populate<PopulatedTweet>(options);
 };
 
 const removeTweet = async (id: string) => {
@@ -53,7 +62,7 @@ const editTweet = async (id: string, toEdit: EditTweet) => {
     new: true,
     context: "query",
     runValidators: true,
-  }).populate<PopulatedTweet>(["author", "likedBy"]);
+  }).populate<PopulatedTweet>(options);
 
   return updatedTweet;
 };
@@ -85,7 +94,11 @@ const removeLike = async (id: string, userId: Types.ObjectId) => {
   await tweet.save({ timestamps: { updatedAt: false } });
 };
 
-const replyToTweet = async (id: string, { content }: NewReply, author: string) => {
+const replyToTweet = async (
+  id: string,
+  { content }: NewReply,
+  author: string
+) => {
   const reply = new ReplyModel({
     tweet: id,
     content,
@@ -93,7 +106,7 @@ const replyToTweet = async (id: string, { content }: NewReply, author: string) =
   });
 
   const savedReply = await reply.save();
-  return savedReply;
+  return savedReply.populate<PopulatedReply>("author");
 };
 
 export default {
