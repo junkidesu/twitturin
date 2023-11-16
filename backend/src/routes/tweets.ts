@@ -1,5 +1,5 @@
 import express from "express";
-import { toEditTweet, toNewTweet } from "../utils/parsers";
+import { toEditTweet, toNewTweet, toNewReply } from "../utils/parsers";
 import tweetsService from "../services/tweetsService";
 import {
   requireAuthentication,
@@ -329,7 +329,7 @@ router.post("/:id/likes", requireAuthentication, async (req, res, next) => {
  *           application/json:
  *             schema:
  *               $ref: '#/components/responses/Error'
- *       
+ *
  */
 router.delete(
   "/:id/likes/:userId",
@@ -344,5 +344,19 @@ router.delete(
     }
   }
 );
+
+router.post("/:id/replies", requireAuthentication, async (req, res, next) => {
+  try {
+    const reply = await tweetsService.replyToTweet(
+      req.params.id,
+      toNewReply(req.body),
+      req.user!._id.toString()
+    );
+
+    res.status(201).json(reply);
+  } catch (error) {
+    next(error);
+  }
+});
 
 export default router;

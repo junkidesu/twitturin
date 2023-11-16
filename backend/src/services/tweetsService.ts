@@ -1,11 +1,19 @@
 import { Types } from "mongoose";
 import TweetModel from "../models/tweet";
-import { NewTweet, EditTweet, PopulatedTweet, NotFoundError } from "../types";
+import {
+  NewTweet,
+  EditTweet,
+  PopulatedTweet,
+  NotFoundError,
+  NewReply,
+} from "../types";
+import ReplyModel from "../models/reply";
 
 const getAllTweets = async () => {
   const tweets = await TweetModel.find({}).populate<PopulatedTweet>([
     "author",
     "likedBy",
+    "replies",
   ]);
 
   return tweets;
@@ -77,6 +85,17 @@ const removeLike = async (id: string, userId: Types.ObjectId) => {
   await tweet.save({ timestamps: { updatedAt: false } });
 };
 
+const replyToTweet = async (id: string, { content }: NewReply, author: string) => {
+  const reply = new ReplyModel({
+    tweet: id,
+    content,
+    author,
+  });
+
+  const savedReply = await reply.save();
+  return savedReply;
+};
+
 export default {
   getAllTweets,
   addTweet,
@@ -85,4 +104,5 @@ export default {
   editTweet,
   likeTweet,
   removeLike,
+  replyToTweet,
 };

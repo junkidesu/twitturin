@@ -43,6 +43,12 @@ TweetSchema.virtual("likes").get(function (): number {
   return this.likedBy.length;
 });
 
+TweetSchema.virtual("replies", {
+  ref: "Reply",
+  localField: "_id",
+  foreignField: "tweet",
+});
+
 const TweetModel = model<Tweet>("Tweet", TweetSchema);
 
 export default TweetModel;
