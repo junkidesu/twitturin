@@ -3,7 +3,7 @@ import VerticalContainer from "../containers/VerticalContainer";
 import { User } from "../../types";
 import Link from "../core/Link";
 import emptyProfilePicture from "../../assets/images/empty-profile-picture.png";
-import UserTweetList from "./UserTweetList";
+import TweetList from "../tweets/TweetList";
 
 const Wrapper = styled(VerticalContainer)`
   border-radius: 10px;
@@ -42,7 +42,9 @@ const Username = styled(Link)`
   color: ${(props) => props.theme.colors.grey2};
 `;
 
-const UserProfile = ({ user }: { user: User }) => {
+const UserProfile = ({ user }: { user?: User }) => {
+  if (!user) return <div>loading...</div>;
+
   return (
     <Wrapper gap="2em">
       <Banner>
@@ -55,7 +57,7 @@ const UserProfile = ({ user }: { user: User }) => {
           <Username>@{user.username}</Username>
         </VerticalContainer>
 
-        <UserTweetList tweets={user.tweets} user={user} />
+        <TweetList tweets={user.tweets} />
       </UserDetails>
     </Wrapper>
   );

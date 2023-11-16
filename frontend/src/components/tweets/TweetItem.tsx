@@ -45,7 +45,7 @@ const TweetItem = ({ tweet }: { tweet: Tweet }) => (
 
     <Body>
       <HorizontalContainer $center>
-        <FullName>{tweet.author.fullName}</FullName>
+        <FullName>{tweet.author?.fullName}</FullName>
 
         <Username>@{tweet.author.username}</Username>
       </HorizontalContainer>

@@ -16,7 +16,7 @@ export interface User extends BaseUser {
   major: Major;
   email: string;
   country?: string;
-  tweets: BaseTweet[];
+  tweets: Tweet[];
 }
 
 export interface BaseUser {
