@@ -10,24 +10,13 @@ import LoginForm from "./components/LoginForm";
 import SignUpForm from "./components/SignUpForm";
 import { Routes, Route } from "react-router-dom";
 import UserProfile from "./components/users/UserProfile";
-import axios from "axios";
+import usersService from "./services/usersService";
+import tweetsService from "./services/tweetsService";
 
 const PageWrapper = styled.div`
   margin: 0 auto;
   max-width: 40%;
 `;
-
-const LoginPage = () => (
-  <Modal>
-    <LoginForm />
-  </Modal>
-);
-
-const SignUpPage = () => (
-  <Modal>
-    <SignUpForm />
-  </Modal>
-);
 
 const App = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -36,19 +25,15 @@ const App = () => {
 
   useEffect(() => {
     const initializeTweets = async () => {
-      const response = await axios.get<Tweet[]>(
-        "http://localhost:3001/api/tweets"
-      );
+      const tweets = await tweetsService.getAll();
 
-      setTweets(response.data);
+      setTweets(tweets);
     };
 
     const initializeUsers = async () => {
-      const response = await axios.get<User[]>(
-        "http://localhost:3001/api/users"
-      );
+      const users = await usersService.getAll();
 
-      setUsers(response.data);
+      setUsers(users);
     };
 
     void initializeTweets();
@@ -63,12 +48,23 @@ const App = () => {
       <PageWrapper>
         <Routes>
           <Route path="/" element={<TweetList tweets={tweets} />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/sign-up" element={<SignUpPage />} />
           <Route
-            path="/users/:id"
-            element={<UserProfile user={users[0]} />}
+            path="/login"
+            element={
+              <Modal>
+                <LoginForm />
+              </Modal>
+            }
           />
+          <Route
+            path="/sign-up"
+            element={
+              <Modal>
+                <SignUpForm />
+              </Modal>
+            }
+          />
+          <Route path="/users/:id" element={<UserProfile user={users[0]} />} />
         </Routes>
       </PageWrapper>
     </ThemeProvider>
