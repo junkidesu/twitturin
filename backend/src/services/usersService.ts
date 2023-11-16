@@ -1,8 +1,9 @@
 import UserModel from "../models/user";
 import bcrypt from "bcrypt";
 import { EditUser, NewUser, NotFoundError, PopulatedUser } from "../types";
+import { PopulateOptions } from "mongoose";
 
-const populationQuery = {
+const populationQuery: PopulateOptions = {
   path: "tweets",
   populate: [
     {
