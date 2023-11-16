@@ -15,13 +15,17 @@ const populationQuery = {
 };
 
 const getAllUsers = async () => {
-  const users = await UserModel.find({}).populate<PopulatedUser>(populationQuery);
+  const users = await UserModel.find({}).populate<PopulatedUser>(
+    populationQuery
+  );
 
   return users;
 };
 
 const getUserById = async (id: string) => {
-  const user = await UserModel.findById(id).populate<PopulatedUser>(populationQuery);
+  const user = await UserModel.findById(id).populate<PopulatedUser>(
+    populationQuery
+  );
 
   if (!user) throw new NotFoundError("user not found");
 
