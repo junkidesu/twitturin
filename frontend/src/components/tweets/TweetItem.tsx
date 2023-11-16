@@ -7,7 +7,7 @@ import shareIcon from "../../assets/icons/share.svg";
 import VerticalContainer from "../containers/VerticalContainer";
 import HorizontalContainer from "../containers/HorizontalContainer";
 import IconButton from "../core/IconButton";
-import Link from "../core/Link";
+import RouterLink from "../core/RouterLink";
 
 const Wrapper = styled(HorizontalContainer)`
   display: flex;
@@ -17,12 +17,14 @@ const Wrapper = styled(HorizontalContainer)`
   padding: 1em;
 `;
 
-const FullName = styled(Link)`
+const FullName = styled(RouterLink)`
+  color: ${(props) => props.theme.colors.grey1};
   font-weight: bold;
 `;
 
-const Username = styled(Link)`
+const Username = styled(RouterLink)`
   color: ${(props) => props.theme.colors.grey2};
+  font-size: ${(props) => props.theme.fontSizes.extraSmall};
 `;
 
 const ProfilePicture = styled.img`
@@ -39,15 +41,19 @@ const Body = styled(VerticalContainer)`
 
 const TweetItem = ({ tweet }: { tweet: Tweet }) => (
   <Wrapper>
-    <Link>
+    <RouterLink to={`/users/${tweet.author.id}`}>
       <ProfilePicture src={emptyProfilePicture} />
-    </Link>
+    </RouterLink>
 
     <Body>
       <HorizontalContainer $center>
-        <FullName>{tweet.author?.fullName}</FullName>
+        <FullName to={`/users/${tweet.author.id}`}>
+          {tweet.author.fullName || "Twittur User"}
+        </FullName>
 
-        <Username>@{tweet.author.username}</Username>
+        <Username to={`/users/${tweet.author.id}`}>
+          @{tweet.author.username}
+        </Username>
       </HorizontalContainer>
 
       <div>{tweet.content}</div>

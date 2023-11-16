@@ -8,6 +8,10 @@ const Link = styled.a`
     text-decoration: underline;
     color: ${(props) => props.theme.colors.primary};
   }
+
+  &:visited {
+    color: ${(props) => props.theme.colors.secondary};
+  }
 `;
 
 export default Link;

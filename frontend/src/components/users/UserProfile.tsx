@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import VerticalContainer from "../containers/VerticalContainer";
 import { User } from "../../types";
-import Link from "../core/Link";
+import RouterLink from "../core/RouterLink";
 import emptyProfilePicture from "../../assets/images/empty-profile-picture.png";
 import TweetList from "../tweets/TweetList";
 
@@ -34,11 +34,11 @@ const ProfilePicture = styled.img`
   left: 1em;
 `;
 
-const FullName = styled(Link)`
+const FullName = styled(RouterLink)`
   font-weight: bold;
 `;
 
-const Username = styled(Link)`
+const Username = styled(RouterLink)`
   color: ${(props) => props.theme.colors.grey2};
 `;
 
@@ -53,9 +53,11 @@ const UserProfile = ({ user }: { user?: User }) => {
 
       <UserDetails gap="1em">
         <VerticalContainer>
-          <FullName>{user.fullName}</FullName>
-          <Username>@{user.username}</Username>
+          <FullName to={`/users/${user.id}`}>{user.fullName}</FullName>
+          <Username to={`/users/${user.id}`}>@{user.username}</Username>
         </VerticalContainer>
+
+        <div>Tweets posted by {user.username}</div>
 
         <TweetList tweets={user.tweets} />
       </UserDetails>
