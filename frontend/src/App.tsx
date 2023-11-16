@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import lightTheme from "./themes/lightTheme";
-import GlobalStyle from "./GlobalStyle";
+import GlobalStyle from "./utils/GlobalStyle";
 import Header from "./components/Header";
 import TweetList from "./components/tweets/TweetList";
 import { Tweet, User } from "./types";
