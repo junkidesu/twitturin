@@ -28,4 +28,12 @@ const editReply = async (id: string, toEdit: NewReply) => {
   return editedReply.populate<PopulatedReply>("author");
 };
 
-export default { replyToTweet, editReply };
+const removeReply = async (id: string) => {
+  const reply = await ReplyModel.findById(id);
+
+  if (!reply) throw new NotFoundError("reply not found");
+
+  await ReplyModel.findByIdAndDelete(id);
+};
+
+export default { replyToTweet, editReply, removeReply };

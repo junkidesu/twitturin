@@ -17,4 +17,13 @@ router.put("/:id", requireAuthentication, async (req, res, next) => {
   }
 });
 
+router.delete("/:id", requireAuthentication, async (req, res, next) => {
+  try {
+    await repliesService.removeReply(req.params.id);
+    res.status(204).end();
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default router;
