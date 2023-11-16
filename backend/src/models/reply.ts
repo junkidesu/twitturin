@@ -19,6 +19,9 @@ const ReplySchema = new Schema<Reply>(
     },
   },
   {
+    toObject: {
+      virtuals: true,
+    },
     toJSON: {
       transform: (_document, returnedObject) => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -27,7 +30,9 @@ const ReplySchema = new Schema<Reply>(
         delete returnedObject._id;
         delete returnedObject.__v;
       },
+      virtuals: true,
     },
+    timestamps: true,
   }
 );
 

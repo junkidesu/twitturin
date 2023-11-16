@@ -1,5 +1,4 @@
 import express from "express";
-import mongoose from "mongoose";
 import cors from "cors";
 import env from "./utils/config";
 import authRouter from "./routes/auth";
@@ -9,20 +8,6 @@ import repliesRouter from "./routes/replies";
 import { errorHandler, userExtractor } from "./utils/middleware";
 import specs from "./swagger/specs";
 import swaggerUi from "swagger-ui-express";
-
-const connectDb = async () => {
-  try {
-    console.log("connecting to MongoDB");
-
-    await mongoose.connect(env.MONGODB_URI);
-
-    console.log("connected to MongoDB");
-  } catch (error) {
-    console.log("error connecting to MongoDB", error);
-  }
-};
-
-void connectDb();
 
 const app = express();
 
