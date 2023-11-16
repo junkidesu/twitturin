@@ -3,30 +3,40 @@ import bcrypt from "bcrypt";
 import { EditUser, NewUser, NotFoundError, PopulatedUser } from "../types";
 import { PopulateOptions } from "mongoose";
 
-const populationQuery: PopulateOptions = {
-  path: "tweets",
-  populate: [
-    {
+const options: PopulateOptions[] = [
+  {
+    path: "tweets",
+    populate: [
+      {
+        path: "author",
+      },
+      {
+        path: "likedBy",
+      },
+      {
+        path: "replies",
+        populate: {
+          path: "author",
+        },
+      },
+    ],
+  },
+  {
+    path: "replies",
+    populate: {
       path: "author",
     },
-    {
-      path: "likedBy",
-    },
-  ],
-};
+  },
+];
 
 const getAllUsers = async () => {
-  const users = await UserModel.find({}).populate<PopulatedUser>(
-    populationQuery
-  );
+  const users = await UserModel.find({}).populate<PopulatedUser>(options);
 
   return users;
 };
 
 const getUserById = async (id: string) => {
-  const user = await UserModel.findById(id).populate<PopulatedUser>(
-    populationQuery
-  );
+  const user = await UserModel.findById(id).populate<PopulatedUser>(options);
 
   if (!user) throw new NotFoundError("user not found");
 
@@ -55,7 +65,7 @@ const editUser = async (id: string, toEdit: EditUser) => {
     new: true,
     runValidators: true,
     context: "query",
-  }).populate<PopulatedUser>(populationQuery);
+  }).populate<PopulatedUser>(options);
 
   return updatedUser;
 };

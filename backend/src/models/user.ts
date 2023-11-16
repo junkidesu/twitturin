@@ -68,6 +68,12 @@ UserSchema.virtual("tweets", {
   foreignField: "author",
 });
 
+UserSchema.virtual("replies", {
+  ref: "Reply",
+  localField: "_id",
+  foreignField: "author",
+});
+
 const UserModel = model<User>("User", UserSchema);
 
 export default UserModel;

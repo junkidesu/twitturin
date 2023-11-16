@@ -66,6 +66,7 @@ export interface NewReply {
 
 export interface PopulatedUser {
   tweets: PopulatedTweet[];
+  replies: PopulatedReply[];
 }
 
 export interface PopulatedTweet {
