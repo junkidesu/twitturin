@@ -38,18 +38,10 @@ const addTweet = async (newTweet: NewTweet) => {
 };
 
 const removeTweet = async (id: string) => {
-  const tweet = await TweetModel.findById(id);
-
-  if (!tweet) throw new NotFoundError("tweet not found");
-
   await TweetModel.findByIdAndRemove(id);
 };
 
 const editTweet = async (id: string, toEdit: EditTweet) => {
-  const tweet = await TweetModel.findById(id);
-
-  if (!tweet) throw new NotFoundError("tweet not found");
-
   const updatedTweet = await TweetModel.findByIdAndUpdate(id, toEdit, {
     new: true,
     context: "query",
@@ -62,14 +54,12 @@ const editTweet = async (id: string, toEdit: EditTweet) => {
 const likeTweet = async (id: string, userId: Types.ObjectId) => {
   const tweet = await TweetModel.findById(id);
 
-  if (!tweet) throw new NotFoundError("tweet not found");
-
-  const likesStrings = tweet.likedBy.map((u) => u.toString());
+  const likesStrings = tweet!.likedBy.map((u) => u.toString());
 
   if (!likesStrings.includes(userId.toString()))
-    tweet.likedBy = tweet.likedBy.concat(userId);
+    tweet!.likedBy = tweet!.likedBy.concat(userId);
 
-  const likedTweet = await tweet.save({ timestamps: { updatedAt: false } });
+  const likedTweet = await tweet!.save({ timestamps: { updatedAt: false } });
 
   return likedTweet.populate<PopulatedTweet>(["author", "likedBy"]);
 };
@@ -77,13 +67,11 @@ const likeTweet = async (id: string, userId: Types.ObjectId) => {
 const removeLike = async (id: string, userId: Types.ObjectId) => {
   const tweet = await TweetModel.findById(id);
 
-  if (!tweet) throw new NotFoundError("tweet not found");
-
-  tweet.likedBy = tweet.likedBy.filter(
+  tweet!.likedBy = tweet!.likedBy.filter(
     (u) => u.toString() !== userId.toString()
   );
 
-  await tweet.save({ timestamps: { updatedAt: false } });
+  await tweet!.save({ timestamps: { updatedAt: false } });
 };
 
 export default {
