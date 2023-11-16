@@ -1,6 +1,7 @@
 import express from "express";
 import { toEditTweet, toNewTweet, toNewReply } from "../utils/parsers";
 import tweetsService from "../services/tweetsService";
+import repliesService from "../services/repliesService";
 import {
   requireAuthentication,
   requireAuthor,
@@ -347,7 +348,7 @@ router.delete(
 
 router.post("/:id/replies", requireAuthentication, async (req, res, next) => {
   try {
-    const reply = await tweetsService.replyToTweet(
+    const reply = await repliesService.replyToTweet(
       req.params.id,
       toNewReply(req.body),
       req.user!._id.toString()
