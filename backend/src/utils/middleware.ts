@@ -5,6 +5,7 @@ import { Types } from "mongoose";
 import env from "./config";
 import UserModel from "../models/user";
 import TweetModel from "../models/tweet";
+import ReplyModel from "../models/reply";
 
 const parseToken = (text: string): string => {
   if (!text || !text.startsWith("Bearer "))
@@ -60,7 +61,7 @@ export const requireAuthentication = (
   }
 };
 
-const checkAuthor = async (
+const checkTweetAuthor = async (
   user: User & { _id: Types.ObjectId },
   id: string
 ) => {
@@ -74,7 +75,7 @@ const checkAuthor = async (
   if (userId !== author) throw new AuthError("need to be author of tweet");
 };
 
-export const requireAuthor = async (
+export const requireTweetAuthor = async (
   req: Request,
   _res: Response,
   next: NextFunction
@@ -82,7 +83,36 @@ export const requireAuthor = async (
   if (!("id" in req.params) || !req.user) return next();
 
   try {
-    await checkAuthor(req.user, req.params.id);
+    await checkTweetAuthor(req.user, req.params.id);
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+const checkReplyAuthor = async (
+  user: User & { _id: Types.ObjectId },
+  id: string
+) => {
+  const reply = await ReplyModel.findById(id);
+
+  if (!reply) throw new NotFoundError("reply not found");
+
+  const author = reply.author.toString();
+  const userId = user._id.toString();
+
+  if (userId !== author) throw new AuthError("need to be author of reply");
+};
+
+export const requireReplyAuthor = async (
+  req: Request,
+  _res: Response,
+  next: NextFunction
+) => {
+  if (!("id" in req.params) || !req.user) return next();
+
+  try {
+    await checkReplyAuthor(req.user, req.params.id);
     next();
   } catch (error) {
     next(error);

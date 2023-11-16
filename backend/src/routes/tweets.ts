@@ -4,7 +4,7 @@ import tweetsService from "../services/tweetsService";
 import repliesService from "../services/repliesService";
 import {
   requireAuthentication,
-  requireAuthor,
+  requireTweetAuthor,
   requireSameUser,
 } from "../utils/middleware";
 
@@ -164,7 +164,7 @@ router.post("/", requireAuthentication, async (req, res, next) => {
 router.delete(
   "/:id",
   requireAuthentication,
-  requireAuthor,
+  requireTweetAuthor,
   async (req, res, next) => {
     try {
       await tweetsService.removeTweet(req.params.id);
@@ -226,7 +226,7 @@ router.delete(
 router.put(
   "/:id",
   requireAuthentication,
-  requireAuthor,
+  requireTweetAuthor,
   async (req, res, next) => {
     try {
       const toEdit = toEditTweet(req.body);
