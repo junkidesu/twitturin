@@ -5,6 +5,7 @@ import env from "./utils/config";
 import authRouter from "./routes/auth";
 import usersRouter from "./routes/users";
 import tweetsRouter from "./routes/tweets";
+import repliesRouter from "./routes/replies";
 import { errorHandler, userExtractor } from "./utils/middleware";
 import specs from "./swagger/specs";
 import swaggerUi from "swagger-ui-express";
@@ -36,6 +37,7 @@ app.use(userExtractor);
 app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/tweets", tweetsRouter);
+app.use("/api/replies", repliesRouter);
 
 if (env.NODE_ENV === "development")
   app.use("/docs", swaggerUi.serve, swaggerUi.setup(specs));
