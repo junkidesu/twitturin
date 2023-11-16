@@ -49,6 +49,10 @@ TweetSchema.virtual("replies", {
   foreignField: "tweet",
 });
 
+TweetSchema.virtual("replyCount").get(function (): number {
+  return this.get("replies").length;
+});
+
 const TweetModel = model<Tweet>("Tweet", TweetSchema);
 
 export default TweetModel;
