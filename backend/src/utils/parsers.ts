@@ -6,6 +6,7 @@ import {
   NewUser,
   ParseError,
   EditUser,
+  NewReply,
 } from "../types";
 
 const parseNumber = (num: unknown, what: string): number => {
@@ -122,4 +123,15 @@ export const toEditTweet = (object: unknown): EditTweet => {
   if (!("content" in object)) return { content: undefined };
 
   return { content: parseString(object.content, "content") };
+};
+
+export const toNewReply = (object: unknown): NewReply => {
+  if (!object || typeof object !== "object")
+    throw new ParseError("Reply missing or invalid");
+
+  if (!("content" in object)) throw new ParseError("reply content missing");
+
+  return {
+    content: parseString(object.content, "content"),
+  };
 };

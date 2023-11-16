@@ -54,6 +54,16 @@ export interface EditTweet {
   content?: string;
 }
 
+export interface Reply {
+  author: Types.ObjectId;
+  tweet: Types.ObjectId;
+  content: string;
+}
+
+export interface NewReply {
+  content: string;
+}
+
 export interface PopulatedUser {
   tweets: PopulatedTweet[];
 }
@@ -61,6 +71,13 @@ export interface PopulatedUser {
 export interface PopulatedTweet {
   author: User;
   likedBy: User[];
+  replies: Reply[];
+}
+
+export interface PopulatedReply {
+  content: string;
+  author: User;
+  tweet: Tweet;
 }
 
 export interface TokenData {
