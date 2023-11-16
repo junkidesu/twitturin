@@ -2,14 +2,26 @@ import UserModel from "../models/user";
 import bcrypt from "bcrypt";
 import { EditUser, NewUser, NotFoundError, PopulatedUser } from "../types";
 
+const populationQuery = {
+  path: "tweets",
+  populate: [
+    {
+      path: "author",
+    },
+    {
+      path: "likedBy",
+    },
+  ],
+};
+
 const getAllUsers = async () => {
-  const users = await UserModel.find({}).populate<PopulatedUser>("tweets");
+  const users = await UserModel.find({}).populate<PopulatedUser>(populationQuery);
 
   return users;
 };
 
 const getUserById = async (id: string) => {
-  const user = await UserModel.findById(id).populate<PopulatedUser>("tweets");
+  const user = await UserModel.findById(id).populate<PopulatedUser>(populationQuery);
 
   if (!user) throw new NotFoundError("user not found");
 
@@ -38,7 +50,7 @@ const editUser = async (id: string, toEdit: EditUser) => {
     new: true,
     runValidators: true,
     context: "query",
-  }).populate<PopulatedUser>("tweets");
+  }).populate<PopulatedUser>(populationQuery);
 
   return updatedUser;
 };

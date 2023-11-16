@@ -55,7 +55,7 @@ export interface EditTweet {
 }
 
 export interface PopulatedUser {
-  tweets: Tweet[];
+  tweets: PopulatedTweet[];
 }
 
 export interface PopulatedTweet {
