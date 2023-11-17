@@ -4,7 +4,7 @@ import VerticalContainer from "../containers/VerticalContainer";
 
 const TweetList = ({ tweets }: { tweets: Tweet[] }) => {
   return (
-    <VerticalContainer>
+    <VerticalContainer gap="0.5em">
       {tweets.map((t) => (
         <TweetItem key={t.id} tweet={t} />
       ))}
