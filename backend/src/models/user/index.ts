@@ -1,10 +1,10 @@
 /* eslint-disable no-self-assign */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Schema, model } from "mongoose";
-import { User } from "../types";
+import { UserCommon } from "../../types";
 import uniqueValidator from "mongoose-unique-validator";
 
-const UserSchema = new Schema<User>(
+const UserSchema = new Schema<UserCommon>(
   {
     username: {
       type: String,
@@ -17,21 +17,6 @@ const UserSchema = new Schema<User>(
     passwordHash: {
       type: String,
       required: true,
-    },
-    major: {
-      type: String,
-      enum: ["SE", "BM", "IT", "ME", "CIE", "AD", "AE"],
-      required: true,
-    },
-    studentId: {
-      type: String,
-      required: true,
-      unique: true,
-      validate: {
-        validator: (v: string): boolean => {
-          return /^(u|se|ad|bm)(0|1)(\d){4}$/.test(v);
-        },
-      },
     },
     email: {
       type: String,
@@ -46,6 +31,7 @@ const UserSchema = new Schema<User>(
     country: String,
   },
   {
+    discriminatorKey: "kind",
     toObject: { virtuals: true },
     toJSON: {
       virtuals: true,
@@ -55,6 +41,7 @@ const UserSchema = new Schema<User>(
         returnedObject.id = returnedObject._id?.toString() || returnedObject.id;
         delete returnedObject._id;
         delete returnedObject.__v;
+        delete returnedObject.__t;
       },
     },
   }
@@ -74,6 +61,6 @@ UserSchema.virtual("replies", {
   foreignField: "author",
 });
 
-const UserModel = model<User>("User", UserSchema);
+const UserModel = model<UserCommon>("User", UserSchema);
 
 export default UserModel;
