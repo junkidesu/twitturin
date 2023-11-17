@@ -1,6 +1,12 @@
 import { PopulateOptions, Types } from "mongoose";
 import TweetModel from "../models/tweet";
-import { NewTweet, EditTweet, PopulatedTweet, NotFoundError } from "../types";
+import {
+  Tweet,
+  NewTweet,
+  EditTweet,
+  PopulatedTweet,
+  NotFoundError,
+} from "../types";
 
 const options: PopulateOptions[] = [
   {
@@ -18,7 +24,9 @@ const options: PopulateOptions[] = [
 ];
 
 const getAllTweets = async () => {
-  const tweets = await TweetModel.find({}).populate<PopulatedTweet>(options);
+  const tweets = await TweetModel.find<Tweet[]>({}).populate<PopulatedTweet>(
+    options
+  );
 
   return tweets;
 };
@@ -61,7 +69,7 @@ const likeTweet = async (id: string, userId: Types.ObjectId) => {
 
   const likedTweet = await tweet!.save({ timestamps: { updatedAt: false } });
 
-  return likedTweet.populate<PopulatedTweet>(["author", "likedBy"]);
+  return likedTweet.populate<PopulatedTweet>(options);
 };
 
 const removeLike = async (id: string, userId: Types.ObjectId) => {
