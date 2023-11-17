@@ -10,23 +10,33 @@ export enum Major {
   Ae = "AE",
 }
 
-interface BasicUser {
+export interface UserCommon {
   username: string;
   fullName?: string;
-  studentId: string;
-  major: Major;
   email: string;
   age?: number;
   country?: string;
-}
-
-export interface User extends BasicUser {
   passwordHash: string;
 }
 
-export interface NewUser extends BasicUser {
-  password: string;
+export interface StudentUser extends UserCommon {
+  studentId: string;
+  major: Major;
+  kind: "student";
 }
+
+export interface TeacherUser extends UserCommon {
+  subject?: string;
+  kind: "teacher";
+}
+
+export type User = StudentUser | TeacherUser;
+
+type UnionOmit<T, K extends string | number | symbol> = T extends unknown
+  ? Omit<T, K>
+  : never;
+
+export type NewUser = UnionOmit<User, "passwordHash"> & { password: string };
 
 export interface EditUser {
   username?: string;

@@ -45,32 +45,47 @@ export const toNewUser = (object: unknown): NewUser => {
     throw new ParseError("Data missing or invalid");
 
   if (!("username" in object)) throw new ParseError("user username missing");
-  if (!("studentId" in object)) throw new ParseError("user studentId missing");
   if (!("password" in object)) throw new ParseError("user password missing");
-  if (!("major" in object)) throw new ParseError("user major missing");
   if (!("email" in object)) throw new ParseError("user email missing");
+  if (!("kind" in object)) throw new ParseError("kind missing");
 
-  const newUser: NewUser = {
+  const common = {
     username: parseString(object.username, "username"),
-    studentId: parseString(object.studentId, "studentId"),
-    major: parseMajor(object.major),
     password: parseString(object.password, "password"),
     email: parseString(object.email, "email"),
+    fullName:
+      "fullName" in object
+        ? parseString(object.fullName, "fullName")
+        : undefined,
+    country:
+      "country" in object ? parseString(object.country, "country") : undefined,
+    age: "age" in object ? parseNumber(object.age, "age") : undefined,
   };
 
-  if ("fullName" in object) {
-    newUser.fullName = parseString(object.fullName, "fullName");
+  if (object.kind === "student") {
+    if (!("major" in object)) throw new ParseError("major missing");
+    if (!("studentId" in object)) throw new ParseError("student ID missing");
+
+    return {
+      ...common,
+      kind: object.kind,
+      major: parseMajor(object.major),
+      studentId: parseString(object.studentId, "student ID"),
+    };
   }
 
-  if ("country" in object) {
-    newUser.country = parseString(object.country, "country");
+  if (object.kind === "teacher") {
+    return {
+      ...common,
+      kind: object.kind,
+      subject:
+        "subject" in object
+          ? parseString(object.subject, "subject")
+          : undefined,
+    };
   }
 
-  if ("age" in object) {
-    newUser.age = parseNumber(object.age, "age");
-  }
-
-  return newUser;
+  throw new ParseError("invalid kind");
 };
 
 export const toEditUser = (object: unknown): EditUser => {
