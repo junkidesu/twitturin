@@ -24,7 +24,7 @@ const LoginWrapper = styled(VerticalContainer)`
 `;
 
 const LoginForm = () => {
-  const studentId = useField("text", "Student ID");
+  const username = useField("text", "Username");
   const password = useField("password", "Password");
 
   return (
@@ -33,7 +33,7 @@ const LoginForm = () => {
 
       <form onSubmit={(e) => e.preventDefault()}>
         <VerticalContainer gap="1em">
-          <Input {...studentId} required />
+          <Input {...username} required />
 
           <Input {...password} required />
 

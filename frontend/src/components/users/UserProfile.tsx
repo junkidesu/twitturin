@@ -3,10 +3,11 @@ import VerticalContainer from "../containers/VerticalContainer";
 import { User } from "../../types";
 import RouterLink from "../core/RouterLink";
 import emptyProfilePicture from "../../assets/images/empty-profile-picture.png";
-import TweetList from "../tweets/TweetList";
+import Tabs from "./Tabs";
 
 const Wrapper = styled(VerticalContainer)`
-  border-radius: 10px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
   box-sizing: border-box;
   overflow: hidden;
   background: white;
@@ -28,7 +29,7 @@ const ProfilePicture = styled.img`
   height: 5em;
   box-sizing: border-box;
   overflow: hidden;
-  border: 0.5em solid white;
+  border: 0.3em solid white;
   border-radius: 100em;
   bottom: -2.5em;
   left: 1em;
@@ -36,6 +37,7 @@ const ProfilePicture = styled.img`
 
 const FullName = styled(RouterLink)`
   font-weight: bold;
+  font-size: ${(props) => props.theme.fontSizes.large};
 `;
 
 const Username = styled(RouterLink)`
@@ -46,7 +48,7 @@ const UserProfile = ({ user }: { user?: User }) => {
   if (!user) return <div>loading...</div>;
 
   return (
-    <Wrapper gap="2em">
+    <Wrapper gap="1.5em">
       <Banner>
         <ProfilePicture src={emptyProfilePicture} />
       </Banner>
@@ -56,11 +58,9 @@ const UserProfile = ({ user }: { user?: User }) => {
           <FullName to={`/users/${user.id}`}>{user.fullName}</FullName>
           <Username to={`/users/${user.id}`}>@{user.username}</Username>
         </VerticalContainer>
-
-        <div>Tweets posted by {user.username}</div>
-
-        <TweetList tweets={user.tweets} />
       </UserDetails>
+
+      <Tabs tweets={user.tweets} replies={user.replies} />
     </Wrapper>
   );
 };
