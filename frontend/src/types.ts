@@ -1,3 +1,7 @@
+type UnionOmit<T, K extends string | number | symbol> = T extends unknown
+  ? Omit<T, K>
+  : never;
+
 export enum Major {
   Se = "SE",
   Bm = "BM",
@@ -8,37 +12,46 @@ export enum Major {
   Ae = "AE",
 }
 
-export interface User extends BaseUser {
+export interface UserCommon {
   id: string;
   username: string;
-  studentId: string;
   fullName?: string;
-  major: Major;
-  email: string;
-  country?: string;
-  tweets: Tweet[];
-}
-
-export interface BaseUser {
-  id: string;
-  username: string;
-  studentId: string;
-  fullName?: string;
-  major: Major;
   email: string;
   country?: string;
   age?: number;
+  tweets: Tweet[];
+  replies: Reply[];
 }
 
-export interface BaseTweet {
-  id: string;
-  likes: number;
+export interface StudentUser extends UserCommon {
+  studentId: string;
+  major: Major;
+  kind: "student";
+}
+
+export interface TeacherUser extends UserCommon {
+  subject: string;
+  kind: "teacher";
+}
+
+export type User = StudentUser | TeacherUser;
+
+export interface Reply {
   content: string;
+  tweet: string;
+  author: UnionOmit<User, "replies" | "tweets">;
   createdAt: string;
   updatedAt: string;
 }
 
-export interface Tweet extends BaseTweet {
-  author: BaseUser;
-  likedBy: BaseUser[];
+export interface Tweet {
+  id: string;
+  likes: number;
+  replyCount: number;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  author: UnionOmit<User, "tweets" | "replies">;
+  likedBy: UnionOmit<User, "tweets" | "replies">[];
+  replies: Reply[];
 }
