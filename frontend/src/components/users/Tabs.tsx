@@ -3,11 +3,13 @@ import { useState } from "react";
 import VerticalContainer from "../containers/VerticalContainer";
 import HorizontalContainer from "../containers/HorizontalContainer";
 import TweetList from "../tweets/TweetList";
+import ReplyList from "../replies/ReplyList";
 import { Reply, Tweet } from "../../types";
 
 const NavButton = styled.button<{ $active: boolean }>`
   width: 100%;
-  color: ${(props) => (props.$active ? props.theme.colors.primary : props.theme.colors.grey2)};
+  color: ${(props) =>
+    props.$active ? props.theme.colors.primary : props.theme.colors.grey2};
   padding: 0.7em;
   font-size: ${(props) => props.theme.fontSizes.medium};
   background-color: white;
@@ -30,7 +32,7 @@ interface Props {
   replies: Reply[];
 }
 
-const Tabs = ({ tweets }: Props) => {
+const Tabs = ({ tweets, replies }: Props) => {
   const [active, setActive] = useState<"tweets" | "replies">("tweets");
 
   return (
@@ -53,7 +55,7 @@ const Tabs = ({ tweets }: Props) => {
       <TabWrapper>
         {active === "tweets" && <TweetList tweets={tweets} />}
 
-        {active === "replies" && <div>future replies</div>}
+        {active === "replies" && <ReplyList replies={replies} />}
       </TabWrapper>
     </VerticalContainer>
   );

@@ -37,6 +37,7 @@ export interface TeacherUser extends UserCommon {
 export type User = StudentUser | TeacherUser;
 
 export interface Reply {
+  id: string;
   content: string;
   tweet: string;
   author: UnionOmit<User, "replies" | "tweets">;

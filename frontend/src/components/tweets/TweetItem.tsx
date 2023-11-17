@@ -46,7 +46,7 @@ const TweetItem = ({ tweet }: { tweet: Tweet }) => (
     </RouterLink>
 
     <Body>
-      <HorizontalContainer $center>
+      <HorizontalContainer $center gap="0.5em">
         <FullName to={`/users/${tweet.author.id}`}>
           {tweet.author.fullName || "Twittur User"}
         </FullName>
@@ -61,7 +61,7 @@ const TweetItem = ({ tweet }: { tweet: Tweet }) => (
       <HorizontalContainer gap="0.5em">
         <IconButton icon={emptyHeart} label={tweet.likes} />
 
-        <IconButton icon={repliesIcon} label={0} />
+        <IconButton icon={repliesIcon} label={tweet.replyCount} />
 
         <IconButton icon={shareIcon} label={0} />
       </HorizontalContainer>

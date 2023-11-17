@@ -6,8 +6,7 @@ import emptyProfilePicture from "../../assets/images/empty-profile-picture.png";
 import Tabs from "./Tabs";
 
 const Wrapper = styled(VerticalContainer)`
-  border-top-right-radius: 10px;
-  border-top-left-radius: 10px;
+  border-radius: 10px;
   box-sizing: border-box;
   overflow: hidden;
   background: white;
