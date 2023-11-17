@@ -45,7 +45,7 @@ export interface EditUser {
 }
 
 export interface Credentials {
-  studentId: string;
+  username: string;
   password: string;
 }
 
@@ -93,7 +93,6 @@ export interface PopulatedReply {
 export interface TokenData {
   token: string;
   id: Types.ObjectId;
-  studentId: string;
   username: string;
 }
 

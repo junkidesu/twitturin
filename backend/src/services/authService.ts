@@ -2,13 +2,18 @@ import UserModel from "../models/user";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import env from "../utils/config";
-import { Credentials, NotFoundError, AuthError, TokenData } from "../types";
+import {
+  Credentials,
+  NotFoundError,
+  AuthError,
+  TokenData,
+} from "../types";
 
 const authenticate = async ({
-  studentId,
+  username,
   password,
 }: Credentials): Promise<TokenData> => {
-  const user = await UserModel.findOne({ studentId });
+  const user = await UserModel.findOne({ username });
 
   if (!user) throw new NotFoundError("user not found");
 
@@ -18,7 +23,6 @@ const authenticate = async ({
 
   const userForToken = {
     id: user._id.toString(),
-    studentId,
     username: user.username,
   };
 
@@ -27,7 +31,6 @@ const authenticate = async ({
   return {
     id: user._id,
     token,
-    studentId,
     username: user.username,
   };
 };

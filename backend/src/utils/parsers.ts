@@ -107,11 +107,11 @@ export const toCredentials = (object: unknown): Credentials => {
   if (!object || typeof object !== "object")
     throw new ParseError("Data missing or invalid");
 
-  if (!("studentId" in object)) throw new ParseError("studentId missing");
+  if (!("username" in object)) throw new ParseError("username missing");
   if (!("password" in object)) throw new ParseError("password missing");
 
   const credentials: Credentials = {
-    studentId: parseString(object.studentId, "studentId"),
+    username: parseString(object.username, "username"),
     password: parseString(object.password, "password"),
   };
 
