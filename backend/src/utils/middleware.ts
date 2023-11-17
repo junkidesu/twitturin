@@ -18,7 +18,9 @@ const extractUser = async (tokenData: unknown) => {
   if (!tokenData || typeof tokenData !== "object" || !("id" in tokenData))
     throw new AuthError("token missing or invalid");
 
-  const user = await UserModel.findById(tokenData.id);
+  const user = await UserModel.findById<User & { _id: Types.ObjectId }>(
+    tokenData.id
+  );
 
   if (!user) return undefined;
 
