@@ -24,7 +24,7 @@ const authSlice = createSlice({
 
 export default authSlice.reducer;
 
-export const { setCredentials } = authSlice.actions;
+export const { setCredentials, removeCredentials } = authSlice.actions;
 
 export const authenticate = (credentials: Credentials) => {
   return async (dispatch: AppDispatch) => {

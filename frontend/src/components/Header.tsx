@@ -3,6 +3,8 @@ import RouterLink from "./core/RouterLink";
 import HorizontalContainer from "./containers/HorizontalContainer";
 import Button from "./core/Button";
 import lightTheme from "../themes/lightTheme";
+import { useAppDispatch, useAppSelector } from "../hooks/store";
+import { removeCredentials } from "../reducers/authReducer";
 
 const AuthButton = styled(Button)`
   &:hover {
@@ -12,6 +14,11 @@ const AuthButton = styled(Button)`
 `;
 
 const AuthLinks = styled(HorizontalContainer)`
+  position: absolute;
+  right: 1em;
+`;
+
+const ProfileMenu = styled(HorizontalContainer)`
   position: absolute;
   right: 1em;
 `;
@@ -41,24 +48,43 @@ const LogoText = styled.div`
 `;
 
 const Header = () => {
+  const tokenData = useAppSelector(({ auth }) => auth.tokenData);
+  const dispatch = useAppDispatch();
+
+  const signOut = () => {
+    dispatch(removeCredentials());
+  };
+
   return (
     <HeaderContainer>
       <RouterLink to="/">
         <LogoText>Twittur</LogoText>
       </RouterLink>
 
-      <AuthLinks gap="1em">
-        <RouterLink to="/login">
-          <AuthButton $fg={lightTheme.colors.background} $bg="transparent">
-            Sign in
+      {tokenData ? (
+        <ProfileMenu>
+          <AuthButton
+            $fg={lightTheme.colors.background}
+            $bg="transparent"
+            onClick={signOut}
+          >
+            Logged in as {tokenData.username}
           </AuthButton>
-        </RouterLink>
-        <RouterLink to="sign-up/">
-          <AuthButton $fg={lightTheme.colors.background} $bg="transparent">
-            Sign up
-          </AuthButton>
-        </RouterLink>
-      </AuthLinks>
+        </ProfileMenu>
+      ) : (
+        <AuthLinks gap="1em">
+          <RouterLink to="/login">
+            <AuthButton $fg={lightTheme.colors.background} $bg="transparent">
+              Sign in
+            </AuthButton>
+          </RouterLink>
+          <RouterLink to="sign-up/">
+            <AuthButton $fg={lightTheme.colors.background} $bg="transparent">
+              Sign up
+            </AuthButton>
+          </RouterLink>
+        </AuthLinks>
+      )}
     </HeaderContainer>
   );
 };
