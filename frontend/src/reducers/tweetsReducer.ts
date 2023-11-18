@@ -16,12 +16,30 @@ const tweetsSlice = createSlice({
 
       return state.map((t) => (t.id !== tweet.id ? t : tweet));
     },
+    removeLike: (
+      state,
+      action: PayloadAction<{ id: string; userId: string }>
+    ) => {
+      const { id, userId } = action.payload;
+
+      const tweet = state.find((t) => t.id === id);
+
+      if (!tweet) return state;
+
+      const newTweet = {
+        ...tweet,
+        likedBy: tweet.likedBy.filter((u) => u.id !== userId),
+        likes: tweet.likes - 1,
+      };
+
+      return state.map((t) => (t.id !== id ? t : newTweet));
+    },
   },
 });
 
 export default tweetsSlice.reducer;
 
-export const { setTweet, setTweets } = tweetsSlice.actions;
+export const { setTweet, setTweets, removeLike } = tweetsSlice.actions;
 
 export const initializeTweets = () => async (dispatch: AppDispatch) => {
   const tweets: Tweet[] = await tweetsService.getAll();
@@ -39,3 +57,10 @@ export const likeTweet = (id: string) => async (dispatch: AppDispatch) => {
     console.error(error);
   }
 };
+
+export const unlikeTweet =
+  (id: string, userId: string) => async (dispatch: AppDispatch) => {
+    await tweetsService.removeLike(id, userId);
+
+    dispatch(removeLike({ id, userId }));
+  };

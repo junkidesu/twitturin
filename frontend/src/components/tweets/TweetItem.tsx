@@ -10,7 +10,8 @@ import HorizontalList from "../lists/HorizontalList";
 import IconButton from "../core/IconButton";
 import RouterLink from "../core/RouterLink";
 import { useAppDispatch, useAppSelector } from "../../hooks/store";
-import { likeTweet } from "../../reducers/tweetsReducer";
+import { likeTweet, unlikeTweet } from "../../reducers/tweetsReducer";
+import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled(HorizontalList)`
   background-color: white;
@@ -43,13 +44,22 @@ const Body = styled(VerticalList)`
 `;
 
 const TweetItem = ({ tweet }: { tweet: Tweet }) => {
+  const navigate = useNavigate();
   const userId = useAppSelector(({ auth }) => auth.tokenData?.id);
   const dispatch = useAppDispatch();
 
   const likedByMe = userId && tweet.likedBy.map((u) => u.id).includes(userId);
 
   const handleLike = async () => {
-    if (!likedByMe) dispatch(likeTweet(tweet.id));
+    if (!userId) {
+      navigate("/login");
+    } else {
+      if (!likedByMe) {
+        dispatch(likeTweet(tweet.id));
+      } else {
+        dispatch(unlikeTweet(tweet.id, userId));
+      }
+    }
   };
 
   return (

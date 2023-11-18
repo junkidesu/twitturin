@@ -29,4 +29,10 @@ const like = async (id: string): Promise<Tweet> => {
   return response.data;
 };
 
-export default { setToken, getAll, like };
+const removeLike = async (id: string, userId: string): Promise<void> => {
+  await axios.delete(`${baseUrl}/${id}/likes/${userId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
+export default { setToken, getAll, like, removeLike };
