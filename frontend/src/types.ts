@@ -56,3 +56,14 @@ export interface Tweet {
   likedBy: UnionOmit<User, "tweets" | "replies">[];
   replies: Reply[];
 }
+
+export interface Credentials {
+  username: string;
+  password: string;
+}
+
+export interface TokenData {
+  id: string;
+  token: string;
+  username: string;
+}
