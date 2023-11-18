@@ -4,10 +4,14 @@ import HorizontalList from "../../lists/HorizontalList";
 import RouterLink from "../../core/RouterLink";
 import emptyProfilePicture from "../../../assets/images/empty-profile-picture.png";
 import emptyHeart from "../../../assets/icons/heart.svg";
+import filledHeart from "../../../assets/icons/filledHeart.svg";
 import repliesIcon from "../../../assets/icons/replies.svg";
 import shareIcon from "../../../assets/icons/share.svg";
 import IconButton from "../../core/IconButton";
 import { Tweet } from "../../../types";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../../hooks/store";
+import { likeTweet, unlikeTweet } from "../../../reducers/tweetsReducer";
 
 const Wrapper = styled(HorizontalList)`
   background-color: white;
@@ -53,6 +57,28 @@ interface Props {
 }
 
 const TweetDetails = ({ tweet, setVisible }: Props) => {
+  const navigate = useNavigate();
+  const userId = useAppSelector(({ auth }) => auth.tokenData?.id);
+  const dispatch = useAppDispatch();
+
+  const likedByMe = userId && tweet.likedBy.map((u) => u.id).includes(userId);
+
+  const likeButtonLabel = `${tweet.likes} ${
+    tweet.likes === 1 ? "like" : "likes"
+  }`;
+
+  const handleLike = async () => {
+    if (!userId) {
+      navigate("/login");
+    } else {
+      if (!likedByMe) {
+        dispatch(likeTweet(tweet.id));
+      } else {
+        dispatch(unlikeTweet(tweet.id, userId));
+      }
+    }
+  };
+
   return (
     <Wrapper>
       <RouterLink to={`/users/${tweet.author.id}`}>
@@ -73,10 +99,19 @@ const TweetDetails = ({ tweet, setVisible }: Props) => {
         <Content>{tweet.content}</Content>
 
         <HorizontalList $gap="0.5em">
-          <IconButton
-            icon={emptyHeart}
-            label={`${tweet.likes} ${tweet.likes === 1 ? "like" : "likes"}`}
-          />
+          {likedByMe ? (
+            <IconButton
+              icon={filledHeart}
+              label={likeButtonLabel}
+              onClick={handleLike}
+            />
+          ) : (
+            <IconButton
+              icon={emptyHeart}
+              label={likeButtonLabel}
+              onClick={handleLike}
+            />
+          )}
           <IconButton
             icon={repliesIcon}
             onClick={() => setVisible(true)}
