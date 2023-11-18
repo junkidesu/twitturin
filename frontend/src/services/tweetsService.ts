@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Tweet } from "../types";
+import { NewTweet, Tweet } from "../types";
 
 const baseUrl = "/api/tweets";
 
@@ -11,6 +11,16 @@ const setToken = (t: string) => {
 
 const getAll = async (): Promise<Tweet[]> => {
   const response = await axios.get<Tweet[]>(baseUrl);
+
+  return response.data;
+};
+
+const add = async (newTweet: NewTweet): Promise<Tweet> => {
+  const response = await axios.post<Tweet>(baseUrl, newTweet, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   return response.data;
 };
@@ -35,4 +45,4 @@ const removeLike = async (id: string, userId: string): Promise<void> => {
   });
 };
 
-export default { setToken, getAll, like, removeLike };
+export default { setToken, getAll, add, like, removeLike };

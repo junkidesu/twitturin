@@ -14,6 +14,18 @@ const usersSlice = createSlice({
     addUser: (state, action: PayloadAction<User>) => {
       return state.concat(action.payload);
     },
+    appendTweetToUser: (state, action: PayloadAction<Tweet>) => {
+      const tweet = action.payload;
+      const userId = tweet.author.id;
+
+      const user = state.find((u) => u.id === userId);
+
+      if (!user) return state;
+
+      const updatedUser = { ...user, tweets: user.tweets.concat(tweet) };
+
+      return state.map((u) => (u.id !== userId ? u : updatedUser));
+    },
     setUserTweet: (state, action: PayloadAction<Tweet>) => {
       const tweet = action.payload;
 
@@ -35,7 +47,7 @@ const usersSlice = createSlice({
 
 export default usersSlice.reducer;
 
-export const { setUsers, addUser, setUserTweet } = usersSlice.actions;
+export const { setUsers, addUser, appendTweetToUser, setUserTweet } = usersSlice.actions;
 
 export const initializeUsers = () => async (dispatch: AppDispatch) => {
   const users = await usersService.getAll();

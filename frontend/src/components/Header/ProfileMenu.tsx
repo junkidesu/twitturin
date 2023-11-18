@@ -40,7 +40,13 @@ const ProfileMenuWrapper = styled(VerticalList)`
   }
 `;
 
-const ProfileMenu = ({ username }: { username: string }) => {
+const ProfileMenu = ({
+  username,
+  setVisible,
+}: {
+  username: string;
+  setVisible: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const dispatch = useAppDispatch();
 
   const handleSignOut = () => {
@@ -56,7 +62,7 @@ const ProfileMenu = ({ username }: { username: string }) => {
       </RouterLink>
 
       <OtherItems>
-        <MenuButton>New Tweet</MenuButton>
+        <MenuButton onClick={() => setVisible(true)}>New Tweet</MenuButton>
         <MenuButton>Edit profile</MenuButton>
         <MenuButton onClick={handleSignOut}>Sign out</MenuButton>
       </OtherItems>

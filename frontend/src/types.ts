@@ -71,3 +71,7 @@ export interface TokenData {
   token: string;
   username: string;
 }
+
+export interface NewTweet {
+  content: string;
+}
