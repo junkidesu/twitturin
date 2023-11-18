@@ -4,14 +4,15 @@ import lightTheme from "./themes/lightTheme";
 import GlobalStyle from "./utils/GlobalStyle";
 import Header from "./components/Header";
 import TweetList from "./components/tweets/TweetList";
-import { Tweet, User } from "./types";
+import { User } from "./types";
 import Modal from "./components/containers/Modal";
 import LoginForm from "./components/LoginForm";
 import SignUpForm from "./components/SignUpForm";
 import { Routes, Route } from "react-router-dom";
 import UserProfile from "./components/users/UserProfile";
 import usersService from "./services/usersService";
-import tweetsService from "./services/tweetsService";
+import { useAppDispatch, useAppSelector } from "./hooks/store";
+import { getAllTweets } from "./reducers/tweetsReducer";
 
 const PageWrapper = styled.div`
   margin: 0 auto;
@@ -19,26 +20,20 @@ const PageWrapper = styled.div`
 `;
 
 const App = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [tweets, setTweets] = useState<Tweet[]>([]);
+  const dispatch = useAppDispatch();
+  const tweets = useAppSelector(({ tweets }) => tweets);
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
-    const initializeTweets = async () => {
-      const tweets = await tweetsService.getAll();
-
-      setTweets(tweets);
-    };
-
     const initializeUsers = async () => {
       const users = await usersService.getAll();
 
       setUsers(users);
     };
 
-    void initializeTweets();
+    dispatch(getAllTweets());
     void initializeUsers();
-  }, []);
+  }, [dispatch]);
   return (
     <ThemeProvider theme={lightTheme}>
       <GlobalStyle />
