@@ -22,9 +22,8 @@ const LoginWrapper = styled(VerticalContainer)`
   border-radius: 15px;
   box-sizing: border-box;
   overflow: hidden;
-  background-color: ${(props) => props.theme.colors.background};
-  height: 500px;
-  width: 500px;
+  height: 400px;
+  width: 400px;
 `;
 
 const LoginForm = () => {

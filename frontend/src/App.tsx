@@ -5,17 +5,17 @@ import GlobalStyle from "./utils/GlobalStyle";
 import Header from "./components/Header";
 import TweetList from "./components/tweets/TweetList";
 import Modal from "./components/containers/Modal";
-import LoginForm from "./components/LoginForm";
 import SignUpForm from "./components/SignUpForm";
 import { Routes, Route } from "react-router-dom";
 import UserProfile from "./components/users/UserProfile";
 import { useAppDispatch, useAppSelector } from "./hooks/store";
 import { initializeTweets } from "./reducers/tweetsReducer";
 import { initializeUsers } from "./reducers/usersReducer";
+import LoginForm from "./components/LoginForm";
 
 const PageWrapper = styled.div`
   margin: 0 auto;
-  max-width: 40%;
+  width: fit-content;
 `;
 
 const App = () => {
@@ -37,22 +37,8 @@ const App = () => {
       <PageWrapper>
         <Routes>
           <Route path="/" element={<TweetList tweets={tweets} />} />
-          <Route
-            path="/login"
-            element={
-              <Modal>
-                <LoginForm />
-              </Modal>
-            }
-          />
-          <Route
-            path="/sign-up"
-            element={
-              <Modal>
-                <SignUpForm />
-              </Modal>
-            }
-          />
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/sign-up" element={<SignUpForm />} />
           <Route path="/users/:id" element={<UserProfile user={users[0]} />} />
         </Routes>
       </PageWrapper>

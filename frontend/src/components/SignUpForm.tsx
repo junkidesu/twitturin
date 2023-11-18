@@ -20,8 +20,7 @@ const SignUpWrapper = styled(VerticalContainer)`
   border-radius: 15px;
   box-sizing: border-box;
   overflow: hidden;
-  background-color: #eeeeee;
-  width: 500px;
+  width: 400px;
 `;
 
 const majors = Object.values(Major).map((m) => m.toString());
@@ -38,16 +37,14 @@ const SignUpForm = () => {
       <LogoText>Join Twittur today</LogoText>
 
       <form onSubmit={(e) => e.preventDefault()}>
-        <VerticalContainer>
+        <VerticalContainer gap="1em">
           <Input {...studentId} required />
           <Input {...username} required />
           <Select options={majors} {...major} />
           <Input {...password} required />
           <Input {...email} required />
 
-          <Button $rounded>
-            Sign Up
-          </Button>
+          <Button $rounded>Sign Up</Button>
         </VerticalContainer>
       </form>
     </SignUpWrapper>
