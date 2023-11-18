@@ -17,7 +17,7 @@ export default tweetsSlice.reducer;
 
 export const { setTweets } = tweetsSlice.actions;
 
-export const getAllTweets = () => async (dispatch: AppDispatch) => {
+export const initializeTweets = () => async (dispatch: AppDispatch) => {
   const tweets: Tweet[] = await tweetsService.getAll();
 
   dispatch(setTweets(tweets));

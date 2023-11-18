@@ -1,18 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import lightTheme from "./themes/lightTheme";
 import GlobalStyle from "./utils/GlobalStyle";
 import Header from "./components/Header";
 import TweetList from "./components/tweets/TweetList";
-import { User } from "./types";
 import Modal from "./components/containers/Modal";
 import LoginForm from "./components/LoginForm";
 import SignUpForm from "./components/SignUpForm";
 import { Routes, Route } from "react-router-dom";
 import UserProfile from "./components/users/UserProfile";
-import usersService from "./services/usersService";
 import { useAppDispatch, useAppSelector } from "./hooks/store";
-import { getAllTweets } from "./reducers/tweetsReducer";
+import { initializeTweets } from "./reducers/tweetsReducer";
+import { initializeUsers } from "./reducers/usersReducer";
 
 const PageWrapper = styled.div`
   margin: 0 auto;
@@ -22,18 +21,13 @@ const PageWrapper = styled.div`
 const App = () => {
   const dispatch = useAppDispatch();
   const tweets = useAppSelector(({ tweets }) => tweets);
-  const [users, setUsers] = useState<User[]>([]);
+  const users = useAppSelector(({ users }) => users);
 
   useEffect(() => {
-    const initializeUsers = async () => {
-      const users = await usersService.getAll();
-
-      setUsers(users);
-    };
-
-    dispatch(getAllTweets());
-    void initializeUsers();
+    dispatch(initializeTweets());
+    dispatch(initializeUsers());
   }, [dispatch]);
+
   return (
     <ThemeProvider theme={lightTheme}>
       <GlobalStyle />
