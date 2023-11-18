@@ -56,12 +56,14 @@ const TweetItem = ({ tweet }: { tweet: Tweet }) => (
         </Username>
       </HorizontalList>
 
-      <div>{tweet.content}</div>
+      <RouterLink to={`/tweets/${tweet.id}`}>{tweet.content}</RouterLink>
 
       <HorizontalList $gap="0.5em">
         <IconButton icon={emptyHeart} label={tweet.likes} />
 
-        <IconButton icon={repliesIcon} label={tweet.replyCount} />
+        <RouterLink to={`/tweets/${tweet.id}`}>
+          <IconButton icon={repliesIcon} label={tweet.replyCount} />
+        </RouterLink>
 
         <IconButton icon={shareIcon} label={0} />
       </HorizontalList>

@@ -12,6 +12,7 @@ import { initializeTweets } from "./reducers/tweetsReducer";
 import { initializeUsers } from "./reducers/usersReducer";
 import LoginForm from "./components/LoginForm";
 import PageWrapper from "./components/PageWrapper";
+import TweetPage from "./components/tweets/TweetPage";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -34,6 +35,7 @@ const App = () => {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/sign-up" element={<SignUpForm />} />
           <Route path="/users/:id" element={<UserProfile />} />
+          <Route path="/tweets/:id" element={<TweetPage />} />
         </Routes>
       </PageWrapper>
     </ThemeProvider>
