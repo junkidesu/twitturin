@@ -4,9 +4,12 @@ import HorizontalContainer from "./containers/HorizontalContainer";
 import useField from "../hooks/useField";
 import Input from "./core/Input";
 import Button from "./core/Button";
-import { Major } from "../types";
+import { Major, SignUpFormValues } from "../types";
 import Select from "./core/Select";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../hooks/store";
+import { signUp } from "../reducers/usersReducer";
 
 const LogoText = styled.p`
   color: teal;
@@ -51,9 +54,44 @@ const SignUpForm = () => {
   const studentId = useField("text", "StudentID");
   const username = useField("text", "Username");
   const password = useField("password", "Password");
-  const major = useField(undefined, "Major");
+  const major = useField(undefined, "Major", majors[0]);
   const subject = useField("text", "Subject");
   const email = useField("email", "Email");
+
+  const token = useAppSelector(({ auth }) => auth.tokenData?.token);
+
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (token) navigate("/");
+  }, [token, navigate]);
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const common = {
+      username: username.value,
+      password: password.value,
+      email: email.value,
+    };
+
+    const toSignUp: SignUpFormValues =
+      kind === "student"
+        ? {
+            ...common,
+            kind,
+            studentId: studentId.value,
+            major: major.value as Major,
+          }
+        : {
+            ...common,
+            kind,
+            subject: subject.value,
+          };
+
+    dispatch(signUp(toSignUp));
+  };
 
   return (
     <SignUpWrapper gap="2em" $center>
@@ -74,7 +112,7 @@ const SignUpForm = () => {
         </ChooseKindButton>
       </HorizontalContainer>
 
-      <form onSubmit={(e) => e.preventDefault()}>
+      <form onSubmit={onSubmit}>
         <VerticalContainer gap="1em">
           <Input {...username} required />
           {kind === "student" && (

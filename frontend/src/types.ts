@@ -36,6 +36,10 @@ export interface TeacherUser extends UserCommon {
 
 export type User = StudentUser | TeacherUser;
 
+export type SignUpFormValues = UnionOmit<User, "id" | "tweets" | "replies"> & {
+  password: string;
+};
+
 export interface Reply {
   id: string;
   content: string;

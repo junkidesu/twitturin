@@ -1,15 +1,18 @@
 import styled from "styled-components";
 import VerticalContainer from "../containers/VerticalContainer";
-import { User } from "../../types";
 import RouterLink from "../core/RouterLink";
 import emptyProfilePicture from "../../assets/images/empty-profile-picture.png";
 import Tabs from "./Tabs";
+import { useParams } from "react-router-dom";
+import { useAppSelector } from "../../hooks/store";
+import { User } from "../../types";
 
 const Wrapper = styled(VerticalContainer)`
   border-radius: 10px;
   box-sizing: border-box;
   overflow: hidden;
   background: white;
+  width: 600px;
 `;
 
 const Banner = styled.div`
@@ -43,7 +46,12 @@ const Username = styled(RouterLink)`
   color: ${(props) => props.theme.colors.grey2};
 `;
 
-const UserProfile = ({ user }: { user?: User }) => {
+const UserProfile = () => {
+  const id: string | undefined = useParams().id;
+  const users: User[] = useAppSelector(({ users }) => users);
+
+  const user: User | undefined = users.find((u) => u.id === id);
+
   if (!user) return <div>loading...</div>;
 
   return (
