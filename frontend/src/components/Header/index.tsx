@@ -1,25 +1,14 @@
 import styled from "styled-components";
-import RouterLink from "./core/RouterLink";
-import HorizontalList from "./lists/HorizontalList";
-import Button from "./core/Button";
-import lightTheme from "../themes/lightTheme";
-import { useAppDispatch, useAppSelector } from "../hooks/store";
-import { removeCredentials } from "../reducers/authReducer";
+import RouterLink from "../core/RouterLink";
+import HorizontalList from "../lists/HorizontalList";
+import AuthButton from "./AuthButton";
+import lightTheme from "../../themes/lightTheme";
+import ProfileMenu from "./ProfileMenu";
+import { useAppSelector } from "../../hooks/store";
 
-const AuthButton = styled(Button)`
-  &:hover {
-    background-color: ${(props) => props.$fg};
-    color: slategray;
-  }
-`;
-
-const AuthLinks = styled(HorizontalList)`
+const RightCorner = styled(HorizontalList)`
   position: absolute;
-  right: 1em;
-`;
-
-const ProfileMenu = styled(HorizontalList)`
-  position: absolute;
+  top: 0.7em;
   right: 1em;
 `;
 
@@ -27,8 +16,7 @@ const HeaderContainer = styled.header`
   position: sticky;
   top: 0;
   display: flex;
-  justify-items: center;
-  align-items: center;
+  flex-direction: row;
   justify-content: center;
   background: linear-gradient(45deg, #40e0d0bb, #008080bb, #708090bb);
   padding: 1em;
@@ -48,12 +36,7 @@ const LogoText = styled.div`
 `;
 
 const Header = () => {
-  const tokenData = useAppSelector(({ auth }) => auth.tokenData);
-  const dispatch = useAppDispatch();
-
-  const signOut = () => {
-    dispatch(removeCredentials());
-  };
+  const username = useAppSelector(({ auth }) => auth.tokenData?.username);
 
   return (
     <HeaderContainer>
@@ -61,18 +44,10 @@ const Header = () => {
         <LogoText>Twittur</LogoText>
       </RouterLink>
 
-      {tokenData ? (
-        <ProfileMenu>
-          <AuthButton
-            $fg={lightTheme.colors.background}
-            $bg="transparent"
-            onClick={signOut}
-          >
-            Logged in as {tokenData.username}
-          </AuthButton>
-        </ProfileMenu>
+      {username ? (
+        <ProfileMenu username={username} />
       ) : (
-        <AuthLinks $gap="1em">
+        <RightCorner $gap="1em">
           <RouterLink to="/login">
             <AuthButton $fg={lightTheme.colors.background} $bg="transparent">
               Sign in
@@ -83,7 +58,7 @@ const Header = () => {
               Sign up
             </AuthButton>
           </RouterLink>
-        </AuthLinks>
+        </RightCorner>
       )}
     </HeaderContainer>
   );

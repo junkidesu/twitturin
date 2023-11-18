@@ -36,6 +36,11 @@ const App = () => {
           <Route path="/sign-up" element={<SignUpForm />} />
           <Route path="/users/:id" element={<UserProfile />} />
           <Route path="/tweets/:id" element={<TweetPage />} />
+          <Route path="/me" element={<div>current user page [TODO]</div>} />
+          <Route
+            path="/me/edit"
+            element={<div>edit profile page [TODO]</div>}
+          />
         </Routes>
       </PageWrapper>
     </ThemeProvider>
