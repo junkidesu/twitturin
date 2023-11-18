@@ -41,7 +41,7 @@ const Body = styled(VerticalList)`
 
 const ReplyItem = ({ reply }: Props) => {
   return (
-    <Wrapper>
+    <Wrapper id={reply.id}>
       <RouterLink to={`/users/${reply.author.id}`}>
         <ProfilePicture src={emptyProfilePicture} />
       </RouterLink>
@@ -57,7 +57,9 @@ const ReplyItem = ({ reply }: Props) => {
           </Username>
         </HorizontalList>
 
-        <div>{reply.content}</div>
+        <RouterLink to={`/tweets/${reply.tweet}/#${reply.id}`}>
+          {reply.content}
+        </RouterLink>
       </Body>
     </Wrapper>
   );
