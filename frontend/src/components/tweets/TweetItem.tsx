@@ -2,12 +2,15 @@ import styled from "styled-components";
 import { Tweet } from "../../types";
 import emptyProfilePicture from "../../assets/images/empty-profile-picture.png";
 import emptyHeart from "../../assets/icons/heart.svg";
+import filledHeart from "../../assets/icons/filledHeart.svg";
 import repliesIcon from "../../assets/icons/replies.svg";
 import shareIcon from "../../assets/icons/share.svg";
 import VerticalList from "../lists/VerticalList";
 import HorizontalList from "../lists/HorizontalList";
 import IconButton from "../core/IconButton";
 import RouterLink from "../core/RouterLink";
+import { useAppDispatch, useAppSelector } from "../../hooks/store";
+import { likeTweet } from "../../reducers/tweetsReducer";
 
 const Wrapper = styled(HorizontalList)`
   background-color: white;
@@ -39,36 +42,59 @@ const Body = styled(VerticalList)`
   gap: 1em;
 `;
 
-const TweetItem = ({ tweet }: { tweet: Tweet }) => (
-  <Wrapper>
-    <RouterLink to={`/users/${tweet.author.id}`}>
-      <ProfilePicture src={emptyProfilePicture} />
-    </RouterLink>
+const TweetItem = ({ tweet }: { tweet: Tweet }) => {
+  const userId = useAppSelector(({ auth }) => auth.tokenData?.id);
+  const dispatch = useAppDispatch();
 
-    <Body>
-      <HorizontalList $center $gap="0.5em">
-        <FullName to={`/users/${tweet.author.id}`}>
-          {tweet.author.fullName || "Twittur User"}
-        </FullName>
+  const likedByMe = userId && tweet.likedBy.map((u) => u.id).includes(userId);
 
-        <Username to={`/users/${tweet.author.id}`}>
-          @{tweet.author.username}
-        </Username>
-      </HorizontalList>
+  const handleLike = async () => {
+    if (!likedByMe) dispatch(likeTweet(tweet.id));
+  };
 
-      <RouterLink to={`/tweets/${tweet.id}`}>{tweet.content}</RouterLink>
+  return (
+    <Wrapper>
+      <RouterLink to={`/users/${tweet.author.id}`}>
+        <ProfilePicture src={emptyProfilePicture} />
+      </RouterLink>
 
-      <HorizontalList $gap="0.5em">
-        <IconButton icon={emptyHeart} label={tweet.likes} />
+      <Body>
+        <HorizontalList $center $gap="0.5em">
+          <FullName to={`/users/${tweet.author.id}`}>
+            {tweet.author.fullName || "Twittur User"}
+          </FullName>
 
-        <RouterLink to={`/tweets/${tweet.id}`}>
-          <IconButton icon={repliesIcon} label={tweet.replyCount} />
-        </RouterLink>
+          <Username to={`/users/${tweet.author.id}`}>
+            @{tweet.author.username}
+          </Username>
+        </HorizontalList>
 
-        <IconButton icon={shareIcon} label={0} />
-      </HorizontalList>
-    </Body>
-  </Wrapper>
-);
+        <RouterLink to={`/tweets/${tweet.id}`}>{tweet.content}</RouterLink>
+
+        <HorizontalList $gap="0.5em">
+          {likedByMe ? (
+            <IconButton
+              icon={filledHeart}
+              label={tweet.likes}
+              onClick={handleLike}
+            />
+          ) : (
+            <IconButton
+              icon={emptyHeart}
+              label={tweet.likes}
+              onClick={handleLike}
+            />
+          )}
+
+          <RouterLink to={`/tweets/${tweet.id}`}>
+            <IconButton icon={repliesIcon} label={tweet.replyCount} />
+          </RouterLink>
+
+          <IconButton icon={shareIcon} label={0} />
+        </HorizontalList>
+      </Body>
+    </Wrapper>
+  );
+};
 
 export default TweetItem;

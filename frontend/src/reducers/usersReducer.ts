@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { SignUpFormValues, User } from "../types";
+import { SignUpFormValues, Tweet, User } from "../types";
 import { AppDispatch } from "../store";
 import usersService from "../services/usersService";
 import { authenticate } from "./authReducer";
@@ -14,12 +14,28 @@ const usersSlice = createSlice({
     addUser: (state, action: PayloadAction<User>) => {
       return state.concat(action.payload);
     },
+    setUserTweet: (state, action: PayloadAction<Tweet>) => {
+      const tweet = action.payload;
+
+      const userId = tweet.author.id;
+
+      const user = state.find((u) => u.id === userId);
+
+      if (!user) return state;
+
+      const newUser = {
+        ...user,
+        tweets: user.tweets.map((t) => (t.id !== tweet.id ? t : tweet)),
+      };
+
+      return state.map((u) => (u.id !== userId ? u : newUser));
+    },
   },
 });
 
 export default usersSlice.reducer;
 
-export const { setUsers, addUser } = usersSlice.actions;
+export const { setUsers, addUser, setUserTweet } = usersSlice.actions;
 
 export const initializeUsers = () => async (dispatch: AppDispatch) => {
   const users = await usersService.getAll();
