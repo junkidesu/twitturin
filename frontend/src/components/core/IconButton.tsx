@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import HorizontalContainer from "../containers/HorizontalContainer";
+import HorizontalList from "../lists/HorizontalList";
 import Icon from "./Icon";
 
-const ButtonWrapper = styled(HorizontalContainer)`
+const ButtonWrapper = styled(HorizontalList)`
   width: fit-content;
   border-radius: 5px;
   box-sizing: border-box;
@@ -40,7 +40,7 @@ const IconButton = ({
   }
 
   return (
-    <ButtonWrapper gap="0.3em" $center onClick={onClick} className={className}>
+    <ButtonWrapper $gap="0.3em" $center onClick={onClick} className={className}>
       <Icon src={icon} />
       <Label>{label}</Label>
     </ButtonWrapper>

@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import VerticalContainer from "./VerticalContainer";
+import VerticalList from "./VerticalList";
 import IconButton from "../core/IconButton";
 import closeIcon from "../../assets/icons/close.svg";
 import { useNavigate } from "react-router-dom";
 
-const ModalWrapper = styled(VerticalContainer)`
+const ModalWrapper = styled(VerticalList)`
   justify-content: space-around;
   position: fixed;
   background-color: #555555cc;

@@ -4,17 +4,17 @@ import emptyProfilePicture from "../../assets/images/empty-profile-picture.png";
 import emptyHeart from "../../assets/icons/heart.svg";
 import repliesIcon from "../../assets/icons/replies.svg";
 import shareIcon from "../../assets/icons/share.svg";
-import VerticalContainer from "../containers/VerticalContainer";
-import HorizontalContainer from "../containers/HorizontalContainer";
+import VerticalList from "../lists/VerticalList";
+import HorizontalList from "../lists/HorizontalList";
 import IconButton from "../core/IconButton";
 import RouterLink from "../core/RouterLink";
 
-const Wrapper = styled(HorizontalContainer)`
-  display: flex;
+const Wrapper = styled(HorizontalList)`
   background-color: white;
   border: 2px solid ${(props) => props.theme.colors.grey4};
   border-radius: 5px;
   padding: 1em;
+  min-width: 500px;
 `;
 
 const FullName = styled(RouterLink)`
@@ -34,7 +34,7 @@ const ProfilePicture = styled.img`
   border-radius: 10em;
 `;
 
-const Body = styled(VerticalContainer)`
+const Body = styled(VerticalList)`
   padding-left: 1em;
   gap: 1em;
 `;
@@ -46,7 +46,7 @@ const TweetItem = ({ tweet }: { tweet: Tweet }) => (
     </RouterLink>
 
     <Body>
-      <HorizontalContainer $center gap="0.5em">
+      <HorizontalList $center $gap="0.5em">
         <FullName to={`/users/${tweet.author.id}`}>
           {tweet.author.fullName || "Twittur User"}
         </FullName>
@@ -54,17 +54,17 @@ const TweetItem = ({ tweet }: { tweet: Tweet }) => (
         <Username to={`/users/${tweet.author.id}`}>
           @{tweet.author.username}
         </Username>
-      </HorizontalContainer>
+      </HorizontalList>
 
       <div>{tweet.content}</div>
 
-      <HorizontalContainer gap="0.5em">
+      <HorizontalList $gap="0.5em">
         <IconButton icon={emptyHeart} label={tweet.likes} />
 
         <IconButton icon={repliesIcon} label={tweet.replyCount} />
 
         <IconButton icon={shareIcon} label={0} />
-      </HorizontalContainer>
+      </HorizontalList>
     </Body>
   </Wrapper>
 );

@@ -1,8 +1,9 @@
 import styled from "styled-components";
-import VerticalContainer from "./containers/VerticalContainer";
+import VerticalList from "./lists/VerticalList";
 import useField from "../hooks/useField";
 import Button from "./core/Button";
 import Input from "./core/Input";
+import Form from "./core/Form";
 import { authenticate } from "../reducers/authReducer";
 import { useAppDispatch, useAppSelector } from "../hooks/store";
 import { useNavigate } from "react-router-dom";
@@ -14,16 +15,6 @@ const LogoText = styled.p`
   font-weight: bold;
   font-size: 2em;
   transition: 0.3s;
-`;
-
-const LoginWrapper = styled(VerticalContainer)`
-  justify-content: center;
-  padding: 1em;
-  border-radius: 15px;
-  box-sizing: border-box;
-  overflow: hidden;
-  height: 400px;
-  width: 400px;
 `;
 
 const LoginForm = () => {
@@ -46,19 +37,17 @@ const LoginForm = () => {
   };
 
   return (
-    <LoginWrapper gap="2em" $center>
+    <VerticalList $gap="2em" $center>
       <LogoText>Log in to Twittur</LogoText>
 
-      <form onSubmit={onSubmit}>
-        <VerticalContainer gap="1em">
+      <Form onSubmit={onSubmit}>
           <Input {...username} required />
 
           <Input {...password} required />
 
           <Button $rounded>Log in</Button>
-        </VerticalContainer>
-      </form>
-    </LoginWrapper>
+      </Form>
+    </VerticalList>
   );
 };
 

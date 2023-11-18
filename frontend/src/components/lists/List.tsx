@@ -1,15 +1,15 @@
 import styled from "styled-components";
 
-interface ContainerProps {
+interface Props {
   orientation?: "vertical" | "horizontal";
-  gap?: string | number;
+  $gap?: string | number;
   $center?: boolean;
 }
 
-const ListContainer = styled.div<ContainerProps>`
+const List = styled.div<Props>`
   display: flex;
   align-items: ${(props) => (props.$center ? "center" : "none")};
-  gap: ${(props) => props.gap || "0"};
+  gap: ${(props) => props.$gap || "0"};
 `;
 
-export default ListContainer;
+export default List;

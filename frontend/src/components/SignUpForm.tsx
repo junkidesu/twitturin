@@ -1,9 +1,10 @@
 import styled from "styled-components";
-import VerticalContainer from "./containers/VerticalContainer";
-import HorizontalContainer from "./containers/HorizontalContainer";
+import VerticalList from "./lists/VerticalList";
+import HorizontalList from "./lists/HorizontalList";
 import useField from "../hooks/useField";
 import Input from "./core/Input";
 import Button from "./core/Button";
+import Form from "./core/Form";
 import { Major, SignUpFormValues } from "../types";
 import Select from "./core/Select";
 import { useState, useEffect } from "react";
@@ -19,24 +20,16 @@ const LogoText = styled.p`
   transition: 0.3s;
 `;
 
-const SignUpWrapper = styled(VerticalContainer)`
-  justify-content: center;
-  padding: 1em;
-  border-radius: 15px;
-  box-sizing: border-box;
-  overflow: hidden;
-  width: 600px;
-`;
-
-const ChooseKindButton = styled.button<{ $active: boolean }>`
+const KindButton = styled.button<{ $active: boolean }>`
   width: 100%;
   color: ${(props) =>
     props.$active ? props.theme.colors.primary : props.theme.colors.grey2};
   padding: 0.7em;
   font-size: ${(props) => props.theme.fontSizes.medium};
-  background-color: transparent;
+  background-color: ${(props) =>
+    props.$active ? props.theme.colors.grey4 : "transparent"};
   border: none;
-  border-radius: 0px;
+  border-radius: ${(props) => (props.$active ? "10px" : "0px")};
   transition: 0.2s;
 
   &:hover {
@@ -53,6 +46,7 @@ const SignUpForm = () => {
   const [kind, setKind] = useState<Kind>("student");
   const studentId = useField("text", "StudentID");
   const username = useField("text", "Username");
+  const fullName = useField("text", "Full Name");
   const password = useField("password", "Password");
   const major = useField(undefined, "Major", majors[0]);
   const subject = useField("text", "Subject");
@@ -94,45 +88,46 @@ const SignUpForm = () => {
   };
 
   return (
-    <SignUpWrapper gap="2em" $center>
+    <VerticalList $gap="2em" $center>
       <LogoText>Join Twittur Today!</LogoText>
 
-      <HorizontalContainer>
-        <ChooseKindButton
+      <HorizontalList style={{ width: "100%" }}>
+        <KindButton
           $active={kind === "student"}
           onClick={() => setKind("student")}
         >
           Student
-        </ChooseKindButton>
-        <ChooseKindButton
+        </KindButton>
+        <KindButton
           $active={kind === "teacher"}
           onClick={() => setKind("teacher")}
         >
           Teacher
-        </ChooseKindButton>
-      </HorizontalContainer>
+        </KindButton>
+      </HorizontalList>
 
-      <form onSubmit={onSubmit}>
-        <VerticalContainer gap="1em">
-          <Input {...username} required />
-          {kind === "student" && (
-            <>
-              <Input {...studentId} required />
-              <Select options={majors} {...major} />
-            </>
-          )}
-          {kind === "teacher" && (
-            <>
-              <Input {...subject} />
-            </>
-          )}
-          <Input {...password} required />
-          <Input {...email} required />
+      <Form onSubmit={onSubmit}>
+        <Input {...username} required />
+        <Input {...email} required />
+        <Input {...fullName} />
 
-          <Button $rounded>Sign Up</Button>
-        </VerticalContainer>
-      </form>
-    </SignUpWrapper>
+        {kind === "student" && (
+          <>
+            <Input {...studentId} required />
+            <Select options={majors} {...major} />
+          </>
+        )}
+        {kind === "teacher" && (
+          <>
+            <Input {...subject} />
+          </>
+        )}
+
+        <Input {...password} required />
+
+        <Button $rounded>Sign Up</Button>
+      </Form>
+    </VerticalList>
   );
 };
 

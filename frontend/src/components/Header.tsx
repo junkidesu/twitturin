@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import RouterLink from "./core/RouterLink";
-import HorizontalContainer from "./containers/HorizontalContainer";
+import HorizontalList from "./lists/HorizontalList";
 import Button from "./core/Button";
 import lightTheme from "../themes/lightTheme";
 import { useAppDispatch, useAppSelector } from "../hooks/store";
@@ -13,12 +13,12 @@ const AuthButton = styled(Button)`
   }
 `;
 
-const AuthLinks = styled(HorizontalContainer)`
+const AuthLinks = styled(HorizontalList)`
   position: absolute;
   right: 1em;
 `;
 
-const ProfileMenu = styled(HorizontalContainer)`
+const ProfileMenu = styled(HorizontalList)`
   position: absolute;
   right: 1em;
 `;
@@ -72,7 +72,7 @@ const Header = () => {
           </AuthButton>
         </ProfileMenu>
       ) : (
-        <AuthLinks gap="1em">
+        <AuthLinks $gap="1em">
           <RouterLink to="/login">
             <AuthButton $fg={lightTheme.colors.background} $bg="transparent">
               Sign in

@@ -1,14 +1,14 @@
 import { Tweet } from "../../types";
 import TweetItem from "./TweetItem";
-import VerticalContainer from "../containers/VerticalContainer";
+import VerticalList from "../lists/VerticalList";
 
 const TweetList = ({ tweets }: { tweets: Tweet[] }) => {
   return (
-    <VerticalContainer gap="0.5em">
+    <VerticalList $gap="0.5em">
       {tweets.map((t) => (
         <TweetItem key={t.id} tweet={t} />
       ))}
-    </VerticalContainer>
+    </VerticalList>
   );
 };
 

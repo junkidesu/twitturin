@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { ThemeProvider } from "styled-components";
 import lightTheme from "./themes/lightTheme";
-import GlobalStyle from "./utils/GlobalStyle";
+import GlobalStyle from "./themes/GlobalStyle";
 import Header from "./components/Header";
 import TweetList from "./components/tweets/TweetList";
 import SignUpForm from "./components/SignUpForm";

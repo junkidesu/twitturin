@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
-import VerticalContainer from "../containers/VerticalContainer";
-import HorizontalContainer from "../containers/HorizontalContainer";
+import VerticalList from "../lists/VerticalList";
+import HorizontalList from "../lists/HorizontalList";
 import TweetList from "../tweets/TweetList";
 import ReplyList from "../replies/ReplyList";
 import { Reply, Tweet } from "../../types";
@@ -23,7 +23,7 @@ const NavButton = styled.button<{ $active: boolean }>`
   }
 `;
 
-const TabWrapper = styled(VerticalContainer)`
+const TabWrapper = styled(VerticalList)`
   padding: 1em;
 `;
 
@@ -36,8 +36,8 @@ const Tabs = ({ tweets, replies }: Props) => {
   const [active, setActive] = useState<"tweets" | "replies">("tweets");
 
   return (
-    <VerticalContainer gap="0.5em">
-      <HorizontalContainer>
+    <VerticalList $gap="0.5em">
+      <HorizontalList>
         <NavButton
           $active={active === "tweets"}
           onClick={() => setActive("tweets")}
@@ -50,14 +50,14 @@ const Tabs = ({ tweets, replies }: Props) => {
         >
           Replies
         </NavButton>
-      </HorizontalContainer>
+      </HorizontalList>
 
       <TabWrapper>
         {active === "tweets" && <TweetList tweets={tweets} />}
 
         {active === "replies" && <ReplyList replies={replies} />}
       </TabWrapper>
-    </VerticalContainer>
+    </VerticalList>
   );
 };
 

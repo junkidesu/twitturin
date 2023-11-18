@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import VerticalContainer from "../containers/VerticalContainer";
+import VerticalList from "../lists/VerticalList";
 import RouterLink from "../core/RouterLink";
 import emptyProfilePicture from "../../assets/images/empty-profile-picture.png";
 import Tabs from "./Tabs";
@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import { useAppSelector } from "../../hooks/store";
 import { User } from "../../types";
 
-const Wrapper = styled(VerticalContainer)`
+const Wrapper = styled(VerticalList)`
   border-radius: 10px;
   box-sizing: border-box;
   overflow: hidden;
@@ -17,11 +17,11 @@ const Wrapper = styled(VerticalContainer)`
 
 const Banner = styled.div`
   position: relative;
-  height: 200px;
-  background: linear-gradient(45deg, teal, violet);
+  height: 170px;
+  background: linear-gradient(45deg, teal, turquoise);
 `;
 
-const UserDetails = styled(VerticalContainer)`
+const UserDetails = styled(VerticalList)`
   padding: 1em;
 `;
 
@@ -55,16 +55,16 @@ const UserProfile = () => {
   if (!user) return <div>loading...</div>;
 
   return (
-    <Wrapper gap="1.5em">
+    <Wrapper $gap="1.5em">
       <Banner>
         <ProfilePicture src={emptyProfilePicture} />
       </Banner>
 
-      <UserDetails gap="1em">
-        <VerticalContainer>
+      <UserDetails $gap="1em">
+        <VerticalList>
           <FullName to={`/users/${user.id}`}>{user.fullName}</FullName>
           <Username to={`/users/${user.id}`}>@{user.username}</Username>
-        </VerticalContainer>
+        </VerticalList>
       </UserDetails>
 
       <Tabs tweets={user.tweets} replies={user.replies} />
