@@ -12,9 +12,10 @@ const NavButton = styled.button<{ $active: boolean }>`
     props.$active ? props.theme.colors.primary : props.theme.colors.grey2};
   padding: 0.7em;
   font-size: ${(props) => props.theme.fontSizes.medium};
-  background-color: white;
+  background-color: ${(props) =>
+    props.$active ? props.theme.colors.grey4 : "white"};
   border: none;
-  border-radius: 0px;
+  border-radius: ${(props) => (props.$active ? "10px" : "0")};
   transition: 0.2s;
 
   &:hover {

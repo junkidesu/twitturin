@@ -10,6 +10,10 @@ const TextArea = styled.textarea`
   color: ${(props) => props.theme.colors.grey1};
   font-size: ${(props) => props.theme.fontSizes.medium};
   resize: none;
+
+  &:focus {
+    border-color: ${(props) => props.theme.colors.secondary};
+  }
 `;
 
 export default TextArea;

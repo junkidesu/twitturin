@@ -5,7 +5,9 @@ const Placeholder = styled.span<{ $empty?: boolean }>`
   left: 0.5em;
   top: ${(props) => (props.$empty ? "" : "0.5em")};
   font-size: ${(props) =>
-    props.$empty ? props.theme.fontSizes.medium : props.theme.fontSizes.extraSmall};
+    props.$empty
+      ? props.theme.fontSizes.medium
+      : props.theme.fontSizes.extraSmall};
   color: ${(props) => props.theme.colors.grey2};
   user-select: none;
   transition: 0.1s;
@@ -16,7 +18,7 @@ const InputField = styled.input`
   outline: none;
   border: none;
   color: inherit;
-  font-size: ${props => props.theme.fontSizes.medium};
+  font-size: ${(props) => props.theme.fontSizes.medium};
   padding: 0.5em;
   margin-top: 1em;
   background: transparent;
@@ -54,11 +56,12 @@ interface InputProps {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   type?: string;
   required?: boolean;
+  className?: string;
 }
 
 const Input = (props: InputProps) => {
   return (
-    <InputWrapper>
+    <InputWrapper className={props.className}>
       <InputField {...props} placeholder={undefined} />
 
       <Placeholder $empty={props.value === ""}>{props.placeholder}</Placeholder>

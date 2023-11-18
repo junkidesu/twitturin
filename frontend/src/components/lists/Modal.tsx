@@ -12,7 +12,7 @@ const ModalWrapper = styled(VerticalList)`
   top: 0;
   bottom: 0;
   z-index: 1000;
-  backdrop-filter: blur(3px);
+  backdrop-filter: blur(1px);
 `;
 
 const CloseButton = styled(IconButton)`
