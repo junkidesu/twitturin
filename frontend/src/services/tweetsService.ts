@@ -56,50 +56,53 @@ export const tweetsApi = api.injectEndpoints({
         url: `tweets/${id}/likes/${userId}`,
         method: "DELETE",
       }),
-      async onQueryStarted({ id, userId }, { dispatch }) {
+      async onQueryStarted({ id, userId }, { dispatch, queryFulfilled }) {
+        const patchResult1 = dispatch(
+          tweetsApi.util.updateQueryData("getTweets", undefined, (draft) => {
+            const tweet = draft.find((t) => t.id === id);
+
+            if (!tweet) return draft;
+
+            const newTweet = {
+              ...tweet,
+              likedBy: tweet.likedBy.filter((u) => u.id !== userId),
+              likes: tweet.likes - 1,
+            };
+
+            return draft.map((t) => (t.id !== id ? t : newTweet));
+          })
+        );
+
+        const patchResult2 = dispatch(
+          usersApi.util.updateQueryData("getUsers", undefined, (draft) => {
+            const user = draft.find((u) => u.id === userId);
+
+            if (!user) return draft;
+
+            const tweet = user?.tweets.find((t) => t.id === id);
+
+            if (!tweet) return draft;
+
+            const newTweet = {
+              ...tweet,
+              likedBy: tweet.likedBy.filter((u) => u.id !== userId),
+              likes: tweet.likes - 1,
+            };
+
+            const newUser = {
+              ...user,
+              tweets: user.tweets.map((t) => (t.id !== id ? t : newTweet)),
+            };
+
+            return draft.map((u) => (u.id !== newUser.id ? u : newUser));
+          })
+        );
+
         try {
-          dispatch(
-            tweetsApi.util.updateQueryData("getTweets", undefined, (draft) => {
-              const tweet = draft.find((t) => t.id === id);
-
-              if (!tweet) return draft;
-
-              const newTweet = {
-                ...tweet,
-                likedBy: tweet.likedBy.filter((u) => u.id !== userId),
-                likes: tweet.likes - 1,
-              };
-
-              return draft.map((t) => (t.id !== id ? t : newTweet));
-            })
-          );
-
-          dispatch(
-            usersApi.util.updateQueryData("getUsers", undefined, (draft) => {
-              const user = draft.find((u) => u.id === userId);
-
-              if (!user) return draft;
-
-              const tweet = user?.tweets.find((t) => t.id === id);
-
-              if (!tweet) return draft;
-
-              const newTweet = {
-                ...tweet,
-                likedBy: tweet.likedBy.filter((u) => u.id !== userId),
-                likes: tweet.likes - 1,
-              };
-
-              const newUser = {
-                ...user,
-                tweets: user.tweets.map((t) => (t.id !== id ? t : newTweet)),
-              };
-
-              return draft.map((u) => (u.id !== newUser.id ? u : newUser));
-            })
-          );
+          await queryFulfilled;
         } catch (error) {
-          console.log(error);
+          patchResult1.undo();
+          patchResult2.undo();
         }
       },
     }),
