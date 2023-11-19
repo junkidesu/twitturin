@@ -1,48 +1,85 @@
-import axios from "axios";
+import { api } from "./api";
 import { NewTweet, Tweet } from "../types";
 
-const baseUrl = "/api/tweets";
+const extendedApi = api.injectEndpoints({
+  endpoints: (builder) => ({
+    getTweets: builder.query<Tweet[], void>({
+      query: () => ({
+        url: "tweets",
+      }),
+      providesTags: ["Tweet"],
+    }),
+    addTweet: builder.mutation<Tweet, NewTweet>({
+      query: (newTweet) => ({
+        url: "tweets",
+        method: "POST",
+        body: newTweet,
+      }),
+      invalidatesTags: ["Tweet"],
+    }),
+    likeTweet: builder.mutation<Tweet, string>({
+      query: (id) => ({
+        url: `tweets/${id}/likes`,
+        method: "POST",
+      }),
+      async onQueryStarted(id, { dispatch, queryFulfilled }) {
+        try {
+          const { data: likedTweet } = await queryFulfilled;
 
-let token: string | undefined;
-
-const setToken = (t: string) => {
-  token = t;
-};
-
-const getAll = async (): Promise<Tweet[]> => {
-  const response = await axios.get<Tweet[]>(baseUrl);
-
-  return response.data;
-};
-
-const add = async (newTweet: NewTweet): Promise<Tweet> => {
-  const response = await axios.post<Tweet>(baseUrl, newTweet, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  return response.data;
-};
-
-const like = async (id: string): Promise<Tweet> => {
-  const response = await axios.post<Tweet>(
-    `${baseUrl}/${id}/likes`,
-    undefined,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
+          dispatch(
+            extendedApi.util.updateQueryData(
+              "getTweets",
+              undefined,
+              (draft) => {
+                return draft.map((t) => (t.id !== id ? t : likedTweet));
+              }
+            )
+          );
+        } catch (error) {
+          console.log(error);
+        }
       },
-    }
-  );
+    }),
+    unlikeTweet: builder.mutation<void, { id: string; userId: string }>({
+      query: ({ id, userId }) => ({
+        url: `tweets/${id}/likes/${userId}`,
+        method: "DELETE",
+      }),
+      async onQueryStarted({ id, userId }, { dispatch }) {
+        try {
+          dispatch(
+            extendedApi.util.updateQueryData(
+              "getTweets",
+              undefined,
+              (draft) => {
+                const tweet = draft.find((t) => t.id === id);
 
-  return response.data;
-};
+                if (!tweet) return draft;
 
-const removeLike = async (id: string, userId: string): Promise<void> => {
-  await axios.delete(`${baseUrl}/${id}/likes/${userId}`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-};
+                const newTweet = {
+                  ...tweet,
+                  likedBy: tweet.likedBy.filter((u) => u.id !== userId),
+                  likes: tweet.likes - 1,
+                };
 
-export default { setToken, getAll, add, like, removeLike };
+                return draft.map((t) => (t.id !== id ? t : newTweet));
+              }
+            )
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      },
+    }),
+    getTweet: builder.query<Tweet, string>({
+      query: (id) => ({ url: `tweets/${id}` }),
+    }),
+  }),
+});
+
+export const {
+  useGetTweetsQuery,
+  useAddTweetMutation,
+  useLikeTweetMutation,
+  useUnlikeTweetMutation,
+} = extendedApi;

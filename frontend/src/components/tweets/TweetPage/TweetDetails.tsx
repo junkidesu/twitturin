@@ -14,7 +14,7 @@ import { useAppSelector } from "../../../hooks/store";
 import {
   useLikeTweetMutation,
   useUnlikeTweetMutation,
-} from "../../../services/api";
+} from "../../../services/tweetsService";
 
 const Wrapper = styled(HorizontalList)`
   background-color: white;

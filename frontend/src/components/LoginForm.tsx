@@ -7,7 +7,7 @@ import Form from "./core/Form";
 import { useAppDispatch } from "../hooks/store";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { useLoginMutation } from "../services/api";
+import { useLoginMutation } from "../services/authService";
 import { TokenData } from "../types";
 import { setCredentials } from "../reducers/authReducer";
 

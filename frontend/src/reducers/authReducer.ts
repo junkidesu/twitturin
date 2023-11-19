@@ -1,8 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Credentials, TokenData } from "../types";
-import authService from "../services/authService";
-import tweetsService from "../services/tweetsService";
-import { AppDispatch } from "../store";
+import { TokenData } from "../types";
 
 interface AuthState {
   token?: string;
@@ -28,13 +25,3 @@ const authSlice = createSlice({
 export default authSlice.reducer;
 
 export const { setCredentials, removeCredentials } = authSlice.actions;
-
-export const authenticate = (credentials: Credentials) => {
-  return async (dispatch: AppDispatch) => {
-    const tokenData = await authService.login(credentials);
-
-    tweetsService.setToken(tokenData.token);
-
-    dispatch(setCredentials(tokenData));
-  };
-};

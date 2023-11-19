@@ -4,7 +4,7 @@ import TextArea from "../core/TextArea";
 import Button from "../core/Button";
 import VerticalList from "../lists/VerticalList";
 import useField from "../../hooks/useField";
-import { useAddTweetMutation } from "../../services/api";
+import { useAddTweetMutation } from "../../services/tweetsService";
 
 const Wrapper = styled(VerticalList)`
   min-width: 500px;

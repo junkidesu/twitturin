@@ -1,12 +1,16 @@
-import axios from "axios";
-import { Credentials, TokenData } from "../types";
+import { api } from "./api";
+import { TokenData, Credentials } from "../types";
 
-const baseUrl = "/api/auth";
+const extendedApi = api.injectEndpoints({
+  endpoints: (builder) => ({
+    login: builder.mutation<TokenData, Credentials>({
+      query: (credentials: Credentials) => ({
+        url: "auth",
+        method: "POST",
+        body: credentials,
+      }),
+    }),
+  }),
+});
 
-const login = async (credentials: Credentials) => {
-  const response = await axios.post<TokenData>(baseUrl, credentials);
-
-  return response.data;
-};
-
-export default { login };
+export const { useLoginMutation } = extendedApi;

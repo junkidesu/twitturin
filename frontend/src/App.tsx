@@ -9,7 +9,7 @@ import { Routes, Route } from "react-router-dom";
 import UserProfile from "./components/users/UserProfile";
 import { useAppDispatch } from "./hooks/store";
 import { initializeUsers } from "./reducers/usersReducer";
-import { useGetTweetsQuery } from "./services/api";
+import { useGetTweetsQuery } from "./services/tweetsService";
 import LoginForm from "./components/LoginForm";
 import PageWrapper from "./components/PageWrapper";
 import TweetPage from "./components/tweets/TweetPage";

@@ -9,8 +9,8 @@ import VerticalList from "../lists/VerticalList";
 import HorizontalList from "../lists/HorizontalList";
 import IconButton from "../core/IconButton";
 import RouterLink from "../core/RouterLink";
-import { useLikeTweetMutation } from "../../services/api";
-import { useUnlikeTweetMutation } from "../../services/api";
+import { useLikeTweetMutation } from "../../services/tweetsService";
+import { useUnlikeTweetMutation } from "../../services/tweetsService";
 import { useAppSelector } from "../../hooks/store";
 import { useNavigate } from "react-router-dom";
 

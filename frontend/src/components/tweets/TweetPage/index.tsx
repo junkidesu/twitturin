@@ -5,7 +5,7 @@ import VerticalList from "../../lists/VerticalList";
 import ReplyList from "../../replies/ReplyList";
 import ReplyModal from "./ReplyModal";
 import TweetDetails from "./TweetDetails";
-import { useGetTweetsQuery } from "../../../services/api";
+import { useGetTweetsQuery } from "../../../services/tweetsService";
 
 const ReplyTitle = styled.p`
   margin: none;
@@ -30,11 +30,11 @@ const TweetPage = () => {
 
   if (isLoading) return <div>loading...</div>;
 
-  if (!tweets || isError) return <div>Error occured!</div>
+  if (!tweets || isError) return <div>Error occured!</div>;
 
   const tweet = tweets.find((t) => t.id === id);
 
-  if (!tweet) return <div>tweet not found!</div>
+  if (!tweet) return <div>tweet not found!</div>;
 
   return (
     <VerticalList>
