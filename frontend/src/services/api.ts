@@ -39,6 +39,25 @@ export const api = createApi({
       }),
       invalidatesTags: ["Tweet"],
     }),
+    likeTweet: builder.mutation<Tweet, string>({
+      query: (id) => ({
+        url: `tweets/${id}/likes`,
+        method: "POST",
+      }),
+      async onQueryStarted(id, { dispatch, queryFulfilled }) {
+        try {
+          const { data: likedTweet } = await queryFulfilled;
+
+          dispatch(
+            api.util.updateQueryData("getTweets", undefined, (draft) => {
+              return draft.map((t) => (t.id !== id ? t : likedTweet));
+            })
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      },
+    }),
     getTweet: builder.query<Tweet, string>({
       query: (id) => ({ url: `/tweets/${id}` }),
     }),
@@ -49,5 +68,6 @@ export const {
   useLoginMutation,
   useGetTweetsQuery,
   useAddTweetMutation,
+  useLikeTweetMutation,
   useGetTweetQuery,
 } = api;

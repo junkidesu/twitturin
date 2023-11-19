@@ -10,8 +10,8 @@ import shareIcon from "../../../assets/icons/share.svg";
 import IconButton from "../../core/IconButton";
 import { Tweet } from "../../../types";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../../hooks/store";
-import { likeTweet, unlikeTweet } from "../../../reducers/tweetsReducer";
+import { useAppSelector } from "../../../hooks/store";
+import { useLikeTweetMutation } from "../../../services/api";
 
 const Wrapper = styled(HorizontalList)`
   background-color: white;
@@ -57,9 +57,9 @@ interface Props {
 }
 
 const TweetDetails = ({ tweet, setVisible }: Props) => {
+  const [like] = useLikeTweetMutation();
   const navigate = useNavigate();
   const userId = useAppSelector(({ auth }) => auth?.id);
-  const dispatch = useAppDispatch();
 
   const likedByMe = userId && tweet.likedBy.map((u) => u.id).includes(userId);
 
@@ -71,11 +71,7 @@ const TweetDetails = ({ tweet, setVisible }: Props) => {
     if (!userId) {
       navigate("/login");
     } else {
-      if (!likedByMe) {
-        dispatch(likeTweet(tweet.id));
-      } else {
-        dispatch(unlikeTweet(tweet.id, userId));
-      }
+      await like(tweet.id);
     }
   };
 
