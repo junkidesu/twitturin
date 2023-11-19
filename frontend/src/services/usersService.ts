@@ -1,7 +1,7 @@
 import { User } from "../types";
 import { api } from "./api";
 
-const extendedApi = api.injectEndpoints({
+export const usersApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getUsers: builder.query<User[], void>({
       query: () => ({
@@ -11,4 +11,4 @@ const extendedApi = api.injectEndpoints({
   }),
 });
 
-export const { useGetUsersQuery } = extendedApi;
+export const { useGetUsersQuery } = usersApi;

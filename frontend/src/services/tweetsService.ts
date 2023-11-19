@@ -1,7 +1,8 @@
 import { api } from "./api";
 import { NewTweet, Tweet } from "../types";
+import { usersApi } from "./usersService";
 
-const extendedApi = api.injectEndpoints({
+export const tweetsApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getTweets: builder.query<Tweet[], void>({
       query: () => ({
@@ -15,7 +16,7 @@ const extendedApi = api.injectEndpoints({
         method: "POST",
         body: newTweet,
       }),
-      invalidatesTags: ["Tweet"],
+      invalidatesTags: ["Tweet", "User"],
     }),
     likeTweet: builder.mutation<Tweet, string>({
       query: (id) => ({
@@ -27,13 +28,23 @@ const extendedApi = api.injectEndpoints({
           const { data: likedTweet } = await queryFulfilled;
 
           dispatch(
-            extendedApi.util.updateQueryData(
-              "getTweets",
-              undefined,
-              (draft) => {
-                return draft.map((t) => (t.id !== id ? t : likedTweet));
-              }
-            )
+            tweetsApi.util.updateQueryData("getTweets", undefined, (draft) => {
+              return draft.map((t) => (t.id !== id ? t : likedTweet));
+            })
+          );
+          dispatch(
+            usersApi.util.updateQueryData("getUsers", undefined, (draft) => {
+              const user = draft.find((u) => u.id === likedTweet.author.id);
+
+              if (!user) return draft;
+
+              const newUser = {
+                ...user,
+                tweets: user.tweets.map((t) => (t.id !== id ? t : likedTweet)),
+              };
+
+              return draft.map((u) => (u.id !== newUser.id ? u : newUser));
+            })
           );
         } catch (error) {
           console.log(error);
@@ -48,23 +59,44 @@ const extendedApi = api.injectEndpoints({
       async onQueryStarted({ id, userId }, { dispatch }) {
         try {
           dispatch(
-            extendedApi.util.updateQueryData(
-              "getTweets",
-              undefined,
-              (draft) => {
-                const tweet = draft.find((t) => t.id === id);
+            tweetsApi.util.updateQueryData("getTweets", undefined, (draft) => {
+              const tweet = draft.find((t) => t.id === id);
 
-                if (!tweet) return draft;
+              if (!tweet) return draft;
 
-                const newTweet = {
-                  ...tweet,
-                  likedBy: tweet.likedBy.filter((u) => u.id !== userId),
-                  likes: tweet.likes - 1,
-                };
+              const newTweet = {
+                ...tweet,
+                likedBy: tweet.likedBy.filter((u) => u.id !== userId),
+                likes: tweet.likes - 1,
+              };
 
-                return draft.map((t) => (t.id !== id ? t : newTweet));
-              }
-            )
+              return draft.map((t) => (t.id !== id ? t : newTweet));
+            })
+          );
+
+          dispatch(
+            usersApi.util.updateQueryData("getUsers", undefined, (draft) => {
+              const user = draft.find((u) => u.id === userId);
+
+              if (!user) return draft;
+
+              const tweet = user?.tweets.find((t) => t.id === id);
+
+              if (!tweet) return draft;
+
+              const newTweet = {
+                ...tweet,
+                likedBy: tweet.likedBy.filter((u) => u.id !== userId),
+                likes: tweet.likes - 1,
+              };
+
+              const newUser = {
+                ...user,
+                tweets: user.tweets.map((t) => (t.id !== id ? t : newTweet)),
+              };
+
+              return draft.map((u) => (u.id !== newUser.id ? u : newUser));
+            })
           );
         } catch (error) {
           console.log(error);
@@ -82,4 +114,4 @@ export const {
   useAddTweetMutation,
   useLikeTweetMutation,
   useUnlikeTweetMutation,
-} = extendedApi;
+} = tweetsApi;
