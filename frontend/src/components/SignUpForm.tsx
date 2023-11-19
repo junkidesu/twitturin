@@ -52,7 +52,7 @@ const SignUpForm = () => {
   const subject = useField("text", "Subject");
   const email = useField("email", "Email");
 
-  const token = useAppSelector(({ auth }) => auth.tokenData?.token);
+  const token = useAppSelector(({ auth }) => auth.token);
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();

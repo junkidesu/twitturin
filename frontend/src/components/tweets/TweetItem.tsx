@@ -45,7 +45,7 @@ const Body = styled(VerticalList)`
 
 const TweetItem = ({ tweet }: { tweet: Tweet }) => {
   const navigate = useNavigate();
-  const userId = useAppSelector(({ auth }) => auth.tokenData?.id);
+  const userId = useAppSelector(({ auth }) => auth.id);
   const dispatch = useAppDispatch();
 
   const likedByMe = userId && tweet.likedBy.map((u) => u.id).includes(userId);

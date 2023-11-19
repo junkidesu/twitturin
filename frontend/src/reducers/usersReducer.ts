@@ -2,7 +2,6 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { SignUpFormValues, Tweet, User } from "../types";
 import { AppDispatch } from "../store";
 import usersService from "../services/usersService";
-import { authenticate } from "./authReducer";
 
 const usersSlice = createSlice({
   name: "users",
@@ -60,13 +59,6 @@ export const signUp =
       const newUser = await usersService.create(formValues);
 
       dispatch(addUser(newUser));
-
-      dispatch(
-        authenticate({
-          username: formValues.username,
-          password: formValues.password,
-        })
-      );
     } catch (error) {
       console.log(error);
     }

@@ -5,7 +5,9 @@ import tweetsService from "../services/tweetsService";
 import { AppDispatch } from "../store";
 
 interface AuthState {
-  tokenData?: TokenData;
+  token?: string;
+  username?: string;
+  id?: string;
 }
 
 const initialState: AuthState = {};
@@ -15,7 +17,7 @@ const authSlice = createSlice({
   initialState: initialState,
   reducers: {
     setCredentials: (_state, action: PayloadAction<TokenData>) => {
-      return { tokenData: action.payload };
+      return action.payload;
     },
     removeCredentials: () => {
       return {};

@@ -4,10 +4,12 @@ import useField from "../hooks/useField";
 import Button from "./core/Button";
 import Input from "./core/Input";
 import Form from "./core/Form";
-import { authenticate } from "../reducers/authReducer";
-import { useAppDispatch, useAppSelector } from "../hooks/store";
+import { useAppDispatch } from "../hooks/store";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useLoginMutation } from "../services/api";
+import { TokenData } from "../types";
+import { setCredentials } from "../reducers/authReducer";
 
 const LogoText = styled.p`
   color: ${(props) => props.theme.colors.primary};
@@ -20,32 +22,41 @@ const LogoText = styled.p`
 const LoginForm = () => {
   const username = useField("text", "Username");
   const password = useField("password", "Password");
+
+  const [login, { isLoading, isError, isSuccess }] = useLoginMutation();
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const tokenData = useAppSelector(({ auth }) => auth.tokenData);
 
   useEffect(() => {
-    if (tokenData) navigate("/");
-  }, [navigate, tokenData]);
+    if (isSuccess) navigate("/");
+  }, [navigate, isSuccess]);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    dispatch(
-      authenticate({ username: username.value, password: password.value })
-    );
+    const tokenData: TokenData = await login({
+      username: username.value,
+      password: password.value,
+    }).unwrap();
+
+    dispatch(setCredentials(tokenData));
   };
+
+  if (isLoading) return <div>Loading...[TODO loading spinner]</div>;
+
+  if (isError) return <div>Error occured! [TODO error message screen]</div>;
 
   return (
     <VerticalList $gap="2em" $center>
       <LogoText>Log in to Twittur</LogoText>
 
       <Form onSubmit={onSubmit}>
-          <Input {...username} required />
+        <Input {...username} required />
 
-          <Input {...password} required />
+        <Input {...password} required />
 
-          <Button $rounded>Log in</Button>
+        <Button $rounded>Log in</Button>
       </Form>
     </VerticalList>
   );
