@@ -4,8 +4,7 @@ import TextArea from "../core/TextArea";
 import Button from "../core/Button";
 import VerticalList from "../lists/VerticalList";
 import useField from "../../hooks/useField";
-import { useAppDispatch } from "../../hooks/store";
-import { postTweet } from "../../reducers/tweetsReducer";
+import { useAddTweetMutation } from "../../services/api";
 
 const Wrapper = styled(VerticalList)`
   min-width: 500px;
@@ -27,16 +26,17 @@ const Label = styled.p`
 
 const NewTweetForm = () => {
   const content = useField("text", "Tweet content...");
+  const [addTweet, { isLoading }] = useAddTweetMutation();
 
-  const dispatch = useAppDispatch();
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     console.log(content.value);
 
-    dispatch(postTweet({ content: content.value }));
+    await addTweet({ content: content.value });
   };
+
+  if (isLoading) return <div>Posting your tweet...</div>;
 
   return (
     <Wrapper $center>

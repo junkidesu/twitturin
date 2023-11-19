@@ -40,7 +40,7 @@ const LogoText = styled.div`
 
 const Header = () => {
   const [visible, setVisible] = useState(false);
-  const username = useAppSelector(({ auth }) => auth.tokenData?.username);
+  const username = useAppSelector(({ auth }) => auth.username);
 
   return (
     <HeaderContainer>

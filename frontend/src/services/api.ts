@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { Credentials, TokenData, Tweet } from "../types";
+import { Credentials, NewTweet, TokenData, Tweet } from "../types";
 import { RootState } from "../store";
 
 export const api = createApi({
@@ -16,6 +16,7 @@ export const api = createApi({
       return headers;
     },
   }),
+  tagTypes: ["Tweet"],
   endpoints: (builder) => ({
     login: builder.mutation<TokenData, Credentials>({
       query: (credentials: Credentials) => ({
@@ -28,6 +29,15 @@ export const api = createApi({
       query: () => ({
         url: "tweets",
       }),
+      providesTags: ["Tweet"],
+    }),
+    addTweet: builder.mutation<Tweet, NewTweet>({
+      query: (newTweet) => ({
+        url: "tweets",
+        method: "POST",
+        body: newTweet,
+      }),
+      invalidatesTags: ["Tweet"],
     }),
     getTweet: builder.query<Tweet, string>({
       query: (id) => ({ url: `/tweets/${id}` }),
@@ -38,5 +48,6 @@ export const api = createApi({
 export const {
   useLoginMutation,
   useGetTweetsQuery,
+  useAddTweetMutation,
   useGetTweetQuery,
 } = api;
