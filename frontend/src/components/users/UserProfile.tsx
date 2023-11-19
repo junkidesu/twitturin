@@ -4,8 +4,7 @@ import RouterLink from "../core/RouterLink";
 import emptyProfilePicture from "../../assets/images/empty-profile-picture.png";
 import Tabs from "./Tabs";
 import { useParams } from "react-router-dom";
-import { useAppSelector } from "../../hooks/store";
-import { User } from "../../types";
+import { useGetUsersQuery } from "../../services/usersService";
 
 const Wrapper = styled(VerticalList)`
   border-radius: 10px;
@@ -48,11 +47,15 @@ const Username = styled(RouterLink)`
 
 const UserProfile = () => {
   const id: string | undefined = useParams().id;
-  const users: User[] = useAppSelector(({ users }) => users);
+  const { data: users, isLoading, isError } = useGetUsersQuery();
 
-  const user: User | undefined = users.find((u) => u.id === id);
+  if (isLoading) return <div>loading...</div>;
 
-  if (!user) return <div>loading...</div>;
+  if (!users || isError) return <div>some error occured</div>;
+
+  const user = users.find((u) => u.id === id);
+
+  if (!user) return <div>user not found!</div>;
 
   return (
     <Wrapper $gap="1.5em">

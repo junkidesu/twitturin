@@ -1,7 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { SignUpFormValues, Tweet, User } from "../types";
-import { AppDispatch } from "../store";
-import usersService from "../services/usersService";
+import { Tweet, User } from "../types";
 
 const usersSlice = createSlice({
   name: "users",
@@ -48,18 +46,18 @@ export default usersSlice.reducer;
 
 export const { setUsers, addUser, appendTweetToUser, setUserTweet } = usersSlice.actions;
 
-export const initializeUsers = () => async (dispatch: AppDispatch) => {
-  const users = await usersService.getAll();
-  dispatch(setUsers(users));
-};
+// export const initializeUsers = () => async (dispatch: AppDispatch) => {
+//   const users = await usersService.getAll();
+//   dispatch(setUsers(users));
+// };
 
-export const signUp =
-  (formValues: SignUpFormValues) => async (dispatch: AppDispatch) => {
-    try {
-      const newUser = await usersService.create(formValues);
+// export const signUp =
+//   (formValues: SignUpFormValues) => async (dispatch: AppDispatch) => {
+//     try {
+//       const newUser = await usersService.create(formValues);
 
-      dispatch(addUser(newUser));
-    } catch (error) {
-      console.log(error);
-    }
-  };
+//       dispatch(addUser(newUser));
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };

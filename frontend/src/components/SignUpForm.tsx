@@ -9,8 +9,7 @@ import { Major, SignUpFormValues } from "../types";
 import Select from "./core/Select";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../hooks/store";
-import { signUp } from "../reducers/usersReducer";
+import { useAppSelector } from "../hooks/store";
 
 const LogoText = styled.p`
   color: teal;
@@ -55,7 +54,6 @@ const SignUpForm = () => {
   const token = useAppSelector(({ auth }) => auth.token);
 
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (token) navigate("/");
@@ -84,7 +82,7 @@ const SignUpForm = () => {
             subject: subject.value,
           };
 
-    dispatch(signUp(toSignUp));
+    console.log(toSignUp);
   };
 
   return (

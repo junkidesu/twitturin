@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { ThemeProvider } from "styled-components";
 import lightTheme from "./themes/lightTheme";
 import GlobalStyle from "./themes/GlobalStyle";
@@ -7,20 +6,15 @@ import TweetList from "./components/tweets/TweetList";
 import SignUpForm from "./components/SignUpForm";
 import { Routes, Route } from "react-router-dom";
 import UserProfile from "./components/users/UserProfile";
-import { useAppDispatch } from "./hooks/store";
-import { initializeUsers } from "./reducers/usersReducer";
 import { useGetTweetsQuery } from "./services/tweetsService";
 import LoginForm from "./components/LoginForm";
 import PageWrapper from "./components/PageWrapper";
 import TweetPage from "./components/tweets/TweetPage";
+import { useGetUsersQuery } from "./services/usersService";
 
 const App = () => {
-  const dispatch = useAppDispatch();
   const { data: tweets, isLoading } = useGetTweetsQuery();
-
-  useEffect(() => {
-    dispatch(initializeUsers());
-  }, [dispatch]);
+  useGetUsersQuery();
 
   return (
     <ThemeProvider theme={lightTheme}>
