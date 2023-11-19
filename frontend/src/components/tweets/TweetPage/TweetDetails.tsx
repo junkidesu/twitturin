@@ -11,7 +11,10 @@ import IconButton from "../../core/IconButton";
 import { Tweet } from "../../../types";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../hooks/store";
-import { useLikeTweetMutation } from "../../../services/api";
+import {
+  useLikeTweetMutation,
+  useUnlikeTweetMutation,
+} from "../../../services/api";
 
 const Wrapper = styled(HorizontalList)`
   background-color: white;
@@ -58,6 +61,7 @@ interface Props {
 
 const TweetDetails = ({ tweet, setVisible }: Props) => {
   const [like] = useLikeTweetMutation();
+  const [unlike] = useUnlikeTweetMutation();
   const navigate = useNavigate();
   const userId = useAppSelector(({ auth }) => auth?.id);
 
@@ -71,7 +75,12 @@ const TweetDetails = ({ tweet, setVisible }: Props) => {
     if (!userId) {
       navigate("/login");
     } else {
-      await like(tweet.id);
+      if (!likedByMe) await like(tweet.id);
+      else
+        await unlike({
+          id: tweet.id,
+          userId,
+        });
     }
   };
 

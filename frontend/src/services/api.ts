@@ -58,8 +58,35 @@ export const api = createApi({
         }
       },
     }),
+    unlikeTweet: builder.mutation<void, { id: string; userId: string }>({
+      query: ({ id, userId }) => ({
+        url: `tweets/${id}/likes/${userId}`,
+        method: "DELETE",
+      }),
+      async onQueryStarted({ id, userId }, { dispatch }) {
+        try {
+          dispatch(
+            api.util.updateQueryData("getTweets", undefined, (draft) => {
+              const tweet = draft.find((t) => t.id === id);
+
+              if (!tweet) return draft;
+
+              const newTweet = {
+                ...tweet,
+                likedBy: tweet.likedBy.filter((u) => u.id !== userId),
+                likes: tweet.likes - 1,
+              };
+
+              return draft.map((t) => (t.id !== id ? t : newTweet));
+            })
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      },
+    }),
     getTweet: builder.query<Tweet, string>({
-      query: (id) => ({ url: `/tweets/${id}` }),
+      query: (id) => ({ url: `tweets/${id}` }),
     }),
   }),
 });
@@ -69,5 +96,6 @@ export const {
   useGetTweetsQuery,
   useAddTweetMutation,
   useLikeTweetMutation,
+  useUnlikeTweetMutation,
   useGetTweetQuery,
 } = api;

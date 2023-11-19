@@ -10,6 +10,7 @@ import HorizontalList from "../lists/HorizontalList";
 import IconButton from "../core/IconButton";
 import RouterLink from "../core/RouterLink";
 import { useLikeTweetMutation } from "../../services/api";
+import { useUnlikeTweetMutation } from "../../services/api";
 import { useAppSelector } from "../../hooks/store";
 import { useNavigate } from "react-router-dom";
 
@@ -45,6 +46,7 @@ const Body = styled(VerticalList)`
 
 const TweetItem = ({ tweet }: { tweet: Tweet }) => {
   const [like] = useLikeTweetMutation();
+  const [unlike] = useUnlikeTweetMutation();
   const navigate = useNavigate();
   const userId = useAppSelector(({ auth }) => auth.id);
 
@@ -54,7 +56,8 @@ const TweetItem = ({ tweet }: { tweet: Tweet }) => {
     if (!userId) {
       navigate("/login");
     } else {
-      await like(tweet.id);
+      if (!likedByMe) await like(tweet.id);
+      else await unlike({ id: tweet.id, userId });
     }
   };
 
