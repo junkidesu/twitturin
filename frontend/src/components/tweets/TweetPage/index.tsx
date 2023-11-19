@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useAppSelector } from "../../../hooks/store";
 import styled from "styled-components";
 import VerticalList from "../../lists/VerticalList";
 import ReplyList from "../../replies/ReplyList";
 import ReplyModal from "./ReplyModal";
 import TweetDetails from "./TweetDetails";
+import { useGetTweetsQuery } from "../../../services/api";
 
 const ReplyTitle = styled.p`
   margin: none;
@@ -25,10 +25,16 @@ const RepliesToTweet = styled(VerticalList)`
 
 const TweetPage = () => {
   const id = useParams().id;
-  const tweet = useAppSelector(({ tweets }) => tweets.find((t) => t.id === id));
+  const { data: tweets, isLoading, isError } = useGetTweetsQuery();
   const [visible, setVisible] = useState(false);
 
-  if (!tweet) return <div>loading...</div>;
+  if (isLoading) return <div>loading...</div>;
+
+  if (!tweets || isError) return <div>Error occured!</div>
+
+  const tweet = tweets.find((t) => t.id === id);
+
+  if (!tweet) return <div>tweet not found!</div>
 
   return (
     <VerticalList>

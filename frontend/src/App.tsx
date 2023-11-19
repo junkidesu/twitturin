@@ -7,19 +7,18 @@ import TweetList from "./components/tweets/TweetList";
 import SignUpForm from "./components/SignUpForm";
 import { Routes, Route } from "react-router-dom";
 import UserProfile from "./components/users/UserProfile";
-import { useAppDispatch, useAppSelector } from "./hooks/store";
-import { initializeTweets } from "./reducers/tweetsReducer";
+import { useAppDispatch } from "./hooks/store";
 import { initializeUsers } from "./reducers/usersReducer";
+import { useGetTweetsQuery } from "./services/api";
 import LoginForm from "./components/LoginForm";
 import PageWrapper from "./components/PageWrapper";
 import TweetPage from "./components/tweets/TweetPage";
 
 const App = () => {
   const dispatch = useAppDispatch();
-  const tweets = useAppSelector(({ tweets }) => tweets);
+  const { data: tweets, isLoading } = useGetTweetsQuery();
 
   useEffect(() => {
-    dispatch(initializeTweets());
     dispatch(initializeUsers());
   }, [dispatch]);
 
@@ -31,7 +30,16 @@ const App = () => {
 
       <PageWrapper>
         <Routes>
-          <Route path="/" element={<TweetList tweets={tweets} />} />
+          <Route
+            path="/"
+            element={
+              isLoading || !tweets ? (
+                <div>loading...</div>
+              ) : (
+                <TweetList tweets={tweets} />
+              )
+            }
+          />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/sign-up" element={<SignUpForm />} />
           <Route path="/users/:id" element={<UserProfile />} />
