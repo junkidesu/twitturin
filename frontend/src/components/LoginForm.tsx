@@ -4,12 +4,15 @@ import useField from "../hooks/useField";
 import Button from "./core/Button";
 import Input from "./core/Input";
 import Form from "./core/Form";
+import Modal from "./containers/Modal";
+import LoadingSpinner from "./LoadingSpinner";
 import { useAppDispatch } from "../hooks/store";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useLoginMutation } from "../services/authService";
 import { TokenData } from "../types";
 import { setCredentials } from "../reducers/authReducer";
+import { hideModal, showModal } from "../reducers/modalReducer";
 
 const LogoText = styled.p`
   color: ${(props) => props.theme.colors.primary};
@@ -29,8 +32,15 @@ const LoginForm = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isSuccess) navigate("/");
-  }, [navigate, isSuccess]);
+    if (isLoading) dispatch(showModal());
+  }, [isLoading, dispatch]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(hideModal());
+      navigate("/");
+    }
+  }, [navigate, dispatch, isSuccess]);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -43,12 +53,14 @@ const LoginForm = () => {
     dispatch(setCredentials(tokenData));
   };
 
-  if (isLoading) return <div>Loading...[TODO loading spinner]</div>;
-
   if (isError) return <div>Error occured! [TODO error message screen]</div>;
 
   return (
     <VStack $gap="2em" $center>
+      <Modal>
+        <LoadingSpinner label="Logging in..." />
+      </Modal>
+
       <LogoText>Log in to Twittur</LogoText>
 
       <Form onSubmit={onSubmit}>

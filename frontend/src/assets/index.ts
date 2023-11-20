@@ -5,6 +5,7 @@ import emptyHeartIcon from "./icons/heart.svg";
 import repliesIcon from "./icons/replies.svg";
 import bookmarkIcon from "./icons/bookmark.svg";
 import shareIcon from "./icons/share.svg";
+import loadingIcon from "./icons/loading-icon.svg";
 
 export const pictures = {
   emptyProfilePicture,
@@ -17,4 +18,5 @@ export const icons = {
   repliesIcon,
   bookmarkIcon,
   shareIcon,
+  loadingIcon,
 };

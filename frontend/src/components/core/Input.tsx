@@ -22,7 +22,7 @@ const InputField = styled.input`
   padding: 0.5em;
   margin-top: 1em;
   background: transparent;
-  z-index: 1000;
+  z-index: 100;
 
   &:focus + ${Placeholder} {
     font-size: 1em;
