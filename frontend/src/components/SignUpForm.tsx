@@ -5,7 +5,7 @@ import useField from "../hooks/useField";
 import Input from "./core/Input";
 import Button from "./core/Button";
 import Form from "./core/Form";
-import { Major, SignUpFormValues } from "../types";
+import { Major, NewUser } from "../types";
 import Select from "./core/Select";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -15,7 +15,7 @@ import { useLoginMutation } from "../services/authService";
 import { setCredentials } from "../reducers/authReducer";
 
 const LogoText = styled.p`
-  color: teal;
+  color: ${(props) => props.theme.colors.primary};
   margin: 0;
   font-weight: bold;
   font-size: 2em;
@@ -93,7 +93,7 @@ const SignUpForm = () => {
       email: email.value,
     };
 
-    const toSignUp: SignUpFormValues =
+    const newUser: NewUser =
       kind === "student"
         ? {
             ...common,
@@ -107,9 +107,9 @@ const SignUpForm = () => {
             subject: subject.value,
           };
 
-    console.log(toSignUp);
+    console.log(newUser);
 
-    await signUp(toSignUp);
+    await signUp(newUser);
   };
 
   if (isLoading) return <div>Signing up...</div>;

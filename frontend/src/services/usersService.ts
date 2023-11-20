@@ -1,4 +1,4 @@
-import { SignUpFormValues, User } from "../types";
+import { NewUser, User } from "../types";
 import { api } from "./api";
 
 export const usersApi = api.injectEndpoints({
@@ -9,7 +9,7 @@ export const usersApi = api.injectEndpoints({
       }),
       providesTags: ["User"],
     }),
-    addUser: builder.mutation<User, SignUpFormValues>({
+    addUser: builder.mutation<User, NewUser>({
       query: (newUser) => ({
         url: "users",
         method: "POST",

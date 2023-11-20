@@ -28,7 +28,7 @@ const InputField = styled.input`
     font-size: 1em;
     top: 0.5em;
     left: 0.5em;
-    color: teal;
+    color: ${(props) => props.theme.colors.primary};
     transition: 0.1s;
   }
 `;
