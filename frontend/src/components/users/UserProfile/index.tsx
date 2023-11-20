@@ -66,7 +66,9 @@ const UserProfile = () => {
 
       <UserDetails $gap="1em">
         <VStack>
-          <FullName to={`/users/${user.id}`}>{user.fullName}</FullName>
+          <FullName to={`/users/${user.id}`}>
+            {user.fullName || "Twittur User"}
+          </FullName>
           <Username to={`/users/${user.id}`}>@{user.username}</Username>
         </VStack>
       </UserDetails>

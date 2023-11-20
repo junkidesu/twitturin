@@ -101,6 +101,7 @@ const SignUpForm = () => {
       username: username.value,
       password: password.value,
       email: email.value,
+      fullName: fullName.value ? fullName.value : undefined,
     };
 
     const newUser: NewUser =
