@@ -49,6 +49,11 @@ export interface Reply {
   updatedAt: string;
 }
 
+export interface NewReply {
+  content: string;
+  tweet: string;
+}
+
 export interface Tweet {
   id: string;
   likes: number;
