@@ -1,10 +1,14 @@
 import styled from "styled-components";
+import { useEffect } from "react";
 import Form from "../core/Form";
 import TextArea from "../core/TextArea";
 import Button from "../core/Button";
 import VStack from "../containers/VStack";
 import useField from "../../hooks/useField";
 import { useAddTweetMutation } from "../../services/tweetsService";
+import LoadingSpinner from "../LoadingSpinner";
+import { useAppDispatch } from "../../hooks/store";
+import { hideModal } from "../../reducers/modalReducer";
 
 const Wrapper = styled(VStack)`
   min-width: 500px;
@@ -26,7 +30,12 @@ const Label = styled.p`
 
 const NewTweetForm = () => {
   const content = useField("text", "Tweet content...");
-  const [addTweet, { isLoading }] = useAddTweetMutation();
+  const [addTweet, { isLoading, isSuccess }] = useAddTweetMutation();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (isSuccess) dispatch(hideModal());
+  }, [isSuccess, dispatch]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -36,7 +45,7 @@ const NewTweetForm = () => {
     await addTweet({ content: content.value });
   };
 
-  if (isLoading) return <div>Posting your tweet...</div>;
+  if (isLoading) return <LoadingSpinner label="Posting your tweet..." />;
 
   return (
     <Wrapper $center>
