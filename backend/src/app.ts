@@ -1,3 +1,4 @@
+import path from "path";
 import express from "express";
 import cors from "cors";
 import env from "./utils/config";
@@ -18,11 +19,17 @@ app.get("/ping", (_req, res) => {
   res.send("pong");
 });
 
+app.use(express.static(path.join(__dirname, "../build")));
+
 app.use(userExtractor);
 app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/tweets", tweetsRouter);
 app.use("/api/replies", repliesRouter);
+
+app.use("*", (_req, res) => {
+  res.sendFile(path.join(__dirname, "../build/index.html"));
+});
 
 if (env.NODE_ENV === "development")
   app.use("/docs", swaggerUi.serve, swaggerUi.setup(specs));
