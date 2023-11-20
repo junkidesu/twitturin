@@ -20,15 +20,15 @@ const HeaderContainer = styled.header`
   top: 0;
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  background: linear-gradient(45deg, #40e0d0bb, #008080bb, #708090bb);
-  padding: 1em;
+  background: #222222bb;
+  backdrop-filter: blur(2px);
+  padding: 1em 2em;
   margin-bottom: 0.5em;
   z-index: 100;
 `;
 
 const LogoText = styled.div`
-  color: ${(props) => props.theme.colors.background};
+  color: #eeeeee;
   transition: 0.3s;
   font-weight: bold;
   font-size: ${(props) => props.theme.fontSizes.large};

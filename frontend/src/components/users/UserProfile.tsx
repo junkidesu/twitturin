@@ -17,7 +17,7 @@ const Wrapper = styled(VerticalList)`
 const Banner = styled.div`
   position: relative;
   height: 170px;
-  background: linear-gradient(45deg, teal, turquoise);
+  background: linear-gradient(45deg, #555555, #333333);
 `;
 
 const UserDetails = styled(VerticalList)`
