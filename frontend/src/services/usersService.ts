@@ -7,6 +7,7 @@ export const usersApi = api.injectEndpoints({
       query: () => ({
         url: "users",
       }),
+      providesTags: ["User"],
     }),
     addUser: builder.mutation<User, SignUpFormValues>({
       query: (newUser) => ({

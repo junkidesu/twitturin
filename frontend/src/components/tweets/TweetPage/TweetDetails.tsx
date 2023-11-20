@@ -56,10 +56,9 @@ const Body = styled(VerticalList)`
 
 interface Props {
   tweet: Tweet;
-  setVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const TweetDetails = ({ tweet, setVisible }: Props) => {
+const TweetDetails = ({ tweet }: Props) => {
   const [like] = useLikeTweetMutation();
   const [unlike] = useUnlikeTweetMutation();
   const navigate = useNavigate();
@@ -119,7 +118,6 @@ const TweetDetails = ({ tweet, setVisible }: Props) => {
           )}
           <IconButton
             icon={repliesIcon}
-            onClick={() => setVisible(true)}
             label={`${tweet.replyCount} ${
               tweet.replyCount === 1 ? "reply" : "replies"
             }`}
