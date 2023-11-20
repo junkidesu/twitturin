@@ -31,10 +31,12 @@ const LoginForm = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  // if the login mutation is loading, show the modal which contains the loading spinner
   useEffect(() => {
     if (isLoading) dispatch(showModal());
   }, [isLoading, dispatch]);
 
+  // if the query is successful, hide the modal and go to the main page
   useEffect(() => {
     if (isSuccess) {
       dispatch(hideModal());
@@ -42,7 +44,7 @@ const LoginForm = () => {
     }
   }, [navigate, dispatch, isSuccess]);
 
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const tokenData: TokenData = await login({
@@ -63,7 +65,7 @@ const LoginForm = () => {
 
       <LogoText>Log in to Twittur</LogoText>
 
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={handleLogin}>
         <Input {...username} required />
 
         <Input {...password} required />

@@ -13,6 +13,9 @@ import { useAddUserMutation } from "../services/usersService";
 import { useAppDispatch, useAppSelector } from "../hooks/store";
 import { useLoginMutation } from "../services/authService";
 import { setCredentials } from "../reducers/authReducer";
+import LoadingSpinner from "./LoadingSpinner";
+import Modal from "./containers/Modal";
+import { hideModal, showModal } from "../reducers/modalReducer";
 
 const LogoText = styled.p`
   color: ${(props) => props.theme.colors.primary};
@@ -62,6 +65,10 @@ const SignUpForm = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (isLoading) dispatch(showModal());
+  }, [isLoading, dispatch]);
+
+  useEffect(() => {
     const authenticate = async () => {
       const tokenData = await login({
         username: username.value,
@@ -71,7 +78,10 @@ const SignUpForm = () => {
       dispatch(setCredentials(tokenData));
     };
 
-    if (isSuccess) authenticate();
+    if (isSuccess) {
+      dispatch(hideModal());
+      authenticate();
+    }
 
     if (token) navigate("/");
   }, [
@@ -112,12 +122,14 @@ const SignUpForm = () => {
     await signUp(newUser);
   };
 
-  if (isLoading) return <div>Signing up...</div>;
-
   if (isError) return <div>Some error occurred!</div>;
 
   return (
     <VStack $gap="2em" $center>
+      <Modal>
+        <LoadingSpinner label="Signing up..." />
+      </Modal>
+
       <LogoText>Join Twittur Today!</LogoText>
 
       <HStack style={{ width: "100%" }}>
