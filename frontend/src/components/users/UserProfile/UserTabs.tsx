@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { useState } from "react";
-import VStack from "../containers/VStack";
-import HStack from "../containers/HStack";
-import TweetList from "../tweets/TweetList";
-import ReplyList from "../replies/ReplyList";
-import { Reply, Tweet } from "../../types";
+import VStack from "../../containers/VStack";
+import HStack from "../../containers/HStack";
+import TweetList from "../../tweets/TweetList";
+import ReplyList from "../../replies/ReplyList";
+import { Reply, Tweet } from "../../../types";
 
 const NavButton = styled.button<{ $active: boolean }>`
   width: 100%;

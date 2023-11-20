@@ -1,10 +1,11 @@
 import styled from "styled-components";
-import VStack from "../containers/VStack";
-import RouterLink from "../core/RouterLink";
-import { pictures } from "../../assets";
+import VStack from "../../containers/VStack";
+import RouterLink from "../../core/RouterLink";
+import { pictures } from "../../../assets";
 import UserTabs from "./UserTabs";
 import { useParams } from "react-router-dom";
-import { useGetUsersQuery } from "../../services/usersService";
+import { useGetUsersQuery } from "../../../services/usersService";
+import LoadingUserProfile from "../LoadingUserProfile";
 
 const Wrapper = styled(VStack)`
   border-radius: 10px;
@@ -49,7 +50,7 @@ const UserProfile = () => {
   const id: string | undefined = useParams().id;
   const { data: users, isLoading, isError } = useGetUsersQuery();
 
-  if (isLoading) return <div>loading...</div>;
+  if (isLoading) return <LoadingUserProfile />;
 
   if (!users || isError) return <div>some error occured</div>;
 
