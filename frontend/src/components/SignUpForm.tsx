@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import VerticalList from "./lists/VerticalList";
-import HorizontalList from "./lists/HorizontalList";
+import VStack from "./containers/VStack";
+import HStack from "./containers/HStack";
 import useField from "../hooks/useField";
 import Input from "./core/Input";
 import Button from "./core/Button";
@@ -117,10 +117,10 @@ const SignUpForm = () => {
   if (isError) return <div>Some error occurred!</div>;
 
   return (
-    <VerticalList $gap="2em" $center>
+    <VStack $gap="2em" $center>
       <LogoText>Join Twittur Today!</LogoText>
 
-      <HorizontalList style={{ width: "100%" }}>
+      <HStack style={{ width: "100%" }}>
         <KindButton
           $active={kind === "student"}
           onClick={() => setKind("student")}
@@ -133,7 +133,7 @@ const SignUpForm = () => {
         >
           Teacher
         </KindButton>
-      </HorizontalList>
+      </HStack>
 
       <Form onSubmit={onSubmit}>
         <Input {...username} required />
@@ -156,7 +156,7 @@ const SignUpForm = () => {
 
         <Button $rounded>Sign Up</Button>
       </Form>
-    </VerticalList>
+    </VStack>
   );
 };
 

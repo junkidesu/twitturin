@@ -2,14 +2,14 @@ import { Reply } from "../../types";
 import styled from "styled-components";
 import RouterLink from "../core/RouterLink";
 import emptyProfilePicture from "../../assets/images/empty-profile-picture.png";
-import VerticalList from "../lists/VerticalList";
-import HorizontalList from "../lists/HorizontalList";
+import VStack from "../containers/VStack";
+import HStack from "../containers/HStack";
 
 interface Props {
   reply: Reply;
 }
 
-const Wrapper = styled(HorizontalList)`
+const Wrapper = styled(HStack)`
   display: flex;
   background-color: white;
   border: 2px solid ${(props) => props.theme.colors.grey4};
@@ -34,7 +34,7 @@ const ProfilePicture = styled.img`
   border-radius: 10em;
 `;
 
-const Body = styled(VerticalList)`
+const Body = styled(VStack)`
   padding-left: 1em;
   gap: 1em;
 `;
@@ -47,7 +47,7 @@ const ReplyItem = ({ reply }: Props) => {
       </RouterLink>
 
       <Body>
-        <HorizontalList $center $gap="0.5em">
+        <HStack $center $gap="0.5em">
           <FullName to={`/users/${reply.author.id}`}>
             {reply.author.fullName || "Twittur User"}
           </FullName>
@@ -55,7 +55,7 @@ const ReplyItem = ({ reply }: Props) => {
           <Username to={`/users/${reply.author.id}`}>
             @{reply.author.username}
           </Username>
-        </HorizontalList>
+        </HStack>
 
         <RouterLink to={`/tweets/${reply.tweet}/#${reply.id}`}>
           {reply.content}

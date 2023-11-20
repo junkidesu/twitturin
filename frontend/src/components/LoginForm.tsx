@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import VerticalList from "./lists/VerticalList";
+import VStack from "./containers/VStack";
 import useField from "../hooks/useField";
 import Button from "./core/Button";
 import Input from "./core/Input";
@@ -48,7 +48,7 @@ const LoginForm = () => {
   if (isError) return <div>Error occured! [TODO error message screen]</div>;
 
   return (
-    <VerticalList $gap="2em" $center>
+    <VStack $gap="2em" $center>
       <LogoText>Log in to Twittur</LogoText>
 
       <Form onSubmit={onSubmit}>
@@ -58,7 +58,7 @@ const LoginForm = () => {
 
         <Button $rounded>Log in</Button>
       </Form>
-    </VerticalList>
+    </VStack>
   );
 };
 

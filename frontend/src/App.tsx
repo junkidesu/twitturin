@@ -12,7 +12,7 @@ import PageWrapper from "./components/PageWrapper";
 import TweetPage from "./components/tweets/TweetPage";
 import { useGetUsersQuery } from "./services/usersService";
 import NewTweetForm from "./components/tweets/NewTweetForm";
-import Modal from "./components/lists/Modal";
+import Modal from "./components/containers/Modal";
 
 const App = () => {
   const { data: tweets, isLoading } = useGetTweetsQuery();

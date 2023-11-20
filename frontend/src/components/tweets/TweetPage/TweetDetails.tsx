@@ -1,12 +1,8 @@
 import styled from "styled-components";
-import VerticalList from "../../lists/VerticalList";
-import HorizontalList from "../../lists/HorizontalList";
+import VStack from "../../containers/VStack";
+import HStack from "../../containers/HStack";
 import RouterLink from "../../core/RouterLink";
-import emptyProfilePicture from "../../../assets/images/empty-profile-picture.png";
-import emptyHeart from "../../../assets/icons/heart.svg";
-import filledHeart from "../../../assets/icons/filledHeart.svg";
-import repliesIcon from "../../../assets/icons/replies.svg";
-import shareIcon from "../../../assets/icons/share.svg";
+import { icons, pictures } from "../../../assets";
 import IconButton from "../../core/IconButton";
 import { Tweet } from "../../../types";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +12,7 @@ import {
   useUnlikeTweetMutation,
 } from "../../../services/tweetsService";
 
-const Wrapper = styled(HorizontalList)`
+const Wrapper = styled(HStack)`
   background-color: white;
   border: 2px solid ${(props) => props.theme.colors.grey4};
   border-top-left-radius: 20px;
@@ -49,7 +45,7 @@ const ProfilePicture = styled.img`
   border-radius: 10em;
 `;
 
-const Body = styled(VerticalList)`
+const Body = styled(VStack)`
   padding-left: 1em;
   gap: 1em;
 `;
@@ -93,11 +89,11 @@ const TweetDetails = ({ tweet }: Props) => {
   return (
     <Wrapper>
       <RouterLink to={`/users/${tweet.author.id}`}>
-        <ProfilePicture src={emptyProfilePicture} />
+        <ProfilePicture src={pictures.emptyProfilePicture} />
       </RouterLink>
 
       <Body>
-        <HorizontalList $center $gap="0.5em">
+        <HStack $center $gap="0.5em">
           <FullName to={`/users/${tweet.author.id}`}>
             {tweet.author.fullName || "Twittur User"}
           </FullName>
@@ -105,20 +101,20 @@ const TweetDetails = ({ tweet }: Props) => {
           <Username to={`/users/${tweet.author.id}`}>
             @{tweet.author.username}
           </Username>
-        </HorizontalList>
+        </HStack>
 
         <Content>{tweet.content}</Content>
 
-        <HorizontalList $gap="0.5em">
+        <HStack $gap="0.5em">
           <IconButton
-            icon={likedByMe ? filledHeart : emptyHeart}
+            icon={likedByMe ? icons.filledHeartIcon : icons.emptyHeartIcon}
             label={likeButtonLabel}
             onClick={likedByMe ? handleUnlike : handleLike}
           />
 
-          <IconButton icon={repliesIcon} label={replyButtonLabel} />
-          <IconButton icon={shareIcon} label="0 shares" />
-        </HorizontalList>
+          <IconButton icon={icons.repliesIcon} label={replyButtonLabel} />
+          <IconButton icon={icons.shareIcon} label="0 shares" />
+        </HStack>
       </Body>
     </Wrapper>
   );

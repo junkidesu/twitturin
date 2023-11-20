@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import VerticalList from "../lists/VerticalList";
+import VStack from "../containers/VStack";
 import RouterLink from "../core/RouterLink";
-import emptyProfilePicture from "../../assets/images/empty-profile-picture.png";
-import Tabs from "./Tabs";
+import { pictures } from "../../assets";
+import UserTabs from "./UserTabs";
 import { useParams } from "react-router-dom";
 import { useGetUsersQuery } from "../../services/usersService";
 
-const Wrapper = styled(VerticalList)`
+const Wrapper = styled(VStack)`
   border-radius: 10px;
   box-sizing: border-box;
   overflow: hidden;
@@ -20,7 +20,7 @@ const Banner = styled.div`
   background: linear-gradient(45deg, #555555, #333333);
 `;
 
-const UserDetails = styled(VerticalList)`
+const UserDetails = styled(VStack)`
   padding: 1em;
 `;
 
@@ -60,17 +60,17 @@ const UserProfile = () => {
   return (
     <Wrapper $gap="1.5em">
       <Banner>
-        <ProfilePicture src={emptyProfilePicture} />
+        <ProfilePicture src={pictures.emptyProfilePicture} />
       </Banner>
 
       <UserDetails $gap="1em">
-        <VerticalList>
+        <VStack>
           <FullName to={`/users/${user.id}`}>{user.fullName}</FullName>
           <Username to={`/users/${user.id}`}>@{user.username}</Username>
-        </VerticalList>
+        </VStack>
       </UserDetails>
 
-      <Tabs tweets={user.tweets} replies={user.replies} />
+      <UserTabs tweets={user.tweets} replies={user.replies} />
     </Wrapper>
   );
 };

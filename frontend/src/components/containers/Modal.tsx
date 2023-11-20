@@ -1,14 +1,14 @@
 import styled from "styled-components";
-import VerticalList from "./VerticalList";
+import VStack from "./VStack";
 import IconButton from "../core/IconButton";
-import closeIcon from "../../assets/icons/close.svg";
+import { icons } from "../../assets";
 import { useAppDispatch, useAppSelector } from "../../hooks/store";
 import { hideModal } from "../../reducers/modalReducer";
 
-const ModalWrapper = styled(VerticalList)`
+const ModalWrapper = styled(VStack)`
   justify-content: space-around;
   position: fixed;
-  background-color: #555555cc;
+  background-color: #333333cc;
   left: 0;
   right: 0;
   top: 0;
@@ -31,7 +31,7 @@ const Modal = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <ModalWrapper $center>
-      <CloseButton icon={closeIcon} onClick={() => dispatch(hideModal())} />
+      <CloseButton icon={icons.closeIcon} onClick={() => dispatch(hideModal())} />
       {children}
     </ModalWrapper>
   );

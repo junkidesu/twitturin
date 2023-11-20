@@ -2,11 +2,11 @@ import styled from "styled-components";
 import Form from "../core/Form";
 import TextArea from "../core/TextArea";
 import Button from "../core/Button";
-import VerticalList from "../lists/VerticalList";
+import VStack from "../containers/VStack";
 import useField from "../../hooks/useField";
 import { useAddTweetMutation } from "../../services/tweetsService";
 
-const Wrapper = styled(VerticalList)`
+const Wrapper = styled(VStack)`
   min-width: 500px;
   padding: 1em;
 `;

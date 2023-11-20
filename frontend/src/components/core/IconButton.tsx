@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import HorizontalList from "../lists/HorizontalList";
+import HStack from "../containers/HStack";
 import Icon from "./Icon";
 
-const ButtonWrapper = styled(HorizontalList)`
+const ButtonWrapper = styled(HStack)`
   width: fit-content;
   border-radius: 5px;
   box-sizing: border-box;

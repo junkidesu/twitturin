@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import List from "./List";
 
-const HorizontalList = styled(List)`
+const HStack = styled(List)`
   flex-direction: row;
 `;
 
-export default HorizontalList;
+export default HStack;

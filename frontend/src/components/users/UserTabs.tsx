@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
-import VerticalList from "../lists/VerticalList";
-import HorizontalList from "../lists/HorizontalList";
+import VStack from "../containers/VStack";
+import HStack from "../containers/HStack";
 import TweetList from "../tweets/TweetList";
 import ReplyList from "../replies/ReplyList";
 import { Reply, Tweet } from "../../types";
@@ -23,7 +23,7 @@ const NavButton = styled.button<{ $active: boolean }>`
   }
 `;
 
-const TabWrapper = styled(VerticalList)`
+const TabWrapper = styled(VStack)`
   padding: 1em;
 `;
 
@@ -32,12 +32,12 @@ interface Props {
   replies: Reply[];
 }
 
-const Tabs = ({ tweets, replies }: Props) => {
+const UserTabs = ({ tweets, replies }: Props) => {
   const [active, setActive] = useState<"tweets" | "replies">("tweets");
 
   return (
-    <VerticalList $gap="0.5em">
-      <HorizontalList>
+    <VStack $gap="0.5em">
+      <HStack>
         <NavButton
           $active={active === "tweets"}
           onClick={() => setActive("tweets")}
@@ -50,15 +50,15 @@ const Tabs = ({ tweets, replies }: Props) => {
         >
           Replies
         </NavButton>
-      </HorizontalList>
+      </HStack>
 
       <TabWrapper>
         {active === "tweets" && <TweetList tweets={tweets} />}
 
         {active === "replies" && <ReplyList replies={replies} />}
       </TabWrapper>
-    </VerticalList>
+    </VStack>
   );
 };
 
-export default Tabs;
+export default UserTabs;

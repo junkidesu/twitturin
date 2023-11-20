@@ -1,12 +1,8 @@
 import styled from "styled-components";
 import { Tweet } from "../../types";
-import emptyProfilePicture from "../../assets/images/empty-profile-picture.png";
-import emptyHeart from "../../assets/icons/heart.svg";
-import filledHeart from "../../assets/icons/filledHeart.svg";
-import repliesIcon from "../../assets/icons/replies.svg";
-import shareIcon from "../../assets/icons/share.svg";
-import VerticalList from "../lists/VerticalList";
-import HorizontalList from "../lists/HorizontalList";
+import { icons, pictures } from "../../assets";
+import VStack from "../containers/VStack";
+import HStack from "../containers/HStack";
 import IconButton from "../core/IconButton";
 import RouterLink from "../core/RouterLink";
 import { useLikeTweetMutation } from "../../services/tweetsService";
@@ -14,7 +10,7 @@ import { useUnlikeTweetMutation } from "../../services/tweetsService";
 import { useAppSelector } from "../../hooks/store";
 import { useNavigate } from "react-router-dom";
 
-const Wrapper = styled(HorizontalList)`
+const Wrapper = styled(HStack)`
   background-color: white;
   border: 2px solid ${(props) => props.theme.colors.grey4};
   border-radius: 5px;
@@ -39,7 +35,7 @@ const ProfilePicture = styled.img`
   border-radius: 10em;
 `;
 
-const Body = styled(VerticalList)`
+const Body = styled(VStack)`
   padding-left: 1em;
   gap: 1em;
 `;
@@ -71,11 +67,11 @@ const TweetItem = ({ tweet }: { tweet: Tweet }) => {
   return (
     <Wrapper>
       <RouterLink to={`/users/${tweet.author.id}`}>
-        <ProfilePicture src={emptyProfilePicture} />
+        <ProfilePicture src={pictures.emptyProfilePicture} />
       </RouterLink>
 
       <Body>
-        <HorizontalList $center $gap="0.5em">
+        <HStack $center $gap="0.5em">
           <FullName to={`/users/${tweet.author.id}`}>
             {tweet.author.fullName || "Twittur User"}
           </FullName>
@@ -83,23 +79,23 @@ const TweetItem = ({ tweet }: { tweet: Tweet }) => {
           <Username to={`/users/${tweet.author.id}`}>
             @{tweet.author.username}
           </Username>
-        </HorizontalList>
+        </HStack>
 
         <RouterLink to={`/tweets/${tweet.id}`}>{tweet.content}</RouterLink>
 
-        <HorizontalList $gap="0.5em">
+        <HStack $gap="0.5em">
           <IconButton
-            icon={likedByMe ? filledHeart : emptyHeart}
+            icon={likedByMe ? icons.filledHeartIcon : icons.emptyHeartIcon}
             label={tweet.likes}
             onClick={likedByMe ? handleUnlike : handleLike}
           />
 
           <RouterLink to={`/tweets/${tweet.id}`}>
-            <IconButton icon={repliesIcon} label={tweet.replyCount} />
+            <IconButton icon={icons.repliesIcon} label={tweet.replyCount} />
           </RouterLink>
 
-          <IconButton icon={shareIcon} label={0} />
-        </HorizontalList>
+          <IconButton icon={icons.shareIcon} label={0} />
+        </HStack>
       </Body>
     </Wrapper>
   );

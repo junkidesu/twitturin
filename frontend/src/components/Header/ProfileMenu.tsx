@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import VerticalList from "../lists/VerticalList";
+import VStack from "../containers/VStack";
 import RouterLink from "../core/RouterLink";
 import AuthButton from "./AuthButton";
 import lightTheme from "../../themes/lightTheme";
@@ -7,7 +7,7 @@ import { useAppDispatch } from "../../hooks/store";
 import { removeCredentials } from "../../reducers/authReducer";
 import { showModal } from "../../reducers/modalReducer";
 
-const OtherItems = styled(VerticalList)`
+const OtherItems = styled(VStack)`
   display: none;
 `;
 
@@ -28,7 +28,7 @@ const MenuButton = styled.button<{ $active?: boolean }>`
   }
 `;
 
-const ProfileMenuWrapper = styled(VerticalList)`
+const ProfileMenuWrapper = styled(VStack)`
   position: absolute;
   top: 0.7em;
   right: 1em;

@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import VerticalList from "../../lists/VerticalList";
+import VStack from "../../containers/VStack";
 import ReplyList from "../../replies/ReplyList";
 import TweetDetails from "./TweetDetails";
 import { useGetTweetsQuery } from "../../../services/tweetsService";
@@ -13,7 +13,7 @@ const ReplyTitle = styled.p`
   font-weight: 500;
 `;
 
-const RepliesToTweet = styled(VerticalList)`
+const RepliesToTweet = styled(VStack)`
   background: white;
   border: 2px solid ${(props) => props.theme.colors.grey4};
   border-bottom-left-radius: 20px;
@@ -35,7 +35,7 @@ const TweetPage = () => {
   if (!tweet) return <div>tweet not found!</div>;
 
   return (
-    <VerticalList>
+    <VStack>
       <TweetDetails tweet={tweet} />
 
       <RepliesToTweet $gap="0.5em">
@@ -45,7 +45,7 @@ const TweetPage = () => {
 
         <ReplyList replies={tweet.replies} />
       </RepliesToTweet>
-    </VerticalList>
+    </VStack>
   );
 };
 

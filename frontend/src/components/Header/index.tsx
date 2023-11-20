@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import RouterLink from "../core/RouterLink";
-import HorizontalList from "../lists/HorizontalList";
+import HStack from "../containers/HStack";
 import AuthButton from "./AuthButton";
 import lightTheme from "../../themes/lightTheme";
 import ProfileMenu from "./ProfileMenu";
 import { useAppSelector } from "../../hooks/store";
 
-const RightCorner = styled(HorizontalList)`
+const RightCorner = styled(HStack)`
   position: absolute;
   top: 0.7em;
   right: 1em;
