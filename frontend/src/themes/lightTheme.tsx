@@ -9,8 +9,8 @@ const lightTheme: DefaultTheme = {
     extraLarge: "2.5em",
   },
   colors: {
-    primary: "teal",
-    secondary: "turquoise",
+    primary: "blueviolet",
+    secondary: "violet",
     third: "slategrey",
     background: "#eeeeee",
     grey1: "#252525",
