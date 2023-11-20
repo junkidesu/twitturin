@@ -9,8 +9,7 @@ import LoginForm from "./components/LoginForm";
 import PageWrapper from "./components/PageWrapper";
 import TweetPage from "./components/tweets/TweetPage";
 import { useGetUsersQuery } from "./services/usersService";
-import NewTweetForm from "./components/tweets/NewTweetForm";
-import Modal from "./components/containers/Modal";
+import NewTweetModal from "./components/tweets/NewTweetModal";
 import MainPage from "./components/MainPage";
 
 const App = () => {
@@ -22,9 +21,7 @@ const App = () => {
 
       <Header />
 
-      <Modal>
-        <NewTweetForm />
-      </Modal>
+      <NewTweetModal />
 
       <PageWrapper>
         <Routes>
