@@ -11,6 +11,8 @@ import LoginForm from "./components/LoginForm";
 import PageWrapper from "./components/PageWrapper";
 import TweetPage from "./components/tweets/TweetPage";
 import { useGetUsersQuery } from "./services/usersService";
+import NewTweetForm from "./components/tweets/NewTweetForm";
+import Modal from "./components/lists/Modal";
 
 const App = () => {
   const { data: tweets, isLoading } = useGetTweetsQuery();
@@ -21,6 +23,10 @@ const App = () => {
       <GlobalStyle />
 
       <Header />
+
+      <Modal>
+        <NewTweetForm />
+      </Modal>
 
       <PageWrapper>
         <Routes>

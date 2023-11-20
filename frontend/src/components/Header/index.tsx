@@ -1,13 +1,10 @@
 import styled from "styled-components";
 import RouterLink from "../core/RouterLink";
 import HorizontalList from "../lists/HorizontalList";
-import Modal from "../lists/Modal";
 import AuthButton from "./AuthButton";
 import lightTheme from "../../themes/lightTheme";
 import ProfileMenu from "./ProfileMenu";
 import { useAppSelector } from "../../hooks/store";
-import NewTweetForm from "../tweets/NewTweetForm";
-import { useState } from "react";
 
 const RightCorner = styled(HorizontalList)`
   position: absolute;
@@ -20,7 +17,7 @@ const HeaderContainer = styled.header`
   top: 0;
   display: flex;
   flex-direction: row;
-  background: #222222bb;
+  background-color: #222222bb;
   backdrop-filter: blur(2px);
   padding: 1em 2em;
   margin-bottom: 0.5em;
@@ -39,21 +36,16 @@ const LogoText = styled.div`
 `;
 
 const Header = () => {
-  const [visible, setVisible] = useState(false);
   const username = useAppSelector(({ auth }) => auth.username);
 
   return (
     <HeaderContainer>
-      <Modal visible={visible} setVisible={setVisible}>
-        <NewTweetForm />
-      </Modal>
-
       <RouterLink to="/">
         <LogoText>Twittur</LogoText>
       </RouterLink>
 
       {username ? (
-        <ProfileMenu username={username} setVisible={setVisible} />
+        <ProfileMenu username={username} />
       ) : (
         <RightCorner $gap="1em">
           <RouterLink to="/login">

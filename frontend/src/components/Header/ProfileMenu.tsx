@@ -5,6 +5,7 @@ import AuthButton from "./AuthButton";
 import lightTheme from "../../themes/lightTheme";
 import { useAppDispatch } from "../../hooks/store";
 import { removeCredentials } from "../../reducers/authReducer";
+import { showModal } from "../../reducers/modalReducer";
 
 const OtherItems = styled(VerticalList)`
   display: none;
@@ -40,13 +41,7 @@ const ProfileMenuWrapper = styled(VerticalList)`
   }
 `;
 
-const ProfileMenu = ({
-  username,
-  setVisible,
-}: {
-  username: string;
-  setVisible: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+const ProfileMenu = ({ username }: { username: string }) => {
   const dispatch = useAppDispatch();
 
   const handleSignOut = () => {
@@ -62,7 +57,7 @@ const ProfileMenu = ({
       </RouterLink>
 
       <OtherItems>
-        <MenuButton onClick={() => setVisible(true)}>New Tweet</MenuButton>
+        <MenuButton onClick={() => dispatch(showModal())}>New Tweet</MenuButton>
         <MenuButton>Edit profile</MenuButton>
         <MenuButton onClick={handleSignOut}>Sign out</MenuButton>
       </OtherItems>
