@@ -6,12 +6,17 @@ import lightTheme from "../../themes/lightTheme";
 import { useAppDispatch } from "../../hooks/store";
 import { removeCredentials } from "../../reducers/authReducer";
 import { showModal } from "../../reducers/modalReducer";
+import Icon from "../core/Icon";
+import { icons } from "../../assets";
 
 const OtherItems = styled(VStack)`
   display: none;
 `;
 
 const MenuButton = styled.button<{ $active?: boolean }>`
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
   color: ${(props) =>
     props.$active ? props.theme.colors.primary : props.theme.colors.grey2};
   padding: 0.7em;
@@ -57,9 +62,15 @@ const ProfileMenu = ({ username }: { username: string }) => {
       </RouterLink>
 
       <OtherItems>
-        <MenuButton onClick={() => dispatch(showModal())}>New Tweet</MenuButton>
-        <MenuButton>Edit profile</MenuButton>
-        <MenuButton onClick={handleSignOut}>Sign out</MenuButton>
+        <MenuButton onClick={() => dispatch(showModal())}>
+          <Icon src={icons.createIcon} /> New Tweet
+        </MenuButton>
+        <MenuButton>
+          <Icon src={icons.editIcon} /> Edit profile
+        </MenuButton>
+        <MenuButton onClick={handleSignOut}>
+          <Icon src={icons.logOutIcon} /> Sign out
+        </MenuButton>
       </OtherItems>
     </ProfileMenuWrapper>
   );
