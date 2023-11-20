@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./reducers/authReducer";
 import usersReducer from "./reducers/usersReducer";
+import modalReducer from "./reducers/modalReducer";
 import { api } from "./services/api";
 
 const store = configureStore({
@@ -8,6 +9,7 @@ const store = configureStore({
     [api.reducerPath]: api.reducer,
     auth: authReducer,
     users: usersReducer,
+    modal: modalReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(api.middleware),
