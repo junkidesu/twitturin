@@ -9,7 +9,10 @@ import { Major, SignUpFormValues } from "../types";
 import Select from "./core/Select";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "../hooks/store";
+import { useAddUserMutation } from "../services/usersService";
+import { useAppDispatch, useAppSelector } from "../hooks/store";
+import { useLoginMutation } from "../services/authService";
+import { setCredentials } from "../reducers/authReducer";
 
 const LogoText = styled.p`
   color: teal;
@@ -42,6 +45,8 @@ const majors = Object.values(Major).map((m) => m.toString());
 type Kind = "student" | "teacher";
 
 const SignUpForm = () => {
+  const [signUp, { isLoading, isError, isSuccess }] = useAddUserMutation();
+  const [login] = useLoginMutation();
   const [kind, setKind] = useState<Kind>("student");
   const studentId = useField("text", "StudentID");
   const username = useField("text", "Username");
@@ -53,13 +58,33 @@ const SignUpForm = () => {
 
   const token = useAppSelector(({ auth }) => auth.token);
 
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (token) navigate("/");
-  }, [token, navigate]);
+    const authenticate = async () => {
+      const tokenData = await login({
+        username: username.value,
+        password: password.value,
+      }).unwrap();
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+      dispatch(setCredentials(tokenData));
+    };
+
+    if (isSuccess) authenticate();
+
+    if (token) navigate("/");
+  }, [
+    token,
+    navigate,
+    isSuccess,
+    dispatch,
+    login,
+    username.value,
+    password.value,
+  ]);
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const common = {
@@ -83,7 +108,13 @@ const SignUpForm = () => {
           };
 
     console.log(toSignUp);
+
+    await signUp(toSignUp);
   };
+
+  if (isLoading) return <div>Signing up...</div>;
+
+  if (isError) return <div>Some error occurred!</div>;
 
   return (
     <VerticalList $gap="2em" $center>
