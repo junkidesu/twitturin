@@ -70,16 +70,23 @@ const TweetDetails = ({ tweet }: Props) => {
     tweet.likes === 1 ? "like" : "likes"
   }`;
 
+  const replyButtonLabel = `${tweet.replyCount} ${
+    tweet.replyCount === 1 ? "reply" : "replies"
+  }`;
+
   const handleLike = async () => {
     if (!userId) {
       navigate("/login");
     } else {
-      if (!likedByMe) await like(tweet.id);
-      else
-        await unlike({
-          id: tweet.id,
-          userId,
-        });
+      await like(tweet.id);
+    }
+  };
+
+  const handleUnlike = async () => {
+    if (!userId) {
+      navigate("/login");
+    } else {
+      await unlike({ id: tweet.id, userId });
     }
   };
 
@@ -103,25 +110,13 @@ const TweetDetails = ({ tweet }: Props) => {
         <Content>{tweet.content}</Content>
 
         <HorizontalList $gap="0.5em">
-          {likedByMe ? (
-            <IconButton
-              icon={filledHeart}
-              label={likeButtonLabel}
-              onClick={handleLike}
-            />
-          ) : (
-            <IconButton
-              icon={emptyHeart}
-              label={likeButtonLabel}
-              onClick={handleLike}
-            />
-          )}
           <IconButton
-            icon={repliesIcon}
-            label={`${tweet.replyCount} ${
-              tweet.replyCount === 1 ? "reply" : "replies"
-            }`}
+            icon={likedByMe ? filledHeart : emptyHeart}
+            label={likeButtonLabel}
+            onClick={likedByMe ? handleUnlike : handleLike}
           />
+
+          <IconButton icon={repliesIcon} label={replyButtonLabel} />
           <IconButton icon={shareIcon} label="0 shares" />
         </HorizontalList>
       </Body>

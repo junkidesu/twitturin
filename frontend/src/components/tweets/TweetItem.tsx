@@ -56,8 +56,15 @@ const TweetItem = ({ tweet }: { tweet: Tweet }) => {
     if (!userId) {
       navigate("/login");
     } else {
-      if (!likedByMe) await like(tweet.id);
-      else await unlike({ id: tweet.id, userId });
+      await like(tweet.id);
+    }
+  };
+
+  const handleUnlike = async () => {
+    if (!userId) {
+      navigate("/login");
+    } else {
+      await unlike({ id: tweet.id, userId });
     }
   };
 
@@ -81,19 +88,11 @@ const TweetItem = ({ tweet }: { tweet: Tweet }) => {
         <RouterLink to={`/tweets/${tweet.id}`}>{tweet.content}</RouterLink>
 
         <HorizontalList $gap="0.5em">
-          {likedByMe ? (
-            <IconButton
-              icon={filledHeart}
-              label={tweet.likes}
-              onClick={handleLike}
-            />
-          ) : (
-            <IconButton
-              icon={emptyHeart}
-              label={tweet.likes}
-              onClick={handleLike}
-            />
-          )}
+          <IconButton
+            icon={likedByMe ? filledHeart : emptyHeart}
+            label={tweet.likes}
+            onClick={likedByMe ? handleUnlike : handleLike}
+          />
 
           <RouterLink to={`/tweets/${tweet.id}`}>
             <IconButton icon={repliesIcon} label={tweet.replyCount} />
