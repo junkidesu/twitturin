@@ -5,6 +5,7 @@ import ReplyList from "../../replies/ReplyList";
 import TweetDetails from "./TweetDetails";
 import { useGetTweetsQuery } from "../../../services/tweetsService";
 import ReplyForm from "./ReplyForm";
+import LoadingTweetPage from "../LoadingTweetPage";
 
 const ReplyTitle = styled.p`
   margin: none;
@@ -26,7 +27,7 @@ const TweetPage = () => {
   const id = useParams().id;
   const { data: tweets, isLoading, isError } = useGetTweetsQuery();
 
-  if (isLoading) return <div>loading...</div>;
+  if (isLoading) return <LoadingTweetPage />;
 
   if (!tweets || isError) return <div>Error occured!</div>;
 
