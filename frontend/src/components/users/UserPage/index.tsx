@@ -30,7 +30,7 @@ const Username = styled(Label)`
   color: ${(props) => props.theme.colors.grey2};
 `;
 
-const UserProfile = () => {
+const UserPage = () => {
   const id: string | undefined = useParams().id;
   const { data: users, isLoading, isError } = useGetUsersQuery();
 
@@ -62,4 +62,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default UserPage;
