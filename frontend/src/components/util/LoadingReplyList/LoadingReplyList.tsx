@@ -1,5 +1,5 @@
 import LoadingReplyItem from "./LoadingReplyItem";
-import Box from "../containers/Box";
+import Box from "../../containers/Box";
 
 const LoadingReplyList = () => {
   return (

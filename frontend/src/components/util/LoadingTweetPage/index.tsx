@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import LoadingTweetDetails from "./LoadingTweetDetails";
-import LoadingReplyList from "../../replies/LoadingReplyList";
+import LoadingReplyList from "../LoadingReplyList/LoadingReplyList";
 import Box from "../../containers/Box";
 import BorderedBox from "../../containers/BorderedBox";
 import Heading from "../../core/Heading";

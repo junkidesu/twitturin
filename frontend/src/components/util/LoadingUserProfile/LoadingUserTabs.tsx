@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
 import LoadingTweetList from "../LoadingTweetList";
-import LoadingReplyList from "../../replies/LoadingReplyList";
+import LoadingReplyList from "../LoadingReplyList/LoadingReplyList";
 import Box from "../../containers/Box";
 
 const NavButton = styled.button<{ $active: boolean }>`

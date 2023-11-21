@@ -1,9 +1,9 @@
-import { Reply } from "../../types";
+import { Reply } from "../../../types";
 import styled from "styled-components";
-import RouterLink from "../core/RouterLink";
-import { pictures } from "../../assets";
-import BorderedBox from "../containers/BorderedBox";
-import Box from "../containers/Box";
+import RouterLink from "../../core/RouterLink";
+import { pictures } from "../../../assets";
+import BorderedBox from "../../containers/BorderedBox";
+import Box from "../../containers/Box";
 
 interface Props {
   reply: Reply;

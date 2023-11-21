@@ -1,6 +1,6 @@
-import { Reply } from "../../types";
+import { Reply } from "../../../types";
 import ReplyItem from "./ReplyItem";
-import Box from "../containers/Box";
+import Box from "../../containers/Box";
 
 const ReplyList = ({ replies }: { replies: Reply[] }) => {
   return (
