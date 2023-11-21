@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import RouterLink from "../core/RouterLink";
 import Box from "../containers/Box";
+// import HeaderButton from "./HeaderButton";
+import ProfileMenu from "./ProfileMenu";
+import { useAppSelector } from "../../hooks/store";
+import AuthButtons from "./AuthButtons";
 
 const RightCornerBox = styled(Box)`
   position: absolute;
@@ -30,13 +34,15 @@ const HomePageLink = styled(RouterLink)`
 `;
 
 const Header = () => {
-  // const username = useAppSelector(({ auth }) => auth.username);
+  const username = useAppSelector(({ auth }) => auth.username);
 
   return (
     <HeaderBox $horizontal $pad="l" $bg="#222222bb">
       <HomePageLink to="/">Twittur</HomePageLink>
 
-      <RightCornerBox>Soon there will be a component</RightCornerBox>
+      <RightCornerBox>
+        {username ? <ProfileMenu username={username} /> : <AuthButtons />}
+      </RightCornerBox>
     </HeaderBox>
   );
 };
