@@ -58,7 +58,7 @@ const LoginForm = () => {
 
         <Input {...password} required />
 
-        <Button $rounded>Log in</Button>
+        <Button $width="100%" $rounded>Log in</Button>
       </Form>
     </Box>
   );

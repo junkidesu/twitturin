@@ -156,7 +156,7 @@ const SignUpForm = () => {
 
         <Input {...password} required />
 
-        <Button $rounded>Sign Up</Button>
+        <Button $width="100%" $rounded>Sign Up</Button>
       </Form>
     </Box>
   );
