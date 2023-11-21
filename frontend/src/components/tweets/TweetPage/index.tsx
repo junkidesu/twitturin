@@ -3,7 +3,7 @@ import styled from "styled-components";
 import ReplyList from "../../replies/ReplyList";
 import TweetDetails from "./TweetDetails";
 import { useGetTweetsQuery } from "../../../services/tweetsService";
-import ReplyForm from "./ReplyForm";
+import ReplyForm from "../../replies/ReplyForm";
 import LoadingTweetPage from "../../util/LoadingTweetPage";
 import Box from "../../containers/Box";
 import BorderedBox from "../../containers/BorderedBox";

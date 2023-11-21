@@ -11,9 +11,7 @@ import { useAddUserMutation } from "../../services/usersService";
 import { useAppDispatch, useAppSelector } from "../../hooks/store";
 import { useLoginMutation } from "../../services/authService";
 import { setCredentials } from "../../reducers/authReducer";
-import LoadingSpinner from "../util/LoadingSpinner";
-import Modal from "../containers/Modal";
-import { hideModal, showModal } from "../../reducers/modalReducer";
+import { show, hide } from "../../reducers/loadingStripeReducer";
 import Heading from "../core/Heading";
 import lightTheme from "../../themes/lightTheme";
 import Box from "../containers/Box";
@@ -58,7 +56,7 @@ const SignUpForm = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isLoading) dispatch(showModal());
+    if (isLoading) dispatch(show());
   }, [isLoading, dispatch]);
 
   useEffect(() => {
@@ -72,7 +70,7 @@ const SignUpForm = () => {
     };
 
     if (isSuccess) {
-      dispatch(hideModal());
+      dispatch(hide());
       authenticate();
     }
 
@@ -120,10 +118,6 @@ const SignUpForm = () => {
 
   return (
     <Box $gap="2em" $center>
-      <Modal>
-        <LoadingSpinner label="Signing up..." />
-      </Modal>
-
       <Heading $level={2} $color={lightTheme.colors.primary}>
         Join Twittur Today!
       </Heading>

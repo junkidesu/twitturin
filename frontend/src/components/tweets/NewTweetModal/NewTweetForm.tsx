@@ -5,11 +5,11 @@ import TextArea from "../../core/TextArea";
 import Button from "../../core/Button";
 import useField from "../../../hooks/useField";
 import { useAddTweetMutation } from "../../../services/tweetsService";
-import LoadingSpinner from "../../util/LoadingSpinner";
 import { useAppDispatch } from "../../../hooks/store";
 import { hideModal } from "../../../reducers/modalReducer";
 import Box from "../../containers/Box";
 import Heading from "../../core/Heading";
+import { hide, show } from "../../../reducers/loadingStripeReducer";
 
 const SubmitButton = styled(Button)`
   &:hover {
@@ -23,7 +23,14 @@ const NewTweetForm = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (isSuccess) dispatch(hideModal());
+    if (isLoading) dispatch(show());
+  }, [isLoading, dispatch]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(hide());
+      dispatch(hideModal());
+    }
   }, [isSuccess, dispatch]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -32,11 +39,11 @@ const NewTweetForm = () => {
     await addTweet({ content: content.value });
   };
 
-  if (isLoading) return <LoadingSpinner label="Posting your tweet..." />;
-
   return (
-    <Box $pad="l" $minWidth="500px" $center>
-      <Heading $level={2}>Post New Tweet</Heading>
+    <Box $pad="l" $minWidth="500px" $gap="1em" $center>
+      <Heading $level={2} $color="#eeeeee">
+        Post New Tweet
+      </Heading>
 
       <Form onSubmit={handleSubmit}>
         <TextArea {...content} />

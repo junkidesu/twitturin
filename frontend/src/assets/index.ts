@@ -4,7 +4,6 @@ import HeartIcon from "./icons/heart.svg?react";
 import RepliesIcon from "./icons/replies.svg?react";
 import BookmarkIcon from "./icons/bookmark.svg?react";
 import RetweetIcon from "./icons/retweet.svg?react";
-import LoadingIcon from "./icons/loading-icon.svg?react";
 import LogOutIcon from "./icons/log-out.svg?react";
 import EditIcon from "./icons/edit.svg?react";
 import CreateIcon from "./icons/plus.svg?react";
@@ -22,7 +21,6 @@ export const icons = {
   RepliesIcon,
   BookmarkIcon,
   RetweetIcon,
-  LoadingIcon,
   LogOutIcon,
   EditIcon,
   CreateIcon,

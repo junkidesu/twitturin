@@ -1,20 +1,21 @@
-import { ThemeProvider } from "styled-components";
-import { useEffect } from "react";
 import lightTheme from "./themes/lightTheme";
 import GlobalStyle from "./themes/GlobalStyle";
+import storageService from "./services/storageService";
+import { ThemeProvider } from "styled-components";
+import { useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
+import { useAppDispatch } from "./hooks/store";
+import { setCredentials } from "./reducers/authReducer";
+import { useGetUsersQuery } from "./services/usersService";
 import Header from "./components/Header";
 import SignUpForm from "./components/auth/SignUpForm";
-import { Routes, Route } from "react-router-dom";
 import UserPage from "./components/users/UserPage";
 import LoginForm from "./components/auth/LoginForm";
 import PageWrapper from "./components/util/PageWrapper";
 import TweetPage from "./components/tweets/TweetPage";
-import { useGetUsersQuery } from "./services/usersService";
 import NewTweetModal from "./components/tweets/NewTweetModal";
 import MainPage from "./components/MainPage";
-import storageService from "./services/storageService";
-import { useAppDispatch } from "./hooks/store";
-import { setCredentials } from "./reducers/authReducer";
+import LoadingStripe from "./components/util/LoadingStripe";
 
 const App = () => {
   useGetUsersQuery();
@@ -29,6 +30,8 @@ const App = () => {
   return (
     <ThemeProvider theme={lightTheme}>
       <GlobalStyle />
+
+      <LoadingStripe />
 
       <Header />
 
