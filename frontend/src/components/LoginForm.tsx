@@ -26,7 +26,8 @@ const LoginForm = () => {
   const username = useField("text", "Username");
   const password = useField("password", "Password");
 
-  const [login, { isLoading, isError, isSuccess }] = useLoginMutation();
+  const [login, { data: tokenData, isLoading, isError, isSuccess }] =
+    useLoginMutation();
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -42,7 +43,7 @@ const LoginForm = () => {
       dispatch(hideModal());
       navigate("/");
     }
-  }, [navigate, dispatch, isSuccess]);
+  }, [navigate, dispatch, isSuccess, tokenData]);
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

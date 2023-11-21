@@ -1,4 +1,5 @@
 import { ThemeProvider } from "styled-components";
+import { useEffect } from "react";
 import lightTheme from "./themes/lightTheme";
 import GlobalStyle from "./themes/GlobalStyle";
 import Header from "./components/Header";
@@ -11,9 +12,19 @@ import TweetPage from "./components/tweets/TweetPage";
 import { useGetUsersQuery } from "./services/usersService";
 import NewTweetModal from "./components/tweets/NewTweetModal";
 import MainPage from "./components/MainPage";
+import storageService from "./services/storageService";
+import { useAppDispatch } from "./hooks/store";
+import { setCredentials } from "./reducers/authReducer";
 
 const App = () => {
   useGetUsersQuery();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const tokenData = storageService.getAuthUser();
+
+    if (tokenData) dispatch(setCredentials(tokenData));
+  }, [dispatch]);
 
   return (
     <ThemeProvider theme={lightTheme}>

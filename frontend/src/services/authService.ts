@@ -1,5 +1,6 @@
 import { api } from "./api";
 import { TokenData, Credentials } from "../types";
+import storageService from "./storageService";
 
 const extendedApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -9,6 +10,15 @@ const extendedApi = api.injectEndpoints({
         method: "POST",
         body: credentials,
       }),
+      async onQueryStarted(_arg, { queryFulfilled }) {
+        try {
+          const { data: tokenData } = await queryFulfilled;
+
+          storageService.setAuthUser(tokenData);
+        } catch (error) {
+          console.log(error);
+        }
+      }
     }),
   }),
 });

@@ -8,6 +8,7 @@ import { removeCredentials } from "../../reducers/authReducer";
 import { showModal } from "../../reducers/modalReducer";
 import Icon from "../core/Icon";
 import { icons } from "../../assets";
+import storageService from "../../services/storageService";
 
 const OtherItems = styled(VStack)`
   display: none;
@@ -50,6 +51,7 @@ const ProfileMenu = ({ username }: { username: string }) => {
   const dispatch = useAppDispatch();
 
   const handleSignOut = () => {
+    storageService.removeAuthUser();
     dispatch(removeCredentials());
   };
 
