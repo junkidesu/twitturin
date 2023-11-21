@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { Tweet } from "../../types";
 import { icons, pictures } from "../../assets";
-import VStack from "../containers/VStack";
-import HStack from "../containers/HStack";
+import BorderedBox from "../containers/BorderedBox";
+import Box from "../containers/Box";
 import IconButton from "../core/IconButton";
 import RouterLink from "../core/RouterLink";
 import { useLikeTweetMutation } from "../../services/tweetsService";
@@ -10,22 +10,8 @@ import { useUnlikeTweetMutation } from "../../services/tweetsService";
 import { useAppSelector } from "../../hooks/store";
 import { useNavigate } from "react-router-dom";
 
-const Wrapper = styled(HStack)`
-  background-color: white;
-  border: 2px solid ${(props) => props.theme.colors.grey4};
-  border-radius: 5px;
-  padding: 1em;
-  min-width: 500px;
-`;
-
-const FullName = styled(RouterLink)`
-  color: ${(props) => props.theme.colors.grey1};
-  font-weight: bold;
-`;
-
-const Username = styled(RouterLink)`
+const UsernameLink = styled(RouterLink)`
   color: ${(props) => props.theme.colors.grey2};
-  font-size: ${(props) => props.theme.fontSizes.extraSmall};
 `;
 
 const ProfilePicture = styled.img`
@@ -35,9 +21,13 @@ const ProfilePicture = styled.img`
   border-radius: 10em;
 `;
 
-const Body = styled(VStack)`
-  padding-left: 1em;
-  gap: 1em;
+interface LikeIconProps {
+  $liked: boolean;
+}
+
+const LikeIcon = styled(icons.HeartIcon)<LikeIconProps>`
+  color: ${({ $liked, theme }) => ($liked ? theme.colors.primary : "inherit")};
+  fill: ${({ $liked, theme }) => ($liked ? theme.colors.primary : "none")};
 `;
 
 const TweetItem = ({ tweet }: { tweet: Tweet }) => {
@@ -46,7 +36,9 @@ const TweetItem = ({ tweet }: { tweet: Tweet }) => {
   const navigate = useNavigate();
   const userId = useAppSelector(({ auth }) => auth.id);
 
-  const likedByMe = userId && tweet.likedBy.map((u) => u.id).includes(userId);
+  const likedByMe = userId
+    ? tweet.likedBy.map((u) => u.id).includes(userId)
+    : false;
 
   const handleLike = async () => {
     if (!userId) {
@@ -65,39 +57,46 @@ const TweetItem = ({ tweet }: { tweet: Tweet }) => {
   };
 
   return (
-    <Wrapper>
+    <BorderedBox
+      $gap="1em"
+      $pad="l"
+      $bg="white"
+      $rounded
+      $horizontal
+      $minWidth="500px"
+    >
       <RouterLink to={`/users/${tweet.author.id}`}>
         <ProfilePicture src={pictures.emptyProfilePicture} />
       </RouterLink>
 
-      <Body>
-        <HStack $center $gap="0.5em">
-          <FullName to={`/users/${tweet.author.id}`}>
+      <Box $gap="1em">
+        <Box $horizontal $center $gap="0.5em">
+          <RouterLink $bold to={`/users/${tweet.author.id}`}>
             {tweet.author.fullName || "Twittur User"}
-          </FullName>
+          </RouterLink>
 
-          <Username to={`/users/${tweet.author.id}`}>
+          <UsernameLink $size="extraSmall" to={`/users/${tweet.author.id}`}>
             @{tweet.author.username}
-          </Username>
-        </HStack>
+          </UsernameLink>
+        </Box>
 
         <RouterLink to={`/tweets/${tweet.id}`}>{tweet.content}</RouterLink>
 
-        <HStack $gap="0.5em">
+        <Box $horizontal $gap="0.5em">
           <IconButton
-            icon={likedByMe ? icons.filledHeartIcon : icons.emptyHeartIcon}
             label={tweet.likes}
+            icon={<LikeIcon $liked={likedByMe} />}
             onClick={likedByMe ? handleUnlike : handleLike}
           />
 
           <RouterLink to={`/tweets/${tweet.id}`}>
-            <IconButton icon={icons.repliesIcon} label={tweet.replyCount} />
+            <IconButton icon={<icons.RepliesIcon />} label={tweet.replyCount} />
           </RouterLink>
 
-          <IconButton icon={icons.shareIcon} label={0} />
-        </HStack>
-      </Body>
-    </Wrapper>
+          <IconButton icon={<icons.RetweetIcon />} label={0} />
+        </Box>
+      </Box>
+    </BorderedBox>
   );
 };
 

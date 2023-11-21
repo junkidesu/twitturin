@@ -1,30 +1,16 @@
 import { Reply } from "../../types";
 import styled from "styled-components";
 import RouterLink from "../core/RouterLink";
-import emptyProfilePicture from "../../assets/images/empty-profile-picture.png";
-import VStack from "../containers/VStack";
-import HStack from "../containers/HStack";
+import { pictures } from "../../assets";
+import BorderedBox from "../containers/BorderedBox";
+import Box from "../containers/Box";
 
 interface Props {
   reply: Reply;
 }
 
-const Wrapper = styled(HStack)`
-  display: flex;
-  background-color: white;
-  border: 2px solid ${(props) => props.theme.colors.grey4};
-  border-radius: 5px;
-  padding: 1em;
-`;
-
-const FullName = styled(RouterLink)`
-  color: ${(props) => props.theme.colors.grey1};
-  font-weight: bold;
-`;
-
-const Username = styled(RouterLink)`
+const UsernameLink = styled(RouterLink)`
   color: ${(props) => props.theme.colors.grey2};
-  font-size: ${(props) => props.theme.fontSizes.extraSmall};
 `;
 
 const ProfilePicture = styled.img`
@@ -34,34 +20,36 @@ const ProfilePicture = styled.img`
   border-radius: 10em;
 `;
 
-const Body = styled(VStack)`
-  padding-left: 1em;
-  gap: 1em;
-`;
-
 const ReplyItem = ({ reply }: Props) => {
   return (
-    <Wrapper id={reply.id}>
+    <BorderedBox
+      $horizontal
+      $bg="white"
+      $gap="1em"
+      $pad="l"
+      $rounded
+      id={reply.id}
+    >
       <RouterLink to={`/users/${reply.author.id}`}>
-        <ProfilePicture src={emptyProfilePicture} />
+        <ProfilePicture src={pictures.emptyProfilePicture} />
       </RouterLink>
 
-      <Body>
-        <HStack $center $gap="0.5em">
-          <FullName to={`/users/${reply.author.id}`}>
+      <Box $gap="1em">
+        <Box $horizontal $center $gap="0.5em">
+          <RouterLink $bold to={`/users/${reply.author.id}`}>
             {reply.author.fullName || "Twittur User"}
-          </FullName>
+          </RouterLink>
 
-          <Username to={`/users/${reply.author.id}`}>
+          <UsernameLink $size="extraSmall" to={`/users/${reply.author.id}`}>
             @{reply.author.username}
-          </Username>
-        </HStack>
+          </UsernameLink>
+        </Box>
 
         <RouterLink to={`/tweets/${reply.tweet}/#${reply.id}`}>
           {reply.content}
         </RouterLink>
-      </Body>
-    </Wrapper>
+      </Box>
+    </BorderedBox>
   );
 };
 

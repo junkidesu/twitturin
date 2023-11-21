@@ -1,14 +1,13 @@
 import styled from "styled-components";
-import VBox from "./VBox";
 import IconButton from "../core/IconButton";
 import { icons } from "../../assets";
 import { useAppDispatch, useAppSelector } from "../../hooks/store";
 import { hideModal } from "../../reducers/modalReducer";
+import Box from "./Box";
 
-const ModalWrapper = styled(VBox)`
+const ModalBox = styled(Box)`
   justify-content: space-around;
   position: fixed;
-  background-color: #333333cc;
   left: 0;
   right: 0;
   top: 0;
@@ -23,17 +22,24 @@ const CloseButton = styled(IconButton)`
   right: 1em;
 `;
 
-const Modal = ({ children }: { children: React.ReactNode }) => {
+interface ModalProps {
+  children: React.ReactNode;
+}
+
+const Modal = ({ children }: ModalProps) => {
   const visible = useAppSelector((state) => state.modal);
   const dispatch = useAppDispatch();
 
   if (!visible) return null;
 
   return (
-    <ModalWrapper $center>
-      <CloseButton icon={icons.closeIcon} onClick={() => dispatch(hideModal())} />
+    <ModalBox $bg="#333333cc" $center>
+      <CloseButton
+        icon={<icons.CloseIcon />}
+        onClick={() => dispatch(hideModal())}
+      />
       {children}
-    </ModalWrapper>
+    </ModalBox>
   );
 };
 

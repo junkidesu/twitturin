@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import VStack from "./containers/VStack";
-import HStack from "./containers/HStack";
+import VBox from "./containers/VBox";
+import HBox from "./containers/HBox";
 import useField from "../hooks/useField";
 import Input from "./core/Input";
 import Button from "./core/Button";
@@ -126,14 +126,14 @@ const SignUpForm = () => {
   if (isError) return <div>Some error occurred!</div>;
 
   return (
-    <VStack $gap="2em" $center>
+    <VBox $gap="2em" $center>
       <Modal>
         <LoadingSpinner label="Signing up..." />
       </Modal>
 
       <LogoText>Join Twittur Today!</LogoText>
 
-      <HStack style={{ width: "100%" }}>
+      <HBox style={{ width: "100%" }}>
         <KindButton
           $active={kind === "student"}
           onClick={() => setKind("student")}
@@ -146,7 +146,7 @@ const SignUpForm = () => {
         >
           Teacher
         </KindButton>
-      </HStack>
+      </HBox>
 
       <Form onSubmit={onSubmit}>
         <Input {...username} required />
@@ -169,7 +169,7 @@ const SignUpForm = () => {
 
         <Button $rounded>Sign Up</Button>
       </Form>
-    </VStack>
+    </VBox>
   );
 };
 

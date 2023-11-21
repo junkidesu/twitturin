@@ -29,8 +29,6 @@ const ReplyForm = ({ id }: { id: string }) => {
   const handleReply = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log(content.value);
-
     await reply({ content: content.value, tweet: id });
   };
 

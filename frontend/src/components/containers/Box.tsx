@@ -34,10 +34,13 @@ const Box = styled.div<Props>`
   flex-direction: ${({ $horizontal }) => ($horizontal ? "row" : "column")};
   background: ${({ $bg }) => $bg || "transparent"};
   align-items: ${({ $center }) => ($center ? "center" : "none")};
+  /* justify-content: ${({ $center }) =>
+    $center ? "space-around" : "none"}; */
   gap: ${({ $gap }) => $gap || "0"};
   padding: ${({ $pad }) => toPadding($pad) || "none"};
   border-radius: ${({ $rounded }) => ($rounded ? "10px" : "none")};
   box-sizing: border-box;
+  overflow: hidden;
 `;
 
 export default Box;

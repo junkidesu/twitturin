@@ -1,36 +1,35 @@
 import styled from "styled-components";
 import RouterLink from "../core/RouterLink";
-import HStack from "../containers/HStack";
+import HBox from "../containers/HBox";
 import AuthButton from "./AuthButton";
 import lightTheme from "../../themes/lightTheme";
 import ProfileMenu from "./ProfileMenu";
 import { useAppSelector } from "../../hooks/store";
+import Box from "../containers/Box";
 
-const RightCorner = styled(HStack)`
+const RightCorner = styled(HBox)`
   position: absolute;
   top: 0.7em;
   right: 1em;
 `;
 
-const HeaderContainer = styled.header`
+const HeaderBox = styled(Box)`
   position: sticky;
   top: 0;
-  display: flex;
-  flex-direction: row;
-  background-color: #222222bb;
   backdrop-filter: blur(2px);
-  padding: 1em 2em;
+  padding-left: 2em;
   margin-bottom: 0.5em;
   z-index: 100;
 `;
 
-const LogoText = styled.div`
+const HomePageLink = styled(RouterLink)`
   color: #eeeeee;
   transition: 0.3s;
   font-weight: bold;
   font-size: ${(props) => props.theme.fontSizes.large};
 
   &:hover {
+    color: #eeeeee;
     text-shadow: 5px 5px 10px ${(props) => props.theme.colors.secondary};
   }
 `;
@@ -39,10 +38,8 @@ const Header = () => {
   const username = useAppSelector(({ auth }) => auth.username);
 
   return (
-    <HeaderContainer>
-      <RouterLink to="/">
-        <LogoText>Twittur</LogoText>
-      </RouterLink>
+    <HeaderBox $horizontal $pad="l" $bg="#222222bb">
+      <HomePageLink to="/">Twittur</HomePageLink>
 
       {username ? (
         <ProfileMenu username={username} />
@@ -60,7 +57,7 @@ const Header = () => {
           </RouterLink>
         </RightCorner>
       )}
-    </HeaderContainer>
+    </HeaderBox>
   );
 };
 

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
-import VStack from "../../containers/VStack";
-import HStack from "../../containers/HStack";
+import VBox from "../../containers/VBox";
+import HBox from "../../containers/HBox";
 import LoadingTweetList from "../../tweets/LoadingTweetList";
 import LoadingReplyList from "../../replies/LoadingReplyList";
 
@@ -22,7 +22,7 @@ const NavButton = styled.button<{ $active: boolean }>`
   }
 `;
 
-const TabWrapper = styled(VStack)`
+const TabWrapper = styled(VBox)`
   padding: 1em;
 `;
 
@@ -30,8 +30,8 @@ const LoadingUserTabs = () => {
   const [active, setActive] = useState<"tweets" | "replies">("tweets");
 
   return (
-    <VStack $gap="0.5em">
-      <HStack>
+    <VBox $gap="0.5em">
+      <HBox>
         <NavButton
           $active={active === "tweets"}
           onClick={() => setActive("tweets")}
@@ -44,14 +44,14 @@ const LoadingUserTabs = () => {
         >
           Replies
         </NavButton>
-      </HStack>
+      </HBox>
 
       <TabWrapper>
         {active === "tweets" && <LoadingTweetList />}
 
         {active === "replies" && <LoadingReplyList />}
       </TabWrapper>
-    </VStack>
+    </VBox>
   );
 };
 

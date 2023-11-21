@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import VStack from "./containers/VStack";
+import VBox from "./containers/VBox";
 import useField from "../hooks/useField";
 import Button from "./core/Button";
 import Input from "./core/Input";
@@ -59,7 +59,7 @@ const LoginForm = () => {
   if (isError) return <div>Error occured! [TODO error message screen]</div>;
 
   return (
-    <VStack $gap="2em" $center>
+    <VBox $gap="2em" $center>
       <Modal>
         <LoadingSpinner label="Logging in..." />
       </Modal>
@@ -73,7 +73,7 @@ const LoginForm = () => {
 
         <Button $rounded>Log in</Button>
       </Form>
-    </VStack>
+    </VBox>
   );
 };
 

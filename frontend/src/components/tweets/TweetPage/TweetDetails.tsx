@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import VStack from "../../containers/VStack";
-import HStack from "../../containers/HStack";
 import RouterLink from "../../core/RouterLink";
 import { icons, pictures } from "../../../assets";
 import IconButton from "../../core/IconButton";
@@ -11,25 +9,16 @@ import {
   useLikeTweetMutation,
   useUnlikeTweetMutation,
 } from "../../../services/tweetsService";
+import Box from "../../containers/Box";
+import BorderedBox from "../../containers/BorderedBox";
 
-const Wrapper = styled(HStack)`
-  background-color: white;
-  border: 2px solid ${(props) => props.theme.colors.grey4};
+const DetailsBox = styled(BorderedBox)`
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  padding: 1em;
-  min-width: 600px;
 `;
 
-const FullName = styled(RouterLink)`
-  color: ${(props) => props.theme.colors.grey1};
-  font-size: ${(props) => props.theme.fontSizes.medium};
-  font-weight: bold;
-`;
-
-const Username = styled(RouterLink)`
+const UsernameLink = styled(RouterLink)`
   color: ${(props) => props.theme.colors.grey2};
-  font-size: ${(props) => props.theme.fontSizes.medium};
 `;
 
 const Content = styled.p`
@@ -45,9 +34,13 @@ const ProfilePicture = styled.img`
   border-radius: 10em;
 `;
 
-const Body = styled(VStack)`
-  padding-left: 1em;
-  gap: 1em;
+interface LikeIconProps {
+  $liked: boolean;
+}
+
+const LikeIcon = styled(icons.HeartIcon)<LikeIconProps>`
+  color: ${({ $liked, theme }) => ($liked ? theme.colors.primary : "inherit")};
+  fill: ${({ $liked, theme }) => ($liked ? theme.colors.primary : "none")};
 `;
 
 interface Props {
@@ -87,36 +80,36 @@ const TweetDetails = ({ tweet }: Props) => {
   };
 
   return (
-    <Wrapper>
+    <DetailsBox $bg="white" $horizontal $pad="l" $gap="1.5em" $minWidth="600px">
       <RouterLink to={`/users/${tweet.author.id}`}>
         <ProfilePicture src={pictures.emptyProfilePicture} />
       </RouterLink>
 
-      <Body>
-        <HStack $center $gap="0.5em">
-          <FullName to={`/users/${tweet.author.id}`}>
+      <Box $gap="1em">
+        <Box $horizontal $center $gap="0.5em">
+          <RouterLink $size="medium" $bold to={`/users/${tweet.author.id}`}>
             {tweet.author.fullName || "Twittur User"}
-          </FullName>
+          </RouterLink>
 
-          <Username to={`/users/${tweet.author.id}`}>
+          <UsernameLink $size="medium" to={`/users/${tweet.author.id}`}>
             @{tweet.author.username}
-          </Username>
-        </HStack>
+          </UsernameLink>
+        </Box>
 
         <Content>{tweet.content}</Content>
 
-        <HStack $gap="0.5em">
+        <Box $horizontal $gap="0.5em">
           <IconButton
-            icon={likedByMe ? icons.filledHeartIcon : icons.emptyHeartIcon}
+            icon={<LikeIcon $liked={likedByMe} />}
             label={likeButtonLabel}
             onClick={likedByMe ? handleUnlike : handleLike}
           />
 
-          <IconButton icon={icons.repliesIcon} label={replyButtonLabel} />
-          <IconButton icon={icons.shareIcon} label="0 shares" />
-        </HStack>
-      </Body>
-    </Wrapper>
+          <IconButton icon={<icons.RepliesIcon />} label={replyButtonLabel} />
+          <IconButton icon={<icons.RetweetIcon />} label="0 shares" />
+        </Box>
+      </Box>
+    </DetailsBox>
   );
 };
 

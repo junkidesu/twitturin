@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import VStack from "../../containers/VStack";
+import VBox from "../../containers/VBox";
 import LoadingTweetDetails from "./LoadingTweetDetails";
 import LoadingReplyList from "../../replies/LoadingReplyList";
 
@@ -10,7 +10,7 @@ const ReplyTitle = styled.p`
   font-weight: 500;
 `;
 
-const RepliesToTweet = styled(VStack)`
+const RepliesToTweet = styled(VBox)`
   background: white;
   border: 2px solid ${(props) => props.theme.colors.grey4};
   border-bottom-left-radius: 20px;
@@ -21,7 +21,7 @@ const RepliesToTweet = styled(VStack)`
 
 const LoadingTweetPage = () => {
   return (
-    <VStack>
+    <VBox>
       <LoadingTweetDetails />
 
       <RepliesToTweet $gap="0.5em">
@@ -29,7 +29,7 @@ const LoadingTweetPage = () => {
 
         <LoadingReplyList />
       </RepliesToTweet>
-    </VStack>
+    </VBox>
   );
 };
 

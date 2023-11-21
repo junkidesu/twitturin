@@ -5,11 +5,11 @@ import TweetList from "./tweets/TweetList";
 const MainPage = () => {
   const { data: tweets, isLoading, isError } = useGetTweetsQuery();
 
-  if (isLoading) return <LoadingTweetList />
+  if (isLoading) return <LoadingTweetList />;
 
-  if (!tweets || isError) return <div>Some error has ocurred!</div>
+  if (!tweets || isError) return <div>Some error has ocurred!</div>;
 
-  return <TweetList tweets={tweets} />
+  return <TweetList tweets={tweets} />;
 };
 
 export default MainPage;

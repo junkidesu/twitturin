@@ -1,6 +1,6 @@
 import styled, { keyframes } from "styled-components";
-import VStack from "../containers/VStack";
-import HStack from "../containers/HStack";
+import BorderedBox from "../containers/BorderedBox";
+import Box from "../containers/Box";
 
 const animateBg = keyframes`
   0% {
@@ -10,14 +10,6 @@ const animateBg = keyframes`
   100% {
     background-position: 100% 0;
   }
-`;
-
-const Wrapper = styled(HStack)`
-  display: flex;
-  background-color: white;
-  border: 2px solid ${(props) => props.theme.colors.grey4};
-  border-radius: 5px;
-  padding: 1em;
 `;
 
 const LoadingElement = styled.div`
@@ -38,26 +30,21 @@ const LoadingProfilePicture = styled(LoadingElement)`
   border-radius: 10em;
 `;
 
-const Body = styled(VStack)`
-  padding-left: 1em;
-  gap: 1em;
-`;
-
 const LoadingReplyItem = () => {
   return (
-    <Wrapper>
+    <BorderedBox $horizontal $bg="white" $pad="l" $gap="1em" $rounded>
       <LoadingProfilePicture />
 
-      <Body>
-        <HStack $center $gap="0.5em">
+      <Box $gap="1em">
+        <Box $horizontal $center $gap="0.5em">
           <LoadingField />
 
           <LoadingField />
-        </HStack>
+        </Box>
 
         <LoadingField />
-      </Body>
-    </Wrapper>
+      </Box>
+    </BorderedBox>
   );
 };
 

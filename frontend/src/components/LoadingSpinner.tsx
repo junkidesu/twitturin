@@ -1,20 +1,11 @@
 import styled from "styled-components";
-import Icon from "./core/Icon";
-import { icons } from "../assets";
-import VStack from "./containers/VStack";
+import Box from "./containers/Box";
 
-const Wrapper = styled(VStack)`
+const LoadingBox = styled(Box)`
   width: 300px;
   height: 300px;
-  background-color: #eeeeee;
-  border-radius: 20px;
   justify-content: center;
   z-index: 9999;
-`;
-
-const RotatingIcon = styled(Icon)`
-  width: 50px;
-  height: 50px;
 `;
 
 const Label = styled.p`
@@ -28,11 +19,9 @@ interface Props {
 
 const LoadingSpinner = ({ label }: Props) => {
   return (
-    <Wrapper $center $gap="2em">
-      <RotatingIcon src={icons.loadingIcon} />
-
+    <LoadingBox $bg="#eeeeee" $rounded $center $gap="2em">
       <Label>{label}</Label>
-    </Wrapper>
+    </LoadingBox>
   );
 };
 

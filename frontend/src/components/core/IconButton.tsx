@@ -4,10 +4,11 @@ import Box from "../containers/Box";
 const ButtonBox = styled(Box)`
   width: fit-content;
   transition: 0.3s;
-  color: ${(props) => props.theme.colors.grey2};
+  color: ${({ theme }) => theme.colors.grey2};
 
   &:hover {
-    background-color: ${(props) => props.theme.colors.grey4};
+    background-color: ${({ theme }) => theme.colors.grey4};
+    color: ${({ theme }) => theme.colors.primary};
     transition: 0.3s;
   }
 `;

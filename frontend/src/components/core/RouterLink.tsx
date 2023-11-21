@@ -1,10 +1,18 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-const RouterLink = styled(Link)`
+interface RouterLinkProps {
+  $size?: "extraSmall" | "small" | "medium" | "large" | "extraLarge";
+  $color?: string;
+  $bold?: boolean;
+}
+
+const RouterLink = styled(Link)<RouterLinkProps>`
   display: block;
-  color: ${props => props.theme.colors.grey1};
-  font-size: ${(props) => props.theme.fontSizes.extraSmall};
+  color: ${({ theme, $color }) => $color || theme.colors.grey1};
+  font-size: ${({ theme, $size }) =>
+    $size ? theme.fontSizes[$size] : theme.fontSizes.extraSmall};
+  font-weight: ${({ $bold }) => ($bold ? "bold" : "normal")};
   cursor: pointer;
   text-decoration: none;
   appearance: none;

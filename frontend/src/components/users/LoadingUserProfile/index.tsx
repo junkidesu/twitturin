@@ -1,6 +1,6 @@
 import styled, { keyframes } from "styled-components";
-import VStack from "../../containers/VStack";
 import LoadingUserTabs from "./LoadingUserTabs";
+import Box from "../../containers/Box";
 
 const animateBg = keyframes`
   0% {
@@ -10,14 +10,6 @@ const animateBg = keyframes`
   100% {
     background-position: 100% 0;
   }
-`;
-
-const Wrapper = styled(VStack)`
-  border-radius: 10px;
-  box-sizing: border-box;
-  overflow: hidden;
-  background: white;
-  width: 600px;
 `;
 
 const LoadingElement = styled.div`
@@ -38,10 +30,6 @@ const Banner = styled.div`
   background: linear-gradient(45deg, #555555, #333333);
 `;
 
-const UserDetails = styled(VStack)`
-  padding: 1em;
-`;
-
 const LoadingProfilePicture = styled(LoadingElement)`
   position: absolute;
   width: 5em;
@@ -53,6 +41,7 @@ const LoadingProfilePicture = styled(LoadingElement)`
   bottom: -2.5em;
   left: 1em;
 `;
+
 const LoadingUsername = styled(LoadingElement)`
   width: 100px;
   height: ${(props) => props.theme.fontSizes.small};
@@ -60,20 +49,20 @@ const LoadingUsername = styled(LoadingElement)`
 
 const LoadingUserProfile = () => {
   return (
-    <Wrapper $gap="1.5em">
+    <Box $bg="white" $width="600px" $rounded $gap="1.5em">
       <Banner>
         <LoadingProfilePicture />
       </Banner>
 
-      <UserDetails $gap="1em">
-        <VStack $gap="0.5em">
+      <Box $pad="l" $gap="1em">
+        <Box $gap="0.5em">
           <LoadingFullName />
           <LoadingUsername />
-        </VStack>
-      </UserDetails>
+        </Box>
+      </Box>
 
       <LoadingUserTabs />
-    </Wrapper>
+    </Box>
   );
 };
 

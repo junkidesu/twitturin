@@ -1,16 +1,15 @@
 import styled from "styled-components";
-import VStack from "../containers/VStack";
+import VBox from "../containers/VBox";
 import RouterLink from "../core/RouterLink";
 import AuthButton from "./AuthButton";
 import lightTheme from "../../themes/lightTheme";
 import { useAppDispatch } from "../../hooks/store";
 import { removeCredentials } from "../../reducers/authReducer";
 import { showModal } from "../../reducers/modalReducer";
-import Icon from "../core/Icon";
 import { icons } from "../../assets";
 import storageService from "../../services/storageService";
 
-const OtherItems = styled(VStack)`
+const OtherItems = styled(VBox)`
   display: none;
 `;
 
@@ -34,7 +33,7 @@ const MenuButton = styled.button<{ $active?: boolean }>`
   }
 `;
 
-const ProfileMenuWrapper = styled(VStack)`
+const ProfileMenuWrapper = styled(VBox)`
   position: absolute;
   top: 0.7em;
   right: 1em;
@@ -65,13 +64,13 @@ const ProfileMenu = ({ username }: { username: string }) => {
 
       <OtherItems>
         <MenuButton onClick={() => dispatch(showModal())}>
-          <Icon src={icons.createIcon} /> New Tweet
+          <icons.CreateIcon /> New Tweet
         </MenuButton>
         <MenuButton>
-          <Icon src={icons.editIcon} /> Edit profile
+          <icons.EditIcon /> Edit profile
         </MenuButton>
         <MenuButton onClick={handleSignOut}>
-          <Icon src={icons.logOutIcon} /> Sign out
+          <icons.LogOutIcon /> Sign out
         </MenuButton>
       </OtherItems>
     </ProfileMenuWrapper>
