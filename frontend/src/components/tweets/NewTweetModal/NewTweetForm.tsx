@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useEffect } from "react";
 import Form from "../../core/Form";
-import TextArea from "../../core/input/TextArea";
+import TextArea from "../../core/inputs/TextArea";
 import Button from "../../core/buttons/Button";
 import useField from "../../../hooks/useField";
 import { useAddTweetMutation } from "../../../services/tweetsService";

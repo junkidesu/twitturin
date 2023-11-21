@@ -1,6 +1,6 @@
 import useField from "../../hooks/useField";
 import Button from "../core/buttons/Button";
-import Input from "../core/input/Input";
+import Input from "../core/inputs/Input";
 import Form from "../core/Form";
 import lightTheme from "../../themes/lightTheme";
 import { useAppDispatch } from "../../hooks/store";

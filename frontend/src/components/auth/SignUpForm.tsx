@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import useField from "../../hooks/useField";
-import Input from "../core/input/Input";
+import Input from "../core/inputs/Input";
 import Button from "../core/buttons/Button";
 import Form from "../core/Form";
 import { Major, NewUser } from "../../types";
-import Select from "../core/input/Select";
+import Select from "../core/inputs/Select";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAddUserMutation } from "../../services/usersService";

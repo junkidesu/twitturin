@@ -7,7 +7,7 @@ import { Routes, Route } from "react-router-dom";
 import { useAppDispatch } from "./hooks/store";
 import { setCredentials } from "./reducers/authReducer";
 import { useGetUsersQuery } from "./services/usersService";
-import Header from "./components/Header";
+import Header from "./components/header";
 import SignUpForm from "./components/auth/SignUpForm";
 import UserPage from "./components/users/UserPage";
 import LoginForm from "./components/auth/LoginForm";
