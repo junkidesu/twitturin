@@ -1,30 +1,28 @@
 import emptyProfilePicture from "./images/empty-profile-picture.png";
-import closeIcon from "./icons/close.svg";
-import filledHeartIcon from "./icons/filled-heart.svg";
-import emptyHeartIcon from "./icons/heart.svg";
-import repliesIcon from "./icons/replies.svg";
-import bookmarkIcon from "./icons/bookmark.svg";
-import shareIcon from "./icons/share.svg";
-import loadingIcon from "./icons/loading-icon.svg";
-import logOutIcon from "./icons/log-out.svg";
-import editIcon from "./icons/edit.svg";
-import createIcon from "./icons/plus.svg";
-import removeIcon from "./icons/trash.svg";
+import CloseIcon from "./icons/close.svg?react";
+import HeartIcon from "./icons/heart.svg?react";
+import RepliesIcon from "./icons/replies.svg?react";
+import BookmarkIcon from "./icons/bookmark.svg?react";
+import RetweetIcon from "./icons/retweet.svg?react";
+import LoadingIcon from "./icons/loading-icon.svg?react";
+import LogOutIcon from "./icons/log-out.svg?react";
+import EditIcon from "./icons/edit.svg?react";
+import CreateIcon from "./icons/plus.svg?react";
+import RemoveIcon from "./icons/trash.svg?react";
 
 export const pictures = {
   emptyProfilePicture,
 };
 
 export const icons = {
-  emptyHeartIcon,
-  closeIcon,
-  filledHeartIcon,
-  repliesIcon,
-  bookmarkIcon,
-  shareIcon,
-  loadingIcon,
-  logOutIcon,
-  createIcon,
-  editIcon,
-  removeIcon,
+  CloseIcon,
+  HeartIcon,
+  RepliesIcon,
+  BookmarkIcon,
+  RetweetIcon,
+  LoadingIcon,
+  LogOutIcon,
+  EditIcon,
+  CreateIcon,
+  RemoveIcon,
 };
