@@ -9,6 +9,9 @@ import { useLikeTweetMutation } from "../../../services/tweetsService";
 import { useUnlikeTweetMutation } from "../../../services/tweetsService";
 import { useAppSelector } from "../../../hooks/store";
 import { useNavigate } from "react-router-dom";
+import { elapsedTime } from "../../../util/time";
+import Label from "../../core/text/Label";
+import lightTheme from "../../../themes/lightTheme";
 
 const UsernameLink = styled(RouterLink)`
   color: ${(props) => props.theme.colors.grey2};
@@ -56,6 +59,8 @@ const TweetItem = ({ tweet }: { tweet: Tweet }) => {
     }
   };
 
+  const submissionTime = new Date(tweet.createdAt);
+
   return (
     <BorderedBox
       $gap="1em"
@@ -75,9 +80,19 @@ const TweetItem = ({ tweet }: { tweet: Tweet }) => {
             {tweet.author.fullName || "Twittur User"}
           </RouterLink>
 
-          <UsernameLink $size="extraSmall" to={`/users/${tweet.author.id}`}>
+          <UsernameLink to={`/users/${tweet.author.id}`}>
             @{tweet.author.username}
           </UsernameLink>
+
+          {"•"}
+
+          <Label
+            $size="extraSmall"
+            $color={lightTheme.colors.grey2}
+            title={submissionTime.toString()}
+          >
+            posted {elapsedTime(submissionTime.valueOf())}
+          </Label>
         </Box>
 
         <RouterLink to={`/tweets/${tweet.id}`}>{tweet.content}</RouterLink>
