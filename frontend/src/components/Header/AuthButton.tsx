@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Button from "../core/Button";
+import Button from "../core/buttons/Button";
 
 const AuthButton = styled(Button)`
   &:hover {

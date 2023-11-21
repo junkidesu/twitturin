@@ -5,8 +5,8 @@ import { useParams } from "react-router-dom";
 import { useGetUsersQuery } from "../../../services/usersService";
 import LoadingUserProfile from "../../util/LoadingUserProfile";
 import Box from "../../containers/Box";
-import Label from "../../core/Label";
-import Heading from "../../core/Heading";
+import Label from "../../core/text/Label";
+import Heading from "../../core/text/Heading";
 
 const Banner = styled.div`
   position: relative;

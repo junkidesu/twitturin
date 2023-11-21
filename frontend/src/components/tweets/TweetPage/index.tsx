@@ -7,7 +7,7 @@ import ReplyForm from "../../replies/ReplyForm";
 import LoadingTweetPage from "../../util/LoadingTweetPage";
 import Box from "../../containers/Box";
 import BorderedBox from "../../containers/BorderedBox";
-import Heading from "../../core/Heading";
+import Heading from "../../core/text/Heading";
 
 const RepliesToTweet = styled(BorderedBox)`
   border-bottom-left-radius: 20px;

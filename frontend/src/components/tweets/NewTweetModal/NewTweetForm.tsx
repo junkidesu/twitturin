@@ -1,14 +1,14 @@
 import styled from "styled-components";
 import { useEffect } from "react";
 import Form from "../../core/Form";
-import TextArea from "../../core/TextArea";
-import Button from "../../core/Button";
+import TextArea from "../../core/input/TextArea";
+import Button from "../../core/buttons/Button";
 import useField from "../../../hooks/useField";
 import { useAddTweetMutation } from "../../../services/tweetsService";
 import { useAppDispatch } from "../../../hooks/store";
 import { hideModal } from "../../../reducers/modalReducer";
 import Box from "../../containers/Box";
-import Heading from "../../core/Heading";
+import Heading from "../../core/text/Heading";
 import { hide, show } from "../../../reducers/loadingStripeReducer";
 
 const SubmitButton = styled(Button)`

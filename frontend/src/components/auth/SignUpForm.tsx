@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import useField from "../../hooks/useField";
-import Input from "../core/Input";
-import Button from "../core/Button";
+import Input from "../core/input/Input";
+import Button from "../core/buttons/Button";
 import Form from "../core/Form";
 import { Major, NewUser } from "../../types";
-import Select from "../core/Select";
+import Select from "../core/input/Select";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAddUserMutation } from "../../services/usersService";
@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/store";
 import { useLoginMutation } from "../../services/authService";
 import { setCredentials } from "../../reducers/authReducer";
 import { show, hide } from "../../reducers/loadingStripeReducer";
-import Heading from "../core/Heading";
+import Heading from "../core/text/Heading";
 import lightTheme from "../../themes/lightTheme";
 import Box from "../containers/Box";
 

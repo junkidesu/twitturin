@@ -3,7 +3,7 @@ import { Tweet } from "../../../types";
 import { icons, pictures } from "../../../assets";
 import BorderedBox from "../../containers/BorderedBox";
 import Box from "../../containers/Box";
-import IconButton from "../../core/IconButton";
+import IconButton from "../../core/buttons/IconButton";
 import RouterLink from "../../core/RouterLink";
 import { useLikeTweetMutation } from "../../../services/tweetsService";
 import { useUnlikeTweetMutation } from "../../../services/tweetsService";

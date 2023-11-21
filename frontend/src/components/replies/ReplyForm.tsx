@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/store";
 import useField from "../../hooks/useField";
 import { useReplyMutation } from "../../services/repliesService";
-import Button from "../core/Button";
+import Button from "../core/buttons/Button";
 import Form from "../core/Form";
-import TextArea from "../core/TextArea";
+import TextArea from "../core/input/TextArea";
 import { show, hide } from "../../reducers/loadingStripeReducer";
 
 const ReplyForm = ({ id }: { id: string }) => {

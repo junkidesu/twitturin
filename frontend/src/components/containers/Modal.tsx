@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import IconButton from "../core/IconButton";
+import IconButton from "../core/buttons/IconButton";
 import { icons } from "../../assets";
 import { useAppDispatch, useAppSelector } from "../../hooks/store";
 import { hideModal } from "../../reducers/modalReducer";

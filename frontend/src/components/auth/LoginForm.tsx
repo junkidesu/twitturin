@@ -1,6 +1,6 @@
 import useField from "../../hooks/useField";
-import Button from "../core/Button";
-import Input from "../core/Input";
+import Button from "../core/buttons/Button";
+import Input from "../core/input/Input";
 import Form from "../core/Form";
 import lightTheme from "../../themes/lightTheme";
 import { useAppDispatch } from "../../hooks/store";
@@ -10,7 +10,7 @@ import { useLoginMutation } from "../../services/authService";
 import { TokenData } from "../../types";
 import { setCredentials } from "../../reducers/authReducer";
 import { show, hide } from "../../reducers/loadingStripeReducer";
-import Heading from "../core/Heading";
+import Heading from "../core/text/Heading";
 import Box from "../containers/Box";
 
 const LoginForm = () => {

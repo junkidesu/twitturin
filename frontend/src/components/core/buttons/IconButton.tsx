@@ -1,11 +1,12 @@
 import styled from "styled-components";
-import Box from "../containers/Box";
-import Label from "./Label";
+import Box from "../../containers/Box";
+import Label from "../text/Label";
 
 const ButtonBox = styled(Box)`
   width: fit-content;
   transition: 0.3s;
   color: ${({ theme }) => theme.colors.grey2};
+  cursor: pointer;
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.grey4};

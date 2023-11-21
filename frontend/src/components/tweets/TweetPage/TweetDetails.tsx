@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import RouterLink from "../../core/RouterLink";
 import { icons, pictures } from "../../../assets";
-import IconButton from "../../core/IconButton";
+import IconButton from "../../core/buttons/IconButton";
 import { Tweet } from "../../../types";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../hooks/store";
@@ -11,7 +11,7 @@ import {
 } from "../../../services/tweetsService";
 import Box from "../../containers/Box";
 import BorderedBox from "../../containers/BorderedBox";
-import Label from "../../core/Label";
+import Label from "../../core/text/Label";
 
 const DetailsBox = styled(BorderedBox)`
   border-top-left-radius: 20px;

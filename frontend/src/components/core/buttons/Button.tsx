@@ -1,13 +1,15 @@
 import styled from "styled-components";
 
-const Button = styled.button<{
-  $rounded?: boolean;
+interface ButtonProps {
   $bg?: string;
   $fg?: string;
-}>`
-  background-color: ${(props) => props.$bg || props.theme.colors.background};
+  $rounded?: boolean;
+}
+
+const Button = styled.button<ButtonProps>`
+  background-color: ${(props) => props.$bg || "transparent"};
   color: ${(props) => props.$fg || props.theme.colors.primary};
-  font-size: ${props => props.theme.fontSizes.small};
+  font-size: ${(props) => props.theme.fontSizes.small};
   padding: 0.5em;
   border: 3px solid ${(props) => props.$fg || props.theme.colors.primary};
   border-radius: ${(props) => (props.$rounded ? "10em" : "5px")};

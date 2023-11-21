@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import BorderedBox from "../containers/BorderedBox";
+import BorderedBox from "../../containers/BorderedBox";
 import { useState } from "react";
-import Label from "./Label";
+import Label from "../text/Label";
 
 const Placeholder = styled(Label)<{ $empty?: boolean }>`
   position: absolute;
