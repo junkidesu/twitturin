@@ -1,12 +1,8 @@
 import styled from "styled-components";
-import HStack from "../containers/HStack";
-import Icon from "./Icon";
+import Box from "../containers/Box";
 
-const ButtonWrapper = styled(HStack)`
+const ButtonBox = styled(Box)`
   width: fit-content;
-  border-radius: 5px;
-  box-sizing: border-box;
-  padding: 0.3em;
   transition: 0.3s;
   color: ${(props) => props.theme.colors.grey2};
 
@@ -16,34 +12,37 @@ const ButtonWrapper = styled(HStack)`
   }
 `;
 
+const IconBox = styled(Box)`
+  width: 1.2em;
+  height: 1.2em;
+`;
+
 const Label = styled.span`
   font-size: ${(props) => props.theme.fontSizes.extraSmall};
 `;
 
-const IconButton = ({
-  label,
-  icon,
-  onClick,
-  className,
-}: {
+interface Props {
   label?: string | number;
-  icon: string;
+  icon: React.ReactNode;
   onClick?: () => void;
   className?: string;
-}) => {
-  if (label === undefined) {
-    return (
-      <ButtonWrapper $center onClick={onClick} className={className}>
-        <Icon src={icon} />
-      </ButtonWrapper>
-    );
-  }
+}
 
+const IconButton = ({ icon, label, onClick, className }: Props) => {
   return (
-    <ButtonWrapper $gap="0.3em" $center onClick={onClick} className={className}>
-      <Icon src={icon} />
-      <Label>{label}</Label>
-    </ButtonWrapper>
+    <ButtonBox
+      $gap="0.3em"
+      $center
+      $horizontal
+      $pad="s"
+      $rounded
+      onClick={onClick}
+      className={className}
+    >
+      <IconBox $center>{icon}</IconBox>
+
+      {label && <Label>{label}</Label>}
+    </ButtonBox>
   );
 };
 
