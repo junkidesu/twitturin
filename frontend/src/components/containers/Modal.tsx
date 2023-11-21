@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import VStack from "./VStack";
+import VBox from "./VBox";
 import IconButton from "../core/IconButton";
 import { icons } from "../../assets";
 import { useAppDispatch, useAppSelector } from "../../hooks/store";
 import { hideModal } from "../../reducers/modalReducer";
 
-const ModalWrapper = styled(VStack)`
+const ModalWrapper = styled(VBox)`
   justify-content: space-around;
   position: fixed;
   background-color: #333333cc;

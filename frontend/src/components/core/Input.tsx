@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import BorderedBox from "../containers/BorderedBox";
+import { useState } from "react";
 
 const Placeholder = styled.span<{ $empty?: boolean }>`
   position: absolute;
@@ -33,21 +35,11 @@ const InputField = styled.input`
   }
 `;
 
-const InputWrapper = styled.div`
+const InputWrapper = styled(BorderedBox)<{ $focus: boolean }>`
   position: relative;
-  background-color: white;
-  border: 1px solid #555555;
-  display: flex;
-  flex-direction: column;
   justify-content: space-around;
-  border-radius: 5px;
-  box-sizing: border-box;
-  overflow: hidden;
-  min-width: 10em;
-
-  ${InputField}:focus {
-    border-color: teal;
-  }
+  border-color: ${({ $focus, theme: { colors } }) =>
+    $focus ? colors.primary : colors.grey3 };
 `;
 
 interface InputProps {
@@ -60,9 +52,22 @@ interface InputProps {
 }
 
 const Input = (props: InputProps) => {
+  const [focus, setFocus] = useState(false);
+
   return (
-    <InputWrapper className={props.className}>
-      <InputField {...props} placeholder={undefined} />
+    <InputWrapper
+      $bg="white"
+      $minWidth="10em"
+      className={props.className}
+      $focus={focus}
+      $rounded
+    >
+      <InputField
+        {...props}
+        placeholder={undefined}
+        onFocus={() => setFocus(true)}
+        onBlur={() => setFocus(false)}
+      />
 
       <Placeholder $empty={props.value === ""}>{props.placeholder}</Placeholder>
     </InputWrapper>
