@@ -12,6 +12,8 @@ import {
 import Box from "../../containers/Box";
 import BorderedBox from "../../containers/BorderedBox";
 import Label from "../../core/text/Label";
+import lightTheme from "../../../themes/lightTheme";
+import { elapsedTime } from "../../../util/time";
 
 const DetailsBox = styled(BorderedBox)`
   border-top-left-radius: 20px;
@@ -58,6 +60,10 @@ const TweetDetails = ({ tweet }: Props) => {
     tweet.replyCount === 1 ? "reply" : "replies"
   }`;
 
+  const submissionTime = new Date(tweet.createdAt);
+  const editTime = new Date(tweet.updatedAt);
+  const edited = editTime.valueOf() - submissionTime.valueOf() !== 0;
+
   const handleLike = async () => {
     if (!userId) {
       navigate("/login");
@@ -81,7 +87,7 @@ const TweetDetails = ({ tweet }: Props) => {
       </RouterLink>
 
       <Box $gap="1em">
-        <Box $horizontal $center $gap="0.5em">
+        <Box $horizontal $center $gap="0.7em">
           <RouterLink $size="medium" $bold to={`/users/${tweet.author.id}`}>
             {tweet.author.fullName || "Twittur User"}
           </RouterLink>
@@ -92,6 +98,26 @@ const TweetDetails = ({ tweet }: Props) => {
         </Box>
 
         <Label>{tweet.content}</Label>
+
+        <Box $gap="0.4em">
+          <Label
+            $size="extraSmall"
+            $color={lightTheme.colors.grey2}
+            title={submissionTime.toString()}
+          >
+            Posted: {elapsedTime(submissionTime.valueOf())}
+          </Label>
+
+          {edited && (
+            <Label
+              $size="extraSmall"
+              $color={lightTheme.colors.grey2}
+              title={editTime.toString()}
+            >
+              Last Edited: {elapsedTime(editTime.valueOf())}
+            </Label>
+          )}
+        </Box>
 
         <Box $horizontal $gap="0.5em">
           <IconButton

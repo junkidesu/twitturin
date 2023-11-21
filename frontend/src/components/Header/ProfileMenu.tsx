@@ -2,6 +2,7 @@ import storageService from "../../services/storageService";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/store";
 import { removeCredentials } from "../../reducers/authReducer";
+import { showModal } from "../../reducers/modalReducer";
 import { icons } from "../../assets";
 import HeaderButton from "./HeaderButton";
 import Menu from "../core/Menu";
@@ -34,6 +35,11 @@ const ProfileMenu = ({ username }: { username: string }) => {
       </VisibleItems>
 
       <HiddenItems>
+        <FlatButton
+          icon={<icons.CreateIcon />}
+          label="New Tweet"
+          onClick={() => dispatch(showModal())}
+        />
         <FlatButton
           icon={<icons.EditIcon />}
           label="Edit profile"
