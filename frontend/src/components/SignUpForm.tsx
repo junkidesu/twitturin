@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import VBox from "./containers/VBox";
-import HBox from "./containers/HBox";
 import useField from "../hooks/useField";
 import Input from "./core/Input";
 import Button from "./core/Button";
@@ -16,14 +14,9 @@ import { setCredentials } from "../reducers/authReducer";
 import LoadingSpinner from "./LoadingSpinner";
 import Modal from "./containers/Modal";
 import { hideModal, showModal } from "../reducers/modalReducer";
-
-const LogoText = styled.p`
-  color: ${(props) => props.theme.colors.primary};
-  margin: 0;
-  font-weight: bold;
-  font-size: 2em;
-  transition: 0.3s;
-`;
+import Heading from "./core/Heading";
+import lightTheme from "../themes/lightTheme";
+import Box from "./containers/Box";
 
 const KindButton = styled.button<{ $active: boolean }>`
   width: 100%;
@@ -126,14 +119,16 @@ const SignUpForm = () => {
   if (isError) return <div>Some error occurred!</div>;
 
   return (
-    <VBox $gap="2em" $center>
+    <Box $gap="2em" $center>
       <Modal>
         <LoadingSpinner label="Signing up..." />
       </Modal>
 
-      <LogoText>Join Twittur Today!</LogoText>
+      <Heading $level={2} $color={lightTheme.colors.primary}>
+        Join Twittur Today!
+      </Heading>
 
-      <HBox style={{ width: "100%" }}>
+      <Box $horizontal style={{ width: "100%" }}>
         <KindButton
           $active={kind === "student"}
           onClick={() => setKind("student")}
@@ -146,7 +141,7 @@ const SignUpForm = () => {
         >
           Teacher
         </KindButton>
-      </HBox>
+      </Box>
 
       <Form onSubmit={onSubmit}>
         <Input {...username} required />
@@ -169,7 +164,7 @@ const SignUpForm = () => {
 
         <Button $rounded>Sign Up</Button>
       </Form>
-    </VBox>
+    </Box>
   );
 };
 

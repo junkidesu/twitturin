@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import BorderedBox from "../containers/BorderedBox";
 import { useState } from "react";
+import Label from "./Label";
 
-const Placeholder = styled.span<{ $empty?: boolean }>`
+const Placeholder = styled(Label)<{ $empty?: boolean }>`
   position: absolute;
   left: 0.5em;
   top: ${(props) => (props.$empty ? "" : "0.5em")};

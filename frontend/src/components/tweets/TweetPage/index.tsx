@@ -7,13 +7,7 @@ import ReplyForm from "./ReplyForm";
 import LoadingTweetPage from "../LoadingTweetPage";
 import Box from "../../containers/Box";
 import BorderedBox from "../../containers/BorderedBox";
-
-const ReplyTitle = styled.p`
-  margin: none;
-  color: ${(props) => props.theme.colors.grey1};
-  font-size: ${(props) => props.theme.fontSizes.medium};
-  font-weight: 500;
-`;
+import Heading from "../../core/Heading";
 
 const RepliesToTweet = styled(BorderedBox)`
   border-bottom-left-radius: 20px;
@@ -38,7 +32,7 @@ const TweetPage = () => {
       <TweetDetails tweet={tweet} />
 
       <RepliesToTweet $pad="l" $bg="white" $gap="0.5em">
-        <ReplyTitle style={{ fontWeight: "bold" }}>Replies</ReplyTitle>
+        <Heading $level={4} $mn>Replies</Heading>
 
         <ReplyForm id={tweet.id} />
 

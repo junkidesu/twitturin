@@ -1,11 +1,12 @@
 import styled from "styled-components";
-import RouterLink from "../../core/RouterLink";
 import { pictures } from "../../../assets";
 import UserTabs from "./UserTabs";
 import { useParams } from "react-router-dom";
 import { useGetUsersQuery } from "../../../services/usersService";
 import LoadingUserProfile from "../LoadingUserProfile";
 import Box from "../../containers/Box";
+import Label from "../../core/Label";
+import Heading from "../../core/Heading";
 
 const Banner = styled.div`
   position: relative;
@@ -25,7 +26,7 @@ const ProfilePicture = styled.img`
   left: 1em;
 `;
 
-const UsernameLink = styled(RouterLink)`
+const Username = styled(Label)`
   color: ${(props) => props.theme.colors.grey2};
 `;
 
@@ -42,17 +43,17 @@ const UserProfile = () => {
   if (!user) return <div>user not found!</div>;
 
   return (
-    <Box $bg="white" $width="600px" $rounded $gap="1.5em">
+    <Box $bg="white" $width="600px" $rounded $gap="1.5em" $hide>
       <Banner>
         <ProfilePicture src={pictures.emptyProfilePicture} />
       </Banner>
 
       <Box $pad="l" $gap="1em">
         <Box>
-          <RouterLink $bold $size="large" to={`/users/${user.id}`}>
+          <Heading $level={1}>
             {user.fullName || "Twittur User"}
-          </RouterLink>
-          <UsernameLink to={`/users/${user.id}`}>@{user.username}</UsernameLink>
+          </Heading>
+          <Username>@{user.username}</Username>
         </Box>
       </Box>
 

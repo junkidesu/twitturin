@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Box from "../containers/Box";
+import Label from "./Label";
 
 const ButtonBox = styled(Box)`
   width: fit-content;
@@ -16,10 +17,6 @@ const ButtonBox = styled(Box)`
 const IconBox = styled(Box)`
   width: 1.2em;
   height: 1.2em;
-`;
-
-const Label = styled.span`
-  font-size: ${(props) => props.theme.fontSizes.extraSmall};
 `;
 
 interface Props {
@@ -42,7 +39,7 @@ const IconButton = ({ icon, label, onClick, className }: Props) => {
     >
       <IconBox $center>{icon}</IconBox>
 
-      {label && <Label>{label}</Label>}
+      {label && <Label $size="extraSmall">{label}</Label>}
     </ButtonBox>
   );
 };

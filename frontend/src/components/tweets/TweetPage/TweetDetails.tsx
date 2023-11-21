@@ -11,6 +11,7 @@ import {
 } from "../../../services/tweetsService";
 import Box from "../../containers/Box";
 import BorderedBox from "../../containers/BorderedBox";
+import Label from "../../core/Label";
 
 const DetailsBox = styled(BorderedBox)`
   border-top-left-radius: 20px;
@@ -19,12 +20,6 @@ const DetailsBox = styled(BorderedBox)`
 
 const UsernameLink = styled(RouterLink)`
   color: ${(props) => props.theme.colors.grey2};
-`;
-
-const Content = styled.p`
-  color: ${(props) => props.theme.colors.grey1};
-  margin: none;
-  font-size: ${(props) => props.theme.fontSizes.small};
 `;
 
 const ProfilePicture = styled.img`
@@ -96,7 +91,7 @@ const TweetDetails = ({ tweet }: Props) => {
           </UsernameLink>
         </Box>
 
-        <Content>{tweet.content}</Content>
+        <Label>{tweet.content}</Label>
 
         <Box $horizontal $gap="0.5em">
           <IconButton

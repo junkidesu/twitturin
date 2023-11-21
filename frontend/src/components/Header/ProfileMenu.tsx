@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import VBox from "../containers/VBox";
 import RouterLink from "../core/RouterLink";
 import AuthButton from "./AuthButton";
 import lightTheme from "../../themes/lightTheme";
@@ -8,8 +7,9 @@ import { removeCredentials } from "../../reducers/authReducer";
 import { showModal } from "../../reducers/modalReducer";
 import { icons } from "../../assets";
 import storageService from "../../services/storageService";
+import Box from "../containers/Box";
 
-const OtherItems = styled(VBox)`
+const OtherItems = styled(Box)`
   display: none;
 `;
 
@@ -33,7 +33,7 @@ const MenuButton = styled.button<{ $active?: boolean }>`
   }
 `;
 
-const ProfileMenuWrapper = styled(VBox)`
+const ProfileMenuWrapper = styled(Box)`
   position: absolute;
   top: 0.7em;
   right: 1em;

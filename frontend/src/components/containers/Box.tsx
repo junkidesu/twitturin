@@ -11,6 +11,7 @@ interface Props {
   $width?: string;
   $pad?: "s" | "m" | "l";
   $horizontal?: boolean;
+  $hide?: boolean;
 }
 
 const toPadding = ($pad: "s" | "m" | "l" | undefined) => {
@@ -40,7 +41,7 @@ const Box = styled.div<Props>`
   padding: ${({ $pad }) => toPadding($pad) || "none"};
   border-radius: ${({ $rounded }) => ($rounded ? "10px" : "none")};
   box-sizing: border-box;
-  overflow: hidden;
+  overflow: ${({ $hide }) => $hide ? "hidden" : "visible"};
 `;
 
 export default Box;
