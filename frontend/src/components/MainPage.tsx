@@ -1,5 +1,5 @@
 import { useGetTweetsQuery } from "../services/tweetsService";
-import LoadingTweetList from "./tweets/LoadingTweetList";
+import LoadingTweetList from "./util/LoadingTweetList";
 import TweetList from "./tweets/TweetList";
 
 const MainPage = () => {

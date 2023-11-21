@@ -4,7 +4,7 @@ import ReplyList from "../../replies/ReplyList";
 import TweetDetails from "./TweetDetails";
 import { useGetTweetsQuery } from "../../../services/tweetsService";
 import ReplyForm from "./ReplyForm";
-import LoadingTweetPage from "../LoadingTweetPage";
+import LoadingTweetPage from "../../util/LoadingTweetPage";
 import Box from "../../containers/Box";
 import BorderedBox from "../../containers/BorderedBox";
 import Heading from "../../core/Heading";

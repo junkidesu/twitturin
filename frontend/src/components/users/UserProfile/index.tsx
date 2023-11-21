@@ -3,7 +3,7 @@ import { pictures } from "../../../assets";
 import UserTabs from "./UserTabs";
 import { useParams } from "react-router-dom";
 import { useGetUsersQuery } from "../../../services/usersService";
-import LoadingUserProfile from "../LoadingUserProfile";
+import LoadingUserProfile from "../../util/LoadingUserProfile";
 import Box from "../../containers/Box";
 import Label from "../../core/Label";
 import Heading from "../../core/Heading";

@@ -1,22 +1,22 @@
 import styled from "styled-components";
-import useField from "../hooks/useField";
-import Input from "./core/Input";
-import Button from "./core/Button";
-import Form from "./core/Form";
-import { Major, NewUser } from "../types";
-import Select from "./core/Select";
+import useField from "../../hooks/useField";
+import Input from "../core/Input";
+import Button from "../core/Button";
+import Form from "../core/Form";
+import { Major, NewUser } from "../../types";
+import Select from "../core/Select";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAddUserMutation } from "../services/usersService";
-import { useAppDispatch, useAppSelector } from "../hooks/store";
-import { useLoginMutation } from "../services/authService";
-import { setCredentials } from "../reducers/authReducer";
-import LoadingSpinner from "./LoadingSpinner";
-import Modal from "./containers/Modal";
-import { hideModal, showModal } from "../reducers/modalReducer";
-import Heading from "./core/Heading";
-import lightTheme from "../themes/lightTheme";
-import Box from "./containers/Box";
+import { useAddUserMutation } from "../../services/usersService";
+import { useAppDispatch, useAppSelector } from "../../hooks/store";
+import { useLoginMutation } from "../../services/authService";
+import { setCredentials } from "../../reducers/authReducer";
+import LoadingSpinner from "../util/LoadingSpinner";
+import Modal from "../containers/Modal";
+import { hideModal, showModal } from "../../reducers/modalReducer";
+import Heading from "../core/Heading";
+import lightTheme from "../../themes/lightTheme";
+import Box from "../containers/Box";
 
 const KindButton = styled.button<{ $active: boolean }>`
   width: 100%;

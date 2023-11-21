@@ -1,8 +1,12 @@
-import { Tweet } from "../../types";
+import { Tweet } from "../../../types";
 import TweetItem from "./TweetItem";
-import Box from "../containers/Box";
+import Box from "../../containers/Box";
 
-const TweetList = ({ tweets }: { tweets: Tweet[] }) => {
+type TweetListProps = {
+  tweets: Tweet[];
+};
+
+const TweetList = ({ tweets }: TweetListProps) => {
   return (
     <Box $gap="0.5em">
       {tweets.map((t) => (

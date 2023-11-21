@@ -1,19 +1,19 @@
-import useField from "../hooks/useField";
-import Button from "./core/Button";
-import Input from "./core/Input";
-import Form from "./core/Form";
-import Modal from "./containers/Modal";
-import LoadingSpinner from "./LoadingSpinner";
-import lightTheme from "../themes/lightTheme";
-import { useAppDispatch } from "../hooks/store";
+import useField from "../../hooks/useField";
+import Button from "../core/Button";
+import Input from "../core/Input";
+import Form from "../core/Form";
+import Modal from "../containers/Modal";
+import LoadingSpinner from "../util/LoadingSpinner";
+import lightTheme from "../../themes/lightTheme";
+import { useAppDispatch } from "../../hooks/store";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { useLoginMutation } from "../services/authService";
-import { TokenData } from "../types";
-import { setCredentials } from "../reducers/authReducer";
-import { hideModal, showModal } from "../reducers/modalReducer";
-import Heading from "./core/Heading";
-import Box from "./containers/Box";
+import { useLoginMutation } from "../../services/authService";
+import { TokenData } from "../../types";
+import { setCredentials } from "../../reducers/authReducer";
+import { hideModal, showModal } from "../../reducers/modalReducer";
+import Heading from "../core/Heading";
+import Box from "../containers/Box";
 
 const LoginForm = () => {
   const username = useField("text", "Username");

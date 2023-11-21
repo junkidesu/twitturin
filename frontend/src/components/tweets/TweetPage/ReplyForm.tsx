@@ -6,7 +6,7 @@ import Button from "../../core/Button";
 import Form from "../../core/Form";
 import TextArea from "../../core/TextArea";
 import Modal from "../../containers/Modal";
-import LoadingSpinner from "../../LoadingSpinner";
+import LoadingSpinner from "../../util/LoadingSpinner";
 import { hideModal, showModal } from "../../../reducers/modalReducer";
 
 const ReplyForm = ({ id }: { id: string }) => {

@@ -5,7 +5,7 @@ import TextArea from "../../core/TextArea";
 import Button from "../../core/Button";
 import useField from "../../../hooks/useField";
 import { useAddTweetMutation } from "../../../services/tweetsService";
-import LoadingSpinner from "../../LoadingSpinner";
+import LoadingSpinner from "../../util/LoadingSpinner";
 import { useAppDispatch } from "../../../hooks/store";
 import { hideModal } from "../../../reducers/modalReducer";
 import Box from "../../containers/Box";

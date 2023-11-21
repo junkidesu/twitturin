@@ -1,13 +1,13 @@
 import styled from "styled-components";
-import { Tweet } from "../../types";
-import { icons, pictures } from "../../assets";
-import BorderedBox from "../containers/BorderedBox";
-import Box from "../containers/Box";
-import IconButton from "../core/IconButton";
-import RouterLink from "../core/RouterLink";
-import { useLikeTweetMutation } from "../../services/tweetsService";
-import { useUnlikeTweetMutation } from "../../services/tweetsService";
-import { useAppSelector } from "../../hooks/store";
+import { Tweet } from "../../../types";
+import { icons, pictures } from "../../../assets";
+import BorderedBox from "../../containers/BorderedBox";
+import Box from "../../containers/Box";
+import IconButton from "../../core/IconButton";
+import RouterLink from "../../core/RouterLink";
+import { useLikeTweetMutation } from "../../../services/tweetsService";
+import { useUnlikeTweetMutation } from "../../../services/tweetsService";
+import { useAppSelector } from "../../../hooks/store";
 import { useNavigate } from "react-router-dom";
 
 const UsernameLink = styled(RouterLink)`

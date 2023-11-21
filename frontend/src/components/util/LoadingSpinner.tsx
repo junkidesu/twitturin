@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Box from "./containers/Box";
+import Box from "../containers/Box";
 
 const LoadingBox = styled(Box)`
   width: 300px;

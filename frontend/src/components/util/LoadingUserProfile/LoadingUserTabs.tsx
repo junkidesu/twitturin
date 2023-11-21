@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
-import LoadingTweetList from "../../tweets/LoadingTweetList";
+import LoadingTweetList from "../LoadingTweetList";
 import LoadingReplyList from "../../replies/LoadingReplyList";
 import Box from "../../containers/Box";
 
