@@ -1,35 +1,29 @@
 import styled from "styled-components";
-import VBox from "../../containers/VBox";
 import LoadingTweetDetails from "./LoadingTweetDetails";
 import LoadingReplyList from "../../replies/LoadingReplyList";
+import Box from "../../containers/Box";
+import BorderedBox from "../../containers/BorderedBox";
+import Heading from "../../core/Heading";
 
-const ReplyTitle = styled.p`
-  margin: none;
-  color: ${(props) => props.theme.colors.grey1};
-  font-size: ${(props) => props.theme.fontSizes.medium};
-  font-weight: 500;
-`;
-
-const RepliesToTweet = styled(VBox)`
-  background: white;
-  border: 2px solid ${(props) => props.theme.colors.grey4};
+const RepliesToTweet = styled(BorderedBox)`
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
   border-top: none;
-  padding: 1em;
 `;
 
 const LoadingTweetPage = () => {
   return (
-    <VBox>
+    <Box>
       <LoadingTweetDetails />
 
-      <RepliesToTweet $gap="0.5em">
-        <ReplyTitle style={{ fontWeight: "bold" }}>Replies</ReplyTitle>
+      <RepliesToTweet $pad="l" $bg="white" $gap="0.5em">
+        <Heading $level={4} $mn>
+          Replies
+        </Heading>
 
         <LoadingReplyList />
       </RepliesToTweet>
-    </VBox>
+    </Box>
   );
 };
 

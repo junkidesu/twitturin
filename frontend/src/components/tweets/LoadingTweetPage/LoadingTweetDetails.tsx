@@ -1,6 +1,6 @@
 import styled, { keyframes } from "styled-components";
-import VBox from "../../containers/VBox";
-import HBox from "../../containers/HBox";
+import Box from "../../containers/Box";
+import BorderedBox from "../../containers/BorderedBox";
 
 const animateBg = keyframes`
   0% {
@@ -12,13 +12,9 @@ const animateBg = keyframes`
   }
 `;
 
-const Wrapper = styled(HBox)`
-  background-color: white;
-  border: 2px solid ${(props) => props.theme.colors.grey4};
+const DetailsBox = styled(BorderedBox)`
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  padding: 1em;
-  min-width: 600px;
 `;
 
 const LoadingElement = styled.div`
@@ -54,32 +50,27 @@ const LoadingProfilePicture = styled(LoadingElement)`
   border-radius: 10em;
 `;
 
-const Body = styled(VBox)`
-  padding-left: 1em;
-  gap: 1em;
-`;
-
 const LoadingTweetDetails = () => {
   return (
-    <Wrapper>
+    <DetailsBox $bg="white" $horizontal $pad="l" $gap="1.5em" $minWidth="600px">
       <LoadingProfilePicture />
 
-      <Body>
-        <HBox $center $gap="0.5em">
+      <Box $gap="1em">
+        <Box $horizontal $center $gap="0.5em">
           <LoadingFullName />
 
           <LoadingUsername />
-        </HBox>
+        </Box>
 
         <LoadingContent />
 
-        <HBox $gap="0.5em">
+        <Box $horizontal $gap="0.5em">
           <LoadingButton />
           <LoadingButton />
           <LoadingButton />
-        </HBox>
-      </Body>
-    </Wrapper>
+        </Box>
+      </Box>
+    </DetailsBox>
   );
 };
 

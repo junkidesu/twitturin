@@ -9,6 +9,8 @@ import LogOutIcon from "./icons/log-out.svg?react";
 import EditIcon from "./icons/edit.svg?react";
 import CreateIcon from "./icons/plus.svg?react";
 import RemoveIcon from "./icons/trash.svg?react";
+import ShareIcon from "./icons/share.svg?react";
+import MoreIcon from "./icons/more-vertical.svg?react";
 
 export const pictures = {
   emptyProfilePicture,
@@ -25,4 +27,6 @@ export const icons = {
   EditIcon,
   CreateIcon,
   RemoveIcon,
+  ShareIcon,
+  MoreIcon,
 };

@@ -3,29 +3,18 @@ import { useEffect } from "react";
 import Form from "../../core/Form";
 import TextArea from "../../core/TextArea";
 import Button from "../../core/Button";
-import VBox from "../../containers/VBox";
 import useField from "../../../hooks/useField";
 import { useAddTweetMutation } from "../../../services/tweetsService";
 import LoadingSpinner from "../../LoadingSpinner";
 import { useAppDispatch } from "../../../hooks/store";
 import { hideModal } from "../../../reducers/modalReducer";
-
-const Wrapper = styled(VBox)`
-  min-width: 500px;
-  padding: 1em;
-`;
+import Box from "../../containers/Box";
+import Heading from "../../core/Heading";
 
 const SubmitButton = styled(Button)`
   &:hover {
     color: ${(props) => props.theme.colors.grey2};
   }
-`;
-
-const Label = styled.p`
-  margin: none;
-  font-size: ${(props) => props.theme.fontSizes.large};
-  font-weight: bold;
-  color: white;
 `;
 
 const NewTweetForm = () => {
@@ -40,16 +29,14 @@ const NewTweetForm = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log(content.value);
-
     await addTweet({ content: content.value });
   };
 
   if (isLoading) return <LoadingSpinner label="Posting your tweet..." />;
 
   return (
-    <Wrapper $center>
-      <Label>Post New Tweet</Label>
+    <Box $pad="l" $minWidth="500px" $center>
+      <Heading $level={2}>Post New Tweet</Heading>
 
       <Form onSubmit={handleSubmit}>
         <TextArea {...content} />
@@ -57,7 +44,7 @@ const NewTweetForm = () => {
           Submit
         </SubmitButton>
       </Form>
-    </Wrapper>
+    </Box>
   );
 };
 
