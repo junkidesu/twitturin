@@ -95,7 +95,7 @@ const TweetDetails = ({ tweet }: Props) => {
 
         <Box $horizontal $gap="0.5em">
           <IconButton
-            icon={<LikeIcon $liked={likedByMe} />}
+            icon={<LikeIcon $liked={likedByMe || false} />}
             label={likeButtonLabel}
             onClick={likedByMe ? handleUnlike : handleLike}
           />
