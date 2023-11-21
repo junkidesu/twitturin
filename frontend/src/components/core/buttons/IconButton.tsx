@@ -22,7 +22,7 @@ const IconBox = styled(Box)`
 
 interface Props {
   label?: string | number;
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   onClick?: () => void;
   className?: string;
 }
@@ -38,7 +38,7 @@ const IconButton = ({ icon, label, onClick, className }: Props) => {
       onClick={onClick}
       className={className}
     >
-      <IconBox $center>{icon}</IconBox>
+      {icon ? <IconBox $center>{icon}</IconBox> : null}
 
       {label && <Label $size="extraSmall">{label}</Label>}
     </ButtonBox>
