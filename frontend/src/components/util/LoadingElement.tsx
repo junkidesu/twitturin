@@ -2,11 +2,11 @@ import styled, { keyframes } from "styled-components";
 
 const animateBg = keyframes`
   0% {
-    background-position: 0 0;
+    background-position: 100% 0;
   }
 
   100% {
-    background-position: 100% 0;
+    background-position: 0 0;
   }
 `;
 
