@@ -1,13 +1,12 @@
 import styled from "styled-components";
 import RouterLink from "../core/RouterLink";
-import HBox from "../containers/HBox";
 import AuthButton from "./AuthButton";
 import lightTheme from "../../themes/lightTheme";
 import ProfileMenu from "./ProfileMenu";
 import { useAppSelector } from "../../hooks/store";
 import Box from "../containers/Box";
 
-const RightCorner = styled(HBox)`
+const RightCornerBox = styled(Box)`
   position: absolute;
   top: 0.7em;
   right: 1em;
@@ -44,7 +43,7 @@ const Header = () => {
       {username ? (
         <ProfileMenu username={username} />
       ) : (
-        <RightCorner $gap="1em">
+        <RightCornerBox $horizontal $gap="1em">
           <RouterLink to="/login">
             <AuthButton $fg={lightTheme.colors.background} $bg="transparent">
               Sign in
@@ -55,7 +54,7 @@ const Header = () => {
               Sign up
             </AuthButton>
           </RouterLink>
-        </RightCorner>
+        </RightCornerBox>
       )}
     </HeaderBox>
   );

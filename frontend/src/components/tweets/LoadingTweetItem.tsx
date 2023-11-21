@@ -1,6 +1,6 @@
 import styled, { keyframes } from "styled-components";
-import VBox from "../containers/VBox";
-import HBox from "../containers/HBox";
+import Box from "../containers/Box";
+import BorderedBox from "../containers/BorderedBox";
 import RouterLink from "../core/RouterLink";
 
 const animateBg = keyframes`
@@ -11,14 +11,6 @@ const animateBg = keyframes`
   100% {
     background-position: 100% 0;
   }
-`;
-
-const Wrapper = styled(HBox)`
-  background-color: white;
-  border: 2px solid ${(props) => props.theme.colors.grey4};
-  border-radius: 5px;
-  padding: 1em;
-  min-width: 500px;
 `;
 
 const LoadingElement = styled.div`
@@ -44,36 +36,38 @@ const LoadingProfilePicture = styled(LoadingElement)`
   border-radius: 10em;
 `;
 
-const Body = styled(VBox)`
-  padding-left: 1em;
-  gap: 1em;
-`;
-
 const LoadingTweetItem = () => {
   return (
-    <Wrapper>
+    <BorderedBox
+      $gap="1em"
+      $pad="l"
+      $bg="white"
+      $rounded
+      $horizontal
+      $minWidth="500px"
+    >
       <RouterLink to={`/`}>
         <LoadingProfilePicture />
       </RouterLink>
 
-      <Body>
-        <HBox $center $gap="0.5em">
+      <Box $gap="1em">
+        <Box $horizontal $center $gap="0.5em">
           <LoadingField />
 
           <LoadingField />
-        </HBox>
+        </Box>
 
         <LoadingField />
 
-        <HBox $gap="0.5em">
+        <Box $horizontal $gap="0.5em">
           <LoadingButton />
 
           <LoadingButton />
 
           <LoadingButton />
-        </HBox>
-      </Body>
-    </Wrapper>
+        </Box>
+      </Box>
+    </BorderedBox>
   );
 };
 
