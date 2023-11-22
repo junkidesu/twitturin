@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import RouterLink from "../core/RouterLink";
 import Box from "../containers/Box";
-// import HeaderButton from "./HeaderButton";
 import ProfileMenu from "./ProfileMenu";
 import { useAppSelector } from "../../hooks/store";
 import AuthButtons from "./AuthButtons";
 
 const RightCornerBox = styled(Box)`
   position: absolute;
+  align-items: center;
   top: 0.7em;
   right: 1em;
 `;

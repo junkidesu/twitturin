@@ -11,7 +11,6 @@ const AuthButtons = () => {
         $size="small"
         $bg="transparent"
         $fg="#eeeeee"
-        $width="100%"
         onClick={() => navigate("/login")}
       >
         Sign in
@@ -20,7 +19,6 @@ const AuthButtons = () => {
         $size="small"
         $bg="transparent"
         $fg="#eeeeee"
-        $width="100%"
         onClick={() => navigate("/sign-up")}
       >
         Sign up
