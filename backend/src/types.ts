@@ -90,6 +90,7 @@ export interface PopulatedTweet {
 export interface PopulatedReply {
   content: string;
   author: User;
+  likedBy: User[];
   replies: PopulatedReply[];
 }
 
