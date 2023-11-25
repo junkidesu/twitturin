@@ -38,7 +38,7 @@ const TweetPage = () => {
 
         <ReplyForm id={tweet.id} parent="tweet" />
 
-        <ReplyList replies={tweet.replies} />
+        <ReplyList replies={tweet.replies} showChildReplies />
       </RepliesToTweet>
     </Box>
   );

@@ -9,6 +9,7 @@ import ReplyForm from "../ReplyForm";
 
 interface Props {
   reply: Reply;
+  showChildReplies?: boolean;
 }
 
 const UsernameLink = styled(RouterLink)`
@@ -43,7 +44,7 @@ const LikeIcon = styled(icons.HeartIcon)<LikeIconProps>`
   fill: ${({ $liked, theme }) => ($liked ? theme.colors.primary : "none")};
 `;
 
-const ReplyItem = ({ reply }: Props) => {
+const ReplyItem = ({ reply, showChildReplies }: Props) => {
   const [visible, setVisible] = useState(true);
   const [formVisible, setFormVisible] = useState(false);
 
@@ -111,9 +112,10 @@ const ReplyItem = ({ reply }: Props) => {
           <ReplyForm id={reply.id} parent="reply" setVisible={setFormVisible} />
         )}
 
-        {reply.replies.map((r) => (
-          <ReplyItem reply={r} key={r.id} />
-        ))}
+        {showChildReplies &&
+          reply.replies.map((r) => (
+            <ReplyItem reply={r} key={r.id} showChildReplies />
+          ))}
       </Box>
     </Box>
   );
