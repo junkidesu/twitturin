@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import mongooseAutoPopulate from "mongoose-autopopulate";
 import { Reply } from "../types";
 
 const ReplySchema = new Schema<Reply>(
@@ -19,6 +20,7 @@ const ReplySchema = new Schema<Reply>(
     author: {
       type: Schema.Types.ObjectId,
       required: true,
+      autopopulate: true,
       ref: "User",
     },
   },
@@ -39,6 +41,15 @@ const ReplySchema = new Schema<Reply>(
     timestamps: true,
   }
 );
+
+ReplySchema.virtual("replies", {
+  ref: "Reply",
+  localField: "_id",
+  foreignField: "to",
+  autopopulate: true,
+});
+
+ReplySchema.plugin(mongooseAutoPopulate);
 
 const ReplyModel = model<Reply>("Reply", ReplySchema);
 

@@ -89,6 +89,7 @@ export interface PopulatedTweet {
 export interface PopulatedReply {
   content: string;
   author: User;
+  replies: PopulatedReply[];
 }
 
 export interface TokenData {

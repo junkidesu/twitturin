@@ -17,9 +17,6 @@ const options: PopulateOptions[] = [
   },
   {
     path: "replies",
-    populate: {
-      path: "author",
-    },
   },
 ];
 
@@ -32,7 +29,9 @@ const getAllTweets = async () => {
 };
 
 const getTweetById = async (id: string) => {
-  const tweet = await TweetModel.findById<Tweet>(id).populate<PopulatedTweet>(options);
+  const tweet = await TweetModel.findById<Tweet>(id).populate<PopulatedTweet>(
+    options
+  );
 
   if (!tweet) throw new NotFoundError("tweet not found");
 
