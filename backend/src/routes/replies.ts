@@ -5,6 +5,20 @@ import { requireAuthentication, requireReplyAuthor } from "../utils/middleware";
 
 const router = express.Router();
 
+router.post("/:id", requireAuthentication, async (req, res, next) => {
+  try {
+    const addedReply = await repliesService.replyToReply(
+      req.params.id,
+      toNewReply(req.body),
+      req.user!._id.toString()
+    );
+
+    res.status(201).json(addedReply);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.put(
   "/:id",
   requireAuthentication,

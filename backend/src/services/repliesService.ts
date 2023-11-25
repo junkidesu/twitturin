@@ -1,6 +1,20 @@
 import ReplyModel from "../models/reply";
 import { NewReply, PopulatedReply } from "../types";
 
+const replyToReply = async (
+  replyId: string,
+  { content }: NewReply,
+  author: string
+) => {
+  const savedReply = await new ReplyModel({
+    content,
+    to: replyId,
+    author,
+  }).save();
+
+  return savedReply.populate<PopulatedReply>("author");
+};
+
 const replyToTweet = async (
   tweet: string,
   { content }: NewReply,
@@ -30,4 +44,4 @@ const removeReply = async (id: string) => {
   await ReplyModel.findByIdAndDelete(id);
 };
 
-export default { replyToTweet, editReply, removeReply };
+export default { replyToTweet, replyToReply, editReply, removeReply };
