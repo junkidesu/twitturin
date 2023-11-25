@@ -4,14 +4,14 @@ import { tweetsApi } from "./tweetsService";
 
 export const repliesApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    reply: builder.mutation<Reply, NewReply>({
-      query: ({ content, tweet: id }) => ({
+    replyToTweet: builder.mutation<Reply, NewReply>({
+      query: ({ content, parentId: id }) => ({
         url: `tweets/${id}/replies`,
         method: "POST",
         body: { content },
       }),
       invalidatesTags: ["User"],
-      async onQueryStarted({ tweet: id }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ parentId: id }, { dispatch, queryFulfilled }) {
         try {
           const { data: addedReply } = await queryFulfilled;
 
@@ -35,7 +35,15 @@ export const repliesApi = api.injectEndpoints({
         }
       },
     }),
+    replyToReply: builder.mutation<Reply, NewReply>({
+      query: ({ content, parentId: id }) => ({
+        url: `/replies/${id}`,
+        method: "POST",
+        body: { content },
+      }),
+      invalidatesTags: ["Tweet", "User"],
+    }),
   }),
 });
 
-export const { useReplyMutation } = repliesApi;
+export const { useReplyToTweetMutation, useReplyToReplyMutation } = repliesApi;

@@ -45,13 +45,14 @@ export interface Reply {
   content: string;
   tweet: string;
   author: UnionOmit<User, "replies" | "tweets">;
+  replies: Reply[];
   createdAt: string;
   updatedAt: string;
 }
 
 export interface NewReply {
   content: string;
-  tweet: string;
+  parentId: string;
 }
 
 export interface Tweet {
