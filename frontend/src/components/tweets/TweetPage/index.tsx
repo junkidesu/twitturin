@@ -32,9 +32,11 @@ const TweetPage = () => {
       <TweetDetails tweet={tweet} />
 
       <RepliesToTweet $pad="l" $bg="white" $gap="0.5em">
-        <Heading $level={4} $mn>Replies</Heading>
+        <Heading $level={4} $mn>
+          Replies
+        </Heading>
 
-        <ReplyForm tweet={tweet.id} />
+        <ReplyForm id={tweet.id} parent="tweet" />
 
         <ReplyList replies={tweet.replies} />
       </RepliesToTweet>

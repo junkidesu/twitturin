@@ -53,6 +53,7 @@ export interface Reply {
 export interface NewReply {
   content: string;
   parentId: string;
+  parent: "tweet" | "reply";
 }
 
 export interface Tweet {

@@ -1,14 +1,22 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/store";
 import useField from "../../hooks/useField";
-import { useReplyToTweetMutation } from "../../services/repliesService";
+import { useReplyMutation } from "../../services/repliesService";
 import Button from "../core/buttons/Button";
 import Form from "../core/Form";
 import TextArea from "../core/inputs/TextArea";
 import { show, hide } from "../../reducers/loadingStripeReducer";
+import lightTheme from "../../themes/lightTheme";
+import Box from "../containers/Box";
 
-const ReplyForm = ({ tweet }: { tweet: string }) => {
-  const [reply, { isLoading }] = useReplyToTweetMutation();
+type Props = {
+  id: string;
+  setVisible?: React.Dispatch<React.SetStateAction<boolean>>;
+  parent: "tweet" | "reply";
+};
+
+const ReplyForm = ({ id, parent, setVisible }: Props) => {
+  const [replyToTweet, { isLoading, isSuccess }] = useReplyMutation();
   const dispatch = useAppDispatch();
   const content = useField("text", "Type your reply...");
 
@@ -16,21 +24,40 @@ const ReplyForm = ({ tweet }: { tweet: string }) => {
 
   useEffect(() => {
     if (isLoading) dispatch(show());
-    else dispatch(hide());
-  }, [isLoading, dispatch]);
+    else if (isSuccess) {
+      dispatch(hide());
+      if (setVisible) setVisible(false);
+    }
+  }, [isLoading, isSuccess, setVisible, dispatch]);
 
   if (!token) return null;
 
   const handleReply = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    await reply({ content: content.value, parentId: tweet });
+    await replyToTweet({ content: content.value, parent, parentId: id });
   };
 
   return (
     <Form onSubmit={handleReply}>
       <TextArea {...content} required />
-      <Button $bg="white">Submit</Button>
+
+      <Box $horizontal $gap="1em">
+        <Button $bg="white" $size="extraSmall">
+          Submit
+        </Button>
+
+        {setVisible && (
+          <Button
+            $bg="white"
+            $fg={lightTheme.colors.secondary}
+            $size="extraSmall"
+            onClick={() => setVisible(false)}
+          >
+            Cancel
+          </Button>
+        )}
+      </Box>
     </Form>
   );
 };
