@@ -46,11 +46,14 @@ TweetSchema.virtual("likes").get(function (): number {
 TweetSchema.virtual("replies", {
   ref: "Reply",
   localField: "_id",
-  foreignField: "tweet",
+  foreignField: "parentTweet",
 });
 
-TweetSchema.virtual("replyCount").get(function (): number {
-  return this.get("replies").length;
+TweetSchema.virtual("replyCount", {
+  ref: "Reply",
+  localField: "_id",
+  foreignField: "tweet",
+  count: true,
 });
 
 const TweetModel = model<Tweet>("Tweet", TweetSchema);

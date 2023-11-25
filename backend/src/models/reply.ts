@@ -18,10 +18,14 @@ const ReplySchema = new Schema<Reply>(
     ],
     tweet: {
       type: Schema.Types.ObjectId,
-      // required: true,
+      required: true,
       ref: "Tweet",
     },
-    to: {
+    parentTweet: {
+      type: Schema.Types.ObjectId,
+      ref: "Tweet",
+    },
+    parentReply: {
       type: Schema.Types.ObjectId,
       ref: "Reply",
     },
@@ -53,7 +57,7 @@ const ReplySchema = new Schema<Reply>(
 ReplySchema.virtual("replies", {
   ref: "Reply",
   localField: "_id",
-  foreignField: "to",
+  foreignField: "parentReply",
   autopopulate: true,
 });
 

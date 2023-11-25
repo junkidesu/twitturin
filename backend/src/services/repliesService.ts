@@ -7,9 +7,14 @@ const replyToReply = async (
   { content }: NewReply,
   author: string
 ) => {
+  const foundReply = await ReplyModel.findById(replyId);
+
+  if (!foundReply) throw new NotFoundError("reply not found");
+
   const savedReply = await new ReplyModel({
     content,
-    to: replyId,
+    tweet: foundReply?.tweet,
+    parentReply: replyId,
     author,
   }).save();
 
@@ -23,6 +28,7 @@ const replyToTweet = async (
 ) => {
   const reply = new ReplyModel({
     tweet,
+    parentTweet: tweet,
     content,
     author,
   });

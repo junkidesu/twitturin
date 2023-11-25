@@ -23,17 +23,14 @@ const options: PopulateOptions[] = [
       },
       {
         path: "replies",
-        populate: {
-          path: "author",
-        },
+      },
+      {
+        path: "replyCount",
       },
     ],
   },
   {
     path: "replies",
-    populate: {
-      path: "author",
-    },
   },
 ];
 

@@ -18,6 +18,9 @@ const options: PopulateOptions[] = [
   {
     path: "replies",
   },
+  {
+    path: "replyCount",
+  },
 ];
 
 const getAllTweets = async () => {

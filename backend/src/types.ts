@@ -67,8 +67,9 @@ export interface EditTweet {
 export interface Reply {
   author: Types.ObjectId;
   likedBy: Types.ObjectId[];
-  tweet?: Types.ObjectId;
-  to?: Types.ObjectId;
+  tweet: Types.ObjectId;
+  parentTweet?: Types.ObjectId;
+  parentReply?: Types.ObjectId;
   content: string;
 }
 
