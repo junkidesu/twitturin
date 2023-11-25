@@ -6,6 +6,9 @@ import Box from "../../containers/Box";
 import IconButton from "../../core/buttons/IconButton";
 import { useState } from "react";
 import ReplyForm from "../ReplyForm";
+import lightTheme from "../../../themes/lightTheme";
+import { elapsedTime } from "../../../util/time";
+import Label from "../../core/text/Label";
 
 interface Props {
   reply: Reply;
@@ -70,6 +73,8 @@ const ReplyItem = ({ reply, showChildReplies }: Props) => {
       </Box>
     );
 
+  const submissionTime = new Date(reply.createdAt);
+
   return (
     <Box $horizontal $bg="white" $gap="1em" $pad="s" $rounded id={reply.id}>
       <Box $center>
@@ -89,6 +94,16 @@ const ReplyItem = ({ reply, showChildReplies }: Props) => {
           <UsernameLink $size="extraSmall" to={`/users/${reply.author.id}`}>
             @{reply.author.username}
           </UsernameLink>
+
+          {"•"}
+
+          <Label
+            $size="extraSmall"
+            $color={lightTheme.colors.grey2}
+            title={submissionTime.toString()}
+          >
+            {elapsedTime(submissionTime.valueOf())}
+          </Label>
         </Box>
 
         <RouterLink to={`/tweets/${reply.tweet}/#${reply.id}`}>
