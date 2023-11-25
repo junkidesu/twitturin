@@ -32,6 +32,7 @@ export const tweetsApi = api.injectEndpoints({
               return draft.map((t) => (t.id !== id ? t : likedTweet));
             })
           );
+
           dispatch(
             usersApi.util.updateQueryData("getUsers", undefined, (draft) => {
               const user = draft.find((u) => u.id === likedTweet.author.id);

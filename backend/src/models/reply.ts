@@ -8,6 +8,13 @@ const ReplySchema = new Schema<Reply>(
       type: String,
       required: true,
     },
+    likedBy: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        default: [],
+      },
+    ],
     tweet: {
       type: Schema.Types.ObjectId,
       // required: true,
