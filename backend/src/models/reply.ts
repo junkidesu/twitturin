@@ -9,8 +9,12 @@ const ReplySchema = new Schema<Reply>(
     },
     tweet: {
       type: Schema.Types.ObjectId,
-      required: true,
+      // required: true,
       ref: "Tweet",
+    },
+    to: {
+      type: Schema.Types.ObjectId,
+      ref: "Reply",
     },
     author: {
       type: Schema.Types.ObjectId,

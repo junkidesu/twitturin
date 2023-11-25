@@ -66,7 +66,8 @@ export interface EditTweet {
 
 export interface Reply {
   author: Types.ObjectId;
-  tweet: Types.ObjectId;
+  tweet?: Types.ObjectId;
+  to?: Types.ObjectId;
   content: string;
 }
 
