@@ -54,6 +54,10 @@ const ReplySchema = new Schema<Reply>(
   }
 );
 
+ReplySchema.virtual("likes").get(function () {
+  return this.likedBy.length;
+});
+
 ReplySchema.virtual("replies", {
   ref: "Reply",
   localField: "_id",

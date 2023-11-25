@@ -35,15 +35,14 @@ export const repliesApi = api.injectEndpoints({
         }
       },
     }),
-    replyToReply: builder.mutation<Reply, NewReply>({
-      query: ({ content, parentId: id }) => ({
-        url: `/replies/${id}`,
+    likeReply: builder.mutation<Reply, { id: string }>({
+      query: ({ id }) => ({
+        url: `replies/${id}/likes`,
         method: "POST",
-        body: { content },
       }),
       invalidatesTags: ["Tweet", "User"],
     }),
   }),
 });
 
-export const { useReplyMutation, useReplyToReplyMutation } = repliesApi;
+export const { useReplyMutation, useLikeReplyMutation } = repliesApi;

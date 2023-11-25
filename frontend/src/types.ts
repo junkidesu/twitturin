@@ -44,6 +44,8 @@ export interface Reply {
   id: string;
   content: string;
   tweet: string;
+  likedBy: User[];
+  likes: number;
   author: UnionOmit<User, "replies" | "tweets">;
   replies: Reply[];
   createdAt: string;

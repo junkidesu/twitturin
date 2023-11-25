@@ -9,6 +9,8 @@ import ReplyForm from "../ReplyForm";
 import lightTheme from "../../../themes/lightTheme";
 import { elapsedTime } from "../../../util/time";
 import Label from "../../core/text/Label";
+import { useLikeReplyMutation } from "../../../services/repliesService";
+import { useAppSelector } from "../../../hooks/store";
 
 interface Props {
   reply: Reply;
@@ -50,6 +52,16 @@ const LikeIcon = styled(icons.HeartIcon)<LikeIconProps>`
 const ReplyItem = ({ reply, showChildReplies }: Props) => {
   const [visible, setVisible] = useState(true);
   const [formVisible, setFormVisible] = useState(false);
+  const [like] = useLikeReplyMutation();
+  const userId = useAppSelector(({ auth }) => auth.id);
+
+  const likedByMe = userId
+    ? reply.likedBy.map((u) => u.id).includes(userId)
+    : false;
+
+  const handleLike = async () => {
+    if (!likedByMe) await like({ id: reply.id });
+  };
 
   if (!visible)
     return (
@@ -111,7 +123,11 @@ const ReplyItem = ({ reply, showChildReplies }: Props) => {
         </RouterLink>
 
         <Box $horizontal $gap="0.5em">
-          <IconButton label={0} icon={<LikeIcon $liked={true} />} />
+          <IconButton
+            label={reply.likes}
+            icon={<LikeIcon $liked={likedByMe} />}
+            onClick={handleLike}
+          />
 
           <IconButton
             icon={<icons.RepliesIcon />}
