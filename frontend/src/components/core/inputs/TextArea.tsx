@@ -8,7 +8,7 @@ const TextArea = styled.textarea`
   border-radius: 10px;
   font-family: sans-serif;
   color: ${(props) => props.theme.colors.grey1};
-  font-size: ${(props) => props.theme.fontSizes.medium};
+  font-size: ${(props) => props.theme.fontSizes.small};
   resize: none;
   transition: 0.2s;
 

@@ -34,7 +34,7 @@ const TweetPage = () => {
       <RepliesToTweet $pad="l" $bg="white" $gap="0.5em">
         <Heading $level={4} $mn>Replies</Heading>
 
-        <ReplyForm id={tweet.id} />
+        <ReplyForm tweet={tweet.id} />
 
         <ReplyList replies={tweet.replies} />
       </RepliesToTweet>
