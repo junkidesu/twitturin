@@ -2,6 +2,12 @@ import { Types } from "mongoose";
 import ReplyModel from "../models/reply";
 import { NewReply, NotFoundError, PopulatedReply } from "../types";
 
+const getRepliesByUser = async (userId: string) => {
+  const replies = await ReplyModel.find({ author: userId });
+
+  return replies;
+};
+
 const replyToReply = async (
   replyId: string,
   { content }: NewReply,
@@ -67,6 +73,7 @@ const removeReply = async (id: string) => {
 };
 
 export default {
+  getRepliesByUser,
   replyToTweet,
   replyToReply,
   likeReply,
