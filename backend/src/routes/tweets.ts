@@ -287,12 +287,9 @@ router.put(
  */
 router.post("/:id/likes", requireAuthentication, async (req, res, next) => {
   try {
-    const likedTweet = await tweetsService.likeTweet(
-      req.params.id,
-      req.user!._id
-    );
+    await tweetsService.likeTweet(req.params.id, req.user!);
 
-    res.json(likedTweet);
+    res.json(req.user!);
   } catch (error) {
     next(error);
   }

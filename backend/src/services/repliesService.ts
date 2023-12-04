@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 import ReplyModel from "../models/reply";
-import { NewReply, NotFoundError, PopulatedReply } from "../types";
+import { NewReply, NotFoundError, PopulatedReply, User } from "../types";
 
 const getRepliesByTweet = async (tweetId: string) => {
   const replies = await ReplyModel.find({ parentTweet: tweetId });
@@ -49,19 +49,19 @@ const replyToTweet = async (
   return savedReply.populate<PopulatedReply>("author");
 };
 
-const likeReply = async (id: string, userId: Types.ObjectId) => {
+const likeReply = async (id: string, user: User & { _id: Types.ObjectId }) => {
   const foundReply = await ReplyModel.findById(id);
 
   if (!foundReply) throw new NotFoundError("reply not found");
 
   const likesStrings = foundReply.likedBy.map((u) => u.toString());
+  const likedByMe = likesStrings.includes(user._id.toString());
 
-  if (!likesStrings.includes(userId.toString()))
-    foundReply.likedBy = foundReply.likedBy.concat(userId);
+  if (!likedByMe) foundReply.likedBy = foundReply.likedBy.concat(user._id);
 
-  const likedReply = await foundReply.save();
+  await foundReply.save();
 
-  return likedReply;
+  return user;
 };
 
 const editReply = async (id: string, toEdit: NewReply) => {

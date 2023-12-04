@@ -52,12 +52,12 @@ router.delete(
 
 router.post("/:id/likes", requireAuthentication, async (req, res, next) => {
   try {
-    const likedReply = await repliesService.likeReply(
+    const like = await repliesService.likeReply(
       req.params.id,
-      req.user!._id
+      req.user!
     );
 
-    res.json(likedReply);
+    res.json(like);
   } catch (error) {
     next(error);
   }

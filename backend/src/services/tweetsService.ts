@@ -6,6 +6,7 @@ import {
   EditTweet,
   PopulatedTweet,
   NotFoundError,
+  User,
 } from "../types";
 
 const options: PopulateOptions[] = [
@@ -69,17 +70,18 @@ const editTweet = async (id: string, toEdit: EditTweet) => {
   return updatedTweet;
 };
 
-const likeTweet = async (id: string, userId: Types.ObjectId) => {
+const likeTweet = async (id: string, user: User & { _id: Types.ObjectId }) => {
   const tweet = await TweetModel.findById(id);
 
   const likesStrings = tweet!.likedBy.map((u) => u.toString());
+  const likedByMe = likesStrings.includes(user._id.toString());
 
-  if (!likesStrings.includes(userId.toString()))
-    tweet!.likedBy = tweet!.likedBy.concat(userId);
+  if (!likedByMe)
+    tweet!.likedBy = tweet!.likedBy.concat(user._id);
 
-  const likedTweet = await tweet!.save({ timestamps: { updatedAt: false } });
+  await tweet!.save({ timestamps: { updatedAt: false } });
 
-  return likedTweet.populate<PopulatedTweet>(options);
+  return user;
 };
 
 const removeLike = async (id: string, userId: Types.ObjectId) => {
