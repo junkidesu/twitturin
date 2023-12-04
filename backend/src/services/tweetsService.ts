@@ -41,6 +41,14 @@ const getTweetById = async (id: string) => {
   return tweet;
 };
 
+const getTweetsByUser = async (userId: string) => {
+  const tweets = await TweetModel.find<Tweet>({
+    author: userId,
+  }).populate<PopulatedTweet>(options);
+
+  return tweets;
+};
+
 const addTweet = async (newTweet: NewTweet) => {
   const addedTweet = await new TweetModel(newTweet).save();
 
@@ -88,6 +96,7 @@ export default {
   getAllTweets,
   addTweet,
   getTweetById,
+  getTweetsByUser,
   removeTweet,
   editTweet,
   likeTweet,
