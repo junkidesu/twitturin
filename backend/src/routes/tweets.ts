@@ -26,8 +26,16 @@ const router = express.Router();
  *               items:
  *                 $ref: '#/components/schemas/Tweet'
  */
-router.get("/", async (_req, res) => {
-  const tweets = await tweetsService.getAllTweets();
+router.get("/", async (req, res) => {
+  const { author } = req.query;
+
+  if (!author) {
+    const tweets = await tweetsService.getAllTweets();
+    return res.json(tweets);
+  }
+
+  const tweets = await tweetsService.getTweetsByUser(author as string);
+
   return res.json(tweets);
 });
 

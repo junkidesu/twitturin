@@ -2,7 +2,6 @@ import express from "express";
 import usersService from "../services/usersService";
 import { toNewUser, toEditUser } from "../utils/parsers";
 import { requireAuthentication, requireSameUser } from "../utils/middleware";
-import tweetsService from "../services/tweetsService";
 import repliesService from "../services/repliesService";
 
 const router = express.Router();
@@ -66,12 +65,6 @@ router.get("/:id", async (req, res) => {
   const user = await usersService.getUserById(req.params.id);
 
   return res.json(user);
-});
-
-router.get("/:id/posts", async (req, res) => {
-  const tweets = await tweetsService.getTweetsByUser(req.params.id);
-
-  res.json(tweets);
 });
 
 router.get("/:id/replies", async (req, res) => {
