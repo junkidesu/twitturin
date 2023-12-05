@@ -19,7 +19,7 @@ const router = express.Router();
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/PopulatedUser'
+ *                 $ref: '#/components/schemas/User'
  */
 router.get("/", async (_req, res) => {
   const users = await usersService.getAllUsers();
@@ -46,7 +46,7 @@ router.get("/", async (_req, res) => {
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/PopulatedUser'
+ *               $ref: '#/components/schemas/User'
  *       400:
  *         description: The provided id is not a valid MongoDB id.
  *         content:
@@ -88,7 +88,7 @@ router.get("/:id", async (req, res, next) => {
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/PopulatedUser'
+ *               $ref: '#/components/schemas/User'
  *       400:
  *         description: Invalid user data.
  *         content:

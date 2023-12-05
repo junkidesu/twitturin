@@ -46,6 +46,39 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+/**
+ * @openapi
+ * /replies/{id}/likes:
+ *   get:
+ *     summary: Get the users who liked the reply.
+ *     tags: [replies]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The MongoDB id of the reply.
+ *     responses:
+ *       200:
+ *         description: The list of MongoDB ids of the users who liked the reply.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       400:
+ *         description: The provided id is not a valid MongoDB id.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       404:
+ *         description: The reply with the specified id was not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ */
 router.get("/:id/likes", async (req, res, next) => {
   try {
     const likedBy = await repliesService.getLikes(req.params.id);

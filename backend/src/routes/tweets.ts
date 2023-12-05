@@ -275,6 +275,39 @@ router.put(
   }
 );
 
+/**
+ * @openapi
+ * /tweets/{id}/likes:
+ *   get:
+ *     summary: Get the users who liked the tweet.
+ *     tags: [tweets]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The MongoDB id of the tweet.
+ *     responses:
+ *       200:
+ *         description: The tweet with the specified id.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       400:
+ *         description: The provided id is not a valid MongoDB id.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       404:
+ *         description: The tweet with the specified id was not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ */
 router.get("/:id/likes", async (req, res, next) => {
   try {
     const likedBy = await tweetsService.getLikes(req.params.id);

@@ -24,9 +24,9 @@ export const Tweet = {
     likedBy: {
       type: "array",
       items: {
-        $ref: "#/components/schemas/User",
+        type: "string",
       },
-      description: "The list of the users who liked this tweet.",
+      description: "The list of the MongoDB ids of the users who liked this tweet.",
     },
     likes: {
       type: "number",
@@ -37,13 +37,6 @@ export const Tweet = {
       type: "string",
       example: "This is tweet content!",
       description: "The content of the tweet.",
-    },
-    replies: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/Reply",
-      },
-      description: "The replies to the tweet. Represented as a tree of replies",
     },
     replyCount: {
       type: "number",

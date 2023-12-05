@@ -134,34 +134,6 @@ export const User = {
   },
 };
 
-export const PopulatedUser = {
-  type: "object",
-  required: ["tweets", "replies"],
-  allOf: [
-    {
-      $ref: "#/components/schemas/User",
-    },
-  ],
-  discriminator: {
-    propertyName: "kind",
-  },
-  properties: {
-    tweets: {
-      type: "array",
-      description: "the tweets posted by the user",
-      items: {
-        $ref: "#/components/schemas/Tweet",
-      },
-    },
-    replies: {
-      type: "array",
-      items: {
-        type: "string",
-      },
-    },
-  },
-};
-
 export const EditUser = {
   type: "object",
   properties: {
