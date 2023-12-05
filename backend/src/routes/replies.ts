@@ -33,13 +33,17 @@ const router = express.Router();
  *               items:
  *                 $ref: '#/components/schemas/Reply'
  */
-router.get("/", async (req, res) => {
-  const author = req.query.author?.toString();
-  const tweet = req.query.tweet?.toString();
+router.get("/", async (req, res, next) => {
+  try {
+    const author = req.query.author?.toString();
+    const tweet = req.query.tweet?.toString();
 
-  const replies = await repliesService.getAllReplies({ author, tweet });
+    const replies = await repliesService.getAllReplies({ author, tweet });
 
-  res.json(replies);
+    res.json(replies);
+  } catch (error) {
+    next(error);
+  }
 });
 
 /**

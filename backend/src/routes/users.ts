@@ -60,10 +60,14 @@ router.get("/", async (_req, res) => {
  *             schema:
  *               $ref: '#/components/responses/Error'
  */
-router.get("/:id", async (req, res) => {
-  const user = await usersService.getUserById(req.params.id);
+router.get("/:id", async (req, res, next) => {
+  try {
+    const user = await usersService.getUserById(req.params.id);
 
-  return res.json(user);
+    res.json(user);
+  } catch (error) {
+    next(error);
+  }
 });
 
 /**
