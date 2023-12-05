@@ -65,14 +65,14 @@ export const Tweet = {
     author: {
       type: "object",
       additionalProperties: {
-        $ref: "#/components/schemas/TweetAuthor",
+        $ref: "#/components/schemas/User",
       },
       description: "The author of the tweet, in JSON format.",
     },
     likedBy: {
       type: "array",
       items: {
-        $ref: "#/components/schemas/TweetAuthor",
+        $ref: "#/components/schemas/User",
       },
       description: "The list of the users who liked this post.",
     },

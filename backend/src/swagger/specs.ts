@@ -56,6 +56,10 @@ const options: swaggerJsdoc.Options = {
         name: "tweets",
         description: "the API endpoints for managing tweets",
       },
+      {
+        name: "replies",
+        description: "the API endpoints for managing replies",
+      },
     ],
   },
   apis: ["./src/routes/*.ts"],
