@@ -7,45 +7,16 @@ import {
   EditUser,
   NewUser,
   NotFoundError,
-  PopulatedUser,
 } from "../types";
-import { PopulateOptions } from "mongoose";
-
-const options: PopulateOptions[] = [
-  {
-    path: "tweets",
-    populate: [
-      {
-        path: "author",
-      },
-      {
-        path: "likedBy",
-      },
-      {
-        path: "replies",
-      },
-      {
-        path: "replyCount",
-      },
-    ],
-  },
-  {
-    path: "replies",
-  },
-];
 
 const getAllUsers = async () => {
-  const users = await UserModel.find<User[]>({}).populate<PopulatedUser>(
-    options
-  );
+  const users = await UserModel.find<User[]>({});
 
   return users;
 };
 
 const getUserById = async (id: string) => {
-  const user = await UserModel.findById<User>(id).populate<PopulatedUser>(
-    options
-  );
+  const user = await UserModel.findById<User>(id);
 
   if (!user) throw new NotFoundError("user not found");
 
@@ -63,7 +34,7 @@ const addUser = async (newUser: NewUser) => {
       passwordHash,
     }).save();
 
-    return addedUser.populate<PopulatedUser>(options);
+    return addedUser;
   } else {
     const addedUser = await new TeacherModel({
       ...newUser,
@@ -71,7 +42,7 @@ const addUser = async (newUser: NewUser) => {
       passwordHash,
     }).save();
 
-    return addedUser.populate<PopulatedUser>(options);
+    return addedUser;
   }
 };
 
@@ -84,7 +55,7 @@ const editUser = async (id: string, toEdit: EditUser) => {
     new: true,
     runValidators: true,
     context: "query",
-  }).populate<PopulatedUser>(options);
+  });
 
   return updatedUser;
 };

@@ -12,7 +12,6 @@ const ReplySchema = new Schema<Reply>(
       {
         type: Schema.Types.ObjectId,
         ref: "User",
-        autopopulate: true,
         default: [],
       },
     ],

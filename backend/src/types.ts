@@ -84,14 +84,11 @@ export interface PopulatedUser {
 
 export interface PopulatedTweet {
   author: User;
-  likedBy: User[];
-  replies: PopulatedReply[];
 }
 
 export interface PopulatedReply {
   content: string;
   author: User;
-  likedBy: User[];
   replies: PopulatedReply[];
 }
 

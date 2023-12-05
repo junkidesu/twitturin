@@ -13,12 +13,12 @@ const options: PopulateOptions[] = [
   {
     path: "author",
   },
-  {
-    path: "likedBy",
-  },
-  {
-    path: "replies",
-  },
+  // {
+  //   path: "likedBy",
+  // },
+  // {
+  //   path: "replies",
+  // },
   {
     path: "replyCount",
   },
@@ -76,12 +76,21 @@ const likeTweet = async (id: string, user: User & { _id: Types.ObjectId }) => {
   const likesStrings = tweet!.likedBy.map((u) => u.toString());
   const likedByMe = likesStrings.includes(user._id.toString());
 
-  if (!likedByMe)
-    tweet!.likedBy = tweet!.likedBy.concat(user._id);
+  if (!likedByMe) tweet!.likedBy = tweet!.likedBy.concat(user._id);
 
   await tweet!.save({ timestamps: { updatedAt: false } });
 
   return user;
+};
+
+const getLikes = async (id: string) => {
+  const foundTweet = await TweetModel.findById(id).populate<{
+    likedBy: User[];
+  }>("likedBy");
+
+  if (!foundTweet) throw new NotFoundError("tweet not found");
+
+  return foundTweet.likedBy;
 };
 
 const removeLike = async (id: string, userId: Types.ObjectId) => {
@@ -102,5 +111,6 @@ export default {
   removeTweet,
   editTweet,
   likeTweet,
+  getLikes,
   removeLike,
 };

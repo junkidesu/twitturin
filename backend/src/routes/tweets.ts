@@ -275,6 +275,16 @@ router.put(
   }
 );
 
+router.get("/:id/likes", async (req, res, next) => {
+  try {
+    const likedBy = await tweetsService.getLikes(req.params.id);
+
+    res.json(likedBy);
+  } catch (error) {
+    next(error);
+  }
+});
+
 /**
  * @openapi
  * /tweets/{id}/likes:

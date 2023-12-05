@@ -94,6 +94,16 @@ const likeReply = async (id: string, user: User & { _id: Types.ObjectId }) => {
   return user;
 };
 
+const getLikes = async (id: string) => {
+  const foundReply = await ReplyModel.findById(id).populate<{
+    likedBy: User[];
+  }>("likedBy");
+
+  if (!foundReply) throw new NotFoundError("reply not found");
+
+  return foundReply.likedBy;
+};
+
 const editReply = async (id: string, toEdit: NewReply) => {
   const editedReply = await ReplyModel.findByIdAndUpdate(id, toEdit, {
     runValidators: true,
@@ -115,6 +125,7 @@ export default {
   replyToTweet,
   replyToReply,
   likeReply,
+  getLikes,
   editReply,
   removeReply,
 };

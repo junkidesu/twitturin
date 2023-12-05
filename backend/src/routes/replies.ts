@@ -46,6 +46,16 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.get("/:id/likes", async (req, res, next) => {
+  try {
+    const likedBy = await repliesService.getLikes(req.params.id);
+
+    res.json(likedBy);
+  } catch (error) {
+    next(error);
+  }
+});
+
 /**
  * @openapi
  * /replies/{id}:
