@@ -206,7 +206,7 @@ router.delete(
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/EditTweet'
+ *             $ref: '#/components/schemas/NewTweet'
  *     responses:
  *       200:
  *         description: Tweet successfully edited.

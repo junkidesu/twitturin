@@ -15,12 +15,12 @@ export const UserCommon = {
     email: {
       type: "string",
       format: "email",
-      example: "student1@example.com",
+      example: "johndoe@example.com",
       description: "the email of the user",
     },
     country: {
       type: "string",
-      example: "Uzbekistan",
+      example: "USA",
       description: "the country of residence of the user",
     },
     age: {
@@ -128,6 +128,7 @@ export const User = {
     id: {
       type: "string",
       format: "MongoDB identifier",
+      example: "65400f54543880dabb0a6315",
       description: "the id of the MongoDB document corresponding to the user",
     },
   },
@@ -141,6 +142,9 @@ export const PopulatedUser = {
       $ref: "#/components/schemas/User",
     },
   ],
+  discriminator: {
+    propertyName: "kind",
+  },
   properties: {
     tweets: {
       type: "array",
@@ -152,9 +156,9 @@ export const PopulatedUser = {
     replies: {
       type: "array",
       items: {
-        type: "string"
-      }
-    }
+        type: "string",
+      },
+    },
   },
 };
 

@@ -4,7 +4,7 @@
   "description": "Social media for the students of Turin Polytechnic University",
   "main": "index.js",
   "scripts": {
-    "dev": "sudo systemctl restart mongod && cross-env NODE_ENV=development ts-node-dev src/index.ts",
+    "dev": "cross-env NODE_ENV=development ts-node-dev src/index.ts",
     "tsc": "tsc",
     "build:ui": "cd ../frontend && npm install && npm run build && cp -r ./dist ../backend/build",
     "lint": "eslint --ext .ts .",
