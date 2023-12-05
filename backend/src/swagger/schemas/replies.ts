@@ -61,6 +61,11 @@ export const Reply = {
       description:
         "The parent reply. This property exists on replies that were left to another reply.",
     },
+    replies: {
+      type: "array",
+      description: "The replies to this reply. Form a tree structure.",
+      example: [],
+    },
     createdAt: {
       type: "string",
       format: "date",
