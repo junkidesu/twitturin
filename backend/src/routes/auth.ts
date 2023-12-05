@@ -8,8 +8,8 @@ const router = express.Router();
  * @openapi
  * /auth:
  *   post:
- *     summary: Authenticate with student ID and password.
- *     description: Authenticate a user with student ID and password. The authentication scheme is bearer token (JWT).
+ *     summary: Authenticate with username and password.
+ *     description: Authenticate a user with username and password. The authentication scheme is bearer token (JWT).
  *     tags: [auth]
  *     requestBody:
  *       required: true
@@ -32,7 +32,7 @@ const router = express.Router();
  *               $ref: '#/components/responses/Error'
  *
  *       401:
- *         description: incorrect studentId or password
+ *         description: incorrect username or password
  *         content:
  *           application/json:
  *             schema:

@@ -70,6 +70,25 @@ router.get("/", async (req, res) => {
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Reply'
+ *             example:
+ *               id: 65400f54543880dabb0a6315
+ *               author:
+ *                 id: 65400f54543880dabb0a6315
+ *                 username: student1
+ *                 fullName: John Doe
+ *                 kind: student
+ *                 email: johndoe@gmail.com
+ *                 country: USA
+ *                 age: 21
+ *                 studentId: se12345
+ *                 major: SE
+ *               content: This is a reply!
+ *               tweet: 65400f54543880dabb0a6315
+ *               parentTweet: null
+ *               parentReply: 65400f54543880dabb0a6315
+ *               likedBy: []
+ *               likes: 0
+ *               replies: []
  *       400:
  *         description: Invalid reply content.
  *         content:

@@ -75,7 +75,4 @@ export const NewTweet = {
       description: "The content of the tweet.",
     },
   },
-  example: {
-    content: "updated content at 1:45",
-  },
 };

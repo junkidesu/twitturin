@@ -1,11 +1,10 @@
 export const AuthData = {
   type: "object",
-  required: ["studentId", "password"],
+  required: ["username", "password"],
   properties: {
-    studentId: {
+    username: {
       type: "string",
-      format: "TTPU student id",
-      description: "student ID given to each student at TTPU",
+      description: "The username of the user",
     },
     password: {
       type: "string",
@@ -14,14 +13,14 @@ export const AuthData = {
     },
   },
   example: {
-    studentId: "se12345",
+    username: "johndoe90",
     password: "password123",
   },
 };
 
 export const TokenData = {
   type: "object",
-  required: ["id", "token", "studentId", "username"],
+  required: ["id", "token", "username"],
   properties: {
     id: {
       type: "string",
@@ -33,11 +32,6 @@ export const TokenData = {
       format: "JWT",
       description: "returned JWT token",
     },
-    studentId: {
-      type: "string",
-      format: "TTPU student id",
-      description: "the student id of the user",
-    },
     username: {
       type: "string",
       description: "the username of the user",
@@ -46,7 +40,6 @@ export const TokenData = {
   example: {
     id: "653fe7bb0e51f6d650fc109e",
     token: "<JWT token>",
-    studentId: "se12345",
-    username: "johndoe01",
+    username: "johndoe90",
   },
 };

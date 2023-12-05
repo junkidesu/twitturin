@@ -109,6 +109,23 @@ router.get("/:id", async (req, res, next) => {
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Tweet'
+ *             example:
+ *               id: 65400f54543880dabb0a6315
+ *               author:
+ *                 id: 65400f54543880dabb0a6315
+ *                 username: student1
+ *                 fullName: John Doe
+ *                 kind: student
+ *                 email: johndoe@gmail.com
+ *                 country: USA
+ *                 age: 21
+ *                 studentId: se12345
+ *                 major: SE
+ *               content: This is tweet content!
+ *               likedBy: []
+ *               likes: 0
+ *               replies: []
+ *               replyCount: 0
  *       400:
  *         description: Invalid tweet content.
  *         content:
@@ -385,6 +402,25 @@ router.delete(
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Reply'
+ *             example:
+ *               id: 65400f54543880dabb0a6315
+ *               author:
+ *                 id: 65400f54543880dabb0a6315
+ *                 username: student1
+ *                 fullName: John Doe
+ *                 kind: student
+ *                 email: johndoe@gmail.com
+ *                 country: USA
+ *                 age: 21
+ *                 studentId: se12345
+ *                 major: SE
+ *               content: This is a reply!
+ *               tweet: 65400f54543880dabb0a6315
+ *               parentTweet: 65400f54543880dabb0a6315
+ *               parentReply: null
+ *               likedBy: []
+ *               likes: 0
+ *               replies: []
  *       400:
  *         description: Invalid reply content.
  *         content:
