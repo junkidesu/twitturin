@@ -5,6 +5,15 @@ import { requireAuthentication, requireReplyAuthor } from "../utils/middleware";
 
 const router = express.Router();
 
+router.get("/", async (req, res) => {
+  const author = req.query.author?.toString();
+  const tweet = req.query.tweet?.toString();
+
+  const replies = await repliesService.getAllReplies({ author, tweet });
+
+  res.json(replies);
+});
+
 router.post("/:id", requireAuthentication, async (req, res, next) => {
   try {
     const addedReply = await repliesService.replyToReply(
@@ -52,10 +61,7 @@ router.delete(
 
 router.post("/:id/likes", requireAuthentication, async (req, res, next) => {
   try {
-    const like = await repliesService.likeReply(
-      req.params.id,
-      req.user!
-    );
+    const like = await repliesService.likeReply(req.params.id, req.user!);
 
     res.json(like);
   } catch (error) {

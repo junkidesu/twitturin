@@ -82,16 +82,6 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.get("/:id/replies", async (req, res, next) => {
-  try {
-    const replies = await repliesService.getRepliesByTweet(req.params.id);
-
-    res.json(replies);
-  } catch (error) {
-    next(error);
-  }
-});
-
 /**
  * @openapi
  * /tweets:
