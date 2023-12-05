@@ -5,6 +5,34 @@ import { requireAuthentication, requireReplyAuthor } from "../utils/middleware";
 
 const router = express.Router();
 
+/**
+ * @openapi
+ * /replies:
+ *   get:
+ *     summary: Get all replies.
+ *     description: Returns the replies filtered by the `author` and `tweet` query strings. If none provided, returns all replies
+ *     tags: [replies]
+ *     parameters:
+ *       - in: query
+ *         name: author
+ *         schema:
+ *           type: string
+ *         description: The MongoDB ID of the author of the reply.
+ *       - in: query
+ *         name: tweet
+ *         schema:
+ *           type: string
+ *         description: The MongoDB ID of the tweet on which the reply was posted.
+ *     responses:
+ *       200:
+ *         description: The list of replies.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Reply'
+ */
 router.get("/", async (req, res) => {
   const author = req.query.author?.toString();
   const tweet = req.query.tweet?.toString();
@@ -14,6 +42,47 @@ router.get("/", async (req, res) => {
   res.json(replies);
 });
 
+/**
+ * @openapi
+ * /replies/{id}:
+ *   post:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Post a reply to another reply with the given ID.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The MongoDB id of the parent reply.
+ *     tags: [replies]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/NewReply'
+ *     responses:
+ *       201:
+ *         description: The new reply.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Reply'
+ *       400:
+ *         description: Invalid reply content.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       401:
+ *         description: Invalid or missing JWT.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ */
 router.post("/:id", requireAuthentication, async (req, res, next) => {
   try {
     const addedReply = await repliesService.replyToReply(
@@ -28,6 +97,53 @@ router.post("/:id", requireAuthentication, async (req, res, next) => {
   }
 });
 
+/**
+ * @openapi
+ * /replies/{id}:
+ *   put:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Edit a reply with the given id.
+ *     tags: [replies]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The MongoDB id of the reply.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/NewReply'
+ *     responses:
+ *       200:
+ *         description: Reply successfully edited.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Reply'
+ *       400:
+ *         description: invalid data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       401:
+ *         description: JWT missing or invalid; reply edited not by author.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       404:
+ *         description: Reply with the given MongoDB id not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ */
 router.put(
   "/:id",
   requireAuthentication,
@@ -45,6 +161,44 @@ router.put(
   }
 );
 
+/**
+ * @swagger
+ * /replies/{id}:
+ *   delete:
+ *     tags: [replies]
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Delete a reply with the given id.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The MongoDB id of the reply.
+ *     responses:
+ *       204:
+ *         description: Successfully removed the reply with the given id.
+ *       400:
+ *         description: Invalid MongoDB id.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       401:
+ *         description: Invalid or missing token; reply not being removed by author.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       404:
+ *         description: Reply with the given MongoDB id not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *
+ */
 router.delete(
   "/:id",
   requireAuthentication,
@@ -59,6 +213,41 @@ router.delete(
   }
 );
 
+/**
+ * @openapi
+ * /replies/{id}/likes:
+ *   post:
+ *     summary: Like a reply with the given id.
+ *     security:
+ *       - bearerAuth: []
+ *     tags: [replies]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The MongoDB id of the reply.
+ *     responses:
+ *       200:
+ *         description: Reply liked.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       401:
+ *         description: JWT missing or invalid.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       404:
+ *         description: Reply with the given MongoDB id not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ */
 router.post("/:id/likes", requireAuthentication, async (req, res, next) => {
   try {
     const like = await repliesService.likeReply(req.params.id, req.user!);
