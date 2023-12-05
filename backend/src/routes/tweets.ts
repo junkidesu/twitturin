@@ -16,6 +16,12 @@ const router = express.Router();
  *   get:
  *     summary: Get all tweets.
  *     tags: [tweets]
+ *     parameters:
+ *       - in: query
+ *         name: author
+ *         schema:
+ *           type: string
+ *         description: The MongoDB ID of the author of the tweet. If none is provided, returns all tweets.
  *     responses:
  *       200:
  *         description: The list of all tweets.
@@ -269,7 +275,7 @@ router.put(
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Tweet'
+ *               $ref: '#/components/schemas/User'
  *       401:
  *         description: JWT missing or invalid.
  *         content:

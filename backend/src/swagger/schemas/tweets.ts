@@ -17,6 +17,7 @@ export const Tweet = {
       description: "The MongoDB id of the tweet.",
     },
     author: {
+      type: "object",
       $ref: "#/components/schemas/User",
       description: "The information about the author of the tweet",
     },
