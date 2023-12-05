@@ -19,8 +19,6 @@ export interface UserCommon {
   email: string;
   country?: string;
   age?: number;
-  tweets: Tweet[];
-  replies: Reply[];
 }
 
 export interface StudentUser extends UserCommon {
@@ -36,7 +34,7 @@ export interface TeacherUser extends UserCommon {
 
 export type User = StudentUser | TeacherUser;
 
-export type NewUser = UnionOmit<User, "id" | "tweets" | "replies"> & {
+export type NewUser = UnionOmit<User, "id"> & {
   password: string;
 };
 
@@ -44,9 +42,9 @@ export interface Reply {
   id: string;
   content: string;
   tweet: string;
-  likedBy: Omit<User, "tweets" | "replies">[];
+  likedBy: string[];
   likes: number;
-  author: UnionOmit<User, "replies" | "tweets">;
+  author: User;
   replies: Reply[];
   createdAt: string;
   updatedAt: string;
@@ -65,9 +63,8 @@ export interface Tweet {
   content: string;
   createdAt: string;
   updatedAt: string;
-  author: UnionOmit<User, "tweets" | "replies">;
-  likedBy: UnionOmit<User, "tweets" | "replies">[];
-  replies: Reply[];
+  author: User;
+  likedBy: string[];
 }
 
 export interface Credentials {

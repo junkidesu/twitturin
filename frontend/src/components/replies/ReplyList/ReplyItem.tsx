@@ -56,7 +56,7 @@ const ReplyItem = ({ reply, showChildReplies }: Props) => {
   const userId = useAppSelector(({ auth }) => auth.id);
 
   const likedByMe = userId
-    ? reply.likedBy.map((u) => u.id).includes(userId)
+    ? reply.likedBy.includes(userId)
     : false;
 
   const handleLike = async () => {

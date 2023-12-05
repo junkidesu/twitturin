@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import ReplyList from "../../replies/ReplyList";
+// import ReplyList from "../../replies/ReplyList";
 import TweetDetails from "./TweetDetails";
 import { useGetTweetsQuery } from "../../../services/tweetsService";
 import ReplyForm from "../../replies/ReplyForm";
@@ -37,8 +37,6 @@ const TweetPage = () => {
         </Heading>
 
         <ReplyForm id={tweet.id} parent="tweet" />
-
-        <ReplyList replies={tweet.replies} showChildReplies />
       </RepliesToTweet>
     </Box>
   );

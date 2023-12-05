@@ -9,6 +9,12 @@ export const usersApi = api.injectEndpoints({
       }),
       providesTags: ["User"],
     }),
+    getUser: builder.query<User, string>({
+      query: (id) => ({
+        url: `users/${id}`,
+      }),
+      providesTags: ["User"],
+    }),
     addUser: builder.mutation<User, NewUser>({
       query: (newUser) => ({
         url: "users",
@@ -20,4 +26,5 @@ export const usersApi = api.injectEndpoints({
   }),
 });
 
-export const { useGetUsersQuery, useAddUserMutation } = usersApi;
+export const { useGetUsersQuery, useGetUserQuery, useAddUserMutation } =
+  usersApi;

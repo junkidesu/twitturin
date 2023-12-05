@@ -39,9 +39,7 @@ const TweetItem = ({ tweet }: { tweet: Tweet }) => {
   const navigate = useNavigate();
   const userId = useAppSelector(({ auth }) => auth.id);
 
-  const likedByMe = userId
-    ? tweet.likedBy.map((u) => u.id).includes(userId)
-    : false;
+  const likedByMe = userId ? tweet.likedBy.includes(userId) : false;
 
   const handleLike = async () => {
     if (!userId) {

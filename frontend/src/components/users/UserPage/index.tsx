@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { pictures } from "../../../assets";
-import UserTabs from "./UserTabs";
 import { useParams } from "react-router-dom";
 import { useGetUsersQuery } from "../../../services/usersService";
 import LoadingUserProfile from "../../util/LoadingUserProfile";
@@ -56,8 +55,6 @@ const UserPage = () => {
           <Username>@{user.username}</Username>
         </Box>
       </Box>
-
-      <UserTabs tweets={user.tweets} replies={user.replies} />
     </Box>
   );
 };
