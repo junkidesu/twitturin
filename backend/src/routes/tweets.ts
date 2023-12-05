@@ -357,6 +357,47 @@ router.delete(
   }
 );
 
+/**
+ * @openapi
+ * /tweets/{id}/replies:
+ *   post:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Post a reply to another reply with the given ID.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The MongoDB id of the tweet being replied to.
+ *     tags: [tweets]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/NewReply'
+ *     responses:
+ *       201:
+ *         description: The new reply.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Reply'
+ *       400:
+ *         description: Invalid reply content.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       401:
+ *         description: Invalid or missing JWT.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ */
 router.post("/:id/replies", requireAuthentication, async (req, res, next) => {
   try {
     const reply = await repliesService.replyToTweet(

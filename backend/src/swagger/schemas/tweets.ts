@@ -26,7 +26,7 @@ export const Tweet = {
       items: {
         $ref: "#/components/schemas/User",
       },
-      description: "The list of the users who liked this post.",
+      description: "The list of the users who liked this tweet.",
     },
     likes: {
       type: "number",
@@ -38,6 +38,18 @@ export const Tweet = {
       example: "This is tweet content!",
       description: "The content of the tweet.",
     },
+    replies: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/Reply",
+      },
+      description: "The replies to the tweet. Represented as a tree of replies",
+    },
+    replyCount: {
+      type: "number",
+      example: 1,
+      description: "The number of replies on the tweet."
+    },
     createdAt: {
       type: "string",
       format: "date",
@@ -48,7 +60,7 @@ export const Tweet = {
       type: "string",
       format: "date",
       example: "2023-12-05T09:35:52.282Z",
-      description: "The time when the tweet was edited.",
+      description: "The time when the tweet was last edited.",
     },
   },
 };
