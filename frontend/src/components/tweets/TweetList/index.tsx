@@ -8,7 +8,7 @@ type TweetListProps = {
 
 const TweetList = ({ tweets }: TweetListProps) => {
   return (
-    <Box $gap="0.5em">
+    <Box $gap="0.1em">
       {tweets.map((t) => (
         <TweetItem key={t.id} tweet={t} />
       ))}

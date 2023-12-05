@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { Tweet } from "../../../types";
 import { icons, pictures } from "../../../assets";
-import BorderedBox from "../../containers/BorderedBox";
 import Box from "../../containers/Box";
 import IconButton from "../../core/buttons/IconButton";
 import RouterLink from "../../core/RouterLink";
@@ -22,6 +21,7 @@ const ProfilePicture = styled.img`
   height: 2em;
   box-sizing: border-box;
   border-radius: 10em;
+  cursor: pointer;
 `;
 
 interface LikeIconProps {
@@ -31,6 +31,14 @@ interface LikeIconProps {
 const LikeIcon = styled(icons.HeartIcon)<LikeIconProps>`
   color: ${({ $liked, theme }) => ($liked ? theme.colors.primary : "inherit")};
   fill: ${({ $liked, theme }) => ($liked ? theme.colors.primary : "none")};
+`;
+
+const TweetBox = styled(Box)`
+  flex-direction: row;
+  padding: 1em;
+  gap: 0.7em;
+  background-color: white;
+  width: 500px;
 `;
 
 const TweetItem = ({ tweet }: { tweet: Tweet }) => {
@@ -58,22 +66,19 @@ const TweetItem = ({ tweet }: { tweet: Tweet }) => {
   };
 
   const submissionTime = new Date(tweet.createdAt);
+  const editTime = new Date(tweet.updatedAt);
+
+  const edited = editTime.valueOf() - submissionTime.valueOf() > 0;
 
   return (
-    <BorderedBox
-      $gap="1em"
-      $pad="l"
-      $bg="white"
-      $rounded
-      $horizontal
-      $minWidth="500px"
-    >
-      <RouterLink to={`/users/${tweet.author.id}`}>
-        <ProfilePicture src={pictures.emptyProfilePicture} />
-      </RouterLink>
+    <TweetBox $horizontal>
+      <ProfilePicture
+        src={pictures.emptyProfilePicture}
+        onClick={() => navigate(`/tweets/${tweet.id}`)}
+      />
 
       <Box $gap="1em">
-        <Box $horizontal $center $gap="0.5em">
+        <Box $horizontal $gap="0.5em">
           <RouterLink $bold to={`/users/${tweet.author.id}`}>
             {tweet.author.fullName || "Twittur User"}
           </RouterLink>
@@ -89,11 +94,16 @@ const TweetItem = ({ tweet }: { tweet: Tweet }) => {
             $color={lightTheme.colors.grey2}
             title={submissionTime.toString()}
           >
-            posted {elapsedTime(submissionTime.valueOf())}
+            {elapsedTime(submissionTime.valueOf())}
+            {edited && " (edited)"}
           </Label>
         </Box>
 
-        <RouterLink to={`/tweets/${tweet.id}`}>{tweet.content}</RouterLink>
+        <RouterLink
+          to={`/tweets/${tweet.id}`}
+        >
+          {tweet.content}
+        </RouterLink>
 
         <Box $horizontal $gap="0.5em">
           <IconButton
@@ -109,7 +119,7 @@ const TweetItem = ({ tweet }: { tweet: Tweet }) => {
           <IconButton icon={<icons.RetweetIcon />} label={0} />
         </Box>
       </Box>
-    </BorderedBox>
+    </TweetBox>
   );
 };
 

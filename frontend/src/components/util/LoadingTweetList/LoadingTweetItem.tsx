@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Box from "../../containers/Box";
-import BorderedBox from "../../containers/BorderedBox";
 import LoadingElement from "../LoadingElement";
 
 const LoadingButton = styled(LoadingElement)`
@@ -13,13 +12,12 @@ const LoadingProfilePicture = styled(LoadingElement)`
 
 const LoadingTweetItem = () => {
   return (
-    <BorderedBox
+    <Box
       $gap="1em"
       $pad="l"
       $bg="white"
-      $rounded
       $horizontal
-      $minWidth="500px"
+      $width="500px"
     >
       <LoadingProfilePicture $width="2em" $height="2em" />
 
@@ -40,7 +38,7 @@ const LoadingTweetItem = () => {
           <LoadingButton />
         </Box>
       </Box>
-    </BorderedBox>
+    </Box>
   );
 };
 

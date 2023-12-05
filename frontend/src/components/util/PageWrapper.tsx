@@ -5,7 +5,6 @@ const PageWrapper = styled.div`
   flex-direction: row;
   justify-content: space-around;
   margin: 0 auto;
-  min-width: 600px;
 `;
 
 export default PageWrapper;
