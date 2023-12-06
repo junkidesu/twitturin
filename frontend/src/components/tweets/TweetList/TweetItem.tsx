@@ -24,24 +24,49 @@ const ProfilePicture = styled.img`
   cursor: pointer;
 `;
 
-interface LikeIconProps {
-  $liked: boolean;
-}
-
-const LikeIcon = styled(icons.HeartIcon)<LikeIconProps>`
+const LikeIcon = styled(icons.HeartIcon)<{ $liked: boolean }>`
   color: ${({ $liked, theme }) => ($liked ? theme.colors.primary : "inherit")};
   fill: ${({ $liked, theme }) => ($liked ? theme.colors.primary : "none")};
 `;
 
-const TweetBox = styled(Box)`
-  flex-direction: row;
-  padding: 1em;
-  gap: 0.7em;
-  background-color: white;
-  width: 500px;
-`;
+const TweetInfo = ({ tweet }: { tweet: Tweet }) => {
+  const submissionTime = new Date(tweet.createdAt);
+  const editTime = new Date(tweet.updatedAt);
 
-const TweetItem = ({ tweet }: { tweet: Tweet }) => {
+  const edited = editTime.valueOf() - submissionTime.valueOf() > 0;
+
+  return (
+    <Box $horizontal $gap="0.5em">
+      <RouterLink $bold to={`/users/${tweet.author.id}`}>
+        {tweet.author.fullName || "Twittur User"}
+      </RouterLink>
+
+      <UsernameLink to={`/users/${tweet.author.id}`}>
+        @{tweet.author.username}
+      </UsernameLink>
+
+      {"•"}
+
+      <Label
+        $size="extraSmall"
+        $color={lightTheme.colors.grey2}
+        title={submissionTime.toString()}
+      >
+        {elapsedTime(submissionTime.valueOf())}
+      </Label>
+
+      <Label
+        $size="extraSmall"
+        $color={lightTheme.colors.grey2}
+        title={`last edited at ${editTime.toString()}`}
+      >
+        {edited && " (edited)"}
+      </Label>
+    </Box>
+  );
+};
+
+const TweetActions = ({ tweet }: { tweet: Tweet }) => {
   const [like] = useLikeTweetMutation();
   const [unlike] = useUnlikeTweetMutation();
   const navigate = useNavigate();
@@ -65,61 +90,44 @@ const TweetItem = ({ tweet }: { tweet: Tweet }) => {
     }
   };
 
-  const submissionTime = new Date(tweet.createdAt);
-  const editTime = new Date(tweet.updatedAt);
-
-  const edited = editTime.valueOf() - submissionTime.valueOf() > 0;
-
   return (
-    <TweetBox $horizontal>
+    <Box $horizontal $width="100%">
+      <IconButton
+        label={tweet.likes}
+        icon={<LikeIcon $liked={likedByMe} />}
+        onClick={likedByMe ? handleUnlike : handleLike}
+      />
+
+      <RouterLink to={`/tweets/${tweet.id}`}>
+        <IconButton icon={<icons.RepliesIcon />} label={tweet.replyCount} />
+      </RouterLink>
+
+      <IconButton icon={<icons.RetweetIcon />} label={0} />
+
+      <IconButton icon={<icons.BookmarkIcon />} label={0} />
+
+      <IconButton icon={<icons.ShareIcon />} label={0} />
+    </Box>
+  );
+};
+
+const TweetItem = ({ tweet }: { tweet: Tweet }) => {
+  const navigate = useNavigate();
+  return (
+    <Box $horizontal $pad="l" $gap="1em" $bg="white" $width="500px">
       <ProfilePicture
         src={pictures.emptyProfilePicture}
         onClick={() => navigate(`/tweets/${tweet.id}`)}
       />
 
       <Box $gap="1em">
-        <Box $horizontal $gap="0.5em">
-          <RouterLink $bold to={`/users/${tweet.author.id}`}>
-            {tweet.author.fullName || "Twittur User"}
-          </RouterLink>
+        <TweetInfo tweet={tweet} />
 
-          <UsernameLink to={`/users/${tweet.author.id}`}>
-            @{tweet.author.username}
-          </UsernameLink>
+        <RouterLink to={`/tweets/${tweet.id}`}>{tweet.content}</RouterLink>
 
-          {"•"}
-
-          <Label
-            $size="extraSmall"
-            $color={lightTheme.colors.grey2}
-            title={submissionTime.toString()}
-          >
-            {elapsedTime(submissionTime.valueOf())}
-            {edited && " (edited)"}
-          </Label>
-        </Box>
-
-        <RouterLink
-          to={`/tweets/${tweet.id}`}
-        >
-          {tweet.content}
-        </RouterLink>
-
-        <Box $horizontal $gap="0.5em">
-          <IconButton
-            label={tweet.likes}
-            icon={<LikeIcon $liked={likedByMe} />}
-            onClick={likedByMe ? handleUnlike : handleLike}
-          />
-
-          <RouterLink to={`/tweets/${tweet.id}`}>
-            <IconButton icon={<icons.RepliesIcon />} label={tweet.replyCount} />
-          </RouterLink>
-
-          <IconButton icon={<icons.RetweetIcon />} label={0} />
-        </Box>
+        <TweetActions tweet={tweet} />
       </Box>
-    </TweetBox>
+    </Box>
   );
 };
 
