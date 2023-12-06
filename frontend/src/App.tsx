@@ -16,6 +16,7 @@ import TweetPage from "./components/tweets/TweetPage";
 import NewTweetModal from "./components/tweets/NewTweetModal";
 import MainPage from "./components/MainPage";
 import LoadingStripe from "./components/util/LoadingStripe";
+import NavSideBar from "./components/NavSideBar";
 
 const App = () => {
   useGetUsersQuery();
@@ -37,7 +38,9 @@ const App = () => {
 
       <NewTweetModal />
 
-      <PageWrapper>
+      <PageWrapper $horizontal $gap="0.1em">
+        <NavSideBar />
+
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/login" element={<LoginForm />} />

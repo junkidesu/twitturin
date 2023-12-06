@@ -1,12 +1,19 @@
-import { Tweet } from "../../../types";
 import TweetItem from "./TweetItem";
 import Box from "../../containers/Box";
+import { useGetTweetsQuery } from "../../../services/tweetsService";
+import LoadingTweetList from "../../util/LoadingTweetList";
 
-type TweetListProps = {
-  tweets: Tweet[];
-};
+// type TweetListProps = {
+//   author?: string;
+// };
 
-const TweetList = ({ tweets }: TweetListProps) => {
+const TweetList = () => {
+  const { data: tweets, isLoading } = useGetTweetsQuery();
+
+  if (isLoading) return <LoadingTweetList />
+
+  if (!tweets) return <div>Some error occurred!</div>
+
   return (
     <Box $gap="0.1em">
       {tweets.map((t) => (

@@ -7,7 +7,6 @@ const TweetSchema = new Schema<Tweet>(
       type: String,
       required: true,
       minlength: 1,
-      maxLength: [250, "content cannot exceed 250 characters"],
     },
     author: {
       type: Schema.Types.ObjectId,

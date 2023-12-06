@@ -9,7 +9,8 @@ import EditIcon from "./icons/edit.svg?react";
 import CreateIcon from "./icons/plus.svg?react";
 import RemoveIcon from "./icons/trash.svg?react";
 import ShareIcon from "./icons/share.svg?react";
-import MoreIcon from "./icons/more-vertical.svg?react";
+import MoreVerticalIcon from "./icons/more-vertical.svg?react";
+import MoreHorizontalIcon from "./icons/more-horizontal.svg?react";
 import AlertIcon from "./icons/alert-triangle.svg?react";
 import OpenIcon from "./icons/maximize.svg?react";
 import HomeIcon from "./icons/home.svg?react";
@@ -34,7 +35,8 @@ export const icons = {
   CreateIcon,
   RemoveIcon,
   ShareIcon,
-  MoreIcon,
+  MoreVerticalIcon: MoreVerticalIcon,
+  MoreHorizontalIcon,
   AlertIcon,
   OpenIcon,
   HomeIcon,

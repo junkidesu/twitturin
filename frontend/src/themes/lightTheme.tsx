@@ -12,7 +12,7 @@ const lightTheme: DefaultTheme = {
     primary: "blueviolet",
     secondary: "violet",
     third: "slategrey",
-    background: "#eeeeee",
+    background: "#e0e0e0",
     grey1: "#252525",
     grey2: "#555555",
     grey3: "#aaaaaa",

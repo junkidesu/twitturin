@@ -128,7 +128,7 @@ const TweetDetails = ({ tweet }: Props) => {
 
           <IconButton icon={<icons.RepliesIcon />} label={replyButtonLabel} />
           <IconButton icon={<icons.RetweetIcon />} label="0 retweets" />
-          <IconButton icon={<icons.MoreIcon />} />
+          <IconButton icon={<icons.MoreVerticalIcon />} />
         </Box>
       </Box>
     </DetailsBox>

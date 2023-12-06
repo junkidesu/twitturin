@@ -1,10 +1,14 @@
 import styled from "styled-components";
+import Box from "../containers/Box";
 
-const PageWrapper = styled.div`
+const PageWrapper = styled(Box)`
+  /* position: relative; */
   display: flex;
+  justify-content: center;
+  align-items: start;
+  height: 100%;
   flex-direction: row;
-  justify-content: space-around;
-  margin: 0 auto;
+  /* margin: auto 0; */
 `;
 
 export default PageWrapper;
