@@ -33,7 +33,6 @@ const ProfilePicture = styled.img`
   height: 2.5em;
   box-sizing: border-box;
   border-radius: 10em;
-  cursor: pointer;
 `;
 
 const NavSideBar = () => {

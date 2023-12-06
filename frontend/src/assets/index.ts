@@ -19,6 +19,7 @@ import MailIcon from "./icons/mail.svg?react";
 import BellIcon from "./icons/bell.svg?react";
 import UserIcon from "./icons/user.svg?react";
 import UsersIcon from "./icons/users.svg?react";
+import UserPlusIcon from "./icons/user-plus.svg?react";
 
 export const pictures = {
   emptyProfilePicture,
@@ -45,4 +46,5 @@ export const icons = {
   BellIcon,
   UserIcon,
   UsersIcon,
+  UserPlusIcon,
 };

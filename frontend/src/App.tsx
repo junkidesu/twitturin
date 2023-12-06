@@ -17,6 +17,7 @@ import NewTweetModal from "./components/tweets/NewTweetModal";
 import MainPage from "./components/MainPage";
 import LoadingStripe from "./components/util/LoadingStripe";
 import NavSideBar from "./components/NavSideBar";
+import SuggestionsSideBar from "./components/SuggestionsSideBar";
 
 const App = () => {
   useGetUsersQuery();
@@ -53,6 +54,8 @@ const App = () => {
             element={<div>edit profile page [TODO]</div>}
           />
         </Routes>
+
+        <SuggestionsSideBar />
       </PageWrapper>
     </ThemeProvider>
   );
