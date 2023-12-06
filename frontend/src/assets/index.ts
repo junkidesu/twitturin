@@ -12,6 +12,12 @@ import ShareIcon from "./icons/share.svg?react";
 import MoreIcon from "./icons/more-vertical.svg?react";
 import AlertIcon from "./icons/alert-triangle.svg?react";
 import OpenIcon from "./icons/maximize.svg?react";
+import HomeIcon from "./icons/home.svg?react";
+import SearchIcon from "./icons/search.svg?react";
+import MailIcon from "./icons/mail.svg?react";
+import BellIcon from "./icons/bell.svg?react";
+import UserIcon from "./icons/user.svg?react";
+import UsersIcon from "./icons/users.svg?react";
 
 export const pictures = {
   emptyProfilePicture,
@@ -31,4 +37,10 @@ export const icons = {
   MoreIcon,
   AlertIcon,
   OpenIcon,
+  HomeIcon,
+  SearchIcon,
+  MailIcon,
+  BellIcon,
+  UserIcon,
+  UsersIcon,
 };
