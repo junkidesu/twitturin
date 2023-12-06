@@ -9,11 +9,11 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../hooks/store";
 import { showModal } from "../reducers/modalReducer";
 
-const AsideWrapper = styled(Box)`
+const SideBarWrapper = styled(Box)`
   justify-content: space-between;
   position: sticky;
   top: 4.8em;
-  height: 90vh;
+  height: calc(100vh - 4.8em);
   overflow-y: auto;
 `;
 
@@ -26,10 +26,6 @@ const ProfileWrapper = styled(Box)`
   border-radius: 0.5em;
   justify-content: space-between;
   cursor: pointer;
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.primary};
-  }
 `;
 
 const ProfilePicture = styled.img`
@@ -45,7 +41,7 @@ const NavSideBar = () => {
   const dispatch = useAppDispatch();
 
   return (
-    <AsideWrapper $width="300px" $pad="s" $bg="white">
+    <SideBarWrapper $width="300px" $pad="s" $bg="white">
       <Box $gap="0.5em">
         <Box>
           <NavButton
@@ -90,14 +86,14 @@ const NavSideBar = () => {
           <ProfilePicture src={pictures.emptyProfilePicture} />
 
           <Box $gap="0.5em">
-            <Label $bold>{"Twittur user"}</Label>
-            <Label $color={lightTheme.colors.grey2}>@{"loading..."}</Label>
+            <Label $bold $size="small">{"Twittur user"}</Label>
+            <Label $color={lightTheme.colors.grey2} $size="small">@{"username"}</Label>
           </Box>
         </Box>
 
         <icons.MoreHorizontalIcon />
       </ProfileWrapper>
-    </AsideWrapper>
+    </SideBarWrapper>
   );
 };
 
