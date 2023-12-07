@@ -1,43 +1,49 @@
 import { useParams } from "react-router-dom";
-import styled from "styled-components";
-// import ReplyList from "../../replies/ReplyList";
 import TweetDetails from "./TweetDetails";
-import { useGetTweetsQuery } from "../../../services/tweetsService";
+import { useGetTweetQuery } from "../../../services/tweetsService";
 import ReplyForm from "../../replies/ReplyForm";
 import LoadingTweetPage from "../../util/LoadingTweetPage";
 import Box from "../../containers/Box";
-import BorderedBox from "../../containers/BorderedBox";
 import Heading from "../../core/text/Heading";
+import BottomButtons from "./BottomButtons";
+import ReplyList from "../../replies/ReplyList";
+import { useGetTweetRepliesQuery } from "../../../services/repliesService";
+import { Tweet } from "../../../types";
+import LoadingReplyList from "../../util/LoadingReplyList/LoadingReplyList";
 
-const RepliesToTweet = styled(BorderedBox)`
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-  border-top: none;
-`;
+const TweetReplyList = ({ tweet }: { tweet: Tweet }) => {
+  const { data: replies, isLoading } = useGetTweetRepliesQuery(tweet.id);
+
+  if (isLoading) return <LoadingReplyList />;
+
+  return <ReplyList replies={replies!} showChildReplies />;
+};
 
 const TweetPage = () => {
   const id = useParams().id;
-  const { data: tweets, isLoading, isError } = useGetTweetsQuery();
+  const { data: tweet, isLoading, isError } = useGetTweetQuery(id!);
 
   if (isLoading) return <LoadingTweetPage />;
 
-  if (!tweets || isError) return <div>Error occured!</div>;
-
-  const tweet = tweets.find((t) => t.id === id);
+  if (isError) return <div>Error occured!</div>;
 
   if (!tweet) return <div>tweet not found!</div>;
 
   return (
-    <Box>
+    <Box $gap="0.1em" $width="500px">
       <TweetDetails tweet={tweet} />
 
-      <RepliesToTweet $pad="l" $bg="white" $gap="0.5em">
-        <Heading $level={4} $mn>
-          Replies
-        </Heading>
+      <BottomButtons tweet={tweet} />
 
+      <Box $bg="white" $pad="l">
+        <Heading $level={4}>Replies</Heading>
+      </Box>
+
+      <Box $pad="l" $bg="white" $gap="0.5em">
         <ReplyForm id={tweet.id} parent="tweet" />
-      </RepliesToTweet>
+      </Box>
+
+      <TweetReplyList tweet={tweet} />
     </Box>
   );
 };

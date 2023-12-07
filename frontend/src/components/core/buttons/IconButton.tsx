@@ -23,16 +23,24 @@ const IconBox = styled(Box)`
 interface Props {
   label?: string | number;
   icon?: React.ReactNode;
+  $vertical?: boolean;
   onClick?: () => void;
   className?: string;
 }
 
-const IconButton = ({ icon, label, onClick, className }: Props) => {
+const IconButton = ({
+  icon: icon,
+  label: label,
+  $vertical,
+  onClick,
+  className,
+}: Props) => {
   return (
     <ButtonBox
       $gap="0.3em"
       $center
-      $horizontal
+      // $horizontal
+      $horizontal={!$vertical}
       $pad="s"
       $rounded
       onClick={onClick}

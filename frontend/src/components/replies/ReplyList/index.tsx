@@ -10,7 +10,7 @@ const ReplyList = ({
   showChildReplies?: boolean;
 }) => {
   return (
-    <Box $gap="0.5em">
+    <Box $gap="0.5em" $pad="m" $bg="white">
       {replies.map((r) => (
         <ReplyItem key={r.id} reply={r} showChildReplies={showChildReplies} />
       ))}

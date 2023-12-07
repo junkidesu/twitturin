@@ -1,24 +1,10 @@
 import styled from "styled-components";
 import RouterLink from "../../core/RouterLink";
-import { icons, pictures } from "../../../assets";
-import IconButton from "../../core/buttons/IconButton";
+import { pictures } from "../../../assets";
 import { Tweet } from "../../../types";
-import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../../hooks/store";
-import {
-  useLikeTweetMutation,
-  useUnlikeTweetMutation,
-} from "../../../services/tweetsService";
 import Box from "../../containers/Box";
-import BorderedBox from "../../containers/BorderedBox";
 import Label from "../../core/text/Label";
 import lightTheme from "../../../themes/lightTheme";
-import { elapsedTime } from "../../../util/time";
-
-const DetailsBox = styled(BorderedBox)`
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-`;
 
 const UsernameLink = styled(RouterLink)`
   color: ${(props) => props.theme.colors.grey2};
@@ -31,57 +17,13 @@ const ProfilePicture = styled.img`
   border-radius: 10em;
 `;
 
-interface LikeIconProps {
-  $liked: boolean;
-}
-
-const LikeIcon = styled(icons.HeartIcon)<LikeIconProps>`
-  color: ${({ $liked, theme }) => ($liked ? theme.colors.primary : "inherit")};
-  fill: ${({ $liked, theme }) => ($liked ? theme.colors.primary : "none")};
-`;
-
-interface Props {
-  tweet: Tweet;
-}
-
-const TweetDetails = ({ tweet }: Props) => {
-  const [like] = useLikeTweetMutation();
-  const [unlike] = useUnlikeTweetMutation();
-  const navigate = useNavigate();
-  const userId = useAppSelector(({ auth }) => auth?.id);
-
-  const likedByMe = userId && tweet.likedBy.map((u) => u.id).includes(userId);
-
-  const likeButtonLabel = `${tweet.likes} ${
-    tweet.likes === 1 ? "like" : "likes"
-  }`;
-
-  const replyButtonLabel = `${tweet.replyCount} ${
-    tweet.replyCount === 1 ? "reply" : "replies"
-  }`;
-
+const TweetDetails = ({ tweet }: { tweet: Tweet }) => {
   const submissionTime = new Date(tweet.createdAt);
   const editTime = new Date(tweet.updatedAt);
   const edited = editTime.valueOf() - submissionTime.valueOf() !== 0;
 
-  const handleLike = async () => {
-    if (!userId) {
-      navigate("/login");
-    } else {
-      await like(tweet.id);
-    }
-  };
-
-  const handleUnlike = async () => {
-    if (!userId) {
-      navigate("/login");
-    } else {
-      await unlike({ id: tweet.id, userId });
-    }
-  };
-
   return (
-    <DetailsBox $bg="white" $horizontal $pad="l" $gap="1.5em" $minWidth="600px">
+    <Box $bg="white" $horizontal $pad="l" $gap="1.5em" $width="500px">
       <RouterLink to={`/users/${tweet.author.id}`}>
         <ProfilePicture src={pictures.emptyProfilePicture} />
       </RouterLink>
@@ -105,7 +47,7 @@ const TweetDetails = ({ tweet }: Props) => {
             $color={lightTheme.colors.grey2}
             title={submissionTime.toString()}
           >
-            Posted: {elapsedTime(submissionTime.valueOf())}
+            Posted: {submissionTime.toLocaleString()}
           </Label>
 
           {edited && (
@@ -114,24 +56,12 @@ const TweetDetails = ({ tweet }: Props) => {
               $color={lightTheme.colors.grey2}
               title={editTime.toString()}
             >
-              Last Edited: {elapsedTime(editTime.valueOf())}
+              Last Edited: {editTime.toLocaleString()}
             </Label>
           )}
         </Box>
-
-        <Box $horizontal $gap="0.5em">
-          <IconButton
-            icon={<LikeIcon $liked={likedByMe || false} />}
-            label={likeButtonLabel}
-            onClick={likedByMe ? handleUnlike : handleLike}
-          />
-
-          <IconButton icon={<icons.RepliesIcon />} label={replyButtonLabel} />
-          <IconButton icon={<icons.RetweetIcon />} label="0 retweets" />
-          <IconButton icon={<icons.MoreVerticalIcon />} />
-        </Box>
       </Box>
-    </DetailsBox>
+    </Box>
   );
 };
 

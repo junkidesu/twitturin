@@ -113,6 +113,7 @@ const TweetActions = ({ tweet }: { tweet: Tweet }) => {
 
 const TweetItem = ({ tweet }: { tweet: Tweet }) => {
   const navigate = useNavigate();
+
   return (
     <Box $horizontal $pad="l" $gap="1em" $bg="white" $width="500px">
       <ProfilePicture

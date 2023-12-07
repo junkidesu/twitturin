@@ -4,9 +4,8 @@ import storageService from "./services/storageService";
 import { ThemeProvider } from "styled-components";
 import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import { useAppDispatch } from "./hooks/store";
+import { useAppDispatch, useAppSelector } from "./hooks/store";
 import { setCredentials } from "./reducers/authReducer";
-import { useGetUsersQuery } from "./services/usersService";
 import Header from "./components/Header";
 import SignUpForm from "./components/auth/SignUpForm";
 import UserPage from "./components/users/UserPage";
@@ -17,11 +16,12 @@ import NewTweetModal from "./components/tweets/NewTweetModal";
 import MainPage from "./components/MainPage";
 import LoadingStripe from "./components/util/LoadingStripe";
 import NavSideBar from "./components/NavSideBar";
-import SuggestionsSideBar from "./components/SuggestionsSideBar";
+import SuggestedUsers from "./components/users/SuggestedUsers";
+import SideBar from "./components/containers/SideBar";
 
 const App = () => {
-  useGetUsersQuery();
   const dispatch = useAppDispatch();
+  const username = useAppSelector(({ auth }) => auth?.username);
 
   useEffect(() => {
     const tokenData = storageService.getAuthUser();
@@ -40,7 +40,7 @@ const App = () => {
       <NewTweetModal />
 
       <PageWrapper $horizontal $gap="0.1em">
-        <NavSideBar />
+        {username && <NavSideBar />}
 
         <Routes>
           <Route path="/" element={<MainPage />} />
@@ -55,7 +55,11 @@ const App = () => {
           />
         </Routes>
 
-        <SuggestionsSideBar />
+        {username && (
+          <SideBar>
+            <SuggestedUsers />
+          </SideBar>
+        )}
       </PageWrapper>
     </ThemeProvider>
   );

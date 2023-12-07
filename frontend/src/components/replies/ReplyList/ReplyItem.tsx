@@ -11,6 +11,7 @@ import { elapsedTime } from "../../../util/time";
 import Label from "../../core/text/Label";
 import { useLikeReplyMutation } from "../../../services/repliesService";
 import { useAppSelector } from "../../../hooks/store";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   reply: Reply;
@@ -26,11 +27,13 @@ const ProfilePicture = styled.img`
   height: 1.5em;
   box-sizing: border-box;
   border-radius: 10em;
+  cursor: pointer;
 `;
 
 const Line = styled.div`
   width: 3px;
   height: 100%;
+  border-bottom-left-radius: 10px;
   background-color: ${({ theme }) => theme.colors.grey3};
   cursor: pointer;
 
@@ -52,12 +55,11 @@ const LikeIcon = styled(icons.HeartIcon)<LikeIconProps>`
 const ReplyItem = ({ reply, showChildReplies }: Props) => {
   const [visible, setVisible] = useState(true);
   const [formVisible, setFormVisible] = useState(false);
+  const navigate = useNavigate();
   const [like] = useLikeReplyMutation();
   const userId = useAppSelector(({ auth }) => auth.id);
 
-  const likedByMe = userId
-    ? reply.likedBy.includes(userId)
-    : false;
+  const likedByMe = userId ? reply.likedBy.includes(userId) : false;
 
   const handleLike = async () => {
     if (!likedByMe) await like({ id: reply.id });
@@ -65,7 +67,7 @@ const ReplyItem = ({ reply, showChildReplies }: Props) => {
 
   if (!visible)
     return (
-      <Box $horizontal $center $pad="s" $gap="0.5em">
+      <Box $horizontal $center $pad="s" $gap="1em" $bg="white" $width="100%">
         <IconButton
           icon={<icons.OpenIcon />}
           onClick={() => setVisible(true)}
@@ -88,11 +90,12 @@ const ReplyItem = ({ reply, showChildReplies }: Props) => {
   const submissionTime = new Date(reply.createdAt);
 
   return (
-    <Box $horizontal $bg="white" $gap="1em" $pad="s" $rounded id={reply.id}>
+    <Box $horizontal $bg="white" $gap="1em" $pad="s" id={reply.id}>
       <Box $center>
-        <RouterLink to={`/users/${reply.author.id}`}>
-          <ProfilePicture src={pictures.emptyProfilePicture} />
-        </RouterLink>
+        <ProfilePicture
+          src={pictures.emptyProfilePicture}
+          onClick={() => navigate(`/users/${reply.author.id}`)}
+        />
 
         <Line onClick={() => setVisible(false)} />
       </Box>

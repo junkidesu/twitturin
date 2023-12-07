@@ -89,9 +89,9 @@ const likeReply = async (id: string, user: User & { _id: Types.ObjectId }) => {
 
   if (!likedByMe) foundReply.likedBy = foundReply.likedBy.concat(user._id);
 
-  await foundReply.save();
+  const likedReply = await foundReply.save();
 
-  return user;
+  return likedReply;
 };
 
 const getLikes = async (id: string) => {

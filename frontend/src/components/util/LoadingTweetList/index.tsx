@@ -3,8 +3,8 @@ import Box from "../../containers/Box";
 
 const LoadingTweetList = () => {
   return (
-    <Box $gap="0.5em">
-      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
+    <Box $gap="0.1em">
+      {[1, 2, 3, 4, 5].map((n) => (
         <LoadingTweetItem key={n} />
       ))}
     </Box>

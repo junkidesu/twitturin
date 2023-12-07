@@ -5,6 +5,7 @@ interface Props {
   $gap?: string;
   $center?: boolean;
   $border?: boolean;
+  $bradius?: string | number;
   $rounded?: boolean;
   $minWidth?: string;
   $maxWidth?: string;
@@ -34,14 +35,16 @@ const Box = styled.div<Props>`
   display: flex;
   flex-direction: ${({ $horizontal }) => ($horizontal ? "row" : "column")};
   background: ${({ $bg }) => $bg || "transparent"};
-  align-items: ${({ $center }) => ($center ? "center" : "none")};
+  align-items: ${({ $center, $horizontal }) =>
+    $center && !$horizontal ? "center" : "none"};
   /* justify-content: ${({ $center }) =>
     $center ? "space-around" : "none"}; */
   gap: ${({ $gap }) => $gap || "0"};
   padding: ${({ $pad }) => toPadding($pad) || "none"};
-  border-radius: ${({ $rounded }) => ($rounded ? "10px" : "none")};
+  border-radius: ${({ $rounded, $bradius }) =>
+    $rounded ? "10px" : $bradius || "0"};
   box-sizing: border-box;
-  overflow: ${({ $hide }) => $hide ? "hidden" : "visible"};
+  overflow: ${({ $hide }) => ($hide ? "hidden" : "visible")};
 `;
 
 export default Box;

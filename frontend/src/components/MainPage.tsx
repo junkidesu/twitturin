@@ -4,8 +4,7 @@ import Box from "./containers/Box";
 import { pictures } from "../assets";
 import TextArea from "./core/inputs/TextArea";
 import Button from "./core/buttons/Button";
-
-const Wrapper = styled(Box)``;
+import { useAppSelector } from "../hooks/store";
 
 const FormWrapper = styled(Box)`
   align-items: end;
@@ -28,11 +27,11 @@ const ProfilePicture = styled.img`
 
 const CreateTweetForm = () => {
   return (
-    <Box $horizontal $pad="l" $bg="white">
+    <Box $horizontal $pad="l" $bg="white" $width="500px">
       <ProfilePicture src={pictures.emptyProfilePicture} />
 
       <FormWrapper $width="100%">
-        <TweetTextArea placeholder="Tweet your thoughts now!"/>
+        <TweetTextArea placeholder="Tweet your thoughts now!" />
 
         <Button $bg="white">Tweet</Button>
       </FormWrapper>
@@ -41,12 +40,14 @@ const CreateTweetForm = () => {
 };
 
 const MainPage = () => {
+  const username = useAppSelector(({ auth }) => auth?.username);
+
   return (
-    <Wrapper $gap="0.1em">
-      <CreateTweetForm />
+    <Box $gap="0.1em">
+      {username && <CreateTweetForm />}
 
       <TweetList />
-    </Wrapper>
+    </Box>
   );
 };
 

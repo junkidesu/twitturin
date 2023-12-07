@@ -1,6 +1,5 @@
 import { api } from "./api";
-import { NewTweet, Tweet } from "../types";
-import { usersApi } from "./usersService";
+import { NewTweet, Tweet, User } from "../types";
 
 export const tweetsApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -10,41 +9,44 @@ export const tweetsApi = api.injectEndpoints({
       }),
       providesTags: ["Tweet"],
     }),
+    getTweet: builder.query<Tweet, string>({
+      query: (id) => ({
+        url: `tweets/${id}`,
+      }),
+      providesTags: (result) =>
+        result ? [{ type: "Tweet", id: result.id }] : ["Tweet"],
+    }),
     addTweet: builder.mutation<Tweet, NewTweet>({
       query: (newTweet) => ({
         url: "tweets",
         method: "POST",
         body: newTweet,
       }),
-      invalidatesTags: ["Tweet", "User"],
+      invalidatesTags: ["Tweet"],
     }),
-    likeTweet: builder.mutation<Tweet, string>({
+    likeTweet: builder.mutation<User, string>({
       query: (id) => ({
         url: `tweets/${id}/likes`,
         method: "POST",
       }),
+      invalidatesTags: (_result, _error, arg) => [{ type: "Tweet", id: arg }],
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
         try {
-          const { data: likedTweet } = await queryFulfilled;
+          const { data: like } = await queryFulfilled;
 
           dispatch(
             tweetsApi.util.updateQueryData("getTweets", undefined, (draft) => {
-              return draft.map((t) => (t.id !== id ? t : likedTweet));
-            })
-          );
+              const tweet = draft.find((t) => t.id === id);
 
-          dispatch(
-            usersApi.util.updateQueryData("getUsers", undefined, (draft) => {
-              const user = draft.find((u) => u.id === likedTweet.author.id);
+              if (!tweet) return draft;
 
-              if (!user) return draft;
-
-              const newUser = {
-                ...user,
-                tweets: user.tweets.map((t) => (t.id !== id ? t : likedTweet)),
+              const likedTweet = {
+                ...tweet,
+                likedBy: tweet.likedBy.concat(like.id),
+                likes: tweet.likes + 1,
               };
 
-              return draft.map((u) => (u.id !== newUser.id ? u : newUser));
+              return draft.map((t) => (t.id !== id ? t : likedTweet));
             })
           );
         } catch (error) {
@@ -57,8 +59,9 @@ export const tweetsApi = api.injectEndpoints({
         url: `tweets/${id}/likes/${userId}`,
         method: "DELETE",
       }),
+      invalidatesTags: (_result, _error, arg) => [{ type: "Tweet", id: arg.id }],
       async onQueryStarted({ id, userId }, { dispatch, queryFulfilled }) {
-        const patchResult1 = dispatch(
+        const patchResult = dispatch(
           tweetsApi.util.updateQueryData("getTweets", undefined, (draft) => {
             const tweet = draft.find((t) => t.id === id);
 
@@ -66,7 +69,7 @@ export const tweetsApi = api.injectEndpoints({
 
             const newTweet = {
               ...tweet,
-              likedBy: tweet.likedBy.filter((u) => u.id !== userId),
+              likedBy: tweet.likedBy.filter((u) => u !== userId),
               likes: tweet.likes - 1,
             };
 
@@ -74,47 +77,19 @@ export const tweetsApi = api.injectEndpoints({
           })
         );
 
-        const patchResult2 = dispatch(
-          usersApi.util.updateQueryData("getUsers", undefined, (draft) => {
-            const user = draft.find((u) => u.id === userId);
-
-            if (!user) return draft;
-
-            const tweet = user?.tweets.find((t) => t.id === id);
-
-            if (!tweet) return draft;
-
-            const newTweet = {
-              ...tweet,
-              likedBy: tweet.likedBy.filter((u) => u.id !== userId),
-              likes: tweet.likes - 1,
-            };
-
-            const newUser = {
-              ...user,
-              tweets: user.tweets.map((t) => (t.id !== id ? t : newTweet)),
-            };
-
-            return draft.map((u) => (u.id !== newUser.id ? u : newUser));
-          })
-        );
-
         try {
           await queryFulfilled;
         } catch (error) {
-          patchResult1.undo();
-          patchResult2.undo();
+          patchResult.undo();
         }
       },
-    }),
-    getTweet: builder.query<Tweet, string>({
-      query: (id) => ({ url: `tweets/${id}` }),
     }),
   }),
 });
 
 export const {
   useGetTweetsQuery,
+  useGetTweetQuery,
   useAddTweetMutation,
   useLikeTweetMutation,
   useUnlikeTweetMutation,
