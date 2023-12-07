@@ -2,12 +2,8 @@ import UserModel from "../models/user";
 import StudentModel from "../models/user/student";
 import TeacherModel from "../models/user/teacher";
 import bcrypt from "bcrypt";
-import {
-  User,
-  EditUser,
-  NewUser,
-  NotFoundError,
-} from "../types";
+import { User, EditUser, NewUser, NotFoundError } from "../types";
+import TweetModel from "../models/tweet";
 
 const getAllUsers = async () => {
   const users = await UserModel.find<User[]>({});
@@ -66,6 +62,8 @@ const removeUser = async (id: string) => {
   if (!user) throw new NotFoundError("user not found");
 
   await UserModel.findByIdAndRemove(id);
+
+  await TweetModel.deleteMany({ author: user._id });
 };
 
 export default { getAllUsers, getUserById, addUser, editUser, removeUser };
