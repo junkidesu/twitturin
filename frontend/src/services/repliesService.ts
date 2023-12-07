@@ -1,5 +1,6 @@
 import { NewReply, Reply } from "../types";
 import { api } from "./api";
+import { tweetsApi } from "./tweetsService";
 
 export const repliesApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -22,6 +23,23 @@ export const repliesApi = api.injectEndpoints({
               { type: "Tweet", id: result.tweet },
             ]
           : ["Reply"],
+      async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data: addedReply } = await queryFulfilled;
+
+          dispatch(
+            tweetsApi.util.updateQueryData("getTweets", undefined, (draft) => {
+              const tweet = draft.find((t) => t.id === addedReply.tweet);
+
+              const newTweet = { ...tweet!, replyCount: tweet!.replyCount + 1 };
+
+              return draft.map((t) => (t.id !== newTweet.id ? t : newTweet));
+            })
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      },
     }),
     likeReply: builder.mutation<Reply, { id: string }>({
       query: ({ id }) => ({

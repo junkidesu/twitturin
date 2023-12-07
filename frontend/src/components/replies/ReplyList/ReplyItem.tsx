@@ -33,7 +33,6 @@ const ProfilePicture = styled.img`
 const Line = styled.div`
   width: 3px;
   height: 100%;
-  border-bottom-left-radius: 10px;
   background-color: ${({ theme }) => theme.colors.grey3};
   cursor: pointer;
 

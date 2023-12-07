@@ -1,28 +1,18 @@
-import styled from "styled-components";
 import LoadingTweetDetails from "./LoadingTweetDetails";
-import LoadingReplyList from "../LoadingReplyList/LoadingReplyList";
+import LoadingReplyList from "../LoadingReplyList";
 import Box from "../../containers/Box";
-import BorderedBox from "../../containers/BorderedBox";
 import Heading from "../../core/text/Heading";
-
-const RepliesToTweet = styled(BorderedBox)`
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-  border-top: none;
-`;
 
 const LoadingTweetPage = () => {
   return (
-    <Box>
+    <Box $gap="0.1em">
       <LoadingTweetDetails />
 
-      <RepliesToTweet $pad="l" $bg="white" $gap="0.5em">
-        <Heading $level={4} $mn>
-          Replies
-        </Heading>
+      <Box $bg="white" $pad="l">
+        <Heading $level={4}>Replies</Heading>
+      </Box>
 
-        <LoadingReplyList />
-      </RepliesToTweet>
+      <LoadingReplyList />
     </Box>
   );
 };

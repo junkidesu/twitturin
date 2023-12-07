@@ -53,7 +53,7 @@ const BottomButtons = ({ tweet }: { tweet: Tweet }) => {
   }`;
 
   return (
-    <Wrapper $horizontal $gap="0.5em" $bg="white" $pad="m">
+    <Wrapper $horizontal $gap="0.5em" $bg="white" $pad="m" $width="100%">
       <IconButton
         icon={<LikeIcon $liked={likedByMe || false} />}
         label={likeButtonLabel}

@@ -9,7 +9,7 @@ import BottomButtons from "./BottomButtons";
 import ReplyList from "../../replies/ReplyList";
 import { useGetTweetRepliesQuery } from "../../../services/repliesService";
 import { Tweet } from "../../../types";
-import LoadingReplyList from "../../util/LoadingReplyList/LoadingReplyList";
+import LoadingReplyList from "../../util/LoadingReplyList";
 
 const TweetReplyList = ({ tweet }: { tweet: Tweet }) => {
   const { data: replies, isLoading } = useGetTweetRepliesQuery(tweet.id);
@@ -39,7 +39,7 @@ const TweetPage = () => {
         <Heading $level={4}>Replies</Heading>
       </Box>
 
-      <Box $pad="l" $bg="white" $gap="0.5em">
+      <Box $pad="l" $bg="white" $gap="0.5em" $width="100%">
         <ReplyForm id={tweet.id} parent="tweet" />
       </Box>
 

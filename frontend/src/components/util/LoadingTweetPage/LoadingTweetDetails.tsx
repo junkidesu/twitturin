@@ -3,22 +3,18 @@ import Box from "../../containers/Box";
 import LoadingElement from "../LoadingElement";
 
 const LoadingProfilePicture = styled(LoadingElement)`
-  border-radius: 10em;
+  border-radius: 100em;
 `;
 
 const LoadingTweetDetails = () => {
   return (
     <Box $bg="white" $horizontal $pad="l" $gap="1.5em" $width="500px">
-      <LoadingProfilePicture $height="3em" $width="3em" />
+      <LoadingProfilePicture $width="3em" $height="3em" />
 
-      <Box $gap="1em">
-        <Box $horizontal $center $gap="0.5em">
-          <LoadingElement $height="1.3em" />
+      <Box $gap="1em" $width="80%">
+        <LoadingElement $height="2em" $width="100%" />
 
-          <LoadingElement $height="1.3em" />
-        </Box>
-
-        <LoadingElement />
+        <LoadingElement $height="5em" />
       </Box>
     </Box>
   );

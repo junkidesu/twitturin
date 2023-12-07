@@ -42,7 +42,7 @@ const ReplyForm = ({ id, parent, setVisible }: Props) => {
     <Form onSubmit={handleReply}>
       <TextArea {...content} required />
 
-      <Box $horizontal $gap="1em">
+      <Box $horizontal $gap="0.5em">
         <Button $bg="white" $size="extraSmall">
           Submit
         </Button>

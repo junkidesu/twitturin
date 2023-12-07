@@ -1,7 +1,7 @@
 import lightTheme from "./themes/lightTheme";
 import GlobalStyle from "./themes/GlobalStyle";
 import storageService from "./services/storageService";
-import { ThemeProvider } from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
 import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "./hooks/store";
@@ -18,6 +18,10 @@ import LoadingStripe from "./components/util/LoadingStripe";
 import NavSideBar from "./components/NavSideBar";
 import SuggestedUsers from "./components/users/SuggestedUsers";
 import SideBar from "./components/containers/SideBar";
+
+const RightSideBar = styled(SideBar)`
+  margin-left: 50px;
+`;
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -56,9 +60,9 @@ const App = () => {
         </Routes>
 
         {username && (
-          <SideBar>
+          <RightSideBar>
             <SuggestedUsers />
-          </SideBar>
+          </RightSideBar>
         )}
       </PageWrapper>
     </ThemeProvider>
