@@ -9,10 +9,12 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks/store";
 import { showModal } from "../reducers/modalReducer";
 import SideBar from "./containers/SideBar";
+import { useGetUserQuery } from "../services/usersService";
+import LoadingUserItem from "./util/LoadingUserItem";
 
 const NavButton = styled(FlatButton)`
   font-size: ${({ theme }) => theme.fontSizes.medium};
-  padding: 0.7em 1em;
+  padding: 0.9em 1em;
 `;
 
 const ProfileWrapper = styled(Box)`
@@ -67,7 +69,10 @@ const NavigationButtons = () => {
 };
 
 const UserDetails = () => {
-  const username = useAppSelector(({ auth }) => auth?.username);
+  const id = useAppSelector(({ auth }) => auth!.id);
+  const { data: user, isLoading } = useGetUserQuery(id!);
+
+  if (isLoading) return <LoadingUserItem />;
 
   return (
     <ProfileWrapper $horizontal $pad="m" $center $rounded>
@@ -76,10 +81,10 @@ const UserDetails = () => {
 
         <Box $gap="0.5em">
           <Label $bold $size="small">
-            {"Twittur user"}
+            {user?.fullName || "Twittur User"}
           </Label>
           <Label $color={lightTheme.colors.grey2} $size="small">
-            @{username}
+            @{user?.username}
           </Label>
         </Box>
       </Box>

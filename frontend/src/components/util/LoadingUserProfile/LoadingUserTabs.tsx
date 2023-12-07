@@ -25,7 +25,7 @@ const LoadingUserTabs = () => {
   const [active, setActive] = useState<"tweets" | "replies">("tweets");
 
   return (
-    <Box $gap="0.5em">
+    <Box $gap="0.5em" $width="500px">
       <Box $horizontal>
         <NavButton
           $active={active === "tweets"}

@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import { pictures } from "../../../assets";
 import { useParams } from "react-router-dom";
-import { useGetUsersQuery } from "../../../services/usersService";
+import {
+  useGetUserQuery,
+} from "../../../services/usersService";
 import LoadingUserProfile from "../../util/LoadingUserProfile";
 import Box from "../../containers/Box";
 import Label from "../../core/text/Label";
@@ -30,28 +32,24 @@ const Username = styled(Label)`
 `;
 
 const UserPage = () => {
-  const id: string | undefined = useParams().id;
-  const { data: users, isLoading, isError } = useGetUsersQuery();
+  const id = useParams().id;
+  const { data: user, isLoading, isError } = useGetUserQuery(id!);
 
   if (isLoading) return <LoadingUserProfile />;
 
-  if (!users || isError) return <div>some error occured</div>;
-
-  const user = users.find((u) => u.id === id);
+  if (isError) return <div>some error occured</div>;
 
   if (!user) return <div>user not found!</div>;
 
   return (
-    <Box $bg="white" $width="600px" $rounded $gap="1.5em" $hide>
+    <Box $bg="white" $width="500px" $gap="1.5em" $hide>
       <Banner>
         <ProfilePicture src={pictures.emptyProfilePicture} />
       </Banner>
 
       <Box $pad="l" $gap="1em">
         <Box>
-          <Heading $level={1}>
-            {user.fullName || "Twittur User"}
-          </Heading>
+          <Heading $level={3}>{user.fullName || "Twittur User"}</Heading>
           <Username>@{user.username}</Username>
         </Box>
       </Box>

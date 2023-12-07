@@ -57,6 +57,7 @@ const App = () => {
             path="/me/edit"
             element={<div>edit profile page [TODO]</div>}
           />
+          <Route path="*" element={<div>Route not found</div>} />
         </Routes>
 
         {username && (

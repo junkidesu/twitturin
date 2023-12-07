@@ -30,7 +30,7 @@ const LoginForm = () => {
   useEffect(() => {
     if (isSuccess) {
       dispatch(hide());
-      navigate("/");
+      navigate(-1);
     }
   }, [navigate, dispatch, isSuccess, tokenData]);
 
