@@ -42,13 +42,13 @@ const SignUpForm = () => {
   const [signUp, { isLoading, isError, isSuccess }] = useAddUserMutation();
   const [login] = useLoginMutation();
   const [kind, setKind] = useState<Kind>("student");
-  const studentId = useField("text", "StudentID");
-  const username = useField("text", "Username");
-  const fullName = useField("text", "Full Name");
-  const password = useField("password", "Password");
-  const major = useField(undefined, "Major", majors[0]);
-  const subject = useField("text", "Subject");
-  const email = useField("email", "Email");
+  const [, studentId] = useField("text", "StudentID");
+  const [, username] = useField("text", "Username");
+  const [, fullName] = useField("text", "Full Name");
+  const [, password] = useField("password", "Password");
+  const [, major] = useField(undefined, "Major", majors[0]);
+  const [, subject] = useField("text", "Subject");
+  const [, email] = useField("email", "Email");
 
   const token = useAppSelector(({ auth }) => auth.token);
 
@@ -156,7 +156,9 @@ const SignUpForm = () => {
 
         <Input {...password} required />
 
-        <Button $width="100%" $rounded>Sign Up</Button>
+        <Button $width="100%" $rounded>
+          Sign Up
+        </Button>
       </Form>
     </Box>
   );

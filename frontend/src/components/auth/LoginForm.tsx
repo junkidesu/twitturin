@@ -14,8 +14,8 @@ import Heading from "../core/text/Heading";
 import Box from "../containers/Box";
 
 const LoginForm = () => {
-  const username = useField("text", "Username");
-  const password = useField("password", "Password");
+  const [, username] = useField("text", "Username");
+  const [, password] = useField("password", "Password");
 
   const [login, { data: tokenData, isLoading, isError, isSuccess }] =
     useLoginMutation();

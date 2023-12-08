@@ -18,7 +18,7 @@ const SubmitButton = styled(Button)`
 `;
 
 const NewTweetForm = () => {
-  const content = useField("text", "Tweet content...");
+  const [clearContent, content] = useField("text", "Tweet content...");
   const [addTweet, { isLoading, isSuccess }] = useAddTweetMutation();
   const dispatch = useAppDispatch();
 
@@ -37,6 +37,7 @@ const NewTweetForm = () => {
     e.preventDefault();
 
     await addTweet({ content: content.value });
+    clearContent();
   };
 
   return (
