@@ -18,6 +18,8 @@ import LoadingStripe from "./components/util/LoadingStripe";
 import NavSideBar from "./components/NavSideBar";
 import SuggestedUsers from "./components/users/SuggestedUsers";
 import SideBar from "./components/containers/SideBar";
+import ComingSoon from "./components/util/ComingSoon";
+import PageNotFound from "./components/util/PageNotFound";
 
 const RightSideBar = styled(SideBar)`
   margin-left: 50px;
@@ -48,16 +50,17 @@ const App = () => {
 
         <Routes>
           <Route path="/" element={<MainPage />} />
+          <Route path="/explore" element={<ComingSoon />} />
+          <Route path="/messages" element={<ComingSoon />} />
+          <Route path="/notifications" element={<ComingSoon />} />
+          <Route path="/communities" element={<ComingSoon />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/sign-up" element={<SignUpForm />} />
           <Route path="/users/:id" element={<UserPage />} />
           <Route path="/tweets/:id" element={<TweetPage />} />
-          <Route path="/me" element={<div>current user page [TODO]</div>} />
-          <Route
-            path="/me/edit"
-            element={<div>edit profile page [TODO]</div>}
-          />
-          <Route path="*" element={<div>Route not found</div>} />
+          <Route path="/me" element={<ComingSoon />} />
+          <Route path="/me/edit" element={<ComingSoon />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
 
         {username && (
