@@ -1,13 +1,12 @@
 import styled from "styled-components";
 import { pictures } from "../../../assets";
 import { useParams } from "react-router-dom";
-import {
-  useGetUserQuery,
-} from "../../../services/usersService";
+import { useGetUserQuery } from "../../../services/usersService";
 import LoadingUserProfile from "../../util/LoadingUserProfile";
 import Box from "../../containers/Box";
 import Label from "../../core/text/Label";
 import Heading from "../../core/text/Heading";
+import TweetList from "../../tweets/TweetList";
 
 const Banner = styled.div`
   position: relative;
@@ -53,6 +52,8 @@ const UserPage = () => {
           <Username>@{user.username}</Username>
         </Box>
       </Box>
+
+      <TweetList author={id} />
     </Box>
   );
 };

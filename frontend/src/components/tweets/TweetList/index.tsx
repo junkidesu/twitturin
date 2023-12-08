@@ -3,12 +3,12 @@ import Box from "../../containers/Box";
 import { useGetTweetsQuery } from "../../../services/tweetsService";
 import LoadingTweetList from "../../util/LoadingTweetList";
 
-// type TweetListProps = {
-//   author?: string;
-// };
+type TweetListProps = {
+  author?: string;
+};
 
-const TweetList = () => {
-  const { data: tweets, isLoading } = useGetTweetsQuery();
+const TweetList = ({ author }: TweetListProps) => {
+  const { data: tweets, isLoading } = useGetTweetsQuery(author);
 
   if (isLoading) return <LoadingTweetList />
 
