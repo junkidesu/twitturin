@@ -9,7 +9,7 @@ import {
   NewReply,
 } from "../types";
 
-const parseNumber = (num: unknown, what: string): number => {
+export const parseNumber = (num: unknown, what: string): number => {
   if (isNaN(Number(num)))
     throw new ParseError(`invalid value for ${what}: ${num}`);
 
@@ -72,7 +72,6 @@ export const toNewUser = (object: unknown): NewUser => {
     country:
       "country" in object ? parseString(object.country, "country") : undefined,
     bio: "bio" in object ? parseString(object.bio, "bio") : undefined,
-    age: "age" in object ? parseNumber(object.age, "age") : undefined,
   };
 
   if (object.kind === "student") {

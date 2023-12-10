@@ -15,7 +15,6 @@ export interface UserCommon {
   fullName?: string;
   email: string;
   birthday: string;
-  age?: number;
   country?: string;
   bio?: string;
   passwordHash: string;

@@ -31,7 +31,6 @@ const UserSchema = new Schema<UserCommon>(
       type: String,
       required: true,
     },
-    age: { type: Number, min: 1 },
     bio: { type: String },
     country: String,
   },
@@ -64,6 +63,22 @@ UserSchema.virtual("replies", {
   ref: "Reply",
   localField: "_id",
   foreignField: "author",
+});
+
+UserSchema.virtual("age").get(function () {
+  const today = new Date();
+  const birthday = new Date(this.birthday);
+
+  const maxAge: number = today.getFullYear() - birthday.getFullYear();
+
+  if (
+    today.getMonth() < birthday.getMonth() ||
+    (today.getMonth() === birthday.getMonth() &&
+      today.getDate() < birthday.getDate())
+  )
+    return maxAge - 1;
+
+  return maxAge;
 });
 
 const UserModel = model<UserCommon>("User", UserSchema);
