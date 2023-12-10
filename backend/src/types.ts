@@ -43,6 +43,7 @@ export type NewUser = UnionOmit<User, "passwordHash"> & { password: string };
 export interface EditUser {
   username?: string;
   email?: string;
+  birthday?: string;
   bio?: string;
   country?: string;
   fullName?: string;

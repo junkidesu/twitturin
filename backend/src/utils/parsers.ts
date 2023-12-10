@@ -25,7 +25,7 @@ const isDate = (date: string): boolean => {
 };
 
 const parseDate = (date: unknown): string => {
-  if (!isString(date) || isDate(date)) throw new ParseError("invalid date");
+  if (!isString(date) || !isDate(date)) throw new ParseError("invalid date");
 
   return date;
 };
@@ -111,6 +111,7 @@ export const toEditUser = (object: unknown): EditUser => {
         ? parseString(object.username, "username")
         : undefined,
     email: "email" in object ? parseString(object.email, "email") : undefined,
+    birthday: "birthday" in object ? parseDate(object.birthday) : undefined,
     country:
       "country" in object ? parseString(object.country, "country") : undefined,
     fullName:
