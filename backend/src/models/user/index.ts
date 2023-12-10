@@ -28,6 +28,7 @@ const UserSchema = new Schema<UserCommon>(
       },
     },
     age: { type: Number, min: 1 },
+    bio: { type: String },
     country: String,
   },
   {

@@ -59,6 +59,7 @@ export const toNewUser = (object: unknown): NewUser => {
         : undefined,
     country:
       "country" in object ? parseString(object.country, "country") : undefined,
+    bio: "bio" in object ? parseString(object.bio, "bio") : undefined,
     age: "age" in object ? parseNumber(object.age, "age") : undefined,
   };
 
@@ -104,6 +105,7 @@ export const toEditUser = (object: unknown): EditUser => {
       "fullName" in object
         ? parseString(object.fullName, "fullName")
         : undefined,
+    bio: "bio" in object ? parseString(object.bio, "bio") : undefined,
   };
 };
 

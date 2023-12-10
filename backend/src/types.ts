@@ -16,6 +16,7 @@ export interface UserCommon {
   email: string;
   age?: number;
   country?: string;
+  bio?: string;
   passwordHash: string;
 }
 
@@ -41,6 +42,7 @@ export type NewUser = UnionOmit<User, "passwordHash"> & { password: string };
 export interface EditUser {
   username?: string;
   email?: string;
+  bio?: string;
   country?: string;
   fullName?: string;
 }
