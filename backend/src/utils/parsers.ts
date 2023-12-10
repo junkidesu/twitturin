@@ -100,6 +100,10 @@ export const toEditUser = (object: unknown): EditUser => {
     email: "email" in object ? parseString(object.email, "email") : undefined,
     country:
       "country" in object ? parseString(object.country, "country") : undefined,
+    fullName:
+      "fullName" in object
+        ? parseString(object.fullName, "fullName")
+        : undefined,
   };
 };
 

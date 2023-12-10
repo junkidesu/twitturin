@@ -42,6 +42,7 @@ export interface EditUser {
   username?: string;
   email?: string;
   country?: string;
+  fullName?: string;
 }
 
 export interface Credentials {
