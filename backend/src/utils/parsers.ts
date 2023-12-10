@@ -20,6 +20,16 @@ const isString = (text: unknown): text is string => {
   return typeof text == "string" || text instanceof String;
 };
 
+const isDate = (date: string): boolean => {
+  return Boolean(Date.parse(date));
+};
+
+const parseDate = (date: unknown): string => {
+  if (!isString(date) || isDate(date)) throw new ParseError("invalid date");
+
+  return date;
+};
+
 const parseString = (text: unknown, what: string): string => {
   if (!text || !isString(text))
     throw new ParseError(`Invalid value for ${what}: ${text}`);
@@ -45,12 +55,14 @@ export const toNewUser = (object: unknown): NewUser => {
     throw new ParseError("Data missing or invalid");
 
   if (!("username" in object)) throw new ParseError("user username missing");
+  if (!("birthday" in object)) throw new ParseError("birthday missing");
   if (!("password" in object)) throw new ParseError("user password missing");
   if (!("email" in object)) throw new ParseError("user email missing");
   if (!("kind" in object)) throw new ParseError("kind missing");
 
   const common = {
     username: parseString(object.username, "username"),
+    birthday: parseDate(object.birthday),
     password: parseString(object.password, "password"),
     email: parseString(object.email, "email"),
     fullName:
