@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import LoadingUserTabs from "./LoadingUserTabs";
 import Box from "../../containers/Box";
 import LoadingElement from "../LoadingElement";
 
@@ -30,8 +29,6 @@ const LoadingUserProfile = () => {
           <LoadingElement $width="100px" />
         </Box>
       </Box>
-
-      <LoadingUserTabs />
     </Box>
   );
 };

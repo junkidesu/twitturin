@@ -28,7 +28,7 @@ const DetailsWrapper = styled(Box)``;
 
 const UserItem = ({ user }: { user: User }) => {
   return (
-    <Wrapper $horizontal $center $gap="1em" $width="100%" $pad="m">
+    <Wrapper $horizontal $center $gap="1em" $width="100%" $pad="m" $bg="white">
       <Box $horizontal $center $gap="1em">
         <ProfilePicture src={pictures.emptyProfilePicture} />
 

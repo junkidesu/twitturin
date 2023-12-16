@@ -9,19 +9,22 @@ import {
 import UserItem from "./UserItem";
 import { User } from "../../types";
 import LoadingUserItem from "../util/LoadingUserItem";
+import Empty from "../util/Empty";
 
 const FollowingList = ({ user }: { user: User }) => {
   const { data: following, isLoading, isError } = useGetFollowingQuery(user.id);
 
   if (isLoading)
     return (
-      <Box>
+      <Box $bg="white" $gap="1em" $pad="l">
         <LoadingUserItem />
         <LoadingUserItem />
       </Box>
     );
 
   if (isError || !following) return <div>Some error occurred!</div>;
+
+  if (following.length === 0) return <Empty />;
 
   return (
     <Box>
@@ -41,11 +44,13 @@ const FollowingPage = () => {
   if (!user || isError) return <div>Some error occurred!</div>;
 
   return (
-    <Box $width="500px" $bg="white" $pad="l" $gap="0.5em">
-      <Heading $level={3}>
-        Users followed by
-        <RouterLink to={`/users/${id}`}>@{user.username}</RouterLink>
-      </Heading>
+    <Box $gap="0.1em" $width="500px">
+      <Box $bg="white" $pad="l" $gap="0.5em">
+        <Heading $level={3}>
+          Followers of{" "}
+          <RouterLink to={`/users/${id}`}>@{user.username}</RouterLink>
+        </Heading>
+      </Box>
 
       <FollowingList user={user} />
     </Box>

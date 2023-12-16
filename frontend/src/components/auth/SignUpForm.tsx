@@ -5,6 +5,7 @@ import Button from "../core/buttons/Button";
 import Form from "../core/Form";
 import { Major, NewUser } from "../../types";
 import Select from "../core/inputs/Select";
+import DatePicker from "../core/inputs/DatePicker";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAddUserMutation } from "../../services/usersService";
@@ -49,6 +50,7 @@ const SignUpForm = () => {
   const [, major] = useField(undefined, "Major", majors[0]);
   const [, subject] = useField("text", "Subject");
   const [, email] = useField("email", "Email");
+  const [, birthday] = useField("birthday", "Birthday");
 
   const token = useAppSelector(({ auth }) => auth.token);
 
@@ -93,6 +95,7 @@ const SignUpForm = () => {
       password: password.value,
       email: email.value,
       fullName: fullName.value ? fullName.value : undefined,
+      birthday: birthday.value,
     };
 
     const newUser: NewUser =
@@ -141,6 +144,7 @@ const SignUpForm = () => {
         <Input {...username} required />
         <Input {...email} required />
         <Input {...fullName} />
+        <DatePicker {...birthday} />
 
         {kind === "student" && (
           <>

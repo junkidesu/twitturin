@@ -10,11 +10,14 @@ import ReplyList from "../../replies/ReplyList";
 import { useGetTweetRepliesQuery } from "../../../services/repliesService";
 import { Tweet } from "../../../types";
 import LoadingReplyList from "../../util/LoadingReplyList";
+import Empty from "../../util/Empty";
 
 const TweetReplyList = ({ tweet }: { tweet: Tweet }) => {
   const { data: replies, isLoading } = useGetTweetRepliesQuery(tweet.id);
 
   if (isLoading) return <LoadingReplyList />;
+
+  if (replies?.length === 0) return <Empty />;
 
   return <ReplyList replies={replies!} showChildReplies />;
 };
