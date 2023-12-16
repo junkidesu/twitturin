@@ -4,6 +4,7 @@ import { toNewUser, toEditUser } from "../utils/parsers";
 import { requireAuthentication, requireSameUser } from "../utils/middleware";
 import tweetsService from "../services/tweetsService";
 import repliesService from "../services/repliesService";
+import followService from "../services/followService";
 
 const router = express.Router();
 
@@ -102,7 +103,7 @@ router.get("/:id/likes", async (req, res, next) => {
 
 router.get("/:id/following", async (req, res, next) => {
   try {
-    const following = await usersService.getFollowing(req.params.id);
+    const following = await followService.getFollowing(req.params.id);
     res.json(following);
   } catch (error) {
     next(error);
@@ -111,7 +112,7 @@ router.get("/:id/following", async (req, res, next) => {
 
 router.get("/:id/followers", async (req, res, next) => {
   try {
-    const followers = await usersService.getFollowers(req.params.id);
+    const followers = await followService.getFollowers(req.params.id);
 
     res.json(followers);
   } catch (error) {
@@ -124,7 +125,7 @@ router.post(
   requireAuthentication,
   async (req, res, next) => {
     try {
-      const followedUser = await usersService.followUser(
+      const followedUser = await followService.followUser(
         req.user!._id,
         req.params.toFollow
       );
@@ -137,7 +138,7 @@ router.post(
 
 router.delete("/following/:id", async (req, res, next) => {
   try {
-    await usersService.unfollowUser(req.user!._id, req.params.id);
+    await followService.unfollowUser(req.user!._id, req.params.id);
 
     res.status(204).end();
   } catch (error) {
