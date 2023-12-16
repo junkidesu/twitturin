@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { pictures } from "../../../assets";
+import { icons, pictures } from "../../../assets";
 import { useParams } from "react-router-dom";
 import { useGetUserQuery } from "../../../services/usersService";
 import LoadingUserProfile from "../../util/LoadingUserProfile";
@@ -31,6 +31,10 @@ const Username = styled(Label)`
   color: ${(props) => props.theme.colors.grey2};
 `;
 
+const LocationDetails = styled(Box)`
+  color: ${({ theme }) => theme.colors.grey2};
+`;
+
 const UserPage = () => {
   const id = useParams().id;
   const { data: user, isLoading, isError } = useGetUserQuery(id!);
@@ -59,6 +63,11 @@ const UserPage = () => {
           </Label>
         </Box>
       </Box>
+
+      <LocationDetails $horizontal $center $pad="l" $bg="white" $gap="0.5em">
+        <icons.MapPinIcon />
+        <Label $size="small">{user.country || "Country not specified"}</Label>
+      </LocationDetails>
 
       <Box $pad="l" $gap="1.5em" $bg="white" $horizontal>
         <RouterLink to={`/users/${id}/followers`}>
