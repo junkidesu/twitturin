@@ -67,12 +67,32 @@ const getFollowing = async (id: string) => {
   return foundUser.following;
 };
 
+const getFollowers = async (id: string) => {
+  const foundUser = await UserModel.findById(id).populate<{
+    followers: (User & { _id: Types.ObjectId })[];
+  }>("followers");
+
+  if (!foundUser) throw new NotFoundError("user not found");
+
+  return foundUser.followers;
+};
+
 const followUser = async (me: Types.ObjectId, toFollow: string) => {
   const foundUser = await UserModel.findById(toFollow);
 
   if (!foundUser) throw new NotFoundError("user not found");
 
-  await UserModel.findByIdAndUpdate(me, { $push: { following: toFollow } });
+  const currentUser = await UserModel.findById(me);
+
+  const followingStrings = currentUser!.following.map((u) => u.toString());
+
+  if (!followingStrings.includes(foundUser._id.toString())) {
+    currentUser!.following = currentUser!.following.concat(foundUser._id);
+  }
+
+  await currentUser!.save();
+
+  return foundUser;
 };
 
 const removeUser = async (id: string) => {
@@ -93,4 +113,5 @@ export default {
   removeUser,
   followUser,
   getFollowing,
+  getFollowers,
 };

@@ -100,20 +100,30 @@ router.get("/:id/likes", async (req, res, next) => {
   }
 });
 
-router.post("/following", requireAuthentication, async (req, res, next) => {
+router.get("/:id/following", async (req, res, next) => {
   try {
-    const { toFollow } = req.body as { toFollow: string };
-    await usersService.followUser(req.user!._id, toFollow);
-    res.status(201).end();
+    const following = await usersService.getFollowing(req.params.id);
+    res.json(following);
   } catch (error) {
     next(error);
   }
 });
 
-router.get("/:id/following", async (req, res, next) => {
+router.get("/:id/followers", async (req, res, next) => {
   try {
-    const following = await usersService.getFollowing(req.params.id);
-    res.json(following);
+    const followers = await usersService.getFollowers(req.params.id);
+
+    res.json(followers);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/follow", requireAuthentication, async (req, res, next) => {
+  try {
+    const { toFollow } = req.body as { toFollow: string };
+    const followedUser = await usersService.followUser(req.user!._id, toFollow);
+    res.status(201).json(followedUser);
   } catch (error) {
     next(error);
   }

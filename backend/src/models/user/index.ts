@@ -3,6 +3,7 @@
 import { Schema, model } from "mongoose";
 import { UserCommon } from "../../types";
 import uniqueValidator from "mongoose-unique-validator";
+import mongooseAutoPopulate from "mongoose-autopopulate";
 
 const UserSchema = new Schema<UserCommon>(
   {
@@ -72,7 +73,7 @@ UserSchema.virtual("replies", {
   foreignField: "author",
 });
 
-UserSchema.virtual("followedBy", {
+UserSchema.virtual("followers", {
   ref: "User",
   localField: "_id",
   foreignField: "following",
@@ -80,6 +81,14 @@ UserSchema.virtual("followedBy", {
 
 UserSchema.virtual("followingCount").get(function () {
   return this.following.length;
+});
+
+UserSchema.virtual("followersCount", {
+  ref: "User",
+  localField: "_id",
+  foreignField: "following",
+  count: true,
+  autopopulate: true,
 });
 
 UserSchema.virtual("age").get(function () {
@@ -97,6 +106,8 @@ UserSchema.virtual("age").get(function () {
 
   return maxAge;
 });
+
+UserSchema.plugin(mongooseAutoPopulate);
 
 const UserModel = model<UserCommon>("User", UserSchema);
 
