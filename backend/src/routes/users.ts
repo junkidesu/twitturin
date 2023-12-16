@@ -100,6 +100,25 @@ router.get("/:id/likes", async (req, res, next) => {
   }
 });
 
+router.post("/following", requireAuthentication, async (req, res, next) => {
+  try {
+    const { toFollow } = req.body as { toFollow: string };
+    await usersService.followUser(req.user!._id, toFollow);
+    res.status(201).end();
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/:id/following", async (req, res, next) => {
+  try {
+    const following = await usersService.getFollowing(req.params.id);
+    res.json(following);
+  } catch (error) {
+    next(error);
+  }
+});
+
 /**
  * @openapi
  * /users:

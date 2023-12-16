@@ -17,6 +17,7 @@ export interface UserCommon {
   birthday: string;
   country?: string;
   bio?: string;
+  following: Types.ObjectId[];
   passwordHash: string;
 }
 
@@ -37,7 +38,7 @@ type UnionOmit<T, K extends string | number | symbol> = T extends unknown
   ? Omit<T, K>
   : never;
 
-export type NewUser = UnionOmit<User, "passwordHash"> & { password: string };
+export type NewUser = UnionOmit<User, "passwordHash" | "following" | "followedBy"> & { password: string };
 
 export interface EditUser {
   username?: string;

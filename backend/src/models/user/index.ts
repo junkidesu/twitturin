@@ -32,6 +32,12 @@ const UserSchema = new Schema<UserCommon>(
       required: true,
     },
     bio: { type: String },
+    following: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
     country: String,
   },
   {
@@ -44,6 +50,7 @@ const UserSchema = new Schema<UserCommon>(
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
         returnedObject.id = returnedObject._id?.toString() || returnedObject.id;
         delete returnedObject._id;
+        delete returnedObject.following;
         delete returnedObject.__v;
         delete returnedObject.__t;
       },
@@ -63,6 +70,16 @@ UserSchema.virtual("replies", {
   ref: "Reply",
   localField: "_id",
   foreignField: "author",
+});
+
+UserSchema.virtual("followedBy", {
+  ref: "User",
+  localField: "_id",
+  foreignField: "following",
+});
+
+UserSchema.virtual("followingCount").get(function () {
+  return this.following.length;
 });
 
 UserSchema.virtual("age").get(function () {

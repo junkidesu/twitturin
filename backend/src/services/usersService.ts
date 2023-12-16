@@ -4,6 +4,7 @@ import TeacherModel from "../models/user/teacher";
 import bcrypt from "bcrypt";
 import { User, EditUser, NewUser, NotFoundError } from "../types";
 import TweetModel from "../models/tweet";
+import { Types } from "mongoose";
 
 const getAllUsers = async () => {
   const users = await UserModel.find<User[]>({});
@@ -56,6 +57,24 @@ const editUser = async (id: string, toEdit: EditUser) => {
   return updatedUser;
 };
 
+const getFollowing = async (id: string) => {
+  const foundUser = await UserModel.findById(id).populate<{
+    user: (User & { _id: Types.ObjectId })[];
+  }>("following");
+
+  if (!foundUser) throw new NotFoundError("user not found");
+
+  return foundUser.following;
+};
+
+const followUser = async (me: Types.ObjectId, toFollow: string) => {
+  const foundUser = await UserModel.findById(toFollow);
+
+  if (!foundUser) throw new NotFoundError("user not found");
+
+  await UserModel.findByIdAndUpdate(me, { $push: { following: toFollow } });
+};
+
 const removeUser = async (id: string) => {
   const user = await UserModel.findById(id);
 
@@ -66,4 +85,12 @@ const removeUser = async (id: string) => {
   await TweetModel.deleteMany({ author: user._id });
 };
 
-export default { getAllUsers, getUserById, addUser, editUser, removeUser };
+export default {
+  getAllUsers,
+  getUserById,
+  addUser,
+  editUser,
+  removeUser,
+  followUser,
+  getFollowing,
+};
