@@ -119,11 +119,27 @@ router.get("/:id/followers", async (req, res, next) => {
   }
 });
 
-router.post("/follow", requireAuthentication, async (req, res, next) => {
+router.post(
+  "/following/:toFollow",
+  requireAuthentication,
+  async (req, res, next) => {
+    try {
+      const followedUser = await usersService.followUser(
+        req.user!._id,
+        req.params.toFollow
+      );
+      res.status(201).json(followedUser);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.delete("/following/:id", async (req, res, next) => {
   try {
-    const { toFollow } = req.body as { toFollow: string };
-    const followedUser = await usersService.followUser(req.user!._id, toFollow);
-    res.status(201).json(followedUser);
+    await usersService.unfollowUser(req.user!._id, req.params.id);
+
+    res.status(204).end();
   } catch (error) {
     next(error);
   }
