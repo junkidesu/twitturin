@@ -53,6 +53,10 @@ const UserPage = () => {
             <Heading $level={3}>{user.fullName || "Twittur User"}</Heading>
             <Username>@{user.username}</Username>
           </Box>
+
+          <Label>
+            {user.bio || `This user does not appear to have any biography.`}
+          </Label>
         </Box>
       </Box>
 

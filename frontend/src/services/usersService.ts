@@ -26,10 +26,20 @@ export const usersApi = api.injectEndpoints({
     getFollowers: builder.query<User[], string>({
       query: (id) => ({
         url: `users/${id}/followers`,
-      })
-    })
+      }),
+    }),
+    getFollowing: builder.query<User[], string>({
+      query: (id) => ({
+        url: `users/${id}/following`,
+      }),
+    }),
   }),
 });
 
-export const { useGetUsersQuery, useGetUserQuery, useAddUserMutation, useGetFollowersQuery } =
-  usersApi;
+export const {
+  useGetUsersQuery,
+  useGetUserQuery,
+  useAddUserMutation,
+  useGetFollowersQuery,
+  useGetFollowingQuery,
+} = usersApi;
