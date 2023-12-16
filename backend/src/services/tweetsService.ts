@@ -13,12 +13,6 @@ const options: PopulateOptions[] = [
   {
     path: "author",
   },
-  // {
-  //   path: "likedBy",
-  // },
-  // {
-  //   path: "replies",
-  // },
   {
     path: "replyCount",
   },
@@ -93,6 +87,12 @@ const getLikes = async (id: string) => {
   return foundTweet.likedBy;
 };
 
+const getLikedTweets = async (userId: string) => {
+  const tweets = await TweetModel.find({ likedBy: userId });
+
+  return tweets;
+};
+
 const removeLike = async (id: string, userId: Types.ObjectId) => {
   const tweet = await TweetModel.findById(id);
 
@@ -108,6 +108,7 @@ export default {
   addTweet,
   getTweetById,
   getTweetsByUser,
+  getLikedTweets,
   removeTweet,
   editTweet,
   likeTweet,

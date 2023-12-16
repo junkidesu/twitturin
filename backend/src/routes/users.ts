@@ -2,6 +2,8 @@ import express from "express";
 import usersService from "../services/usersService";
 import { toNewUser, toEditUser } from "../utils/parsers";
 import { requireAuthentication, requireSameUser } from "../utils/middleware";
+import tweetsService from "../services/tweetsService";
+import repliesService from "../services/repliesService";
 
 const router = express.Router();
 
@@ -65,6 +67,34 @@ router.get("/:id", async (req, res, next) => {
     const user = await usersService.getUserById(req.params.id);
 
     res.json(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/:id/tweets", async (req, res, next) => {
+  try {
+    const tweets = await tweetsService.getTweetsByUser(req.params.id);
+
+    res.json(tweets);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/:id/replies", async (req, res, next) => {
+  try {
+    const replies = await repliesService.getRepliesByUser(req.params.id);
+    res.json(replies);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/:id/likes", async (req, res, next) => {
+  try {
+    const likedTweets = await tweetsService.getLikedTweets(req.params.id);
+    res.json(likedTweets);
   } catch (error) {
     next(error);
   }

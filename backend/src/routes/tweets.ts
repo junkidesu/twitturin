@@ -2,11 +2,7 @@ import express from "express";
 import { toEditTweet, toNewTweet, toNewReply } from "../utils/parsers";
 import tweetsService from "../services/tweetsService";
 import repliesService from "../services/repliesService";
-import {
-  requireAuthentication,
-  requireTweetAuthor,
-  requireSameUser,
-} from "../utils/middleware";
+import { requireAuthentication, requireTweetAuthor } from "../utils/middleware";
 
 const router = express.Router();
 
@@ -407,19 +403,23 @@ router.post("/:id/likes", requireAuthentication, async (req, res, next) => {
  *               $ref: '#/components/responses/Error'
  *
  */
-router.delete(
-  "/:id/likes/:userId",
-  requireAuthentication,
-  requireSameUser,
-  async (req, res, next) => {
-    try {
-      await tweetsService.removeLike(req.params.id, req.user!._id);
-      res.status(204).end();
-    } catch (error) {
-      next(error);
-    }
+router.delete("/:id/likes", requireAuthentication, async (req, res, next) => {
+  try {
+    await tweetsService.removeLike(req.params.id, req.user!._id);
+    res.status(204).end();
+  } catch (error) {
+    next(error);
   }
-);
+});
+
+router.get("/:id/replies", async (req, res, next) => {
+  try {
+    const replies = await repliesService.getRepliesByTweet(req.params.id);
+    res.json(replies);
+  } catch (error) {
+    next(error);
+  }
+});
 
 /**
  * @openapi

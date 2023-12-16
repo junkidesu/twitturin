@@ -16,9 +16,11 @@ export interface UserCommon {
   id: string;
   username: string;
   fullName?: string;
+  bio?: string;
   email: string;
   country?: string;
-  age?: number;
+  birthday: string;
+  age: number;
 }
 
 export interface StudentUser extends UserCommon {

@@ -2,31 +2,7 @@ import { Types } from "mongoose";
 import ReplyModel from "../models/reply";
 import { NewReply, NotFoundError, PopulatedReply, User } from "../types";
 
-const getAllReplies = async ({
-  author,
-  tweet,
-}: {
-  author?: string;
-  tweet?: string;
-}) => {
-  if (author && tweet) {
-    const replies = await ReplyModel.find({ author, parentTweet: tweet });
-
-    return replies;
-  }
-
-  if (author) {
-    const replies = await ReplyModel.find({ author });
-
-    return replies;
-  }
-
-  if (tweet) {
-    const replies = await ReplyModel.find({ parentTweet: tweet });
-
-    return replies;
-  }
-
+const getAllReplies = async () => {
   const replies = await ReplyModel.find({});
 
   return replies;
@@ -94,6 +70,16 @@ const likeReply = async (id: string, user: User & { _id: Types.ObjectId }) => {
   return likedReply;
 };
 
+const removeLike = async (id: string, userId: Types.ObjectId) => {
+  const reply = await ReplyModel.findById(id);
+
+  reply!.likedBy = reply!.likedBy.filter(
+    (u) => u.toString() !== userId.toString()
+  );
+
+  await reply!.save({ timestamps: { updatedAt: false } });
+};
+
 const getLikes = async (id: string) => {
   const foundReply = await ReplyModel.findById(id).populate<{
     likedBy: User[];
@@ -126,6 +112,7 @@ export default {
   replyToReply,
   likeReply,
   getLikes,
+  removeLike,
   editReply,
   removeReply,
 };

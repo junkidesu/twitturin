@@ -33,12 +33,9 @@ const router = express.Router();
  *               items:
  *                 $ref: '#/components/schemas/Reply'
  */
-router.get("/", async (req, res, next) => {
+router.get("/", async (_req, res, next) => {
   try {
-    const author = req.query.author?.toString();
-    const tweet = req.query.tweet?.toString();
-
-    const replies = await repliesService.getAllReplies({ author, tweet });
+    const replies = await repliesService.getAllReplies();
 
     res.json(replies);
   } catch (error) {
@@ -319,6 +316,15 @@ router.post("/:id/likes", requireAuthentication, async (req, res, next) => {
     const like = await repliesService.likeReply(req.params.id, req.user!);
 
     res.json(like);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete("/:id/likes", requireAuthentication, async (req, res, next) => {
+  try {
+    await repliesService.removeLike(req.params.id, req.user!._id);
+    res.status(204).end();
   } catch (error) {
     next(error);
   }
