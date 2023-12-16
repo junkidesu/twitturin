@@ -8,6 +8,8 @@ import Label from "../../core/text/Label";
 import Heading from "../../core/text/Heading";
 import TweetList from "../../tweets/TweetList";
 import RouterLink from "../../core/RouterLink";
+import FollowButton from "../FollowButton";
+import { User } from "../../../types";
 
 const Banner = styled.div`
   position: relative;
@@ -34,6 +36,28 @@ const Username = styled(Label)`
 const LocationDetails = styled(Box)`
   color: ${({ theme }) => theme.colors.grey2};
 `;
+
+const FollowWrapper = styled(Box)`
+  justify-content: space-between;
+`;
+
+const FollowPanel = ({ user, id }: { user: User; id: string }) => {
+  return (
+    <FollowWrapper $pad="l" $bg="white" $horizontal $center>
+      <Box $horizontal $gap="1.5em">
+        <RouterLink to={`/users/${id}/followers`}>
+          {user.followersCount} followers
+        </RouterLink>
+
+        <RouterLink to={`/users/${id}/following`}>
+          {user.followingCount} following
+        </RouterLink>
+      </Box>
+
+      <FollowButton user={user} />
+    </FollowWrapper>
+  );
+};
 
 const UserPage = () => {
   const id = useParams().id;
@@ -66,40 +90,34 @@ const UserPage = () => {
         </Box>
       </Box>
 
-      <LocationDetails $horizontal $center $pad="l" $bg="white" $gap="0.5em">
-        {user.kind === "teacher" ? <icons.AwardIcon /> : <icons.InfoIcon />}
+      <FollowPanel id={id!} user={user} />
 
-        {user.kind === "teacher" ? (
-          <Label $size="small">TTPU Teacher ({user.subject})</Label>
-        ) : (
-          <Label $size="small">
-            TTPU Student from {user.major} ({user.studentId})
-          </Label>
-        )}
-      </LocationDetails>
+      <Box $gap="1em" $pad="l" $bg="white">
+        <LocationDetails $horizontal $center $gap="0.5em">
+          {user.kind === "teacher" ? <icons.AwardIcon /> : <icons.InfoIcon />}
 
-      {user.country && (
-        <LocationDetails $horizontal $center $pad="l" $bg="white" $gap="0.5em">
-          <icons.MapPinIcon />
-          <Label $size="small">{user.country}</Label>
+          {user.kind === "teacher" ? (
+            <Label $size="extraSmall">TTPU Teacher ({user.subject})</Label>
+          ) : (
+            <Label $size="extraSmall">
+              TTPU Student from {user.major} ({user.studentId})
+            </Label>
+          )}
         </LocationDetails>
-      )}
 
-      <LocationDetails $horizontal $center $pad="l" $bg="white" $gap="0.5em">
-        <icons.CalendarIcon />
-        <Label>
-          {birthday.toDateString()} ({user.age} y.o.)
-        </Label>
-      </LocationDetails>
+        {user.country && (
+          <LocationDetails $horizontal $center $gap="0.5em">
+            <icons.MapPinIcon />
+            <Label $size="extraSmall">{user.country}</Label>
+          </LocationDetails>
+        )}
 
-      <Box $pad="l" $gap="1.5em" $bg="white" $horizontal>
-        <RouterLink to={`/users/${id}/followers`}>
-          {user.followersCount} followers
-        </RouterLink>
-
-        <RouterLink to={`/users/${id}/following`}>
-          {user.followingCount} following
-        </RouterLink>
+        <LocationDetails $horizontal $center $gap="0.5em">
+          <icons.CalendarIcon />
+          <Label $size="extraSmall">
+            {birthday.toDateString()} ({user.age} y.o.)
+          </Label>
+        </LocationDetails>
       </Box>
 
       <TweetList author={user.id} />

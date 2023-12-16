@@ -2,16 +2,10 @@ import styled from "styled-components";
 import Box from "../containers/Box";
 import { User } from "../../types";
 import Label from "../core/text/Label";
-import { icons, pictures } from "../../assets";
+import { pictures } from "../../assets";
 import lightTheme from "../../themes/lightTheme";
-import IconButton from "../core/buttons/IconButton";
-import { useAppSelector } from "../../hooks/store";
-import {
-  useFollowMutation,
-  useGetFollowingQuery,
-  useUnfollowMutation,
-} from "../../services/usersService";
 import RouterLink from "../core/RouterLink";
+import FollowButton from "./FollowButton";
 
 const Wrapper = styled(Box)`
   cursor: pointer;
@@ -32,40 +26,7 @@ const ProfilePicture = styled.img`
 
 const DetailsWrapper = styled(Box)``;
 
-interface Props {
-  user: User;
-}
-
-const FollowButton = ({ user }: Props) => {
-  const id = useAppSelector(({ auth }) => auth.id);
-  const [follow] = useFollowMutation();
-  const [unfollow] = useUnfollowMutation();
-  const { data: following, isLoading } = useGetFollowingQuery(id!, {
-    skip: !id,
-  });
-
-  if (!id || isLoading || !following) return null;
-
-  const followedByMe = following.map((u) => u.id).includes(user.id);
-
-  const handleFollow = async () => {
-    await follow(user.id);
-  };
-
-  const handleUnfollow = async () => {
-    await unfollow(user.id);
-  };
-
-  return (
-    <IconButton
-      icon={followedByMe ? <icons.UserCheckIcon /> : <icons.UserPlusIcon />}
-      label={followedByMe ? "following" : "follow"}
-      onClick={followedByMe ? handleUnfollow : handleFollow}
-    />
-  );
-};
-
-const UserItem = ({ user }: Props) => {
+const UserItem = ({ user }: { user: User }) => {
   return (
     <Wrapper $horizontal $center $gap="1em" $width="100%" $pad="m">
       <Box $horizontal $center $gap="1em">
