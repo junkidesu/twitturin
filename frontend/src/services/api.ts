@@ -15,6 +15,6 @@ export const api = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Tweet", "User", "Reply"],
+  tagTypes: ["Tweet", "User", "Reply", "Following"],
   endpoints: () => ({}),
 });

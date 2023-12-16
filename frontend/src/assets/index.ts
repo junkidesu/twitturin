@@ -25,6 +25,8 @@ import CalendarIcon from "./icons/calendar.svg?react";
 import StudentIcon from "./icons/student.svg?react";
 import AwardIcon from "./icons/award.svg?react";
 import InfoIcon from "./icons/info.svg?react";
+import UserMinusIcon from "./icons/user-minus.svg?react";
+import UserCheckIcon from "./icons/user-check.svg?react";
 
 export const pictures = {
   emptyProfilePicture,
@@ -57,4 +59,6 @@ export const icons = {
   StudentIcon,
   AwardIcon,
   InfoIcon,
+  UserMinusIcon,
+  UserCheckIcon,
 };
