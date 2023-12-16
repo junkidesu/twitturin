@@ -7,44 +7,6 @@ const router = express.Router();
 
 /**
  * @openapi
- * /replies:
- *   get:
- *     summary: Get all replies.
- *     description: Returns the replies filtered by the `author` and `tweet` query strings. If none provided, returns all replies
- *     tags: [replies]
- *     parameters:
- *       - in: query
- *         name: author
- *         schema:
- *           type: string
- *         description: The MongoDB ID of the author of the reply.
- *       - in: query
- *         name: tweet
- *         schema:
- *           type: string
- *         description: The MongoDB ID of the tweet on which the reply was posted.
- *     responses:
- *       200:
- *         description: The list of replies.
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Reply'
- */
-router.get("/", async (_req, res, next) => {
-  try {
-    const replies = await repliesService.getAllReplies();
-
-    res.json(replies);
-  } catch (error) {
-    next(error);
-  }
-});
-
-/**
- * @openapi
  * /replies/{id}/likes:
  *   get:
  *     summary: Get the users who liked the reply.
@@ -321,6 +283,44 @@ router.post("/:id/likes", requireAuthentication, async (req, res, next) => {
   }
 });
 
+/**
+ * @openapi
+ * /replies/{id}/likes:
+ *   delete:
+ *     security:
+ *       - bearerAuth: []
+ *     tags: [replies]
+ *     summary: Remove a like from the reply with the given id.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The MongoDB id of the reply.
+ *     responses:
+ *       204:
+ *         description: Like successfully removed.
+ *       400:
+ *         description: invalid MongoDB id
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       401:
+ *         description: JWT missing or invalid; user removes someone else's like
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       404:
+ *         description: Reply with the given MongoDB id not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *
+ */
 router.delete("/:id/likes", requireAuthentication, async (req, res, next) => {
   try {
     await repliesService.removeLike(req.params.id, req.user!._id);

@@ -361,7 +361,7 @@ router.post("/:id/likes", requireAuthentication, async (req, res, next) => {
 
 /**
  * @openapi
- * /tweets/{id}/likes/{userId}:
+ * /tweets/{id}/likes:
  *   delete:
  *     security:
  *       - bearerAuth: []
@@ -374,12 +374,6 @@ router.post("/:id/likes", requireAuthentication, async (req, res, next) => {
  *           type: string
  *         required: true
  *         description: The MongoDB id of the tweet.
- *       - in: path
- *         name: userId
- *         schema:
- *           type: string
- *         required: true
- *         description: The MongoDB id of the user.
  *     responses:
  *       204:
  *         description: Like successfully removed.
@@ -401,7 +395,6 @@ router.post("/:id/likes", requireAuthentication, async (req, res, next) => {
  *           application/json:
  *             schema:
  *               $ref: '#/components/responses/Error'
- *
  */
 router.delete("/:id/likes", requireAuthentication, async (req, res, next) => {
   try {
@@ -412,6 +405,41 @@ router.delete("/:id/likes", requireAuthentication, async (req, res, next) => {
   }
 });
 
+/**
+ * @openapi
+ * /tweets/{id}/replies:
+ *   get:
+ *     summary: Get the replies to the tweet.
+ *     tags: [tweets]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The MongoDB id of the tweet.
+ *     responses:
+ *       200:
+ *         description: The list of replies to the tweet.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Reply'
+ *       400:
+ *         description: The provided id is not a valid MongoDB id.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       404:
+ *         description: The tweet with the specified id was not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ */
 router.get("/:id/replies", async (req, res, next) => {
   try {
     const replies = await repliesService.getRepliesByTweet(req.params.id);

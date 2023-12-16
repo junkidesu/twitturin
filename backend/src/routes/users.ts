@@ -73,6 +73,41 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
+/**
+ * @openapi
+ * /users/{id}/tweets:
+ *   get:
+ *     summary: Get the tweets by the user with the given MongoDB id.
+ *     tags: [users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The MongoDB id of the user.
+ *     responses:
+ *       200:
+ *         description: The list of tweets by the given user.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Tweet'
+ *       400:
+ *         description: The provided id is not a valid MongoDB id.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       404:
+ *         description: The user with the specified id was not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ */
 router.get("/:id/tweets", async (req, res, next) => {
   try {
     const tweets = await tweetsService.getTweetsByUser(req.params.id);
@@ -83,6 +118,41 @@ router.get("/:id/tweets", async (req, res, next) => {
   }
 });
 
+/**
+ * @openapi
+ * /users/{id}/replies:
+ *   get:
+ *     summary: Get the replies authored by user with the given MongoDB id.
+ *     tags: [users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The MongoDB id of the user.
+ *     responses:
+ *       200:
+ *         description: The list of replies by the user.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Reply'
+ *       400:
+ *         description: The provided id is not a valid MongoDB id.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       404:
+ *         description: The user with the specified id was not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ */
 router.get("/:id/replies", async (req, res, next) => {
   try {
     const replies = await repliesService.getRepliesByUser(req.params.id);
@@ -92,6 +162,41 @@ router.get("/:id/replies", async (req, res, next) => {
   }
 });
 
+/**
+ * @openapi
+ * /users/{id}/likes:
+ *   get:
+ *     summary: Get the tweets liked by the user with the given ID.
+ *     tags: [users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The MongoDB id of the user.
+ *     responses:
+ *       200:
+ *         description: The list of tweets liked by the given user.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Tweet'
+ *       400:
+ *         description: The provided id is not a valid MongoDB id.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       404:
+ *         description: The user with the specified id was not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ */
 router.get("/:id/likes", async (req, res, next) => {
   try {
     const likedTweets = await tweetsService.getLikedTweets(req.params.id);
@@ -101,6 +206,41 @@ router.get("/:id/likes", async (req, res, next) => {
   }
 });
 
+/**
+ * @openapi
+ * /users/{id}/following:
+ *   get:
+ *     summary: Get all the users that the user with the given ID is following.
+ *     tags: [users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The MongoDB id of the user.
+ *     responses:
+ *       200:
+ *         description: The list of users being followed by the given user.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/User'
+ *       400:
+ *         description: The provided id is not a valid MongoDB id.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       404:
+ *         description: The user with the specified id was not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ */
 router.get("/:id/following", async (req, res, next) => {
   try {
     const following = await followService.getFollowing(req.params.id);
@@ -110,6 +250,41 @@ router.get("/:id/following", async (req, res, next) => {
   }
 });
 
+/**
+ * @openapi
+ * /users/{id}/followers:
+ *   get:
+ *     summary: Get all the followers of the user with the given ID.
+ *     tags: [users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The MongoDB id of the user.
+ *     responses:
+ *       200:
+ *         description: The list of followers of the given user.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/User'
+ *       400:
+ *         description: The provided id is not a valid MongoDB id.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       404:
+ *         description: The user with the specified id was not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ */
 router.get("/:id/followers", async (req, res, next) => {
   try {
     const followers = await followService.getFollowers(req.params.id);
@@ -120,6 +295,47 @@ router.get("/:id/followers", async (req, res, next) => {
   }
 });
 
+/**
+ * @openapi
+ * /users/following/{toFollow}:
+ *   post:
+ *     summary: Follow a user.
+ *     security:
+ *       - bearerAuth: []
+ *     tags: [users]
+ *     parameters:
+ *       - in: path
+ *         name: toFollow
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The MongoDB id of the user to follow.
+ *     responses:
+ *       201:
+ *         description: The user that has just been followed.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       400:
+ *         description: Invalid MongoDB ID of the user.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       401:
+ *         description: JWT missing or invalid; user tries to follow themselves
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       404:
+ *         description: User with the given MongoDB id not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ */
 router.post(
   "/following/:toFollow",
   requireAuthentication,
@@ -136,15 +352,56 @@ router.post(
   }
 );
 
-router.delete("/following/:id", async (req, res, next) => {
-  try {
-    await followService.unfollowUser(req.user!._id, req.params.id);
+/**
+ * @openapi
+ * /users/following/{toUnfollow}:
+ *   delete:
+ *     summary: Unfollow a user.
+ *     security:
+ *       - bearerAuth: []
+ *     tags: [users]
+ *     parameters:
+ *       - in: path
+ *         name: toUnollow
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The MongoDB id of the user to unfollow.
+ *     responses:
+ *       204:
+ *         description: The user that has just been followed.
+ *       400:
+ *         description: Invalid MongoDB ID of the user.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       401:
+ *         description: JWT missing or invalid
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       404:
+ *         description: User with the given MongoDB id not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ */
+router.delete(
+  "/following/:id",
+  requireAuthentication,
+  async (req, res, next) => {
+    try {
+      await followService.unfollowUser(req.user!._id, req.params.id);
 
-    res.status(204).end();
-  } catch (error) {
-    next(error);
+      res.status(204).end();
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 /**
  * @openapi

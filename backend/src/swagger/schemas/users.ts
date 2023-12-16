@@ -1,6 +1,6 @@
 export const UserCommon = {
   type: "object",
-  required: ["username", "studentId", "email", "major"],
+  required: ["username", "studentId", "email", "major", "birthday"],
   properties: {
     username: {
       type: "string",
@@ -23,10 +23,11 @@ export const UserCommon = {
       example: "USA",
       description: "the country of residence of the user",
     },
-    age: {
-      type: "number",
-      example: 21,
-      description: "the age of the user",
+    birthday: {
+      type: "string",
+      format: "YYYY-mm-dd",
+      example: "2001-09-30",
+      description: "The birthday of the user",
     },
   },
 };
@@ -104,7 +105,7 @@ export const NewUser = {
     email: "example@example.com",
     fullName: "John Doe",
     major: "SE",
-    age: 21,
+    birthday: "2001-09-30",
     country: "Uzbekistan",
     kind: "student",
   },
@@ -112,7 +113,7 @@ export const NewUser = {
 
 export const User = {
   type: "object",
-  required: ["id"],
+  required: ["id", "followingCount", "followersCount", "age"],
   oneOf: [
     {
       $ref: "#/components/schemas/StudentUser",
@@ -130,6 +131,21 @@ export const User = {
       format: "MongoDB identifier",
       example: "65400f54543880dabb0a6315",
       description: "the id of the MongoDB document corresponding to the user",
+    },
+    followingCount: {
+      type: "number",
+      example: 1,
+      description: "the number of users that the user is following",
+    },
+    followersCount: {
+      type: "number",
+      example: 1,
+      description: "the number of followers of the user",
+    },
+    age: {
+      type: "number",
+      example: 21,
+      description: "the age of the user",
     },
   },
 };
