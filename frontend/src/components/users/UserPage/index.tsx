@@ -7,6 +7,7 @@ import Box from "../../containers/Box";
 import Label from "../../core/text/Label";
 import Heading from "../../core/text/Heading";
 import TweetList from "../../tweets/TweetList";
+import RouterLink from "../../core/RouterLink";
 
 const Banner = styled.div`
   position: relative;
@@ -41,19 +42,31 @@ const UserPage = () => {
   if (!user) return <div>user not found!</div>;
 
   return (
-    <Box $bg="white" $width="500px" $gap="1.5em" $hide>
-      <Banner>
-        <ProfilePicture src={pictures.emptyProfilePicture} />
-      </Banner>
+    <Box $gap="0.1em">
+      <Box $bg="white" $width="500px" $gap="1.5em" $hide>
+        <Banner>
+          <ProfilePicture src={pictures.emptyProfilePicture} />
+        </Banner>
 
-      <Box $pad="l" $gap="1em">
-        <Box>
-          <Heading $level={3}>{user.fullName || "Twittur User"}</Heading>
-          <Username>@{user.username}</Username>
+        <Box $bg="white" $pad="l" $gap="1em">
+          <Box>
+            <Heading $level={3}>{user.fullName || "Twittur User"}</Heading>
+            <Username>@{user.username}</Username>
+          </Box>
         </Box>
       </Box>
 
-      <TweetList author={id} />
+      <Box $pad="l" $gap="1.5em" $bg="white" $horizontal>
+        <RouterLink to={`/users/${id}/followers`}>
+          {user.followersCount} followers
+        </RouterLink>
+
+        <RouterLink to={`/users/${id}/following`}>
+          {user.followingCount} following
+        </RouterLink>
+      </Box>
+
+      <TweetList author={user.id} />
     </Box>
   );
 };

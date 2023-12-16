@@ -21,6 +21,8 @@ export interface UserCommon {
   country?: string;
   birthday: string;
   age: number;
+  followingCount: number;
+  followersCount: number;
 }
 
 export interface StudentUser extends UserCommon {
@@ -36,7 +38,10 @@ export interface TeacherUser extends UserCommon {
 
 export type User = StudentUser | TeacherUser;
 
-export type NewUser = UnionOmit<User, "id"> & {
+export type NewUser = UnionOmit<
+  User,
+  "id" | "followingCount" | "followersCount"
+> & {
   password: string;
 };
 

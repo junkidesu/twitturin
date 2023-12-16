@@ -20,6 +20,7 @@ import SuggestedUsers from "./components/users/SuggestedUsers";
 import SideBar from "./components/containers/SideBar";
 import ComingSoon from "./components/util/ComingSoon";
 import PageNotFound from "./components/util/PageNotFound";
+import FollowersPage from "./components/users/Followers";
 
 const RightSideBar = styled(SideBar)`
   margin-left: 50px;
@@ -57,6 +58,7 @@ const App = () => {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/sign-up" element={<SignUpForm />} />
           <Route path="/users/:id" element={<UserPage />} />
+          <Route path="/users/:id/followers" element={<FollowersPage />} />
           <Route path="/tweets/:id" element={<TweetPage />} />
           <Route path="/me" element={<ComingSoon />} />
           <Route path="/me/edit" element={<ComingSoon />} />

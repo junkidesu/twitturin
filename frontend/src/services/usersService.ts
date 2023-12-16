@@ -23,8 +23,13 @@ export const usersApi = api.injectEndpoints({
       }),
       invalidatesTags: ["User"],
     }),
+    getFollowers: builder.query<User[], string>({
+      query: (id) => ({
+        url: `users/${id}/followers`,
+      })
+    })
   }),
 });
 
-export const { useGetUsersQuery, useGetUserQuery, useAddUserMutation } =
+export const { useGetUsersQuery, useGetUserQuery, useAddUserMutation, useGetFollowersQuery } =
   usersApi;

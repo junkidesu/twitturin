@@ -86,7 +86,7 @@ const TweetActions = ({ tweet }: { tweet: Tweet }) => {
     if (!userId) {
       navigate("/login");
     } else {
-      await unlike({ id: tweet.id, userId });
+      await unlike(tweet.id);
     }
   };
 

@@ -73,15 +73,17 @@ export const tweetsApi = api.injectEndpoints({
         }
       },
     }),
-    unlikeTweet: builder.mutation<void, { id: string; userId: string }>({
-      query: ({ id, userId }) => ({
-        url: `tweets/${id}/likes/${userId}`,
+    unlikeTweet: builder.mutation<void, string>({
+      query: (id) => ({
+        url: `tweets/${id}/likes/`,
         method: "DELETE",
       }),
       // invalidatesTags: (_result, _error, arg) => [
       //   { type: "Tweet", id: arg.id },
       // ],
-      async onQueryStarted({ id, userId }, { dispatch, queryFulfilled }) {
+      async onQueryStarted(id, { dispatch, queryFulfilled, getState }) {
+        const userId = (getState() as RootState).auth?.id;
+
         const updateSpecificTweet = dispatch(
           tweetsApi.util.updateQueryData("getTweet", id, (draft) => {
             return {

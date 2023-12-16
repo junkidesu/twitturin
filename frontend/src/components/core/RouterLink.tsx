@@ -8,7 +8,7 @@ interface RouterLinkProps {
 }
 
 const RouterLink = styled(Link)<RouterLinkProps>`
-  display: block;
+  display: inline-block;
   color: ${({ theme, $color }) => $color || theme.colors.grey1};
   font-size: ${({ theme, $size }) =>
     $size ? theme.fontSizes[$size] : theme.fontSizes.extraSmall};

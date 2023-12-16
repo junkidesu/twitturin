@@ -6,7 +6,7 @@ export const repliesApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getTweetReplies: builder.query<Reply[], string>({
       query: (id) => ({
-        url: `replies?tweet=${id}`,
+        url: `/tweets/${id}/replies`,
       }),
       providesTags: (_result, _error, arg) => [{ type: "Reply", id: arg }],
     }),
@@ -48,6 +48,13 @@ export const repliesApi = api.injectEndpoints({
       }),
       invalidatesTags: (result) =>
         result ? [{ type: "Reply", id: result?.tweet }] : ["Reply"],
+    }),
+    unlikeReply: builder.mutation<undefined, string>({
+      query: (id) => ({
+        url: `replies/${id}/likes`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Reply"],
     }),
   }),
 });
