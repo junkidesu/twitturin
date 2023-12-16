@@ -45,6 +45,8 @@ const UserPage = () => {
 
   if (!user) return <div>user not found!</div>;
 
+  const birthday = new Date(user.birthday);
+
   return (
     <Box $gap="0.1em">
       <Box $bg="white" $width="500px" $gap="1.5em" $hide>
@@ -65,8 +67,29 @@ const UserPage = () => {
       </Box>
 
       <LocationDetails $horizontal $center $pad="l" $bg="white" $gap="0.5em">
-        <icons.MapPinIcon />
-        <Label $size="small">{user.country || "Country not specified"}</Label>
+        {user.kind === "teacher" ? <icons.AwardIcon /> : <icons.InfoIcon />}
+
+        {user.kind === "teacher" ? (
+          <Label $size="small">TTPU Teacher ({user.subject})</Label>
+        ) : (
+          <Label $size="small">
+            TTPU Student from {user.major} ({user.studentId})
+          </Label>
+        )}
+      </LocationDetails>
+
+      {user.country && (
+        <LocationDetails $horizontal $center $pad="l" $bg="white" $gap="0.5em">
+          <icons.MapPinIcon />
+          <Label $size="small">{user.country}</Label>
+        </LocationDetails>
+      )}
+
+      <LocationDetails $horizontal $center $pad="l" $bg="white" $gap="0.5em">
+        <icons.CalendarIcon />
+        <Label>
+          {birthday.toDateString()} ({user.age} y.o.)
+        </Label>
       </LocationDetails>
 
       <Box $pad="l" $gap="1.5em" $bg="white" $horizontal>

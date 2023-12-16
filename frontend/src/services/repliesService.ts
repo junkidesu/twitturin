@@ -10,6 +10,11 @@ export const repliesApi = api.injectEndpoints({
       }),
       providesTags: (_result, _error, arg) => [{ type: "Reply", id: arg }],
     }),
+    getUserReplies: builder.query<Reply[], string>({
+      query: (id) => ({
+        url: `users/${id}/replies`
+      })
+    }),
     reply: builder.mutation<Reply, NewReply>({
       query: ({ content, parent, parentId: id }) => ({
         url: parent === "tweet" ? `tweets/${id}/replies` : `replies/${id}`,

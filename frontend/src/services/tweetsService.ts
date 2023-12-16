@@ -6,13 +6,18 @@ export const tweetsApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getTweets: builder.query<Tweet[], string | undefined>({
       query: (author) => ({
-        url: author ? `tweets?author=${author}` : "tweets",
+        url: author ? `users/${author}/tweets` : "tweets",
       }),
       providesTags: ["Tweet"],
     }),
     getUserTweets: builder.query<Tweet[], string>({
       query: (id) => ({
-        url: `tweets?author=${id}`,
+        url: `users/${id}/tweets`,
+      }),
+    }),
+    getLikedTweets: builder.query<Tweet[], string>({
+      query: (id) => ({
+        url: `users/${id}/likes`,
       }),
     }),
     getTweet: builder.query<Tweet, string>({
@@ -123,6 +128,7 @@ export const tweetsApi = api.injectEndpoints({
 
 export const {
   useGetTweetsQuery,
+  useGetLikedTweetsQuery,
   useGetTweetQuery,
   useAddTweetMutation,
   useLikeTweetMutation,
