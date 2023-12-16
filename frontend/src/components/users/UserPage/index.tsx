@@ -33,9 +33,64 @@ const Username = styled(Label)`
   color: ${(props) => props.theme.colors.grey2};
 `;
 
-const LocationDetails = styled(Box)`
+const ProfileHeader = ({ user }: { user: User }) => {
+  return (
+    <Box $bg="white" $width="500px" $gap="1.5em" $hide>
+      <Banner>
+        <ProfilePicture src={pictures.emptyProfilePicture} />
+      </Banner>
+
+      <Box $bg="white" $pad="l" $gap="1em">
+        <Box>
+          <Heading $level={3}>{user.fullName || "Twittur User"}</Heading>
+          <Username>@{user.username}</Username>
+        </Box>
+
+        <Label>
+          {user.bio || `This user does not appear to have any biography.`}
+        </Label>
+      </Box>
+    </Box>
+  );
+};
+
+const AdditionalInfoWrapper = styled(Box)`
   color: ${({ theme }) => theme.colors.grey2};
 `;
+
+const AdditionalInfo = ({ user }: { user: User }) => {
+  const birthday = new Date(user.birthday);
+
+  return (
+    <Box $gap="1em" $pad="l" $bg="white">
+      <AdditionalInfoWrapper $horizontal $center $gap="0.5em">
+        {user.kind === "teacher" ? <icons.AwardIcon /> : <icons.InfoIcon />}
+
+        {user.kind === "teacher" ? (
+          <Label $size="extraSmall">TTPU Teacher ({user.subject})</Label>
+        ) : (
+          <Label $size="extraSmall">
+            TTPU Student from {user.major} ({user.studentId})
+          </Label>
+        )}
+      </AdditionalInfoWrapper>
+
+      {user.country && (
+        <AdditionalInfoWrapper $horizontal $center $gap="0.5em">
+          <icons.MapPinIcon />
+          <Label $size="extraSmall">{user.country}</Label>
+        </AdditionalInfoWrapper>
+      )}
+
+      <AdditionalInfoWrapper $horizontal $center $gap="0.5em">
+        <icons.CalendarIcon />
+        <Label $size="extraSmall">
+          {birthday.toDateString()} ({user.age} y.o.)
+        </Label>
+      </AdditionalInfoWrapper>
+    </Box>
+  );
+};
 
 const FollowWrapper = styled(Box)`
   justify-content: space-between;
@@ -69,56 +124,13 @@ const UserPage = () => {
 
   if (!user) return <div>user not found!</div>;
 
-  const birthday = new Date(user.birthday);
-
   return (
     <Box $gap="0.1em">
-      <Box $bg="white" $width="500px" $gap="1.5em" $hide>
-        <Banner>
-          <ProfilePicture src={pictures.emptyProfilePicture} />
-        </Banner>
+      <ProfileHeader user={user} />
 
-        <Box $bg="white" $pad="l" $gap="1em">
-          <Box>
-            <Heading $level={3}>{user.fullName || "Twittur User"}</Heading>
-            <Username>@{user.username}</Username>
-          </Box>
-
-          <Label>
-            {user.bio || `This user does not appear to have any biography.`}
-          </Label>
-        </Box>
-      </Box>
+      <AdditionalInfo user={user} />
 
       <FollowPanel id={id!} user={user} />
-
-      <Box $gap="1em" $pad="l" $bg="white">
-        <LocationDetails $horizontal $center $gap="0.5em">
-          {user.kind === "teacher" ? <icons.AwardIcon /> : <icons.InfoIcon />}
-
-          {user.kind === "teacher" ? (
-            <Label $size="extraSmall">TTPU Teacher ({user.subject})</Label>
-          ) : (
-            <Label $size="extraSmall">
-              TTPU Student from {user.major} ({user.studentId})
-            </Label>
-          )}
-        </LocationDetails>
-
-        {user.country && (
-          <LocationDetails $horizontal $center $gap="0.5em">
-            <icons.MapPinIcon />
-            <Label $size="extraSmall">{user.country}</Label>
-          </LocationDetails>
-        )}
-
-        <LocationDetails $horizontal $center $gap="0.5em">
-          <icons.CalendarIcon />
-          <Label $size="extraSmall">
-            {birthday.toDateString()} ({user.age} y.o.)
-          </Label>
-        </LocationDetails>
-      </Box>
 
       <TweetList author={user.id} />
     </Box>

@@ -35,6 +35,17 @@ export const tweetsApi = api.injectEndpoints({
       }),
       invalidatesTags: ["Tweet"],
     }),
+    editTweet: builder.mutation<Tweet, { id: string; content: string }>({
+      query: ({ id, content }) => ({
+        url: `tweets/${id}`,
+        method: "PUT",
+        body: { content },
+      }),
+      invalidatesTags: (_result, _error, args) => [
+        { type: "Tweet", id: args.id },
+        { type: "Tweet" },
+      ],
+    }),
     likeTweet: builder.mutation<User, string>({
       query: (id) => ({
         url: `tweets/${id}/likes`,
@@ -131,6 +142,7 @@ export const {
   useGetLikedTweetsQuery,
   useGetTweetQuery,
   useAddTweetMutation,
+  useEditTweetMutation,
   useLikeTweetMutation,
   useUnlikeTweetMutation,
 } = tweetsApi;
