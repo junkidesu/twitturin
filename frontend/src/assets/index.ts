@@ -28,6 +28,7 @@ import InfoIcon from "./icons/info.svg?react";
 import UserMinusIcon from "./icons/user-minus.svg?react";
 import UserCheckIcon from "./icons/user-check.svg?react";
 import TrashIcon from "./icons/trash-2.svg?react";
+import MenuIcon from "./icons/menu.svg?react";
 
 export const pictures = {
   emptyProfilePicture,
@@ -63,4 +64,5 @@ export const icons = {
   UserMinusIcon,
   UserCheckIcon,
   TrashIcon,
+  MenuIcon,
 };

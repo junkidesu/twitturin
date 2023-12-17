@@ -19,6 +19,11 @@ const HeaderBox = styled(Box)`
   padding-left: 2em;
   margin-bottom: 0.5em;
   z-index: 100;
+
+  @media (max-width: 650px) {
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 const HomePageLink = styled(RouterLink)`

@@ -3,13 +3,26 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/store";
 import { removeCredentials } from "../../reducers/authReducer";
 import { icons } from "../../assets";
-import HeaderButton from "./HeaderButton";
 import Menu from "../core/Menu";
 import VisibleItems from "../core/Menu/VisibleItems";
 import HiddenItems from "../core/Menu/HiddenItems";
 import FlatButton from "../core/buttons/FlatButton";
+import { useState } from "react";
+import styled from "styled-components";
+import IconButton from "../core/buttons/IconButton";
 
-const ProfileMenu = ({ username, id }: { username: string; id: string }) => {
+const MenuButton = styled(IconButton).attrs({ icon: <icons.MenuIcon /> })`
+  width: 50px;
+  height: 50px;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  border: 3px solid white;
+  border-radius: 10px;
+`;
+
+const ProfileMenu = ({ id }: { username: string; id: string }) => {
+  const [visible, setVisible] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -22,29 +35,28 @@ const ProfileMenu = ({ username, id }: { username: string; id: string }) => {
   return (
     <Menu>
       <VisibleItems>
-        <HeaderButton
-          $size="small"
-          $bg="transparent"
-          $fg="#eeeeee"
-          $width="100%"
-          onClick={() => navigate(`/users/${id}`)}
-        >
-          @{username}
-        </HeaderButton>
+        <MenuButton onClick={() => setVisible(!visible)} />
       </VisibleItems>
 
-      <HiddenItems>
-        <FlatButton
-          icon={<icons.EditIcon />}
-          label="Edit profile"
-          onClick={() => navigate("/edit-profile")}
-        />
-        <FlatButton
-          icon={<icons.LogOutIcon />}
-          onClick={handleSignOut}
-          label="Log out"
-        />
-      </HiddenItems>
+      {visible && (
+        <HiddenItems>
+          <FlatButton
+            icon={<icons.UserIcon />}
+            label="Profile"
+            onClick={() => navigate(`/users/${id}`)}
+          />
+          <FlatButton
+            icon={<icons.EditIcon />}
+            label="Edit profile"
+            onClick={() => navigate("/edit-profile")}
+          />
+          <FlatButton
+            icon={<icons.LogOutIcon />}
+            onClick={handleSignOut}
+            label="Log out"
+          />
+        </HiddenItems>
+      )}
     </Menu>
   );
 };

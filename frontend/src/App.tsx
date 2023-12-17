@@ -88,10 +88,12 @@ const App = () => {
         </RightSideBar>
       </PageWrapper>
 
-      <FloatingButton
-        icon={<icons.CreateIcon />}
-        onClick={() => dispatch(showModal())}
-      />
+      {id && (
+        <FloatingButton
+          icon={<icons.CreateIcon />}
+          onClick={() => dispatch(showModal())}
+        />
+      )}
       <Footer />
     </ThemeProvider>
   );

@@ -3,6 +3,7 @@ import Box from "../../containers/Box";
 import HiddenItems from "./HiddenItems";
 
 const MenuBox = styled(Box)`
+  align-items: end;
   &:hover ${HiddenItems} {
     display: block;
   }
@@ -10,7 +11,7 @@ const MenuBox = styled(Box)`
 
 const Menu = ({ children }: { children: React.ReactNode }) => {
   return (
-    <MenuBox $gap="0.5em">
+    <MenuBox $gap="0.1em">
       {children}
     </MenuBox>
   );
