@@ -107,6 +107,12 @@ export interface TokenData {
   username: string;
 }
 
+export interface SearchResults {
+  tweets: Tweet[];
+  users: User[];
+  replies: Reply[];
+}
+
 export class ParseError extends Error {
   constructor(message: string) {
     super(message);

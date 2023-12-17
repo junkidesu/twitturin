@@ -30,9 +30,9 @@ const parseDate = (date: unknown): string => {
   return date;
 };
 
-const parseString = (text: unknown, what: string): string => {
+export const parseString = (text: unknown, what?: string): string => {
   if (!text || !isString(text))
-    throw new ParseError(`Invalid value for ${what}: ${text}`);
+    throw new ParseError(`Invalid value for ${what || "string"}: ${text}`);
 
   return text;
 };
