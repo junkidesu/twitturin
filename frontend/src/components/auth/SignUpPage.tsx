@@ -57,7 +57,11 @@ const BioTextArea = styled(TextArea)`
   }
 `;
 
-const SignUpForm = () => {
+const SignUpForm = styled(Form)`
+  padding: 1em;
+`;
+
+const SignUpPage = () => {
   const [signUp, { isLoading, isError, isSuccess }] = useAddUserMutation();
   const [login] = useLoginMutation();
   const [kind, setKind] = useState<Kind>("student");
@@ -160,7 +164,7 @@ const SignUpForm = () => {
         </KindButton>
       </Box>
 
-      <Form onSubmit={onSubmit}>
+      <SignUpForm onSubmit={onSubmit}>
         <Input {...username} required />
         <Input {...email} required />
         <Input {...fullName} />
@@ -183,9 +187,9 @@ const SignUpForm = () => {
         <Input {...password} required />
 
         <Button $width="100%">Sign Up</Button>
-      </Form>
+      </SignUpForm>
     </Box>
   );
 };
 
-export default SignUpForm;
+export default SignUpPage;

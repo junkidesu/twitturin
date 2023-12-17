@@ -7,9 +7,9 @@ import { Routes, Route } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "./hooks/store";
 import { setCredentials } from "./reducers/authReducer";
 import Header from "./components/Header";
-import SignUpForm from "./components/auth/SignUpForm";
+import SignUpPage from "./components/auth/SignUpPage";
 import UserPage from "./components/users/UserPage";
-import LoginForm from "./components/auth/LoginForm";
+import LoginPage from "./components/auth/LoginPage";
 import PageWrapper from "./components/util/PageWrapper";
 import TweetPage from "./components/tweets/TweetPage";
 import NewTweetModal from "./components/tweets/NewTweetModal";
@@ -65,8 +65,8 @@ const App = () => {
           <Route path="/messages" element={<Empty />} />
           <Route path="/notifications" element={<Empty />} />
           <Route path="/communities" element={<ComingSoon />} />
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/sign-up" element={<SignUpForm />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/sign-up" element={<SignUpPage />} />
           <Route path="/users/:id" element={<UserPage />} />
           <Route path="/users/:id/followers" element={<FollowersPage />} />
           <Route path="/users/:id/following" element={<FollowingPage />} />

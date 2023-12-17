@@ -13,6 +13,7 @@ import Box from "../containers/Box";
 import Form from "../core/Form";
 import Label from "../core/text/Label";
 import RouterLink from "../core/RouterLink";
+import styled from "styled-components";
 
 const LoginHeading = () => {
   return (
@@ -22,7 +23,11 @@ const LoginHeading = () => {
   );
 };
 
-const LoginForm = () => {
+const LoginForm = styled(Form)`
+  padding: 1em;
+`;
+
+const LoginPage = () => {
   const [, username] = useField("text", "Username");
   const [, password] = useField("password", "Password");
 
@@ -66,15 +71,15 @@ const LoginForm = () => {
         </Label>
       </Box>
 
-      <Form onSubmit={handleLogin}>
+      <LoginForm onSubmit={handleLogin}>
         <Input {...username} required />
 
         <Input {...password} required />
 
         <Button $width="100%">Log in</Button>
-      </Form>
+      </LoginForm>
     </Box>
   );
 };
 
-export default LoginForm;
+export default LoginPage;

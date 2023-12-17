@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const Form = styled.form`
   position: relative;
-  padding: 1em;
+  /* padding: 1em; */
   display: flex;
   flex-direction: column;
   gap: 1em;
