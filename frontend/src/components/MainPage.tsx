@@ -10,7 +10,7 @@ const MainPage = () => {
   const { data: tweets, isLoading } = useGetTweetsQuery(undefined);
 
   return (
-    <Box $gap="0.1em">
+    <Box $gap="0.1em" $width="500px">
       {username && <NewTweetForm />}
 
       {isLoading ? <LoadingTweetList /> : <TweetList tweets={tweets!} />}

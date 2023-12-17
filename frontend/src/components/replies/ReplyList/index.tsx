@@ -18,7 +18,7 @@ const ReplyList = ({
   if (replies.length === 0) return <Empty />
 
   return (
-    <Wrapper $gap="0.2em" $pad="m" $bg="white" $width="500px">
+    <Wrapper $gap="0.2em" $pad="m" $bg="white" $width="100%">
       {replies.map((r) => (
         <ReplyItem key={r.id} reply={r} showChildReplies={showChildReplies} />
       ))}

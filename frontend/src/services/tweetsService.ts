@@ -14,7 +14,7 @@ export const tweetsApi = api.injectEndpoints({
       query: (id) => ({
         url: `users/${id}/tweets`,
       }),
-      providesTags: ["Tweet"],
+      providesTags: (_result, _error, arg) => [{ type: "User", id: arg }],
     }),
     getLikedTweets: builder.query<Tweet[], string>({
       query: (id) => ({

@@ -29,11 +29,8 @@ const LikeIcon = styled(icons.HeartIcon)<{ $liked: boolean }>`
   fill: ${({ $liked, theme }) => ($liked ? theme.colors.primary : "none")};
 `;
 
-const TweetInfo = ({ tweet }: { tweet: Tweet }) => {
+const TweetHeader = ({ tweet }: { tweet: Tweet }) => {
   const submissionTime = new Date(tweet.createdAt);
-  const editTime = new Date(tweet.updatedAt);
-
-  const edited = editTime.valueOf() - submissionTime.valueOf() > 0;
 
   return (
     <Box $horizontal $gap="0.5em">
@@ -53,14 +50,6 @@ const TweetInfo = ({ tweet }: { tweet: Tweet }) => {
         title={submissionTime.toString()}
       >
         {elapsedTime(submissionTime.valueOf())}
-      </Label>
-
-      <Label
-        $size="extraSmall"
-        $color={lightTheme.colors.grey2}
-        title={`last edited at ${editTime.toString()}`}
-      >
-        {edited && " (edited)"}
       </Label>
     </Box>
   );
@@ -115,14 +104,14 @@ const TweetItem = ({ tweet }: { tweet: Tweet }) => {
   const navigate = useNavigate();
 
   return (
-    <Box $horizontal $pad="l" $gap="1em" $bg="white" $width="500px">
+    <Box $horizontal $pad="l" $gap="1em" $bg="white" $width="100%">
       <ProfilePicture
         src={pictures.emptyProfilePicture}
         onClick={() => navigate(`/tweets/${tweet.id}`)}
       />
 
       <Box $gap="1em">
-        <TweetInfo tweet={tweet} />
+        <TweetHeader tweet={tweet} />
 
         <RouterLink to={`/tweets/${tweet.id}`}>{tweet.content}</RouterLink>
 

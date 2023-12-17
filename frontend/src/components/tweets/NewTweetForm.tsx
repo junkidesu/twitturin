@@ -56,7 +56,7 @@ const NewTweetForm = () => {
   };
 
   return (
-    <Box $horizontal $pad="l" $bg="white" $width="500px">
+    <Box $horizontal $pad="l" $bg="white" $width="100%">
       <ProfilePicture src={pictures.emptyProfilePicture} />
 
       <FormWrapper onSubmit={handleSubmit}>

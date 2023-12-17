@@ -3,7 +3,7 @@ import GlobalStyle from "./themes/GlobalStyle";
 import storageService from "./services/storageService";
 import styled, { ThemeProvider } from "styled-components";
 import { useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "./hooks/store";
 import { setCredentials } from "./reducers/authReducer";
 import Header from "./components/Header";
@@ -23,18 +23,22 @@ import PageNotFound from "./components/util/PageNotFound";
 import FollowersPage from "./components/users/FollowersPage";
 import FollowingPage from "./components/users/FollowingPage";
 import EditTweetPage from "./components/tweets/EditTweetPage";
-import LoginSuggestion from "./components/util/LoginSuggestion";
 import EditProfilePage from "./components/users/EditProfilePage";
 import NotificationsPage from "./components/NotificationsPage";
 import MessagesPage from "./components/MessagesPage";
+import Footer from "./components/Footer";
 
 const RightSideBar = styled(SideBar)`
   margin-left: 50px;
+
+  @media (max-width: 1200px) {
+    display: none;
+  }
 `;
 
 const App = () => {
   const dispatch = useAppDispatch();
-  const username = useAppSelector(({ auth }) => auth?.username);
+  const id = useAppSelector(({ auth }) => auth.id);
 
   useEffect(() => {
     const tokenData = storageService.getAuthUser();
@@ -53,21 +57,17 @@ const App = () => {
       <NewTweetModal />
 
       <PageWrapper $horizontal $gap="0.1em">
-        {username ? (
-          <NavSideBar />
-        ) : (
-          <SideBar>
-            <LoginSuggestion />
-          </SideBar>
-        )}
+        <NavSideBar />
 
         <Routes>
           <Route path="/" element={<MainPage />} />
+          <Route path="/home" element={<MainPage />} />
           <Route path="/explore" element={<ComingSoon />} />
           <Route path="/messages" element={<MessagesPage />} />
           <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/sign-up" element={<SignUpPage />} />
+          <Route path="/me" element={<Navigate to={id ? `/users/${id}` : "/login"} />} />
           <Route path="/users/:id" element={<UserPage />} />
           <Route path="/users/:id/followers" element={<FollowersPage />} />
           <Route path="/users/:id/following" element={<FollowingPage />} />
@@ -81,6 +81,8 @@ const App = () => {
           <SuggestedUsers />
         </RightSideBar>
       </PageWrapper>
+
+      <Footer />
     </ThemeProvider>
   );
 };

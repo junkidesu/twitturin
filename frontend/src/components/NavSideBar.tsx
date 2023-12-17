@@ -11,6 +11,7 @@ import { showModal } from "../reducers/modalReducer";
 import SideBar from "./containers/SideBar";
 import { useGetUserQuery } from "../services/usersService";
 import LoadingUserItem from "./util/LoadingUserItem";
+import LoginSuggestion from "./util/LoginSuggestion";
 
 const NavButton = styled(FlatButton)`
   font-size: ${({ theme }) => theme.fontSizes.medium};
@@ -30,7 +31,7 @@ const ProfilePicture = styled.img`
 `;
 
 const NavigationButtons = () => {
-  const id = useAppSelector(({ auth }) => auth!.id);
+  const id = useAppSelector(({ auth }) => auth.id);
   const navigate = useNavigate();
 
   return (
@@ -55,11 +56,6 @@ const NavigationButtons = () => {
         label="Notifications"
         onClick={() => navigate("/notifications")}
       />
-      {/* <NavButton
-        icon={<icons.UsersIcon />}
-        label="Communities"
-        onClick={() => navigate("/communities")}
-      /> */}
       <NavButton
         icon={<icons.UserIcon />}
         label="Profile"
@@ -95,11 +91,24 @@ const UserDetails = () => {
   );
 };
 
+const CustomSideBar = styled(SideBar)`
+  @media (max-width: 800px) {
+    display: none;
+  }
+`;
+
 const NavSideBar = () => {
+  const id = useAppSelector(({ auth }) => auth.id);
   const dispatch = useAppDispatch();
 
+  if (!id)
+    return (
+      <CustomSideBar>
+        <LoginSuggestion />
+      </CustomSideBar>
+    );
   return (
-    <SideBar $width="300px" $pad="s" $bg="white">
+    <CustomSideBar $width="300px" $pad="s" $bg="white">
       <Box $gap="0.5em">
         <NavigationButtons />
 
@@ -109,7 +118,7 @@ const NavSideBar = () => {
       </Box>
 
       <UserDetails />
-    </SideBar>
+    </CustomSideBar>
   );
 };
 

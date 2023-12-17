@@ -5,7 +5,7 @@ import Heading from "../../core/text/Heading";
 
 const LoadingTweetPage = () => {
   return (
-    <Box $gap="0.1em">
+    <Box $gap="0.1em" $maxWidth="500px" $width="100%">
       <LoadingTweetDetails />
 
       <Box $bg="white" $pad="l">

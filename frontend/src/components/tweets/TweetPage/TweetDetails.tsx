@@ -46,7 +46,7 @@ const TweetDetails = ({ tweet }: { tweet: Tweet }) => {
   const edited = editTime.valueOf() - submissionTime.valueOf() !== 0;
 
   return (
-    <Box $bg="white" $horizontal $pad="l" $gap="1.5em" $width="500px">
+    <Box $bg="white" $horizontal $pad="l" $gap="1.5em" $width="100%">
       <RouterLink to={`/users/${tweet.author.id}`}>
         <ProfilePicture src={pictures.emptyProfilePicture} />
       </RouterLink>

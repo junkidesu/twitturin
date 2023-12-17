@@ -17,7 +17,7 @@ const LoadingTweetItem = () => {
       $pad="l"
       $bg="white"
       $horizontal
-      $width="500px"
+      $width="100%"
     >
       <LoadingProfilePicture $width="2em" $height="2em" />
 

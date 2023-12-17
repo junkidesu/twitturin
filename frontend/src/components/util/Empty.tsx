@@ -5,7 +5,7 @@ import Label from "../core/text/Label";
 
 const Wrapper = styled(Box)`
     height: 200px;
-    width: 500px;
+    width: 100%;
     align-items: center;
     justify-content: center;
 `;
