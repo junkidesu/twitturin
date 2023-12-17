@@ -21,11 +21,10 @@ const KindButton = styled.button<{ $active: boolean }>`
   color: ${(props) =>
     props.$active ? props.theme.colors.primary : props.theme.colors.grey2};
   padding: 0.7em;
+  background-color: white;
   font-size: ${(props) => props.theme.fontSizes.medium};
-  background-color: ${(props) =>
-    props.$active ? props.theme.colors.grey4 : "transparent"};
+  font-weight: ${({ $active }) => ($active ? "bold" : "normal")};
   border: none;
-  border-radius: ${(props) => (props.$active ? "10px" : "0px")};
   transition: 0.2s;
 
   &:hover {
@@ -37,6 +36,14 @@ const KindButton = styled.button<{ $active: boolean }>`
 const majors = Object.values(Major).map((m) => m.toString());
 
 type Kind = "student" | "teacher";
+
+const SignUpHeading = () => {
+  return (
+    <Box $bg="white" $pad="l">
+      <Heading $level={2}>Join Twittur Today</Heading>
+    </Box>
+  );
+};
 
 const SignUpForm = () => {
   const [signUp, { isLoading, isError, isSuccess }] = useAddUserMutation();
@@ -119,12 +126,10 @@ const SignUpForm = () => {
   if (isError) return <div>Some error occurred!</div>;
 
   return (
-    <Box $gap="2em" $pad="l" $width="500px" $bg="white">
-      <Heading $level={2}>
-        Join Twittur Today!
-      </Heading>
+    <Box $gap="0.1em" $width="500px">
+      <SignUpHeading />
 
-      <Box $horizontal style={{ width: "100%" }}>
+      <Box $horizontal $width="100%" $bg="white">
         <KindButton
           $active={kind === "student"}
           onClick={() => setKind("student")}
@@ -159,9 +164,7 @@ const SignUpForm = () => {
 
         <Input {...password} required />
 
-        <Button $width="100%">
-          Sign Up
-        </Button>
+        <Button $width="100%">Sign Up</Button>
       </Form>
     </Box>
   );

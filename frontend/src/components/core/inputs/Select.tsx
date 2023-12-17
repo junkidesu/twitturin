@@ -4,10 +4,10 @@ const SelectWrapper = styled.select`
   background-color: white;
   color: ${(props) => props.theme.colors.grey1};
   font-size: 1.3em;
-  padding: 0.5em;
+  padding: 1em;
   width: 100%;
   appearance: none;
-  border: 1px solid #555555;
+  border: 2px solid ${({ theme }) => theme.colors.grey3};
   border-radius: 5px;
 `;
 
