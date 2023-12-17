@@ -12,8 +12,8 @@ export const repliesApi = api.injectEndpoints({
     }),
     getUserReplies: builder.query<Reply[], string>({
       query: (id) => ({
-        url: `users/${id}/replies`
-      })
+        url: `users/${id}/replies`,
+      }),
     }),
     reply: builder.mutation<Reply, NewReply>({
       query: ({ content, parent, parentId: id }) => ({
@@ -66,6 +66,7 @@ export const repliesApi = api.injectEndpoints({
 
 export const {
   useGetTweetRepliesQuery,
+  useGetUserRepliesQuery,
   useReplyMutation,
   useLikeReplyMutation,
 } = repliesApi;

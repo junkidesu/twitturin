@@ -11,6 +11,10 @@ import RouterLink from "../../core/RouterLink";
 import FollowButton from "../FollowButton";
 import { User } from "../../../types";
 import PageNotFound from "../../util/PageNotFound";
+import { useState } from "react";
+import ReplyList from "../../replies/ReplyList";
+import { useGetUserRepliesQuery } from "../../../services/repliesService";
+import LoadingReplyList from "../../util/LoadingReplyList";
 
 const Banner = styled.div`
   position: relative;
@@ -36,7 +40,7 @@ const Username = styled(Label)`
 
 const ProfileHeader = ({ user }: { user: User }) => {
   return (
-    <Box $bg="white" $width="500px" $gap="1.5em" $hide>
+    <Box $bg="white" $gap="1.5em" $hide>
       <Banner>
         <ProfilePicture src={pictures.emptyProfilePicture} />
       </Banner>
@@ -115,8 +119,36 @@ const FollowPanel = ({ user, id }: { user: User; id: string }) => {
   );
 };
 
+type Section = "tweets" | "replies" | "likes" | "settings";
+
+const SectionButton = styled.button<{ $active: boolean }>`
+  width: 100%;
+  color: ${(props) =>
+    props.$active ? props.theme.colors.primary : props.theme.colors.grey2};
+  padding: 0.7em;
+  background-color: white;
+  font-size: ${(props) => props.theme.fontSizes.small};
+  /* font-weight: ${({ $active }) => ($active ? "bold" : "normal")}; */
+  border: none;
+  transition: 0.2s;
+
+  &:hover {
+    background-color: ${(props) => props.theme.colors.grey4};
+    transition: 0.2s;
+  }
+`;
+
+const UserReplies = ({ user }: { user: User }) => {
+  const { data: replies, isLoading } = useGetUserRepliesQuery(user.id);
+
+  if (isLoading) return <LoadingReplyList />;
+
+  return <ReplyList replies={replies!} />;
+};
+
 const UserPage = () => {
   const id = useParams().id;
+  const [section, setSection] = useState<Section>("tweets");
   const { data: user, isLoading, isError } = useGetUserQuery(id!);
 
   if (isLoading) return <LoadingUserProfile />;
@@ -126,14 +158,36 @@ const UserPage = () => {
   if (!user) return <PageNotFound />;
 
   return (
-    <Box $gap="0.1em">
+    <Box $gap="0.1em" $width="500px">
       <ProfileHeader user={user} />
 
       <AdditionalInfo user={user} />
 
       <FollowPanel id={id!} user={user} />
 
-      <TweetList author={user.id} />
+      <Box $bg="white" $horizontal>
+        <SectionButton
+          $active={section === "tweets"}
+          onClick={() => setSection("tweets")}
+        >
+          Tweets
+        </SectionButton>
+        <SectionButton
+          $active={section === "replies"}
+          onClick={() => setSection("replies")}
+        >
+          Replies
+        </SectionButton>
+        <SectionButton
+          $active={section === "likes"}
+          onClick={() => setSection("likes")}
+        >
+          Likes
+        </SectionButton>
+      </Box>
+
+      {section === "tweets" && <TweetList author={user.id} />}
+      {section === "replies" && <UserReplies user={user} />}
     </Box>
   );
 };
