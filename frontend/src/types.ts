@@ -40,7 +40,7 @@ export type User = StudentUser | TeacherUser;
 
 export type NewUser = UnionOmit<
   User,
-  "id" | "following" | "followers" | "followingCount" | "followersCount" | "age"
+  "age" | "id" | "following" | "followers" | "followingCount" | "followersCount"
 > & {
   password: string;
 };
