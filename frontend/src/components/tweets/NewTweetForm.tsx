@@ -34,7 +34,7 @@ const FormWrapper = styled(Form)`
 
 const NewTweetForm = () => {
   const [clearContent, content] = useField("text", "Tweet your thoughts");
-  const [addTweet, { isLoading, isSuccess }] = useAddTweetMutation();
+  const [addTweet, { isLoading, isSuccess, isError }] = useAddTweetMutation();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -48,6 +48,13 @@ const NewTweetForm = () => {
     }
   }, [isSuccess, dispatch]);
 
+  useEffect(() => {
+    if (isError) {
+      dispatch(hide());
+      console.log("error");
+    }
+  }, [isError, dispatch]);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -60,7 +67,7 @@ const NewTweetForm = () => {
       <ProfilePicture src={pictures.emptyProfilePicture} />
 
       <FormWrapper onSubmit={handleSubmit}>
-        <TweetTextArea {...content} />
+        <TweetTextArea {...content} required />
 
         <Button $bg="white">Tweet</Button>
       </FormWrapper>

@@ -10,6 +10,7 @@ import UserItem from "./UserItem";
 import { User } from "../../types";
 import LoadingUserItem from "../util/LoadingUserItem";
 import Empty from "../util/Empty";
+import ErrorPage from "../util/ErrorPage";
 
 const FollowersList = ({ user }: { user: User }) => {
   const { data: followers, isLoading, isError } = useGetFollowersQuery(user.id);
@@ -39,20 +40,24 @@ const FollowersPage = () => {
   const id = useParams().id;
   const { data: user, isLoading, isError } = useGetUserQuery(id!);
 
-  if (isLoading) return <div>User loading...</div>;
-
-  if (!user || isError) return <div>Some error occurred!</div>;
+  if (isError) return <ErrorPage />;
 
   return (
     <Box $gap="0.1em" $width="500px">
       <Box $bg="white" $pad="l" $gap="0.5em">
         <Heading $level={3}>
-          Followers of{" "}
-          <RouterLink to={`/users/${id}`}>@{user.username}</RouterLink>
+          {isLoading ? (
+            "Loading user..."
+          ) : (
+            <>
+              Followers of{" "}
+              <RouterLink to={`/users/${id}`}>@{user!.username}</RouterLink>
+            </>
+          )}
         </Heading>
       </Box>
 
-      <FollowersList user={user} />
+      {!isLoading && <FollowersList user={user!} />}
     </Box>
   );
 };

@@ -30,6 +30,7 @@ import Footer from "./components/Footer";
 import FloatingButton from "./components/core/buttons/FloatingButton";
 import { icons } from "./assets";
 import { showModal } from "./reducers/modalReducer";
+import ErrorPage from "./components/util/ErrorPage";
 
 const RightSideBar = styled(SideBar)`
   margin-left: 50px;
@@ -80,6 +81,7 @@ const App = () => {
           <Route path="/tweets/:id" element={<TweetPage />} />
           <Route path="/tweets/:id/edit" element={<EditTweetPage />} />
           <Route path="/edit-profile" element={<EditProfilePage />} />
+          <Route path="/error" element={<ErrorPage />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
 

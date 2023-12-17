@@ -29,6 +29,7 @@ import { useAppDispatch, useAppSelector } from "../../../hooks/store";
 import { removeCredentials } from "../../../reducers/authReducer";
 import storageService from "../../../services/storageService";
 import { hide, show } from "../../../reducers/loadingStripeReducer";
+import ErrorPage from "../../util/ErrorPage";
 
 const Banner = styled.div`
   position: relative;
@@ -153,25 +154,31 @@ const SectionButton = styled.button<{ $active: boolean }>`
 `;
 
 const UserTweets = ({ user }: { user: User }) => {
-  const { data: tweets, isLoading } = useGetTweetsQuery(user.id);
+  const { data: tweets, isLoading, isError } = useGetTweetsQuery(user.id);
 
   if (isLoading) return <LoadingTweetList />;
+
+  if (isError) return <ErrorPage />;
 
   return <TweetList tweets={tweets!} />;
 };
 
 const UserReplies = ({ user }: { user: User }) => {
-  const { data: replies, isLoading } = useGetUserRepliesQuery(user.id);
+  const { data: replies, isLoading, isError } = useGetUserRepliesQuery(user.id);
 
   if (isLoading) return <LoadingReplyList />;
+
+  if (isError) return <ErrorPage />;
 
   return <ReplyList replies={replies!} />;
 };
 
 const LikedTweets = ({ user }: { user: User }) => {
-  const { data: tweets, isLoading } = useGetLikedTweetsQuery(user.id);
+  const { data: tweets, isLoading, isError } = useGetLikedTweetsQuery(user.id);
 
   if (isLoading) return <LoadingTweetList />;
+
+  if (isError) return <ErrorPage />;
 
   if (!tweets) return <div>Some error occurred!</div>;
 
@@ -196,7 +203,8 @@ const DeleteButton = styled(NavButton)`
 const Settings = ({ user }: { user: User }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [deleteUser, { isLoading, isSuccess }] = useDeleteUserMutation();
+  const [deleteUser, { isLoading, isSuccess, isError }] =
+    useDeleteUserMutation();
 
   useEffect(() => {
     if (isLoading) dispatch(show());
@@ -210,6 +218,12 @@ const Settings = ({ user }: { user: User }) => {
       navigate("/");
     }
   }, [isSuccess, dispatch, navigate]);
+
+  useEffect(() => {
+    if (isError) {
+      dispatch(hide());
+    }
+  }, [isError, dispatch]);
 
   const handleSignOut = () => {
     storageService.removeAuthUser();
@@ -254,7 +268,7 @@ const UserPage = () => {
 
   if (isLoading) return <LoadingUserProfile />;
 
-  if (!user) return <PageNotFound />;
+  if (!user) return <ErrorPage />;
 
   if (isError) return <PageNotFound />;
 

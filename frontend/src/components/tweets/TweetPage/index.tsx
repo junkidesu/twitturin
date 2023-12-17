@@ -11,11 +11,19 @@ import { useGetTweetRepliesQuery } from "../../../services/repliesService";
 import { Tweet } from "../../../types";
 import LoadingReplyList from "../../util/LoadingReplyList";
 import Empty from "../../util/Empty";
+import ErrorPage from "../../util/ErrorPage";
+import PageNotFound from "../../util/PageNotFound";
 
 const TweetReplyList = ({ tweet }: { tweet: Tweet }) => {
-  const { data: replies, isLoading } = useGetTweetRepliesQuery(tweet.id);
+  const {
+    data: replies,
+    isLoading,
+    isError,
+  } = useGetTweetRepliesQuery(tweet.id);
 
   if (isLoading) return <LoadingReplyList />;
+
+  if (isError) return <ErrorPage />;
 
   if (replies?.length === 0) return <Empty />;
 
@@ -28,9 +36,9 @@ const TweetPage = () => {
 
   if (isLoading) return <LoadingTweetPage />;
 
-  if (isError) return <div>Error occured!</div>;
+  if (!tweet) return <PageNotFound />;
 
-  if (!tweet) return <div>tweet not found!</div>;
+  if (isError) return <ErrorPage />;
 
   return (
     <Box $gap="0.1em" $width="500px">

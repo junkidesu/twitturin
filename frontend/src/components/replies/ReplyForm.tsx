@@ -16,7 +16,7 @@ type Props = {
 };
 
 const ReplyForm = ({ id, parent, setVisible }: Props) => {
-  const [replyToTweet, { isLoading, isSuccess }] = useReplyMutation();
+  const [replyToTweet, { isLoading, isSuccess, isError }] = useReplyMutation();
   const dispatch = useAppDispatch();
   const [clearContent, content] = useField("text", "Type your reply...");
 
@@ -26,9 +26,12 @@ const ReplyForm = ({ id, parent, setVisible }: Props) => {
     if (isLoading) dispatch(show());
     else if (isSuccess) {
       dispatch(hide());
+      clearContent();
       if (setVisible) setVisible(false);
+    } else if (isError) {
+      dispatch(hide());
     }
-  }, [isLoading, isSuccess, setVisible, dispatch]);
+  }, [isLoading, isSuccess, clearContent, isError, setVisible, dispatch]);
 
   if (!token) return null;
 
@@ -36,7 +39,6 @@ const ReplyForm = ({ id, parent, setVisible }: Props) => {
     e.preventDefault();
 
     await replyToTweet({ content: content.value, parent, parentId: id });
-    clearContent();
   };
 
   return (

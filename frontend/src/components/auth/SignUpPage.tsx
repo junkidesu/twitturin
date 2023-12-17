@@ -86,6 +86,12 @@ const SignUpPage = () => {
   }, [isLoading, dispatch]);
 
   useEffect(() => {
+    if(isError) {
+      dispatch(hide());
+    }
+  }, [isError, dispatch]);
+
+  useEffect(() => {
     const authenticate = async () => {
       const tokenData = await login({
         username: username.value,

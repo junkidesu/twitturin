@@ -48,6 +48,12 @@ const LoginPage = () => {
     }
   }, [navigate, dispatch, isSuccess, tokenData]);
 
+  useEffect(() => {
+    if(isError) {
+      dispatch(hide());
+    }
+  }, [isError, dispatch]);
+
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -58,8 +64,6 @@ const LoginPage = () => {
 
     dispatch(setCredentials(tokenData));
   };
-
-  if (isError) return <div>Error occured! [TODO error message screen]</div>;
 
   return (
     <Box $gap="0.1em" $width="500px">
