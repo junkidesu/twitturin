@@ -147,9 +147,11 @@ const SectionButton = styled.button<{ $active: boolean }>`
   border: none;
   transition: 0.2s;
 
-  &:hover {
-    background-color: ${(props) => props.theme.colors.grey4};
-    transition: 0.2s;
+  @media (min-width: 651px) {
+    &:hover {
+      background-color: ${(props) => props.theme.colors.grey4};
+      transition: 0.2s;
+    }
   }
 `;
 

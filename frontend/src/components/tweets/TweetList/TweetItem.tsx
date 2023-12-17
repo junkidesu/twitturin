@@ -91,9 +91,9 @@ const TweetActions = ({ tweet }: { tweet: Tweet }) => {
         <IconButton icon={<icons.RepliesIcon />} label={tweet.replyCount} />
       </RouterLink>
 
-      <IconButton icon={<icons.BookmarkIcon />} label={0} />
+      <IconButton icon={<icons.BookmarkIcon />} />
 
-      <IconButton icon={<icons.ShareIcon />} label={0} />
+      <IconButton icon={<icons.ShareIcon />} />
     </Box>
   );
 };
