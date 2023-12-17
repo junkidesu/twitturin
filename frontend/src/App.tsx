@@ -25,7 +25,7 @@ import FollowingPage from "./components/users/FollowingPage";
 import EditTweetPage from "./components/tweets/EditTweetPage";
 import Empty from "./components/util/Empty";
 import LoginSuggestion from "./components/util/LoginSuggestion";
-import EditProfilePage from "./components/users/EditUserPage";
+import EditProfilePage from "./components/users/EditProfilePage";
 
 const RightSideBar = styled(SideBar)`
   margin-left: 50px;

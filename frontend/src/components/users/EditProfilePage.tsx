@@ -95,6 +95,11 @@ const EditProfileForm = ({ user }: { user: User }) => {
 const EditProfilePage = () => {
   const id = useAppSelector(({ auth }) => auth.id);
   const { data: user, isLoading } = useGetUserQuery(id!, { skip: !id });
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!id) navigate("/login");
+  }, [id, navigate]);
 
   if (isLoading) return <div>User loading...</div>;
 
