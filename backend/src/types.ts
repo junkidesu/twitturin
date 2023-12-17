@@ -41,7 +41,7 @@ type UnionOmit<T, K extends string | number | symbol> = T extends unknown
 
 export type NewUser = UnionOmit<
   User,
-  "passwordHash" | "following" | "followedBy"
+  "passwordHash" | "following" | "followers"
 > & { password: string };
 
 export interface EditUser {
