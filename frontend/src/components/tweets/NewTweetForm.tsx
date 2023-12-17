@@ -32,7 +32,7 @@ const FormWrapper = styled(Form)`
   padding: 0;
 `;
 
-const NewTweetForm = () => {
+const NewTweetForm = ({ className }: { className?: string }) => {
   const [clearContent, content] = useField("text", "Tweet your thoughts");
   const [addTweet, { isLoading, isSuccess, isError }] = useAddTweetMutation();
   const dispatch = useAppDispatch();
@@ -63,7 +63,7 @@ const NewTweetForm = () => {
   };
 
   return (
-    <Box $horizontal $pad="l" $bg="white" $width="100%">
+    <Box $horizontal $pad="l" $bg="white" $width="100%" className={className}>
       <ProfilePicture src={pictures.emptyProfilePicture} />
 
       <FormWrapper onSubmit={handleSubmit}>

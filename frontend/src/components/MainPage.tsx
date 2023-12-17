@@ -5,20 +5,25 @@ import NewTweetForm from "./tweets/NewTweetForm";
 import { useGetTweetsQuery } from "../services/tweetsService";
 import LoadingTweetList from "./util/LoadingTweetList";
 import ErrorPage from "./util/ErrorPage";
+import styled from "styled-components";
+
+const StyledTweetForm = styled(NewTweetForm)`
+  @media (max-width: 650px) {
+    display: none;
+  }
+`;
 
 const MainPage = () => {
   const username = useAppSelector(({ auth }) => auth?.username);
   const { data: tweets, isLoading, isError } = useGetTweetsQuery(undefined);
 
-  if (isLoading) return <LoadingTweetList />;
-
   if (isError) return <ErrorPage />;
 
   return (
     <Box $gap="0.1em" $width="500px">
-      {username && <NewTweetForm />}
+      {username && !isLoading && <StyledTweetForm />}
 
-      <TweetList tweets={tweets!} />
+      {isLoading ? <LoadingTweetList /> : <TweetList tweets={tweets!} />}
     </Box>
   );
 };
