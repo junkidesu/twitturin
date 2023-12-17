@@ -59,7 +59,12 @@ const unfollowUser = async (me: Types.ObjectId, toUnfollow: string) => {
     (u) => u.toString() !== toUnfollow
   );
 
+  foundUser.followers = foundUser.followers.filter(
+    (u) => u.toString() !== me.toString()
+  );
+
   await currentUser!.save();
+  await foundUser.save();
 };
 
 export default {
