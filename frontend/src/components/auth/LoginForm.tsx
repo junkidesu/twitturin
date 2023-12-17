@@ -11,6 +11,8 @@ import { show, hide } from "../../reducers/loadingStripeReducer";
 import Heading from "../core/text/Heading";
 import Box from "../containers/Box";
 import Form from "../core/Form";
+import Label from "../core/text/Label";
+import RouterLink from "../core/RouterLink";
 
 const LoginHeading = () => {
   return (
@@ -57,6 +59,12 @@ const LoginForm = () => {
   return (
     <Box $gap="0.1em" $width="500px">
       <LoginHeading />
+
+      <Box $bg="white" $pad="l">
+        <Label>
+          Not a member yet? <RouterLink to="/sign-up">Join now!</RouterLink>
+        </Label>
+      </Box>
 
       <Form onSubmit={handleLogin}>
         <Input {...username} required />
