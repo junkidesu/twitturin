@@ -17,6 +17,7 @@ const ModalBox = styled(Box)`
 `;
 
 const CloseButton = styled(IconButton)`
+  color: white;
   position: absolute;
   top: 1em;
   right: 1em;

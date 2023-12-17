@@ -27,6 +27,9 @@ import EditProfilePage from "./components/users/EditProfilePage";
 import NotificationsPage from "./components/NotificationsPage";
 import MessagesPage from "./components/MessagesPage";
 import Footer from "./components/Footer";
+import FloatingButton from "./components/core/buttons/FloatingButton";
+import { icons } from "./assets";
+import { showModal } from "./reducers/modalReducer";
 
 const RightSideBar = styled(SideBar)`
   margin-left: 50px;
@@ -67,7 +70,10 @@ const App = () => {
           <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/sign-up" element={<SignUpPage />} />
-          <Route path="/me" element={<Navigate to={id ? `/users/${id}` : "/login"} />} />
+          <Route
+            path="/me"
+            element={<Navigate to={id ? `/users/${id}` : "/login"} />}
+          />
           <Route path="/users/:id" element={<UserPage />} />
           <Route path="/users/:id/followers" element={<FollowersPage />} />
           <Route path="/users/:id/following" element={<FollowingPage />} />
@@ -82,6 +88,10 @@ const App = () => {
         </RightSideBar>
       </PageWrapper>
 
+      <FloatingButton
+        icon={<icons.CreateIcon />}
+        onClick={() => dispatch(showModal())}
+      />
       <Footer />
     </ThemeProvider>
   );
