@@ -30,6 +30,19 @@ export const usersApi = api.injectEndpoints({
         method: "PUT",
         body,
       }),
+      async onQueryStarted({ id }, { dispatch, queryFulfilled }) {
+        try {
+          const { data: user } = await queryFulfilled;
+          dispatch(usersApi.util.updateQueryData("getUser", id, () => user));
+          dispatch(
+            usersApi.util.updateQueryData("getUsers", undefined, (draft) => {
+              return draft.map((u) => (u.id !== id ? u : user));
+            })
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      },
     }),
     getFollowers: builder.query<User[], string>({
       query: (id) => ({
