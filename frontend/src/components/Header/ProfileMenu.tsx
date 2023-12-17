@@ -43,7 +43,7 @@ const ProfileMenu = ({ username }: { username: string }) => {
         <FlatButton
           icon={<icons.EditIcon />}
           label="Edit profile"
-          onClick={() => navigate("/me/edit")}
+          onClick={() => navigate("/edit-profile")}
         />
         <FlatButton
           icon={<icons.LogOutIcon />}

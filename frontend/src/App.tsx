@@ -25,6 +25,7 @@ import FollowingPage from "./components/users/FollowingPage";
 import EditTweetPage from "./components/tweets/EditTweetPage";
 import Empty from "./components/util/Empty";
 import LoginSuggestion from "./components/util/LoginSuggestion";
+import EditProfilePage from "./components/users/EditUserPage";
 
 const RightSideBar = styled(SideBar)`
   margin-left: 50px;
@@ -72,7 +73,7 @@ const App = () => {
           <Route path="/users/:id/following" element={<FollowingPage />} />
           <Route path="/tweets/:id" element={<TweetPage />} />
           <Route path="/tweets/:id/edit" element={<EditTweetPage />} />
-          <Route path="/me" element={<ComingSoon />} />
+          <Route path="/edit-profile" element={<EditProfilePage />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
 

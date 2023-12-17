@@ -74,7 +74,7 @@ const SignUpPage = () => {
   const [, major] = useField(undefined, "Major", majors[0]);
   const [, subject] = useField("text", "Subject");
   const [, email] = useField("email", "Email");
-  const [, birthday] = useField("birthday", "Birthday");
+  const [, birthday] = useField("date", "Birthday");
 
   const token = useAppSelector(({ auth }) => auth.token);
 

@@ -30,6 +30,7 @@ const ProfilePicture = styled.img`
 `;
 
 const NavigationButtons = () => {
+  const id = useAppSelector(({ auth }) => auth!.id);
   const navigate = useNavigate();
 
   return (
@@ -62,7 +63,7 @@ const NavigationButtons = () => {
       <NavButton
         icon={<icons.UserIcon />}
         label="Profile"
-        onClick={() => navigate("/me")}
+        onClick={() => navigate(`/users/${id}`)}
       />
     </Box>
   );
@@ -101,6 +102,7 @@ const NavSideBar = () => {
     <SideBar $width="300px" $pad="s" $bg="white">
       <Box $gap="0.5em">
         <NavigationButtons />
+
         <Button $width="100%" $bg="white" onClick={() => dispatch(showModal())}>
           Tweet
         </Button>

@@ -1,5 +1,5 @@
 import { RootState } from "../store";
-import { NewUser, User } from "../types";
+import { EditUser, NewUser, User } from "../types";
 import { api } from "./api";
 
 export const usersApi = api.injectEndpoints({
@@ -23,6 +23,13 @@ export const usersApi = api.injectEndpoints({
         body: newUser,
       }),
       invalidatesTags: ["User"],
+    }),
+    editUser: builder.mutation<User, { id: string; body: EditUser }>({
+      query: ({ id, body }) => ({
+        url: `users/${id}`,
+        method: "PUT",
+        body,
+      }),
     }),
     getFollowers: builder.query<User[], string>({
       query: (id) => ({
@@ -84,6 +91,7 @@ export const {
   useGetUsersQuery,
   useGetUserQuery,
   useAddUserMutation,
+  useEditUserMutation,
   useGetFollowersQuery,
   useGetFollowingQuery,
   useFollowMutation,
