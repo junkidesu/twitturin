@@ -23,9 +23,10 @@ import PageNotFound from "./components/util/PageNotFound";
 import FollowersPage from "./components/users/FollowersPage";
 import FollowingPage from "./components/users/FollowingPage";
 import EditTweetPage from "./components/tweets/EditTweetPage";
-import Empty from "./components/util/Empty";
 import LoginSuggestion from "./components/util/LoginSuggestion";
 import EditProfilePage from "./components/users/EditProfilePage";
+import NotificationsPage from "./components/NotificationsPage";
+import MessagesPage from "./components/MessagesPage";
 
 const RightSideBar = styled(SideBar)`
   margin-left: 50px;
@@ -63,9 +64,8 @@ const App = () => {
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/explore" element={<ComingSoon />} />
-          <Route path="/messages" element={<Empty />} />
-          <Route path="/notifications" element={<Empty />} />
-          <Route path="/communities" element={<ComingSoon />} />
+          <Route path="/messages" element={<MessagesPage />} />
+          <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/sign-up" element={<SignUpPage />} />
           <Route path="/users/:id" element={<UserPage />} />
