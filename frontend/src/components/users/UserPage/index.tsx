@@ -1,7 +1,10 @@
 import styled from "styled-components";
 import { icons, pictures } from "../../../assets";
 import { useNavigate, useParams } from "react-router-dom";
-import { useGetUserQuery } from "../../../services/usersService";
+import {
+  useDeleteUserMutation,
+  useGetUserQuery,
+} from "../../../services/usersService";
 import LoadingUserProfile from "../../util/LoadingUserProfile";
 import Box from "../../containers/Box";
 import Label from "../../core/text/Label";
@@ -11,7 +14,7 @@ import RouterLink from "../../core/RouterLink";
 import FollowButton from "../FollowButton";
 import { User } from "../../../types";
 import PageNotFound from "../../util/PageNotFound";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReplyList from "../../replies/ReplyList";
 import { useGetUserRepliesQuery } from "../../../services/repliesService";
 import LoadingReplyList from "../../util/LoadingReplyList";
@@ -25,6 +28,7 @@ import FlatButton from "../../core/buttons/FlatButton";
 import { useAppDispatch, useAppSelector } from "../../../hooks/store";
 import { removeCredentials } from "../../../reducers/authReducer";
 import storageService from "../../../services/storageService";
+import { hide, show } from "../../../reducers/loadingStripeReducer";
 
 const Banner = styled.div`
   position: relative;
@@ -189,9 +193,23 @@ const DeleteButton = styled(NavButton)`
   }
 `;
 
-const Settings = () => {
+const Settings = ({ user }: { user: User }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const [deleteUser, { isLoading, isSuccess }] = useDeleteUserMutation();
+
+  useEffect(() => {
+    if (isLoading) dispatch(show());
+  }, [dispatch, isLoading]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(hide());
+      dispatch(removeCredentials());
+      storageService.removeAuthUser();
+      navigate("/");
+    }
+  }, [isSuccess, dispatch, navigate]);
 
   const handleSignOut = () => {
     storageService.removeAuthUser();
@@ -199,11 +217,13 @@ const Settings = () => {
     dispatch(removeCredentials());
   };
 
-  const handleDeleteProfile = () => {
+  const handleDeleteProfile = async () => {
     if (confirm("Are you sure you want to delete your profile?")) {
       console.log("deleting profile...");
+
+      await deleteUser(user.id);
     }
-  }
+  };
 
   return (
     <Box $gap="0.1em">
@@ -212,7 +232,11 @@ const Settings = () => {
         icon={<icons.EditIcon />}
         onClick={() => navigate("/edit-profile")}
       />
-      <DeleteButton label="Delete Profile" icon={<icons.TrashIcon />} onClick={handleDeleteProfile} />
+      <DeleteButton
+        label="Delete Profile"
+        icon={<icons.TrashIcon />}
+        onClick={handleDeleteProfile}
+      />
       <NavButton
         label="Log out"
         icon={<icons.LogOutIcon />}
@@ -230,9 +254,9 @@ const UserPage = () => {
 
   if (isLoading) return <LoadingUserProfile />;
 
-  if (isError) return <div>some error occured</div>;
-
   if (!user) return <PageNotFound />;
+
+  if (isError) return <PageNotFound />;
 
   return (
     <Box $gap="0.1em" $width="500px">
@@ -274,7 +298,7 @@ const UserPage = () => {
       {section === "tweets" && <UserTweets user={user} />}
       {section === "replies" && <UserReplies user={user} />}
       {section === "likes" && <LikedTweets user={user} />}
-      {section === "settings" && id === myId && <Settings />}
+      {section === "settings" && id === myId && <Settings user={user} />}
     </Box>
   );
 };

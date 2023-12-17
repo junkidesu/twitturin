@@ -44,6 +44,16 @@ export const usersApi = api.injectEndpoints({
         }
       },
     }),
+    deleteUser: builder.mutation<undefined, string>({
+      query: (id) => ({
+        url: `users/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (_result, _error, arg) => [
+        { type: "User", id: arg },
+        { type: "User" },
+      ],
+    }),
     getFollowers: builder.query<User[], string>({
       query: (id) => ({
         url: `users/${id}/followers`,
@@ -105,6 +115,7 @@ export const {
   useGetUserQuery,
   useAddUserMutation,
   useEditUserMutation,
+  useDeleteUserMutation,
   useGetFollowersQuery,
   useGetFollowingQuery,
   useFollowMutation,
