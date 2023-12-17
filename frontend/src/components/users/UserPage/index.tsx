@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { icons, pictures } from "../../../assets";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useGetUserQuery } from "../../../services/usersService";
 import LoadingUserProfile from "../../util/LoadingUserProfile";
 import Box from "../../containers/Box";
@@ -21,6 +21,10 @@ import {
 } from "../../../services/tweetsService";
 import LoadingTweetList from "../../util/LoadingTweetList";
 import Empty from "../../util/Empty";
+import FlatButton from "../../core/buttons/FlatButton";
+import { useAppDispatch, useAppSelector } from "../../../hooks/store";
+import { removeCredentials } from "../../../reducers/authReducer";
+import storageService from "../../../services/storageService";
 
 const Banner = styled.div`
   position: relative;
@@ -172,8 +176,55 @@ const LikedTweets = ({ user }: { user: User }) => {
   return <TweetList tweets={tweets} />;
 };
 
+const NavButton = styled(FlatButton)`
+  font-size: ${({ theme }) => theme.fontSizes.medium};
+  padding: 0.9em 1em;
+`;
+
+const DeleteButton = styled(NavButton)`
+  color: #ff0037;
+
+  &:hover {
+    color: #ff0037;
+  }
+`;
+
+const Settings = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const handleSignOut = () => {
+    storageService.removeAuthUser();
+
+    dispatch(removeCredentials());
+  };
+
+  const handleDeleteProfile = () => {
+    if (confirm("Are you sure you want to delete your profile?")) {
+      console.log("deleting profile...");
+    }
+  }
+
+  return (
+    <Box $gap="0.1em">
+      <NavButton
+        label="Edit Profile"
+        icon={<icons.EditIcon />}
+        onClick={() => navigate("/edit-profile")}
+      />
+      <DeleteButton label="Delete Profile" icon={<icons.TrashIcon />} onClick={handleDeleteProfile} />
+      <NavButton
+        label="Log out"
+        icon={<icons.LogOutIcon />}
+        onClick={handleSignOut}
+      />
+    </Box>
+  );
+};
+
 const UserPage = () => {
   const id = useParams().id;
+  const myId = useAppSelector(({ auth }) => auth.id);
   const [section, setSection] = useState<Section>("tweets");
   const { data: user, isLoading, isError } = useGetUserQuery(id!);
 
@@ -210,11 +261,20 @@ const UserPage = () => {
         >
           Likes
         </SectionButton>
+        {id === myId && (
+          <SectionButton
+            $active={section === "settings"}
+            onClick={() => setSection("settings")}
+          >
+            Settings
+          </SectionButton>
+        )}
       </Box>
 
       {section === "tweets" && <UserTweets user={user} />}
       {section === "replies" && <UserReplies user={user} />}
       {section === "likes" && <LikedTweets user={user} />}
+      {section === "settings" && id === myId && <Settings />}
     </Box>
   );
 };

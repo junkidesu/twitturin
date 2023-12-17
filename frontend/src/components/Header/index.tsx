@@ -34,14 +34,14 @@ const HomePageLink = styled(RouterLink)`
 `;
 
 const Header = () => {
-  const username = useAppSelector(({ auth }) => auth.username);
+  const { username, id } = useAppSelector(({ auth }) => auth);
 
   return (
     <HeaderBox $horizontal $pad="l" $bg="#222222bb">
       <HomePageLink to="/">Twittur</HomePageLink>
 
       <RightCornerBox>
-        {username ? <ProfileMenu username={username} /> : <AuthButtons />}
+        {username ? <ProfileMenu username={username!} id={id!} /> : <AuthButtons />}
       </RightCornerBox>
     </HeaderBox>
   );
