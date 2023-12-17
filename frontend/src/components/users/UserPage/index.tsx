@@ -15,6 +15,10 @@ import { useState } from "react";
 import ReplyList from "../../replies/ReplyList";
 import { useGetUserRepliesQuery } from "../../../services/repliesService";
 import LoadingReplyList from "../../util/LoadingReplyList";
+import { useGetLikedTweetsQuery } from "../../../services/tweetsService";
+import TweetItem from "../../tweets/TweetList/TweetItem";
+import LoadingTweetList from "../../util/LoadingTweetList";
+import Empty from "../../util/Empty";
 
 const Banner = styled.div`
   position: relative;
@@ -105,11 +109,11 @@ const FollowPanel = ({ user, id }: { user: User; id: string }) => {
   return (
     <FollowWrapper $pad="l" $bg="white" $horizontal $center>
       <Box $horizontal $gap="1.5em">
-        <RouterLink to={`/users/${id}/followers`}>
+        <RouterLink to={`/users/${id}/followers`} $size="small">
           {user.followersCount} followers
         </RouterLink>
 
-        <RouterLink to={`/users/${id}/following`}>
+        <RouterLink to={`/users/${id}/following`} $size="small">
           {user.followingCount} following
         </RouterLink>
       </Box>
@@ -144,6 +148,24 @@ const UserReplies = ({ user }: { user: User }) => {
   if (isLoading) return <LoadingReplyList />;
 
   return <ReplyList replies={replies!} />;
+};
+
+const LikedTweets = ({ user }: { user: User }) => {
+  const { data: tweets, isLoading } = useGetLikedTweetsQuery(user.id);
+
+  if (isLoading) return <LoadingTweetList />;
+
+  if (!tweets) return <div>Some error occurred!</div>;
+
+  if (tweets.length === 0) return <Empty />;
+
+  return (
+    <Box $gap="0.1em">
+      {tweets!.map((t) => (
+        <TweetItem key={t.id} tweet={t} />
+      ))}
+    </Box>
+  );
 };
 
 const UserPage = () => {
@@ -188,6 +210,7 @@ const UserPage = () => {
 
       {section === "tweets" && <TweetList author={user.id} />}
       {section === "replies" && <UserReplies user={user} />}
+      {section === "likes" && <LikedTweets user={user} />}
     </Box>
   );
 };
