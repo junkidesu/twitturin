@@ -39,6 +39,12 @@ const UserSchema = new Schema<UserCommon>(
         ref: "User",
       },
     ],
+    followers: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
     country: String,
   },
   {
@@ -52,6 +58,7 @@ const UserSchema = new Schema<UserCommon>(
         returnedObject.id = returnedObject._id?.toString() || returnedObject.id;
         delete returnedObject._id;
         delete returnedObject.following;
+        delete returnedObject.followers;
         delete returnedObject.__v;
         delete returnedObject.__t;
       },
@@ -73,22 +80,12 @@ UserSchema.virtual("replies", {
   foreignField: "author",
 });
 
-UserSchema.virtual("followers", {
-  ref: "User",
-  localField: "_id",
-  foreignField: "following",
-});
-
 UserSchema.virtual("followingCount").get(function () {
   return this.following.length;
 });
 
-UserSchema.virtual("followersCount", {
-  ref: "User",
-  localField: "_id",
-  foreignField: "following",
-  count: true,
-  autopopulate: true,
+UserSchema.virtual("followersCount").get(function () {
+  return this.followers.length;
 });
 
 UserSchema.virtual("age").get(function () {

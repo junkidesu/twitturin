@@ -32,12 +32,18 @@ const followUser = async (me: Types.ObjectId, toFollow: string) => {
   const currentUser = await UserModel.findById(me);
 
   const followingStrings = currentUser!.following.map((u) => u.toString());
+  const followersStrings = foundUser.followers.map((u) => u.toString());
 
   if (!followingStrings.includes(foundUser._id.toString())) {
     currentUser!.following = currentUser!.following.concat(foundUser._id);
   }
 
+  if (!followersStrings.includes(currentUser!._id.toString())) {
+    foundUser.followers = foundUser.followers.concat(currentUser!._id);
+  }
+
   await currentUser!.save();
+  await foundUser.save();
 
   return foundUser;
 };
