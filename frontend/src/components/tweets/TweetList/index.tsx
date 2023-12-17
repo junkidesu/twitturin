@@ -1,20 +1,13 @@
 import TweetItem from "./TweetItem";
 import Box from "../../containers/Box";
-import { useGetTweetsQuery } from "../../../services/tweetsService";
-import LoadingTweetList from "../../util/LoadingTweetList";
 import Empty from "../../util/Empty";
+import { Tweet } from "../../../types";
 
 type TweetListProps = {
-  author?: string;
+  tweets: Tweet[];
 };
 
-const TweetList = ({ author }: TweetListProps) => {
-  const { data: tweets, isLoading } = useGetTweetsQuery(author);
-
-  if (isLoading) return <LoadingTweetList />;
-
-  if (!tweets) return <div>Some error occurred!</div>;
-
+const TweetList = ({ tweets }: TweetListProps) => {
   if (tweets.length === 0) return <Empty />;
 
   return (

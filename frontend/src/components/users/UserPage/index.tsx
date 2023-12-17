@@ -15,8 +15,10 @@ import { useState } from "react";
 import ReplyList from "../../replies/ReplyList";
 import { useGetUserRepliesQuery } from "../../../services/repliesService";
 import LoadingReplyList from "../../util/LoadingReplyList";
-import { useGetLikedTweetsQuery } from "../../../services/tweetsService";
-import TweetItem from "../../tweets/TweetList/TweetItem";
+import {
+  useGetLikedTweetsQuery,
+  useGetTweetsQuery,
+} from "../../../services/tweetsService";
 import LoadingTweetList from "../../util/LoadingTweetList";
 import Empty from "../../util/Empty";
 
@@ -142,6 +144,14 @@ const SectionButton = styled.button<{ $active: boolean }>`
   }
 `;
 
+const UserTweets = ({ user }: { user: User }) => {
+  const { data: tweets, isLoading } = useGetTweetsQuery(user.id);
+
+  if (isLoading) return <LoadingTweetList />;
+
+  return <TweetList tweets={tweets!} />;
+};
+
 const UserReplies = ({ user }: { user: User }) => {
   const { data: replies, isLoading } = useGetUserRepliesQuery(user.id);
 
@@ -159,13 +169,7 @@ const LikedTweets = ({ user }: { user: User }) => {
 
   if (tweets.length === 0) return <Empty />;
 
-  return (
-    <Box $gap="0.1em">
-      {tweets!.map((t) => (
-        <TweetItem key={t.id} tweet={t} />
-      ))}
-    </Box>
-  );
+  return <TweetList tweets={tweets} />;
 };
 
 const UserPage = () => {
@@ -208,7 +212,7 @@ const UserPage = () => {
         </SectionButton>
       </Box>
 
-      {section === "tweets" && <TweetList author={user.id} />}
+      {section === "tweets" && <UserTweets user={user} />}
       {section === "replies" && <UserReplies user={user} />}
       {section === "likes" && <LikedTweets user={user} />}
     </Box>
