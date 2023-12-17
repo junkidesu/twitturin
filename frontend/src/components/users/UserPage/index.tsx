@@ -10,6 +10,7 @@ import TweetList from "../../tweets/TweetList";
 import RouterLink from "../../core/RouterLink";
 import FollowButton from "../FollowButton";
 import { User } from "../../../types";
+import PageNotFound from "../../util/PageNotFound";
 
 const Banner = styled.div`
   position: relative;
@@ -122,7 +123,7 @@ const UserPage = () => {
 
   if (isError) return <div>some error occured</div>;
 
-  if (!user) return <div>user not found!</div>;
+  if (!user) return <PageNotFound />;
 
   return (
     <Box $gap="0.1em">

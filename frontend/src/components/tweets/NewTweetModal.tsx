@@ -1,4 +1,4 @@
-import Modal from "../../containers/Modal";
+import Modal from "../containers/Modal";
 import NewTweetForm from "./NewTweetForm";
 
 const NewTweetModal = () => (
