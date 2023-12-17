@@ -15,6 +15,7 @@ import { setCredentials } from "../../reducers/authReducer";
 import { show, hide } from "../../reducers/loadingStripeReducer";
 import Heading from "../core/text/Heading";
 import Box from "../containers/Box";
+import TextArea from "../core/inputs/TextArea";
 
 const KindButton = styled.button<{ $active: boolean }>`
   width: 100%;
@@ -45,6 +46,17 @@ const SignUpHeading = () => {
   );
 };
 
+const BioTextArea = styled(TextArea)`
+  font-size: ${({ theme }) => theme.fontSizes.medium};
+  border: 2px solid ${({ theme }) => theme.colors.grey3};
+  border-radius: 10px;
+
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.grey1};
+    font-size: ${({ theme }) => theme.fontSizes.small};
+  }
+`;
+
 const SignUpForm = () => {
   const [signUp, { isLoading, isError, isSuccess }] = useAddUserMutation();
   const [login] = useLoginMutation();
@@ -52,6 +64,8 @@ const SignUpForm = () => {
   const [, studentId] = useField("text", "StudentID");
   const [, username] = useField("text", "Username");
   const [, fullName] = useField("text", "Full Name");
+  const [, bio] = useField("text", "Biography");
+  const [, country] = useField("text", "Country");
   const [, password] = useField("password", "Password");
   const [, major] = useField(undefined, "Major", majors[0]);
   const [, subject] = useField("text", "Subject");
@@ -101,6 +115,8 @@ const SignUpForm = () => {
       password: password.value,
       email: email.value,
       fullName: fullName.value ? fullName.value : undefined,
+      bio: bio.value ? bio.value : undefined,
+      country: country.value ? country.value : undefined,
       birthday: birthday.value,
     };
 
@@ -148,6 +164,8 @@ const SignUpForm = () => {
         <Input {...username} required />
         <Input {...email} required />
         <Input {...fullName} />
+        <Input {...country} />
+        <BioTextArea {...bio} />
         <DatePicker {...birthday} />
 
         {kind === "student" && (

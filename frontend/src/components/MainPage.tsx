@@ -16,6 +16,7 @@ const FormWrapper = styled(Form)`
   flex-direction: column;
   align-items: end;
   width: 100%;
+  padding: 0;
 `;
 
 const TweetTextArea = styled(TextArea)`
