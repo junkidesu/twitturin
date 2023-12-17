@@ -8,10 +8,12 @@ const ButtonBox = styled(Box)`
   color: ${({ theme }) => theme.colors.grey2};
   cursor: pointer;
 
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.grey4};
-    color: ${({ theme }) => theme.colors.primary};
-    transition: 0.3s;
+  @media (min-width: 651px) {
+    &:hover {
+      background-color: ${({ theme }) => theme.colors.grey4};
+      color: ${({ theme }) => theme.colors.primary};
+      transition: 0.3s;
+    }
   }
 `;
 

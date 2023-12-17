@@ -66,7 +66,6 @@ const BottomButtons = ({ tweet }: { tweet: Tweet }) => {
         label={replyButtonLabel}
         $vertical
       />
-      <IconButton icon={<icons.RetweetIcon />} label="0 retweets" $vertical />
       <IconButton icon={<icons.BookmarkIcon />} label="Save" $vertical />
       <IconButton icon={<icons.ShareIcon />} label="Share" $vertical />
     </Wrapper>

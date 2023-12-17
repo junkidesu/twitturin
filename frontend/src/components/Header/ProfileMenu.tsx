@@ -39,7 +39,7 @@ const ProfileMenu = ({ id }: { username: string; id: string }) => {
       </VisibleItems>
 
       {visible && (
-        <HiddenItems>
+        <HiddenItems onClick={() => setVisible(false)}>
           <FlatButton
             icon={<icons.UserIcon />}
             label="Profile"
