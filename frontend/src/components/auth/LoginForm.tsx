@@ -2,7 +2,6 @@ import useField from "../../hooks/useField";
 import Button from "../core/buttons/Button";
 import Input from "../core/inputs/Input";
 import Form from "../core/Form";
-import lightTheme from "../../themes/lightTheme";
 import { useAppDispatch } from "../../hooks/store";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -48,17 +47,17 @@ const LoginForm = () => {
   if (isError) return <div>Error occured! [TODO error message screen]</div>;
 
   return (
-    <Box $gap="2em" $center>
-      <Heading $level={2} $color={lightTheme.colors.primary}>
-        Log in to Twittur
-      </Heading>
+    <Box $gap="2em" $width="500px" $bg="white" $pad="l">
+      <Heading $level={2}>Log in to Twittur</Heading>
 
       <Form onSubmit={handleLogin}>
         <Input {...username} required />
 
         <Input {...password} required />
 
-        <Button $width="100%" $rounded>Log in</Button>
+        <Button $width="100%">
+          Log in
+        </Button>
       </Form>
     </Box>
   );

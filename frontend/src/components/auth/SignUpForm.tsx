@@ -14,7 +14,6 @@ import { useLoginMutation } from "../../services/authService";
 import { setCredentials } from "../../reducers/authReducer";
 import { show, hide } from "../../reducers/loadingStripeReducer";
 import Heading from "../core/text/Heading";
-import lightTheme from "../../themes/lightTheme";
 import Box from "../containers/Box";
 
 const KindButton = styled.button<{ $active: boolean }>`
@@ -120,8 +119,8 @@ const SignUpForm = () => {
   if (isError) return <div>Some error occurred!</div>;
 
   return (
-    <Box $gap="2em" $center>
-      <Heading $level={2} $color={lightTheme.colors.primary}>
+    <Box $gap="2em" $pad="l" $width="500px" $bg="white">
+      <Heading $level={2}>
         Join Twittur Today!
       </Heading>
 
@@ -160,7 +159,7 @@ const SignUpForm = () => {
 
         <Input {...password} required />
 
-        <Button $width="100%" $rounded>
+        <Button $width="100%">
           Sign Up
         </Button>
       </Form>

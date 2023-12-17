@@ -23,6 +23,8 @@ import PageNotFound from "./components/util/PageNotFound";
 import FollowersPage from "./components/users/FollowersPage";
 import FollowingPage from "./components/users/FollowingPage";
 import EditTweetPage from "./components/tweets/EditTweetPage";
+import Empty from "./components/util/Empty";
+import LoginSuggestion from "./components/util/LoginSuggestion";
 
 const RightSideBar = styled(SideBar)`
   margin-left: 50px;
@@ -49,13 +51,19 @@ const App = () => {
       <NewTweetModal />
 
       <PageWrapper $horizontal $gap="0.1em">
-        {username && <NavSideBar />}
+        {username ? (
+          <NavSideBar />
+        ) : (
+          <SideBar>
+            <LoginSuggestion />
+          </SideBar>
+        )}
 
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/explore" element={<ComingSoon />} />
-          <Route path="/messages" element={<ComingSoon />} />
-          <Route path="/notifications" element={<ComingSoon />} />
+          <Route path="/messages" element={<Empty />} />
+          <Route path="/notifications" element={<Empty />} />
           <Route path="/communities" element={<ComingSoon />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/sign-up" element={<SignUpForm />} />
@@ -68,11 +76,9 @@ const App = () => {
           <Route path="*" element={<PageNotFound />} />
         </Routes>
 
-        {username && (
-          <RightSideBar>
-            <SuggestedUsers />
-          </RightSideBar>
-        )}
+        <RightSideBar>
+          <SuggestedUsers />
+        </RightSideBar>
       </PageWrapper>
     </ThemeProvider>
   );

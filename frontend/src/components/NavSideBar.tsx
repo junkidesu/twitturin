@@ -54,11 +54,11 @@ const NavigationButtons = () => {
         label="Notifications"
         onClick={() => navigate("/notifications")}
       />
-      <NavButton
+      {/* <NavButton
         icon={<icons.UsersIcon />}
         label="Communities"
         onClick={() => navigate("/communities")}
-      />
+      /> */}
       <NavButton
         icon={<icons.UserIcon />}
         label="Profile"
