@@ -104,7 +104,7 @@ const TweetItem = ({ tweet }: { tweet: Tweet }) => {
   return (
     <Box $horizontal $pad="l" $gap="1em" $bg="white" $width="100%">
       <ProfilePicture
-        src={pictures.emptyProfilePicture}
+        src={tweet.author.profilePicture || pictures.emptyProfilePicture}
         onClick={() => navigate(`/tweets/${tweet.id}`)}
       />
 

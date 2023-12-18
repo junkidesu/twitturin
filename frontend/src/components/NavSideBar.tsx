@@ -74,7 +74,9 @@ const UserDetails = () => {
   return (
     <ProfileWrapper $horizontal $pad="m" $center $rounded>
       <Box $horizontal $gap="1em">
-        <ProfilePicture src={pictures.emptyProfilePicture} />
+        <ProfilePicture
+          src={user?.profilePicture || pictures.emptyProfilePicture}
+        />
 
         <Box $gap="0.5em">
           <Label $bold $size="small">

@@ -21,6 +21,7 @@ export interface UserCommon {
   country?: string;
   birthday: string;
   age: number;
+  profilePicture?: string;
   followingCount: number;
   followersCount: number;
 }
@@ -40,7 +41,7 @@ export type User = StudentUser | TeacherUser;
 
 export type NewUser = UnionOmit<
   User,
-  "age" | "id" | "followingCount" | "followersCount"
+  "age" | "id" | "followingCount" | "followersCount" | "profilePicture"
 > & {
   password: string;
 };

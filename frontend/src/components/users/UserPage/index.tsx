@@ -47,6 +47,7 @@ const ProfilePicture = styled.img`
   border-radius: 100em;
   bottom: -2.5em;
   left: 1em;
+  overflow: hidden;
 `;
 
 const Username = styled(Label)`
@@ -57,7 +58,9 @@ const ProfileHeader = ({ user }: { user: User }) => {
   return (
     <Box $bg="white" $gap="1.5em" $hide>
       <Banner>
-        <ProfilePicture src={pictures.emptyProfilePicture} />
+        <ProfilePicture
+          src={user.profilePicture || pictures.emptyProfilePicture}
+        />
       </Banner>
 
       <Box $bg="white" $pad="l" $gap="1em">

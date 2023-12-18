@@ -5,11 +5,12 @@ import TextArea from "../core/inputs/TextArea";
 import Button from "../core/buttons/Button";
 import useField from "../../hooks/useField";
 import { useAddTweetMutation } from "../../services/tweetsService";
-import { useAppDispatch } from "../../hooks/store";
+import { useAppDispatch, useAppSelector } from "../../hooks/store";
 import { hideModal } from "../../reducers/modalReducer";
 import Box from "../containers/Box";
 import { hide, show } from "../../reducers/loadingStripeReducer";
 import { pictures } from "../../assets";
+import { useGetUserQuery } from "../../services/usersService";
 
 const TweetTextArea = styled(TextArea)`
   border: none;
@@ -34,6 +35,8 @@ const FormWrapper = styled(Form)`
 
 const NewTweetForm = ({ className }: { className?: string }) => {
   const [clearContent, content] = useField("text", "Tweet your thoughts");
+  const id = useAppSelector(({ auth }) => auth.id);
+  const { data: user } = useGetUserQuery(id!);
   const [addTweet, { isLoading, isSuccess, isError }] = useAddTweetMutation();
   const dispatch = useAppDispatch();
 
@@ -64,7 +67,9 @@ const NewTweetForm = ({ className }: { className?: string }) => {
 
   return (
     <Box $horizontal $pad="l" $bg="white" $width="100%" className={className}>
-      <ProfilePicture src={pictures.emptyProfilePicture} />
+      <ProfilePicture
+        src={user?.profilePicture || pictures.emptyProfilePicture}
+      />
 
       <FormWrapper onSubmit={handleSubmit}>
         <TweetTextArea {...content} required />

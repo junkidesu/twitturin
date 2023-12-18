@@ -73,7 +73,9 @@ const ReplyItem = ({ reply, showChildReplies }: Props) => {
         />
 
         <RouterLink to={`/users/${reply.author.id}`}>
-          <ProfilePicture src={pictures.emptyProfilePicture} />
+          <ProfilePicture
+            src={reply.author.profilePicture || pictures.emptyProfilePicture}
+          />
         </RouterLink>
 
         <RouterLink $bold to={`/users/${reply.author.id}`}>
@@ -92,7 +94,7 @@ const ReplyItem = ({ reply, showChildReplies }: Props) => {
     <Box $horizontal $bg="white" $gap="1em" $pad="s" id={reply.id}>
       <Box $center>
         <ProfilePicture
-          src={pictures.emptyProfilePicture}
+          src={reply.author.profilePicture || pictures.emptyProfilePicture}
           onClick={() => navigate(`/users/${reply.author.id}`)}
         />
 
