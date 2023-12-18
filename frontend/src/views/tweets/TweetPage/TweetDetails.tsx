@@ -49,7 +49,9 @@ const TweetDetails = ({ tweet }: { tweet: Tweet }) => {
   return (
     <Card $horizontal $gap="1.5em">
       <RouterLink to={`/users/${tweet.author.id}`}>
-        <ProfilePicture src={pictures.emptyProfilePicture} />
+        <ProfilePicture
+          src={tweet.author.profilePicture || pictures.emptyProfilePicture}
+        />
       </RouterLink>
 
       <Box $gap="1em">
