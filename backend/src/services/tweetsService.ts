@@ -67,12 +67,14 @@ const editTweet = async (id: string, toEdit: EditTweet) => {
 const likeTweet = async (id: string, user: User & { _id: Types.ObjectId }) => {
   const tweet = await TweetModel.findById(id);
 
-  const likesStrings = tweet!.likedBy.map((u) => u.toString());
+  if (!tweet) throw new NotFoundError("tweet not found");
+
+  const likesStrings = tweet.likedBy.map((u) => u.toString());
   const likedByMe = likesStrings.includes(user._id.toString());
 
-  if (!likedByMe) tweet!.likedBy = tweet!.likedBy.concat(user._id);
+  if (!likedByMe) tweet.likedBy = tweet.likedBy.concat(user._id);
 
-  await tweet!.save({ timestamps: { updatedAt: false } });
+  await tweet.save({ timestamps: { updatedAt: false } });
 
   return user;
 };
