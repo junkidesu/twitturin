@@ -97,3 +97,9 @@ export interface TokenData {
 export interface NewTweet {
   content: string;
 }
+
+export interface SearchResults {
+  tweets: Tweet[];
+  users: User[];
+  replies: Reply[];
+}

@@ -156,9 +156,14 @@ const SectionButton = styled.button<{ $active: boolean }>`
 `;
 
 const UserTweets = ({ user }: { user: User }) => {
-  const { data: tweets, isLoading, isError } = useGetTweetsQuery(user.id);
+  const {
+    data: tweets,
+    isLoading,
+    isFetching,
+    isError,
+  } = useGetTweetsQuery(user.id);
 
-  if (isLoading) return <LoadingTweetList />;
+  if (isLoading || isFetching) return <LoadingTweetList />;
 
   if (isError) return <ErrorPage />;
 
@@ -166,9 +171,14 @@ const UserTweets = ({ user }: { user: User }) => {
 };
 
 const UserReplies = ({ user }: { user: User }) => {
-  const { data: replies, isLoading, isError } = useGetUserRepliesQuery(user.id);
+  const {
+    data: replies,
+    isLoading,
+    isFetching,
+    isError,
+  } = useGetUserRepliesQuery(user.id);
 
-  if (isLoading) return <LoadingReplyList />;
+  if (isLoading || isFetching) return <LoadingReplyList />;
 
   if (isError) return <ErrorPage />;
 
@@ -176,9 +186,14 @@ const UserReplies = ({ user }: { user: User }) => {
 };
 
 const LikedTweets = ({ user }: { user: User }) => {
-  const { data: tweets, isLoading, isError } = useGetLikedTweetsQuery(user.id);
+  const {
+    data: tweets,
+    isLoading,
+    isFetching,
+    isError,
+  } = useGetLikedTweetsQuery(user.id);
 
-  if (isLoading) return <LoadingTweetList />;
+  if (isLoading || isFetching) return <LoadingTweetList />;
 
   if (isError) return <ErrorPage />;
 
@@ -266,9 +281,9 @@ const UserPage = () => {
   const id = useParams().id;
   const myId = useAppSelector(({ auth }) => auth.id);
   const [section, setSection] = useState<Section>("tweets");
-  const { data: user, isLoading, isError } = useGetUserQuery(id!);
+  const { data: user, isLoading, isFetching, isError } = useGetUserQuery(id!);
 
-  if (isLoading) return <LoadingUserProfile />;
+  if (isLoading || isFetching) return <LoadingUserProfile />;
 
   if (!user) return <ErrorPage />;
 

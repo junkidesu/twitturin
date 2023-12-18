@@ -8,7 +8,7 @@ const LoadingProfilePicture = styled(LoadingElement)`
 
 const LoadingUserItem = () => {
   return (
-    <Box $horizontal $center $pad="m" $gap="1em">
+    <Box $horizontal $center $pad="m" $gap="1em" $bg="white">
       <LoadingProfilePicture $width="2em" $height="2em" />
 
       <Box $width="80%" $gap="0.5em" $center>

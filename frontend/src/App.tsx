@@ -18,7 +18,6 @@ import LoadingStripe from "./components/util/LoadingStripe";
 import NavSideBar from "./components/NavSideBar";
 import SuggestedUsers from "./components/users/SuggestedUsers";
 import SideBar from "./components/containers/SideBar";
-import ComingSoon from "./components/util/ComingSoon";
 import PageNotFound from "./components/util/PageNotFound";
 import FollowersPage from "./components/users/FollowersPage";
 import FollowingPage from "./components/users/FollowingPage";
@@ -31,6 +30,7 @@ import FloatingButton from "./components/core/buttons/FloatingButton";
 import { icons } from "./assets";
 import { showModal } from "./reducers/modalReducer";
 import ErrorPage from "./components/util/ErrorPage";
+import ExplorePage from "./components/ExplorePage";
 
 const RightSideBar = styled(SideBar)`
   margin-left: 50px;
@@ -66,7 +66,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/home" element={<MainPage />} />
-          <Route path="/explore" element={<ComingSoon />} />
+          <Route path="/explore" element={<ExplorePage />} />
           <Route path="/messages" element={<MessagesPage />} />
           <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/login" element={<LoginPage />} />
