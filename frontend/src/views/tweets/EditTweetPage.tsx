@@ -1,16 +1,16 @@
 import { useNavigate, useParams } from "react-router-dom";
-import Box from "../containers/Box";
-import Heading from "../core/text/Heading";
+import Box from "../../components/containers/Box";
+import Heading from "../../components/core/text/Heading";
 import {
   useEditTweetMutation,
   useGetTweetQuery,
 } from "../../services/tweetsService";
-import TextArea from "../core/inputs/TextArea";
+import TextArea from "../../components/core/inputs/TextArea";
 import useField from "../../hooks/useField";
 import { Tweet } from "../../types";
-import Button from "../core/buttons/Button";
+import Button from "../../components/core/buttons/Button";
 import { styled } from "styled-components";
-import Form from "../core/Form";
+import Form from "../../components/core/Form";
 import { useAppDispatch } from "../../hooks/store";
 import { useEffect } from "react";
 import { hide, show } from "../../reducers/loadingStripeReducer";

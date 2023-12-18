@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import RouterLink from "../../core/RouterLink";
+import RouterLink from "../../../components/core/RouterLink";
 import { icons, pictures } from "../../../assets";
 import { Tweet } from "../../../types";
-import Box from "../../containers/Box";
-import Label from "../../core/text/Label";
+import Box from "../../../components/containers/Box";
+import Label from "../../../components/core/text/Label";
 import lightTheme from "../../../themes/lightTheme";
-import IconButton from "../../core/buttons/IconButton";
+import IconButton from "../../../components/core/buttons/IconButton";
 
 const UsernameLink = styled(RouterLink)`
   color: ${(props) => props.theme.colors.grey2};

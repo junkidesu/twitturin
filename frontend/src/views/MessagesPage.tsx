@@ -1,6 +1,6 @@
-import Box from "./containers/Box";
-import Heading from "./core/text/Heading";
-import Empty from "./util/Empty";
+import Box from "../components/containers/Box";
+import Heading from "../components/core/text/Heading";
+import Empty from "../components/util/Empty";
 
 const Header = () => {
   return (

@@ -1,15 +1,15 @@
 import useField from "../hooks/useField";
 import { useSearchQuery } from "../services/searchService";
-import Box from "./containers/Box";
-import Input from "./core/inputs/Input";
-import Heading from "./core/text/Heading";
-import TweetList from "./tweets/TweetList";
-import LoadingTweetList from "./util/LoadingTweetList";
-import ReplyList from "./replies/ReplyList";
-import LoadingReplyList from "./util/LoadingReplyList";
-import UserItem from "./users/UserItem";
-import LoadingUserItem from "./util/LoadingUserItem";
-import Empty from "./util/Empty";
+import Box from "../components/containers/Box";
+import Input from "../components/core/inputs/Input";
+import Heading from "../components/core/text/Heading";
+import TweetList from "../components/tweets/TweetList";
+import LoadingTweetList from "../components/util/LoadingTweetList";
+import ReplyList from "../components/replies/ReplyList";
+import LoadingReplyList from "../components/util/LoadingReplyList";
+import UserItem from "../components/users/UserItem";
+import LoadingUserItem from "../components/util/LoadingUserItem";
+import Empty from "../components/util/Empty";
 
 const Header = () => {
   return (

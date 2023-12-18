@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import Box from "../containers/Box";
-import Heading from "../core/text/Heading";
-import Label from "../core/text/Label";
+import Box from "../../components/containers/Box";
+import Heading from "../../components/core/text/Heading";
+import Label from "../../components/core/text/Label";
 
 const Wrapper = styled(Box)`
   height: 200px;

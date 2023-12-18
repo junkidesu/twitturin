@@ -1,7 +1,7 @@
 import LoadingTweetDetails from "./LoadingTweetDetails";
-import LoadingReplyList from "../LoadingReplyList";
-import Box from "../../containers/Box";
-import Heading from "../../core/text/Heading";
+import LoadingReplyList from "../../../components/util/LoadingReplyList";
+import Box from "../../../components/containers/Box";
+import Heading from "../../../components/core/text/Heading";
 
 const LoadingTweetPage = () => {
   return (

@@ -1,9 +1,9 @@
-import TweetList from "./tweets/TweetList";
-import Box from "./containers/Box";
+import TweetList from "../components/tweets/TweetList";
+import Box from "../components/containers/Box";
 import { useAppSelector } from "../hooks/store";
-import NewTweetForm from "./tweets/NewTweetForm";
+import NewTweetForm from "../components/tweets/NewTweetForm";
 import { useGetTweetsQuery } from "../services/tweetsService";
-import LoadingTweetList from "./util/LoadingTweetList";
+import LoadingTweetList from "../components/util/LoadingTweetList";
 import ErrorPage from "./util/ErrorPage";
 import styled from "styled-components";
 

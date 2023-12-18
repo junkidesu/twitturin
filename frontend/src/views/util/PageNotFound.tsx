@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import Box from "../containers/Box";
-import RouterLink from "../core/RouterLink";
-import Heading from "../core/text/Heading";
-import Label from "../core/text/Label";
+import Box from "../../components/containers/Box";
+import RouterLink from "../../components/core/RouterLink";
+import Heading from "../../components/core/text/Heading";
+import Label from "../../components/core/text/Label";
 
 const HomePageLink = styled(RouterLink)`
   display: inline;

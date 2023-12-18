@@ -1,16 +1,16 @@
 import { useParams } from "react-router-dom";
 import TweetDetails from "./TweetDetails";
 import { useGetTweetQuery } from "../../../services/tweetsService";
-import ReplyForm from "../../replies/ReplyForm";
+import ReplyForm from "../../../components/replies/ReplyForm";
 import LoadingTweetPage from "../../util/LoadingTweetPage";
-import Box from "../../containers/Box";
-import Heading from "../../core/text/Heading";
+import Box from "../../../components/containers/Box";
+import Heading from "../../../components/core/text/Heading";
 import BottomButtons from "./BottomButtons";
-import ReplyList from "../../replies/ReplyList";
+import ReplyList from "../../../components/replies/ReplyList";
 import { useGetTweetRepliesQuery } from "../../../services/repliesService";
 import { Tweet } from "../../../types";
-import LoadingReplyList from "../../util/LoadingReplyList";
-import Empty from "../../util/Empty";
+import LoadingReplyList from "../../../components/util/LoadingReplyList";
+import Empty from "../../../components/util/Empty";
 import ErrorPage from "../../util/ErrorPage";
 import PageNotFound from "../../util/PageNotFound";
 

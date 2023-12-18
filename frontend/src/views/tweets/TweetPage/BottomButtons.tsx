@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import Box from "../../containers/Box";
+import Box from "../../../components/containers/Box";
 import { icons } from "../../../assets";
-import IconButton from "../../core/buttons/IconButton";
+import IconButton from "../../../components/core/buttons/IconButton";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../hooks/store";
 import {

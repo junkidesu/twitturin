@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import Box from "../../containers/Box";
-import LoadingElement from "../LoadingElement";
+import Box from "../../../components/containers/Box";
+import LoadingElement from "../../../components/util/LoadingElement";
 
 const LoadingProfilePicture = styled(LoadingElement)`
   border-radius: 100em;

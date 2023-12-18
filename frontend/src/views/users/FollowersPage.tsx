@@ -1,15 +1,15 @@
 import { useParams } from "react-router-dom";
-import Box from "../containers/Box";
-import RouterLink from "../core/RouterLink";
-import Heading from "../core/text/Heading";
+import Box from "../../components/containers/Box";
+import RouterLink from "../../components/core/RouterLink";
+import Heading from "../../components/core/text/Heading";
 import {
   useGetFollowersQuery,
   useGetUserQuery,
 } from "../../services/usersService";
-import UserItem from "./UserItem";
+import UserItem from "../../components/users/UserItem";
 import { User } from "../../types";
-import LoadingUserItem from "../util/LoadingUserItem";
-import Empty from "../util/Empty";
+import LoadingUserItem from "../../components/util/LoadingUserItem";
+import Empty from "../../components/util/Empty";
 import ErrorPage from "../util/ErrorPage";
 
 const FollowersList = ({ user }: { user: User }) => {

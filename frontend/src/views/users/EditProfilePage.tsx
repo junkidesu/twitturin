@@ -5,14 +5,14 @@ import {
   useEditUserMutation,
   useGetUserQuery,
 } from "../../services/usersService";
-import Box from "../containers/Box";
-import Form from "../core/Form";
-import DatePicker from "../core/inputs/DatePicker";
-import Input from "../core/inputs/Input";
-import Heading from "../core/text/Heading";
+import Box from "../../components/containers/Box";
+import Form from "../../components/core/Form";
+import DatePicker from "../../components/core/inputs/DatePicker";
+import Input from "../../components/core/inputs/Input";
+import Heading from "../../components/core/text/Heading";
 import { EditUser, User } from "../../types";
-import TextArea from "../core/inputs/TextArea";
-import Button from "../core/buttons/Button";
+import TextArea from "../../components/core/inputs/TextArea";
+import Button from "../../components/core/buttons/Button";
 import { useEffect } from "react";
 import { useAppDispatch } from "../../hooks/store";
 import { show, hide } from "../../reducers/loadingStripeReducer";
@@ -108,6 +108,10 @@ const EditProfilePage = () => {
   return (
     <Box $width="500px" $gap="0.1em">
       <Header />
+
+      <Box $pad="l" $bg="white">
+        <Heading $level={4}>Choose image</Heading>
+      </Box>
 
       <EditProfileForm user={user} />
     </Box>

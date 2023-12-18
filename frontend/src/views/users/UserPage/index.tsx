@@ -6,25 +6,25 @@ import {
   useGetUserQuery,
 } from "../../../services/usersService";
 import LoadingUserProfile from "../../util/LoadingUserProfile";
-import Box from "../../containers/Box";
-import Label from "../../core/text/Label";
-import Heading from "../../core/text/Heading";
-import TweetList from "../../tweets/TweetList";
-import RouterLink from "../../core/RouterLink";
-import FollowButton from "../FollowButton";
+import Box from "../../../components/containers/Box";
+import Label from "../../../components/core/text/Label";
+import Heading from "../../../components/core/text/Heading";
+import TweetList from "../../../components/tweets/TweetList";
+import RouterLink from "../../../components/core/RouterLink";
+import FollowButton from "../../../components/users/FollowButton";
 import { User } from "../../../types";
 import PageNotFound from "../../util/PageNotFound";
 import { useEffect, useState } from "react";
-import ReplyList from "../../replies/ReplyList";
+import ReplyList from "../../../components/replies/ReplyList";
 import { useGetUserRepliesQuery } from "../../../services/repliesService";
-import LoadingReplyList from "../../util/LoadingReplyList";
+import LoadingReplyList from "../../../components/util/LoadingReplyList";
 import {
   useGetLikedTweetsQuery,
   useGetTweetsQuery,
 } from "../../../services/tweetsService";
-import LoadingTweetList from "../../util/LoadingTweetList";
-import Empty from "../../util/Empty";
-import FlatButton from "../../core/buttons/FlatButton";
+import LoadingTweetList from "../../../components/util/LoadingTweetList";
+import Empty from "../../../components/util/Empty";
+import FlatButton from "../../../components/core/buttons/FlatButton";
 import { useAppDispatch, useAppSelector } from "../../../hooks/store";
 import { removeCredentials } from "../../../reducers/authReducer";
 import storageService from "../../../services/storageService";
