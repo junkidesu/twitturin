@@ -134,6 +134,21 @@ router.post(
   }
 );
 
+router.delete(
+  "/:id/profilePicture",
+  requireAuthentication,
+  requireSameUser,
+  async (req, res, next) => {
+    try {
+      const updatedUser = await usersService.removeProfilePicture(req.params.id);
+
+      res.json(updatedUser);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 /**
  * @openapi
  * /users/{id}/tweets:

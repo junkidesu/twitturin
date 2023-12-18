@@ -68,6 +68,18 @@ const updateProfilePicture = async (id: string, profilePicture: string) => {
   return updatedUser;
 };
 
+const removeProfilePicture = async (id: string) => {
+  const updatedUser = await UserModel.findByIdAndUpdate(
+    id,
+    { profilePicture: null },
+    { new: true, context: "query" }
+  );
+
+  if (!updatedUser) throw new NotFoundError("user not found");
+
+  return updatedUser;
+};
+
 const removeUser = async (id: string) => {
   const user = await UserModel.findById(id);
 
@@ -84,5 +96,6 @@ export default {
   addUser,
   editUser,
   updateProfilePicture,
+  removeProfilePicture,
   removeUser,
 };

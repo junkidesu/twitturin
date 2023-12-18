@@ -156,19 +156,17 @@ export const errorHandler = (
   console.log(error.message);
 
   if (error.name === "CastError")
-    return res.status(400).json({ error: `CastError: Invalid MongoDB id` });
+    return res.status(400).json({ error: `invalid MongoDB id` });
   if (error.name === "ValidationError")
-    return res.status(400).json({ error: `ValidationError: ${error.message}` });
+    return res.status(400).json({ error: error.message });
   if (error.name === "ParseError")
-    return res.status(400).json({ error: `ParseError: ${error.message}` });
+    return res.status(400).json({ error: error.message });
   if (error.name === "NotFoundError")
-    return res.status(404).json({ error: `NotFoundError: ${error.message}` });
+    return res.status(404).json({ error: error.message });
   if (error.name === "AuthError")
-    return res.status(401).json({ error: `AuthError: ${error.message}` });
+    return res.status(401).json({ error: error.message });
   if (error.name === "JsonWebTokenError")
-    return res
-      .status(401)
-      .json({ error: `JsonWebTokenError: ${error.message}` });
+    return res.status(401).json({ error: error.message });
 
   return next(error);
 };
