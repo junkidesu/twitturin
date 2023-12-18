@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Box from "../../../components/containers/Box";
 import LoadingElement from "../../../components/util/LoadingElement";
+import Card from "../../../components/containers/Card";
 
 const LoadingProfilePicture = styled(LoadingElement)`
   border-radius: 100em;
@@ -8,7 +9,7 @@ const LoadingProfilePicture = styled(LoadingElement)`
 
 const LoadingTweetDetails = () => {
   return (
-    <Box $bg="white" $horizontal $pad="l" $gap="1.5em" $width="100%">
+    <Card $horizontal $gap="1.5em">
       <LoadingProfilePicture $width="3em" $height="3em" />
 
       <Box $gap="1em" $width="80%">
@@ -16,7 +17,7 @@ const LoadingTweetDetails = () => {
 
         <LoadingElement $height="5em" />
       </Box>
-    </Box>
+    </Card>
   );
 };
 

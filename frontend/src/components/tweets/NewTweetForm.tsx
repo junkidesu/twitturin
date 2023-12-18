@@ -7,10 +7,10 @@ import useField from "../../hooks/useField";
 import { useAddTweetMutation } from "../../services/tweetsService";
 import { useAppDispatch, useAppSelector } from "../../hooks/store";
 import { hideModal } from "../../reducers/modalReducer";
-import Box from "../containers/Box";
 import { hide, show } from "../../reducers/loadingStripeReducer";
 import { pictures } from "../../assets";
 import { useGetUserQuery } from "../../services/usersService";
+import Card from "../containers/Card";
 
 const TweetTextArea = styled(TextArea)`
   border: none;
@@ -66,7 +66,7 @@ const NewTweetForm = ({ className }: { className?: string }) => {
   };
 
   return (
-    <Box $horizontal $pad="l" $bg="white" $width="100%" className={className}>
+    <Card $horizontal className={className}>
       <ProfilePicture
         src={user?.profilePicture || pictures.emptyProfilePicture}
       />
@@ -76,7 +76,7 @@ const NewTweetForm = ({ className }: { className?: string }) => {
 
         <Button $bg="white">Tweet</Button>
       </FormWrapper>
-    </Box>
+    </Card>
   );
 };
 

@@ -1,16 +1,17 @@
 import styled from "styled-components";
-import Box from "../../components/containers/Box";
 import Heading from "../../components/core/text/Heading";
 import Label from "../../components/core/text/Label";
+import Card from "../../components/containers/Card";
 
-const Wrapper = styled(Box)`
+const Wrapper = styled(Card)`
+  width: 500px;
   height: 200px;
   justify-content: center;
 `;
 
 const ComingSoon = () => {
   return (
-    <Wrapper $pad="l" $width="500px" $gap="0.5em" $bg="white">
+    <Wrapper $gap="1em">
       <Heading>Coming Soon</Heading>
 
       <Label>We're actively working on implementing this feature.</Label>

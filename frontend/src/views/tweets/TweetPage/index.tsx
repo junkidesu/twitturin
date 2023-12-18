@@ -4,7 +4,6 @@ import { useGetTweetQuery } from "../../../services/tweetsService";
 import ReplyForm from "../../../components/replies/ReplyForm";
 import LoadingTweetPage from "../../util/LoadingTweetPage";
 import Box from "../../../components/containers/Box";
-import Heading from "../../../components/core/text/Heading";
 import BottomButtons from "./BottomButtons";
 import ReplyList from "../../../components/replies/ReplyList";
 import { useGetTweetRepliesQuery } from "../../../services/repliesService";
@@ -13,6 +12,8 @@ import LoadingReplyList from "../../../components/util/LoadingReplyList";
 import Empty from "../../../components/util/Empty";
 import ErrorPage from "../../util/ErrorPage";
 import PageNotFound from "../../util/PageNotFound";
+import PageHeading from "../../../components/util/PageHeading";
+import Card from "../../../components/containers/Card";
 
 const TweetReplyList = ({ tweet }: { tweet: Tweet }) => {
   const {
@@ -46,13 +47,11 @@ const TweetPage = () => {
 
       <BottomButtons tweet={tweet} />
 
-      <Box $bg="white" $pad="l">
-        <Heading $level={4}>Replies</Heading>
-      </Box>
+      <PageHeading label="Replies" level={4} />
 
-      <Box $pad="l" $bg="white" $gap="0.5em" $width="100%">
+      <Card $gap="0.5em">
         <ReplyForm id={tweet.id} parent="tweet" />
-      </Box>
+      </Card>
 
       <TweetReplyList tweet={tweet} />
     </Box>

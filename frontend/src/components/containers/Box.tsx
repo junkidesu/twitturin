@@ -10,6 +10,7 @@ interface Props {
   $minWidth?: string;
   $maxWidth?: string;
   $width?: string;
+  $height?: string;
   $pad?: "s" | "m" | "l";
   $horizontal?: boolean;
   $hide?: boolean;
@@ -42,7 +43,7 @@ const Box = styled.div<Props>`
   gap: ${({ $gap }) => $gap || "0"};
   padding: ${({ $pad }) => toPadding($pad) || "none"};
   border-radius: ${({ $rounded, $bradius }) =>
-    $rounded ? "10px" : $bradius || "0"};
+    $rounded ? "1em" : $bradius || "0"};
   box-sizing: border-box;
   overflow: ${({ $hide }) => ($hide ? "hidden" : "visible")};
 `;

@@ -30,6 +30,7 @@ import { removeCredentials } from "../../../reducers/authReducer";
 import storageService from "../../../services/storageService";
 import { hide, show } from "../../../reducers/loadingStripeReducer";
 import ErrorPage from "../../util/ErrorPage";
+import Card from "../../../components/containers/Card";
 
 const Banner = styled.div`
   position: relative;
@@ -63,7 +64,7 @@ const ProfileHeader = ({ user }: { user: User }) => {
         />
       </Banner>
 
-      <Box $bg="white" $pad="l" $gap="1em">
+      <Card $gap="1em">
         <Box>
           <Heading $level={3}>{user.fullName || "Twittur User"}</Heading>
           <Username>@{user.username}</Username>
@@ -72,7 +73,7 @@ const ProfileHeader = ({ user }: { user: User }) => {
         <Label>
           {user.bio || `This user does not appear to have any biography.`}
         </Label>
-      </Box>
+      </Card>
     </Box>
   );
 };
@@ -85,7 +86,7 @@ const AdditionalInfo = ({ user }: { user: User }) => {
   const birthday = new Date(user.birthday);
 
   return (
-    <Box $gap="1em" $pad="l" $bg="white">
+    <Card $gap="1em">
       <AdditionalInfoWrapper $horizontal $center $gap="0.5em">
         {user.kind === "teacher" ? <icons.AwardIcon /> : <icons.InfoIcon />}
 
@@ -111,7 +112,7 @@ const AdditionalInfo = ({ user }: { user: User }) => {
           {birthday.toDateString()} ({user.age} y.o.)
         </Label>
       </AdditionalInfoWrapper>
-    </Box>
+    </Card>
   );
 };
 
@@ -136,8 +137,6 @@ const FollowPanel = ({ user, id }: { user: User; id: string }) => {
     </FollowWrapper>
   );
 };
-
-type Section = "tweets" | "replies" | "likes" | "settings";
 
 const SectionButton = styled.button<{ $active: boolean }>`
   width: 100%;
@@ -280,26 +279,14 @@ const Settings = ({ user }: { user: User }) => {
   );
 };
 
-const UserPage = () => {
+type Section = "tweets" | "replies" | "likes" | "settings";
+const Sections = ({ user }: { user: User }) => {
   const id = useParams().id;
   const myId = useAppSelector(({ auth }) => auth.id);
   const [section, setSection] = useState<Section>("tweets");
-  const { data: user, isLoading, isFetching, isError } = useGetUserQuery(id!);
-
-  if (isLoading || isFetching) return <LoadingUserProfile />;
-
-  if (!user) return <ErrorPage />;
-
-  if (isError) return <PageNotFound />;
 
   return (
-    <Box $gap="0.1em" $width="500px">
-      <ProfileHeader user={user} />
-
-      <AdditionalInfo user={user} />
-
-      <FollowPanel id={id!} user={user} />
-
+    <Box $gap="0.1em">
       <Box $bg="white" $horizontal>
         <SectionButton
           $active={section === "tweets"}
@@ -333,6 +320,30 @@ const UserPage = () => {
       {section === "replies" && <UserReplies user={user} />}
       {section === "likes" && <LikedTweets user={user} />}
       {section === "settings" && id === myId && <Settings user={user} />}
+    </Box>
+  );
+};
+
+const UserPage = () => {
+  const id = useParams().id;
+
+  const { data: user, isLoading, isFetching, isError } = useGetUserQuery(id!);
+
+  if (isLoading || isFetching) return <LoadingUserProfile />;
+
+  if (!user) return <ErrorPage />;
+
+  if (isError) return <PageNotFound />;
+
+  return (
+    <Box $gap="0.1em" $width="500px">
+      <ProfileHeader user={user} />
+
+      <AdditionalInfo user={user} />
+
+      <FollowPanel id={id!} user={user} />
+
+      <Sections user={user} />
     </Box>
   );
 };

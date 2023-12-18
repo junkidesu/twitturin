@@ -1,16 +1,14 @@
 import LoadingTweetDetails from "./LoadingTweetDetails";
 import LoadingReplyList from "../../../components/util/LoadingReplyList";
 import Box from "../../../components/containers/Box";
-import Heading from "../../../components/core/text/Heading";
+import PageHeading from "../../../components/util/PageHeading";
 
 const LoadingTweetPage = () => {
   return (
-    <Box $gap="0.1em" $maxWidth="500px" $width="500px">
+    <Box $gap="0.1em" $width="500px">
       <LoadingTweetDetails />
 
-      <Box $bg="white" $pad="l">
-        <Heading $level={4}>Replies</Heading>
-      </Box>
+      <PageHeading label="Replies" level={4} />
 
       <LoadingReplyList />
     </Box>

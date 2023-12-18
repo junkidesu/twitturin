@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Box from "../../../components/containers/Box";
 import { icons } from "../../../assets";
 import IconButton from "../../../components/core/buttons/IconButton";
 import { useNavigate } from "react-router-dom";
@@ -9,8 +8,10 @@ import {
   useUnlikeTweetMutation,
 } from "../../../services/tweetsService";
 import { Tweet } from "../../../types";
+import Card from "../../../components/containers/Card";
 
-const Wrapper = styled(Box)`
+const Wrapper = styled(Card)`
+  padding: 0.5em;
   justify-content: space-around;
 `;
 
@@ -53,7 +54,7 @@ const BottomButtons = ({ tweet }: { tweet: Tweet }) => {
   }`;
 
   return (
-    <Wrapper $horizontal $gap="0.5em" $bg="white" $pad="m" $width="100%">
+    <Wrapper $horizontal $gap="0.5em">
       <IconButton
         icon={<LikeIcon $liked={likedByMe || false} />}
         label={likeButtonLabel}

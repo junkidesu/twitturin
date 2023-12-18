@@ -1,6 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
 import Box from "../../components/containers/Box";
-import Heading from "../../components/core/text/Heading";
 import {
   useEditTweetMutation,
   useGetTweetQuery,
@@ -14,22 +13,11 @@ import Form from "../../components/core/Form";
 import { useAppDispatch } from "../../hooks/store";
 import { useEffect } from "react";
 import { hide, show } from "../../reducers/loadingStripeReducer";
-
-const PageHeader = () => {
-  return (
-    <Box $pad="l" $bg="white">
-      <Heading $level={3}>Edit your tweet</Heading>
-    </Box>
-  );
-};
+import PageHeading from "../../components/util/PageHeading";
 
 const FormWrapper = styled(Form)`
-  display: flex;
-  flex-direction: column;
   align-items: end;
-  width: 100%;
   background-color: white;
-  box-sizing: border-box;
   padding: 1em;
 
   ${TextArea} {
@@ -78,7 +66,7 @@ const EditTweetPage = () => {
 
   return (
     <Box $width="500px" $gap="0.1em">
-      <PageHeader />
+      <PageHeading label="Edit Your Tweet" level={3} />
 
       <EditFields tweet={tweet} />
     </Box>

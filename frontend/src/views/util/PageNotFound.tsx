@@ -1,22 +1,28 @@
 import styled from "styled-components";
-import Box from "../../components/containers/Box";
 import RouterLink from "../../components/core/RouterLink";
 import Heading from "../../components/core/text/Heading";
 import Label from "../../components/core/text/Label";
+import Card from "../../components/containers/Card";
 
 const HomePageLink = styled(RouterLink)`
   display: inline;
 `;
+
+const Wrapper = styled(Card)`
+  height: 200px;
+  width: 500px;
+`;
+
 const PageNotFound = () => {
   return (
-    <Box $gap="0.5em" $width="500px" $pad="l" $bg="white" $rounded>
+    <Wrapper $gap="1em">
       <Heading>Page not found</Heading>
 
       <Label>
         But don't be worried. You'll certainly like our{" "}
         <HomePageLink to="/">home page</HomePageLink>.
       </Label>
-    </Box>
+    </Wrapper>
   );
 };
 

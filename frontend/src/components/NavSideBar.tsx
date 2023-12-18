@@ -1,10 +1,8 @@
 import styled from "styled-components";
 import Box from "./containers/Box";
 import FlatButton from "./core/buttons/FlatButton";
-import { icons, pictures } from "../assets";
-import lightTheme from "../themes/lightTheme";
+import { icons } from "../assets";
 import Button from "./core/buttons/Button";
-import Label from "./core/text/Label";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks/store";
 import { showModal } from "../reducers/modalReducer";
@@ -12,22 +10,11 @@ import SideBar from "./containers/SideBar";
 import { useGetUserQuery } from "../services/usersService";
 import LoadingUserItem from "./util/LoadingUserItem";
 import LoginSuggestion from "./util/LoginSuggestion";
+import UserItem from "./users/UserItem";
 
 const NavButton = styled(FlatButton)`
   font-size: ${({ theme }) => theme.fontSizes.medium};
   padding: 0.9em 1em;
-`;
-
-const ProfileWrapper = styled(Box)`
-  justify-content: space-between;
-  cursor: pointer;
-`;
-
-const ProfilePicture = styled.img`
-  width: 2.5em;
-  height: 2.5em;
-  box-sizing: border-box;
-  border-radius: 10em;
 `;
 
 const NavigationButtons = () => {
@@ -65,32 +52,15 @@ const NavigationButtons = () => {
   );
 };
 
-const UserDetails = () => {
+const CurrentUserItem = () => {
   const id = useAppSelector(({ auth }) => auth!.id);
-  const { data: user, isLoading } = useGetUserQuery(id!);
+  const { data: user, isLoading, isError } = useGetUserQuery(id!);
 
   if (isLoading) return <LoadingUserItem />;
 
-  return (
-    <ProfileWrapper $horizontal $pad="m" $center $rounded>
-      <Box $horizontal $gap="1em">
-        <ProfilePicture
-          src={user?.profilePicture || pictures.emptyProfilePicture}
-        />
+  if (!user || isError) return <div>Some error occurred!</div>
 
-        <Box $gap="0.5em">
-          <Label $bold $size="small">
-            {user?.fullName || "Twittur User"}
-          </Label>
-          <Label $color={lightTheme.colors.grey2} $size="small">
-            @{user?.username}
-          </Label>
-        </Box>
-      </Box>
-
-      <icons.MoreHorizontalIcon />
-    </ProfileWrapper>
-  );
+  return <UserItem user={user} />;
 };
 
 const CustomSideBar = styled(SideBar)`
@@ -119,7 +89,7 @@ const NavSideBar = () => {
         </Button>
       </Box>
 
-      <UserDetails />
+      <CurrentUserItem />
     </CustomSideBar>
   );
 };

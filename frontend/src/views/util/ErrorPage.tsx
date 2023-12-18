@@ -1,9 +1,10 @@
 import styled from "styled-components";
-import Box from "../../components/containers/Box";
 import Heading from "../../components/core/text/Heading";
 import Label from "../../components/core/text/Label";
+import Card from "../../components/containers/Card";
 
-const Wrapper = styled(Box)`
+const Wrapper = styled(Card)`
+  width: 500px;
   height: 200px;
   align-items: center;
   justify-content: center;
@@ -15,7 +16,7 @@ const Wrapper = styled(Box)`
 
 const ErrorPage = () => {
   return (
-    <Wrapper $width="500px" $bg="white" $gap="1em" $pad="l">
+    <Wrapper $gap="1em">
       <Heading $level={3}>Error!</Heading>
 
       <Label>Please try refreshing the page.</Label>

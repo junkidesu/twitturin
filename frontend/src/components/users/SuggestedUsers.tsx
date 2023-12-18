@@ -3,6 +3,12 @@ import Box from "../containers/Box";
 import { useGetUsersQuery } from "../../services/usersService";
 import UserItem from "./UserItem";
 import LoadingUserItem from "../util/LoadingUserItem";
+import Card from "../containers/Card";
+import styled from "styled-components";
+
+const Wrapper = styled(Card)`
+  width: 350px;
+`;
 
 const SuggestedUsers = () => {
   const { data: users, isLoading, isError } = useGetUsersQuery();
@@ -10,15 +16,21 @@ const SuggestedUsers = () => {
   if (isError) return <div>Some error occurred!</div>;
 
   return (
-    <Box $width="350px" $pad="l" $gap="1em" $bg="white" $bradius="1em">
+    <Wrapper $gap="1em" $rounded>
       <Heading $level={3}>Twittur Users</Heading>
 
       <Box>
-        {isLoading || !users
-          ? [1, 2, 3].map(() => <LoadingUserItem />)
-          : users.map((u) => <UserItem key={u.id} user={u} />)}
+        {isLoading || !users ? (
+          <>
+            <LoadingUserItem />
+            <LoadingUserItem />
+            <LoadingUserItem />
+          </>
+        ) : (
+          users.map((u) => <UserItem key={u.id} user={u} />)
+        )}
       </Box>
-    </Box>
+    </Wrapper>
   );
 };
 

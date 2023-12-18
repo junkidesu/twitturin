@@ -2,7 +2,6 @@ import useField from "../hooks/useField";
 import { useSearchQuery } from "../services/searchService";
 import Box from "../components/containers/Box";
 import Input from "../components/core/inputs/Input";
-import Heading from "../components/core/text/Heading";
 import TweetList from "../components/tweets/TweetList";
 import LoadingTweetList from "../components/util/LoadingTweetList";
 import ReplyList from "../components/replies/ReplyList";
@@ -10,14 +9,7 @@ import LoadingReplyList from "../components/util/LoadingReplyList";
 import UserItem from "../components/users/UserItem";
 import LoadingUserItem from "../components/util/LoadingUserItem";
 import Empty from "../components/util/Empty";
-
-const Header = () => {
-  return (
-    <Box $pad="l" $bg="white">
-      <Heading $level={2}>Explore</Heading>
-    </Box>
-  );
-};
+import PageHeading from "../components/util/PageHeading";
 
 type Props = {
   keyword: {
@@ -52,15 +44,11 @@ const SearchLists = ({ keyword }: Props) => {
   if (isLoading || isFetching)
     return (
       <Box $gap="0.1em">
-        <Box $pad="l" $bg="white">
-          <Heading $level={4}>Tweets</Heading>
-        </Box>
+        <PageHeading label="Tweets" level={4} />
 
         <LoadingTweetList />
 
-        <Box $pad="l" $bg="white">
-          <Heading $level={4}>Users</Heading>
-        </Box>
+        <PageHeading label="Users" level={4} />
 
         <>
           <LoadingUserItem />
@@ -68,9 +56,7 @@ const SearchLists = ({ keyword }: Props) => {
           <LoadingUserItem />
         </>
 
-        <Box $pad="l" $bg="white">
-          <Heading $level={4}>Replies</Heading>
-        </Box>
+        <PageHeading label="Replies" level={4} />
 
         <LoadingReplyList />
       </Box>
@@ -78,15 +64,11 @@ const SearchLists = ({ keyword }: Props) => {
 
   return (
     <Box $gap="0.1em">
-      <Box $pad="l" $bg="white">
-        <Heading $level={4}>Tweets</Heading>
-      </Box>
+      <PageHeading label="Tweets" level={4} />
 
       {keyword.value && <TweetList tweets={results?.tweets || []} />}
 
-      <Box $pad="l" $bg="white">
-        <Heading $level={4}>Users</Heading>
-      </Box>
+      <PageHeading label="Users" level={4} />
 
       {keyword.value &&
         (results?.users.length === 0 ? (
@@ -99,9 +81,7 @@ const SearchLists = ({ keyword }: Props) => {
           </>
         ))}
 
-      <Box $pad="l" $bg="white">
-        <Heading $level={4}>Replies</Heading>
-      </Box>
+      <PageHeading label="Replies" level={4} />
 
       {keyword.value && <ReplyList replies={results?.replies || []} />}
     </Box>
@@ -113,7 +93,7 @@ const ExplorePage = () => {
 
   return (
     <Box $width="500px" $gap="0.1em">
-      <Header />
+      <PageHeading label="Explore" />
 
       <SearchField keyword={keyword} />
 

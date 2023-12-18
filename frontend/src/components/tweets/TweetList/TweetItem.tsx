@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { elapsedTime } from "../../../util/time";
 import Label from "../../core/text/Label";
 import lightTheme from "../../../themes/lightTheme";
+import Card from "../../containers/Card";
 
 const UsernameLink = styled(RouterLink)`
   color: ${(props) => props.theme.colors.grey2};
@@ -80,7 +81,7 @@ const TweetActions = ({ tweet }: { tweet: Tweet }) => {
   };
 
   return (
-    <Box $horizontal $width="100%">
+    <Box $horizontal>
       <IconButton
         label={tweet.likes}
         icon={<LikeIcon $liked={likedByMe} />}
@@ -102,7 +103,7 @@ const TweetItem = ({ tweet }: { tweet: Tweet }) => {
   const navigate = useNavigate();
 
   return (
-    <Box $horizontal $pad="l" $gap="1em" $bg="white" $width="100%">
+    <Card $horizontal $gap="1em">
       <ProfilePicture
         src={tweet.author.profilePicture || pictures.emptyProfilePicture}
         onClick={() => navigate(`/tweets/${tweet.id}`)}
@@ -115,7 +116,7 @@ const TweetItem = ({ tweet }: { tweet: Tweet }) => {
 
         <TweetActions tweet={tweet} />
       </Box>
-    </Box>
+    </Card>
   );
 };
 

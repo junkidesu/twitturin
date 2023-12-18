@@ -1,7 +1,5 @@
 import { useParams } from "react-router-dom";
 import Box from "../../components/containers/Box";
-import RouterLink from "../../components/core/RouterLink";
-import Heading from "../../components/core/text/Heading";
 import {
   useGetFollowingQuery,
   useGetUserQuery,
@@ -10,6 +8,8 @@ import UserItem from "../../components/users/UserItem";
 import { User } from "../../types";
 import LoadingUserItem from "../../components/util/LoadingUserItem";
 import Empty from "../../components/util/Empty";
+import ErrorPage from "../util/ErrorPage";
+import PageHeading from "../../components/util/PageHeading";
 
 const FollowingList = ({ user }: { user: User }) => {
   const { data: following, isLoading, isError } = useGetFollowingQuery(user.id);
@@ -22,7 +22,7 @@ const FollowingList = ({ user }: { user: User }) => {
       </Box>
     );
 
-  if (isError || !following) return <div>Some error occurred!</div>;
+  if (isError || !following) return <ErrorPage />;
 
   if (following.length === 0) return <Empty />;
 
@@ -45,12 +45,12 @@ const FollowingPage = () => {
 
   return (
     <Box $gap="0.1em" $width="500px">
-      <Box $bg="white" $pad="l" $gap="0.5em">
-        <Heading $level={3}>
-          Followers of{" "}
-          <RouterLink to={`/users/${id}`}>@{user.username}</RouterLink>
-        </Heading>
-      </Box>
+      <PageHeading
+        level={3}
+        label={
+          isLoading ? "Loading user..." : `Users followed by ${user?.username}`
+        }
+      />
 
       <FollowingList user={user} />
     </Box>

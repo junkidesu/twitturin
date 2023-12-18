@@ -66,7 +66,7 @@ const ReplyItem = ({ reply, showChildReplies }: Props) => {
 
   if (!visible)
     return (
-      <Box $horizontal $center $pad="s" $gap="1em" $bg="white" $width="100%">
+      <Box $bg="white" $horizontal $center $gap="1em">
         <IconButton
           icon={<icons.OpenIcon />}
           onClick={() => setVisible(true)}
@@ -91,7 +91,7 @@ const ReplyItem = ({ reply, showChildReplies }: Props) => {
   const submissionTime = new Date(reply.createdAt);
 
   return (
-    <Box $horizontal $bg="white" $gap="1em" $pad="s" id={reply.id}>
+    <Box $bg="white" $horizontal $gap="1em" $pad="s" id={reply.id}>
       <Box $center>
         <ProfilePicture
           src={reply.author.profilePicture || pictures.emptyProfilePicture}

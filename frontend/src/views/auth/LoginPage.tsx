@@ -8,20 +8,13 @@ import { useLoginMutation } from "../../services/authService";
 import { TokenData } from "../../types";
 import { setCredentials } from "../../reducers/authReducer";
 import { show, hide } from "../../reducers/loadingStripeReducer";
-import Heading from "../../components/core/text/Heading";
 import Box from "../../components/containers/Box";
 import Form from "../../components/core/Form";
 import Label from "../../components/core/text/Label";
 import RouterLink from "../../components/core/RouterLink";
 import styled from "styled-components";
-
-const LoginHeading = () => {
-  return (
-    <Box $bg="white" $pad="l">
-      <Heading $level={2}>Log in to Twittur</Heading>
-    </Box>
-  );
-};
+import PageHeading from "../../components/util/PageHeading";
+import Card from "../../components/containers/Card";
 
 const LoginForm = styled(Form)`
   padding: 1em;
@@ -49,7 +42,7 @@ const LoginPage = () => {
   }, [navigate, dispatch, isSuccess, tokenData]);
 
   useEffect(() => {
-    if(isError) {
+    if (isError) {
       dispatch(hide());
     }
   }, [isError, dispatch]);
@@ -67,13 +60,13 @@ const LoginPage = () => {
 
   return (
     <Box $gap="0.1em" $width="500px">
-      <LoginHeading />
+      <PageHeading label="Login to Twittur" />
 
-      <Box $bg="white" $pad="l">
+      <Card>
         <Label>
           Not a member yet? <RouterLink to="/sign-up">Join now!</RouterLink>
         </Label>
-      </Box>
+      </Card>
 
       <LoginForm onSubmit={handleLogin}>
         <Input {...username} required />

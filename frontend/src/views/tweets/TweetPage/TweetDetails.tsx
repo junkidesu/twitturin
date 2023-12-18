@@ -6,6 +6,7 @@ import Box from "../../../components/containers/Box";
 import Label from "../../../components/core/text/Label";
 import lightTheme from "../../../themes/lightTheme";
 import IconButton from "../../../components/core/buttons/IconButton";
+import Card from "../../../components/containers/Card";
 
 const UsernameLink = styled(RouterLink)`
   color: ${(props) => props.theme.colors.grey2};
@@ -46,7 +47,7 @@ const TweetDetails = ({ tweet }: { tweet: Tweet }) => {
   const edited = editTime.valueOf() - submissionTime.valueOf() !== 0;
 
   return (
-    <Box $bg="white" $horizontal $pad="l" $gap="1.5em" $width="100%">
+    <Card $horizontal $gap="1.5em">
       <RouterLink to={`/users/${tweet.author.id}`}>
         <ProfilePicture src={pictures.emptyProfilePicture} />
       </RouterLink>
@@ -76,7 +77,7 @@ const TweetDetails = ({ tweet }: { tweet: Tweet }) => {
           )}
         </Box>
       </Box>
-    </Box>
+    </Card>
   );
 };
 

@@ -1,11 +1,13 @@
-import Box from "./containers/Box";
 import styled from "styled-components";
 import { icons } from "../assets";
 import IconButton from "./core/buttons/IconButton";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Card from "./containers/Card";
 
-const Wrapper = styled(Box)`
+const Wrapper = styled(Card).attrs({ $horizontal: true })`
+  width: 100%;
+  padding: 0;
   position: fixed;
   bottom: 0px;
   justify-content: space-around;
@@ -40,7 +42,7 @@ const Footer = () => {
   };
 
   return (
-    <Wrapper $bg="white" $width="100%" $horizontal>
+    <Wrapper>
       <NavButton
         icon={<icons.HomeIcon />}
         $vertical

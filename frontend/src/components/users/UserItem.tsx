@@ -1,13 +1,17 @@
 import styled from "styled-components";
 import Box from "../containers/Box";
 import { User } from "../../types";
-import Label from "../core/text/Label";
 import { pictures } from "../../assets";
 import lightTheme from "../../themes/lightTheme";
 import RouterLink from "../core/RouterLink";
 import FollowButton from "./FollowButton";
+import Card from "../containers/Card";
 
-const Wrapper = styled(Box)`
+const Wrapper = styled(Card).attrs({
+  $horizontal: true,
+  $center: true,
+  $gap: "1em",
+})`
   cursor: pointer;
   justify-content: space-between;
 
@@ -24,25 +28,27 @@ const ProfilePicture = styled.img`
   cursor: pointer;
 `;
 
-const DetailsWrapper = styled(Box)``;
-
 const UserItem = ({ user }: { user: User }) => {
   return (
-    <Wrapper $horizontal $center $gap="1em" $width="100%" $pad="m" $bg="white">
+    <Wrapper>
       <Box $horizontal $center $gap="1em">
         <ProfilePicture
           src={user.profilePicture || pictures.emptyProfilePicture}
         />
 
-        <DetailsWrapper>
+        <Box>
           <RouterLink $size="small" $bold to={`/users/${user.id}`}>
             {user.fullName || "TwitturIn User"}
           </RouterLink>
 
-          <Label $size="extraSmall" $color={lightTheme.colors.grey2}>
+          <RouterLink
+            $size="extraSmall"
+            $color={lightTheme.colors.grey2}
+            to={`/users/${user.id}`}
+          >
             @{user.username}
-          </Label>
-        </DetailsWrapper>
+          </RouterLink>
+        </Box>
       </Box>
 
       <FollowButton user={user} />

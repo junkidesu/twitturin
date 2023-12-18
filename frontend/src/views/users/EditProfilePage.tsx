@@ -10,11 +10,10 @@ import Box from "../../components/containers/Box";
 import Form from "../../components/core/Form";
 import DatePicker from "../../components/core/inputs/DatePicker";
 import Input from "../../components/core/inputs/Input";
-import Heading from "../../components/core/text/Heading";
 import { EditUser, User } from "../../types";
 import TextArea from "../../components/core/inputs/TextArea";
 import Button from "../../components/core/buttons/Button";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../hooks/store";
 import { show, hide } from "../../reducers/loadingStripeReducer";
 import { useNavigate } from "react-router-dom";
@@ -22,14 +21,8 @@ import { useFilePicker } from "use-file-picker";
 import { pictures } from "../../assets";
 import ErrorPage from "../util/ErrorPage";
 import lightTheme from "../../themes/lightTheme";
-
-const Header = () => {
-  return (
-    <Box $pad="l" $bg="white">
-      <Heading $level={2}>Edit Profile Page</Heading>
-    </Box>
-  );
-};
+import PageHeading from "../../components/util/PageHeading";
+import Card from "../../components/containers/Card";
 
 const FormWrapper = styled(Form)`
   padding: 1em;
@@ -53,31 +46,38 @@ const ChosenImage = styled.img`
 `;
 
 const UpdateProfilePicture = ({ user }: { user: User }) => {
+  const [profilePicture, setProfilePicture] = useState<File | undefined>(
+    undefined
+  );
   const dispatch = useAppDispatch();
   const [updatePicture, { isLoading, isSuccess }] =
     useUpdateProfilePictureMutation();
-  const { openFilePicker, plainFiles, filesContent, clear } = useFilePicker({
+  const { openFilePicker, filesContent, clear } = useFilePicker({
     readAs: "DataURL",
     accept: "image/*",
     multiple: false,
+    onClear: () => setProfilePicture(undefined),
+    onFilesSuccessfullySelected: (files) => {
+      setProfilePicture(files.plainFiles[0]);
+    },
   });
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(hide());
+      setProfilePicture(undefined);
+    }
+  }, [isSuccess, dispatch]);
 
   useEffect(() => {
     if (isLoading) dispatch(show());
   }, [isLoading, dispatch]);
 
-  useEffect(() => {
-    if (isSuccess) {
-      dispatch(hide());
-      clear();
-    }
-  }, [isSuccess, dispatch, clear]);
-
   const handleSubmit = async () => {
-    if (plainFiles.length > 0) {
+    if (profilePicture) {
       const formData = new FormData();
 
-      formData.append("picture", plainFiles[0]);
+      formData.append("picture", profilePicture);
 
       await updatePicture({ id: user.id, body: formData });
     }
@@ -85,14 +85,12 @@ const UpdateProfilePicture = ({ user }: { user: User }) => {
 
   return (
     <Box $gap="0.1em">
-      <Box $pad="l" $bg="white">
-        <Heading $level={4}>Choose image</Heading>
-      </Box>
+      <PageHeading level={4} label="Choose Image" />
 
-      <Box $width="100%" $bg="white" $center $pad="l" $gap="1em">
+      <Card $gap="1em">
         <ChosenImage
           src={
-            plainFiles.length === 0 || filesContent.length === 0
+            !profilePicture
               ? user.profilePicture || pictures.emptyProfilePicture
               : filesContent[0].content
           }
@@ -106,23 +104,16 @@ const UpdateProfilePicture = ({ user }: { user: User }) => {
             $width="100%"
             $fg={lightTheme.colors.secondary}
             onClick={() => clear()}
-            disabled={plainFiles.length === 0}
+            disabled={!profilePicture}
           >
             Clear
           </Button>
         </Box>
 
-        <Button
-          $width="100%"
-          onClick={handleSubmit}
-          disabled={plainFiles.length === 0}
-        >
+        <Button $width="100%" onClick={handleSubmit} disabled={!profilePicture}>
           Submit
         </Button>
-        {/* <Button $width="100%" $fg="red">
-          Delete
-        </Button> */}
-      </Box>
+      </Card>
     </Box>
   );
 };
@@ -193,9 +184,11 @@ const EditProfilePage = () => {
 
   return (
     <Box $width="500px" $gap="0.1em">
-      <Header />
+      <PageHeading label="Edit Your Profile" />
 
       <UpdateProfilePicture user={user} />
+
+      <PageHeading level={4} label="Edit User Info" />
 
       <EditProfileForm user={user} />
     </Box>
