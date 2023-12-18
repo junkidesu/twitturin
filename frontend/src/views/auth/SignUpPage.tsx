@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import useField from "../../hooks/useField";
-import Input from "../core/inputs/Input";
-import Button from "../core/buttons/Button";
-import Form from "../core/Form";
+import Input from "../../components/core/inputs/Input";
+import Button from "../../components/core/buttons/Button";
+import Form from "../../components/core/Form";
 import { Major, NewUser } from "../../types";
-import Select from "../core/inputs/Select";
-import DatePicker from "../core/inputs/DatePicker";
+import Select from "../../components/core/inputs/Select";
+import DatePicker from "../../components/core/inputs/DatePicker";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAddUserMutation } from "../../services/usersService";
@@ -13,9 +13,9 @@ import { useAppDispatch, useAppSelector } from "../../hooks/store";
 import { useLoginMutation } from "../../services/authService";
 import { setCredentials } from "../../reducers/authReducer";
 import { show, hide } from "../../reducers/loadingStripeReducer";
-import Heading from "../core/text/Heading";
-import Box from "../containers/Box";
-import TextArea from "../core/inputs/TextArea";
+import Heading from "../../components/core/text/Heading";
+import Box from "../../components/containers/Box";
+import TextArea from "../../components/core/inputs/TextArea";
 
 const KindButton = styled.button<{ $active: boolean }>`
   width: 100%;

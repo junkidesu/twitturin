@@ -1,6 +1,6 @@
 import useField from "../../hooks/useField";
-import Button from "../core/buttons/Button";
-import Input from "../core/inputs/Input";
+import Button from "../../components/core/buttons/Button";
+import Input from "../../components/core/inputs/Input";
 import { useAppDispatch } from "../../hooks/store";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -8,11 +8,11 @@ import { useLoginMutation } from "../../services/authService";
 import { TokenData } from "../../types";
 import { setCredentials } from "../../reducers/authReducer";
 import { show, hide } from "../../reducers/loadingStripeReducer";
-import Heading from "../core/text/Heading";
-import Box from "../containers/Box";
-import Form from "../core/Form";
-import Label from "../core/text/Label";
-import RouterLink from "../core/RouterLink";
+import Heading from "../../components/core/text/Heading";
+import Box from "../../components/containers/Box";
+import Form from "../../components/core/Form";
+import Label from "../../components/core/text/Label";
+import RouterLink from "../../components/core/RouterLink";
 import styled from "styled-components";
 
 const LoginHeading = () => {
