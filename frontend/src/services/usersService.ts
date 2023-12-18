@@ -44,6 +44,16 @@ export const usersApi = api.injectEndpoints({
         }
       },
     }),
+    updateProfilePicture: builder.mutation<User, { id: string; body: FormData }>(
+      {
+        query: ({ id, body }) => ({
+          url: `users/${id}/profilePicture`,
+          method: "POST",
+          formData: true,
+          body,
+        }),
+      }
+    ),
     deleteUser: builder.mutation<undefined, string>({
       query: (id) => ({
         url: `users/${id}`,
@@ -115,6 +125,7 @@ export const {
   useGetUserQuery,
   useAddUserMutation,
   useEditUserMutation,
+  useUpdateProfilePictureMutation,
   useDeleteUserMutation,
   useGetFollowersQuery,
   useGetFollowingQuery,
