@@ -25,6 +25,18 @@ const Button = styled.button<ButtonProps>`
     color: ${({ $bg, theme }) => (!$bg ? theme.colors.background : $bg)};
     transition: 0.1s;
   }
+
+  &:disabled {
+    color: ${({ theme }) => theme.colors.grey2};
+    border-color: ${({ theme }) => theme.colors.grey2};
+    background-color: white;
+  }
+
+  &:disabled &:hover {
+    color: ${({ theme }) => theme.colors.grey2};
+    border-color: ${({ theme }) => theme.colors.grey2};
+    background-color: white;
+  }
 `;
 
 export default Button;
