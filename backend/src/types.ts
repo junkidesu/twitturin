@@ -19,6 +19,7 @@ export interface UserCommon {
   bio?: string;
   following: Types.ObjectId[];
   followers: Types.ObjectId[];
+  profilePicture?: string;
   passwordHash: string;
 }
 

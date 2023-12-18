@@ -33,6 +33,7 @@ const UserSchema = new Schema<UserCommon>(
       required: true,
     },
     bio: { type: String },
+    profilePicture: String,
     following: [
       {
         type: Schema.Types.ObjectId,

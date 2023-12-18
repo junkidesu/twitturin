@@ -1,10 +1,11 @@
 import express from "express";
 import usersService from "../services/usersService";
-import { toNewUser, toEditUser } from "../utils/parsers";
+import { toNewUser, toEditUser, parseString } from "../utils/parsers";
 import { requireAuthentication, requireSameUser } from "../utils/middleware";
 import tweetsService from "../services/tweetsService";
 import repliesService from "../services/repliesService";
 import followService from "../services/followService";
+import { upload } from "../utils/imageUpload";
 
 const router = express.Router();
 
@@ -28,6 +29,44 @@ router.get("/", async (_req, res) => {
   const users = await usersService.getAllUsers();
 
   res.json(users);
+});
+
+/**
+ * @openapi
+ * /users:
+ *   post:
+ *     summary: Create a new user (sign up).
+ *     tags: [users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/NewUser'
+ *     responses:
+ *       201:
+ *         description: The new user.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       400:
+ *         description: Invalid user data.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ */
+router.post("/", async (req, res, next) => {
+  try {
+    const newUser = toNewUser(req.body);
+
+    const addedUser = await usersService.addUser(newUser);
+
+    res.status(201).json(addedUser);
+  } catch (error) {
+    next(error);
+  }
 });
 
 /**
@@ -72,6 +111,28 @@ router.get("/:id", async (req, res, next) => {
     next(error);
   }
 });
+
+router.post(
+  "/:id/profilePicture",
+  requireAuthentication,
+  requireSameUser,
+  upload.single("picture"),
+  async (req, res, next) => {
+    if (!req.file) return next(new Error("picture missing"));
+
+    try {
+      const location = "location" in req.file ? req.file.location : undefined;
+
+      const updatedUser = await usersService.updateProfilePicture(
+        req.params.id,
+        parseString(location)
+      );
+      return res.json(updatedUser);
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
 
 /**
  * @openapi
@@ -402,44 +463,6 @@ router.delete(
     }
   }
 );
-
-/**
- * @openapi
- * /users:
- *   post:
- *     summary: Create a new user (sign up).
- *     tags: [users]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/NewUser'
- *     responses:
- *       201:
- *         description: The new user.
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/User'
- *       400:
- *         description: Invalid user data.
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/responses/Error'
- */
-router.post("/", async (req, res, next) => {
-  try {
-    const newUser = toNewUser(req.body);
-
-    const addedUser = await usersService.addUser(newUser);
-
-    res.status(201).json(addedUser);
-  } catch (error) {
-    next(error);
-  }
-});
 
 /**
  * @openapi
