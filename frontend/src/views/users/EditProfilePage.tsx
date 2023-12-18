@@ -67,8 +67,11 @@ const UpdateProfilePicture = ({ user }: { user: User }) => {
   }, [isLoading, dispatch]);
 
   useEffect(() => {
-    if (isSuccess) dispatch(hide());
-  }, [isSuccess, dispatch]);
+    if (isSuccess) {
+      dispatch(hide());
+      clear();
+    }
+  }, [isSuccess, dispatch, clear]);
 
   const handleSubmit = async () => {
     if (plainFiles.length > 0) {
@@ -103,6 +106,7 @@ const UpdateProfilePicture = ({ user }: { user: User }) => {
             $width="100%"
             $fg={lightTheme.colors.secondary}
             onClick={() => clear()}
+            disabled={plainFiles.length === 0}
           >
             Clear
           </Button>
@@ -115,9 +119,9 @@ const UpdateProfilePicture = ({ user }: { user: User }) => {
         >
           Submit
         </Button>
-        <Button $width="100%" $fg="red">
+        {/* <Button $width="100%" $fg="red">
           Delete
-        </Button>
+        </Button> */}
       </Box>
     </Box>
   );
