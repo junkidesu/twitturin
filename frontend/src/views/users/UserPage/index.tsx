@@ -222,27 +222,11 @@ const DeleteButton = styled(NavButton)`
 const Settings = ({ user }: { user: User }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [deleteUser, { isLoading, isSuccess, isError }] =
-    useDeleteUserMutation();
+  const [deleteUser, { isLoading }] = useDeleteUserMutation();
 
   useEffect(() => {
     if (isLoading) dispatch(show());
   }, [dispatch, isLoading]);
-
-  useEffect(() => {
-    if (isSuccess) {
-      dispatch(hide());
-      storageService.removeAuthUser();
-      dispatch(removeCredentials());
-      navigate("/");
-    }
-  }, [isSuccess, dispatch, navigate]);
-
-  useEffect(() => {
-    if (isError) {
-      dispatch(hide());
-    }
-  }, [isError, dispatch]);
 
   const handleSignOut = () => {
     storageService.removeAuthUser();
@@ -254,7 +238,19 @@ const Settings = ({ user }: { user: User }) => {
     if (confirm("Are you sure you want to delete your profile?")) {
       console.log("deleting profile...");
 
-      await deleteUser(user.id);
+      try {
+        await deleteUser(user.id);
+        console.log("removing credentials");
+        dispatch(removeCredentials());
+        console.log("credentials removed");
+        console.log("cleaning data");
+        storageService.removeAuthUser();
+        console.log("data cleaned");
+        dispatch(hide());
+        navigate("/home");
+      } catch (error) {
+        dispatch(hide());
+      }
     }
   };
 

@@ -8,8 +8,6 @@ const search = async ({
 }: {
   keyword: string;
 }): Promise<SearchResults> => {
-  console.log("searching with", keyword);
-
   const tweets = await TweetModel.find<Tweet>({
     content: { $regex: keyword, $options: "i" },
   }).populate<{ author: User }>("author");

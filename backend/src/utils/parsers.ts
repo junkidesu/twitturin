@@ -66,14 +66,17 @@ export const toNewUser = (object: unknown): NewUser => {
     password: parseString(object.password, "password").trim(),
     email: parseString(object.email, "email").trim(),
     fullName:
-      "fullName" in object
+      "fullName" in object && object.fullName
         ? parseString(object.fullName, "fullName").trim()
         : undefined,
     country:
-      "country" in object
+      "country" in object && object.country
         ? parseString(object.country, "country").trim()
         : undefined,
-    bio: "bio" in object ? parseString(object.bio, "bio").trim() : undefined,
+    bio:
+      "bio" in object && object.bio
+        ? parseString(object.bio, "bio").trim()
+        : undefined,
   };
 
   if (object.kind === "student") {
@@ -118,14 +121,17 @@ export const toEditUser = (object: unknown): EditUser => {
     birthday:
       "birthday" in object ? parseDate(object.birthday).trim() : undefined,
     country:
-      "country" in object
+      "country" in object && object.country
         ? parseString(object.country, "country").trim()
         : undefined,
     fullName:
-      "fullName" in object
+      "fullName" in object && object.fullName
         ? parseString(object.fullName, "fullName").trim()
         : undefined,
-    bio: "bio" in object ? parseString(object.bio, "bio").trim() : undefined,
+    bio:
+      "bio" in object && object.bio
+        ? parseString(object.bio, "bio").trim()
+        : undefined,
   };
 };
 

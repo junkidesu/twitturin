@@ -1,5 +1,5 @@
 import path from "path";
-import express from "express";
+import express, { Request } from "express";
 import cors from "cors";
 import env from "./utils/config";
 import authRouter from "./routes/auth";
@@ -10,11 +10,28 @@ import searchRouter from "./routes/search";
 import { errorHandler, userExtractor } from "./utils/middleware";
 import specs from "./swagger/specs";
 import swaggerUi from "swagger-ui-express";
+import morgan from "morgan";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+morgan.token("body", (req: Request) => {
+  if (req.method === "POST" || req.method === "PUT") {
+    if (req.baseUrl === "/api/auth" || req.baseUrl === "/api/users") {
+      return JSON.stringify({ ...req.body, password: undefined });
+    }
+
+    return JSON.stringify(req.body);
+  }
+
+  return "";
+});
+
+app.use(
+  morgan(":method :url :status :res[content-length] - :response-time ms :body")
+);
 
 app.get("/ping", (_req, res) => {
   res.send("pong");

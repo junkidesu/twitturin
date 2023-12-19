@@ -153,10 +153,10 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  console.log(error.message);
+  console.log(`${error.name}: ${error.message}`);
 
   if (error.name === "CastError")
-    return res.status(400).json({ error: `invalid MongoDB id` });
+    return res.status(400).json({ error: "invalid MongoDB id" });
   if (error.name === "ValidationError")
     return res.status(400).json({ error: error.message });
   if (error.name === "ParseError")
