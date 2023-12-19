@@ -104,7 +104,7 @@ const ReplyItem = ({ reply, showChildReplies }: Props) => {
       <Box $gap="1em">
         <Box $horizontal $center $gap="0.5em">
           <RouterLink $bold to={`/users/${reply.author?.id}`}>
-            {reply.author.fullName || "Twittur User"}
+            {reply.author?.fullName || "Twittur User"}
           </RouterLink>
 
           <UsernameLink $size="extraSmall" to={`/users/${reply.author?.id}`}>
