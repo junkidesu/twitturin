@@ -232,8 +232,8 @@ const Settings = ({ user }: { user: User }) => {
   useEffect(() => {
     if (isSuccess) {
       dispatch(hide());
-      dispatch(removeCredentials());
       storageService.removeAuthUser();
+      dispatch(removeCredentials());
       navigate("/");
     }
   }, [isSuccess, dispatch, navigate]);

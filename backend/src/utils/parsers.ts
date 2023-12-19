@@ -34,13 +34,13 @@ export const parseString = (text: unknown, what?: string): string => {
   if (!text || !isString(text))
     throw new ParseError(`Invalid value for ${what || "string"}: ${text}`);
 
-  return text;
+  return text.trim();
 };
 
 const isMajor = (major: string): major is Major => {
   return Object.values(Major)
     .map((m) => m.toString())
-    .includes(major);
+    .includes(major.trim().toUpperCase());
 };
 
 const parseMajor = (major: unknown): Major => {
@@ -61,17 +61,19 @@ export const toNewUser = (object: unknown): NewUser => {
   if (!("kind" in object)) throw new ParseError("kind missing");
 
   const common = {
-    username: parseString(object.username, "username"),
-    birthday: parseDate(object.birthday),
-    password: parseString(object.password, "password"),
-    email: parseString(object.email, "email"),
+    username: parseString(object.username, "username").trim(),
+    birthday: parseDate(object.birthday).trim(),
+    password: parseString(object.password, "password").trim(),
+    email: parseString(object.email, "email").trim(),
     fullName:
       "fullName" in object
-        ? parseString(object.fullName, "fullName")
+        ? parseString(object.fullName, "fullName").trim()
         : undefined,
     country:
-      "country" in object ? parseString(object.country, "country") : undefined,
-    bio: "bio" in object ? parseString(object.bio, "bio") : undefined,
+      "country" in object
+        ? parseString(object.country, "country").trim()
+        : undefined,
+    bio: "bio" in object ? parseString(object.bio, "bio").trim() : undefined,
   };
 
   if (object.kind === "student") {
@@ -82,7 +84,9 @@ export const toNewUser = (object: unknown): NewUser => {
       ...common,
       kind: object.kind,
       major: parseMajor(object.major),
-      studentId: parseString(object.studentId, "student ID"),
+      studentId: parseString(object.studentId, "student ID")
+        .toLowerCase()
+        .trim(),
     };
   }
 
@@ -107,17 +111,21 @@ export const toEditUser = (object: unknown): EditUser => {
   return {
     username:
       "username" in object
-        ? parseString(object.username, "username")
+        ? parseString(object.username, "username").trim()
         : undefined,
-    email: "email" in object ? parseString(object.email, "email") : undefined,
-    birthday: "birthday" in object ? parseDate(object.birthday) : undefined,
+    email:
+      "email" in object ? parseString(object.email, "email").trim() : undefined,
+    birthday:
+      "birthday" in object ? parseDate(object.birthday).trim() : undefined,
     country:
-      "country" in object ? parseString(object.country, "country") : undefined,
+      "country" in object
+        ? parseString(object.country, "country").trim()
+        : undefined,
     fullName:
       "fullName" in object
-        ? parseString(object.fullName, "fullName")
+        ? parseString(object.fullName, "fullName").trim()
         : undefined,
-    bio: "bio" in object ? parseString(object.bio, "bio") : undefined,
+    bio: "bio" in object ? parseString(object.bio, "bio").trim() : undefined,
   };
 };
 
@@ -129,8 +137,8 @@ export const toCredentials = (object: unknown): Credentials => {
   if (!("password" in object)) throw new ParseError("password missing");
 
   const credentials: Credentials = {
-    username: parseString(object.username, "username"),
-    password: parseString(object.password, "password"),
+    username: parseString(object.username, "username").trim(),
+    password: parseString(object.password, "password").trim(),
   };
 
   return credentials;
@@ -144,8 +152,8 @@ export const toNewTweet = (object: unknown): NewTweet => {
   if (!("author" in object)) throw new ParseError("author missing");
 
   return {
-    content: parseString(object.content, "content"),
-    author: parseString(object.author, "author"),
+    content: parseString(object.content, "content").trim(),
+    author: parseString(object.author, "author").trim(),
   };
 };
 
@@ -155,7 +163,7 @@ export const toEditTweet = (object: unknown): EditTweet => {
 
   if (!("content" in object)) return { content: undefined };
 
-  return { content: parseString(object.content, "content") };
+  return { content: parseString(object.content, "content").trim() };
 };
 
 export const toNewReply = (object: unknown): NewReply => {
@@ -165,6 +173,6 @@ export const toNewReply = (object: unknown): NewReply => {
   if (!("content" in object)) throw new ParseError("reply content missing");
 
   return {
-    content: parseString(object.content, "content"),
+    content: parseString(object.content, "content").trim(),
   };
 };

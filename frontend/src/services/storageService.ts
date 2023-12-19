@@ -15,7 +15,7 @@ const getAuthUser = (): TokenData | undefined => {
 };
 
 const removeAuthUser = () => {
-  window.localStorage.removeItem(KEY);
+  window.localStorage.clear();
 };
 
 export default { setAuthUser, getAuthUser, removeAuthUser };
