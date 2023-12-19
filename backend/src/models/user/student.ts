@@ -17,7 +17,7 @@ const StudentModel = UserModel.discriminator<StudentUser>(
         unique: true,
         validate: {
           validator: (v: string): boolean => {
-            return /^(u|se|ad|bm)(0|1)(\d){4}$/.test(v);
+            return /^(u|U|se|Se|SE|ad|Ad|AD|bm|Bm|BM)(0|1)(\d){4}$/.test(v);
           },
         },
       },

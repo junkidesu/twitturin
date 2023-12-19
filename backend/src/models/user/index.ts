@@ -12,7 +12,7 @@ const UserSchema = new Schema<UserCommon>(
       required: true,
       unique: true,
       minLength: [3, "username must be at least 3 characters long"],
-      maxLength: [15, "username must be at most 15 characters long"],
+      maxLength: [30, "username must be at most 30 characters long"],
     },
     fullName: String,
     passwordHash: {
