@@ -109,9 +109,9 @@ export interface TokenData {
 }
 
 export interface SearchResults {
-  tweets: Tweet[];
+  tweets: PopulatedTweet[];
   users: User[];
-  replies: Reply[];
+  replies: Omit<PopulatedReply, "replies">[];
 }
 
 export class ParseError extends Error {
