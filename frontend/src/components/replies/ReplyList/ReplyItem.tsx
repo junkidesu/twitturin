@@ -72,18 +72,18 @@ const ReplyItem = ({ reply, showChildReplies }: Props) => {
           onClick={() => setVisible(true)}
         />
 
-        <RouterLink to={`/users/${reply.author.id}`}>
+        <RouterLink to={`/users/${reply.author?.id}`}>
           <ProfilePicture
-            src={reply.author.profilePicture || pictures.emptyProfilePicture}
+            src={reply.author?.profilePicture || pictures.emptyProfilePicture}
           />
         </RouterLink>
 
         <RouterLink $bold to={`/users/${reply.author.id}`}>
-          {reply.author.fullName || "Twittur User"}
+          {reply.author?.fullName || "Twittur User"}
         </RouterLink>
 
         <UsernameLink $size="extraSmall" to={`/users/${reply.author.id}`}>
-          @{reply.author.username}
+          {reply.author ? `@${reply.author.username}` : "Deleted User"}
         </UsernameLink>
       </Box>
     );
@@ -94,8 +94,8 @@ const ReplyItem = ({ reply, showChildReplies }: Props) => {
     <Box $bg="white" $horizontal $gap="1em" $pad="s" id={reply.id}>
       <Box $center>
         <ProfilePicture
-          src={reply.author.profilePicture || pictures.emptyProfilePicture}
-          onClick={() => navigate(`/users/${reply.author.id}`)}
+          src={reply.author?.profilePicture || pictures.emptyProfilePicture}
+          onClick={() => navigate(`/users/${reply.author?.id}`)}
         />
 
         <Line onClick={() => setVisible(false)} />
@@ -103,12 +103,12 @@ const ReplyItem = ({ reply, showChildReplies }: Props) => {
 
       <Box $gap="1em">
         <Box $horizontal $center $gap="0.5em">
-          <RouterLink $bold to={`/users/${reply.author.id}`}>
+          <RouterLink $bold to={`/users/${reply.author?.id}`}>
             {reply.author.fullName || "Twittur User"}
           </RouterLink>
 
-          <UsernameLink $size="extraSmall" to={`/users/${reply.author.id}`}>
-            @{reply.author.username}
+          <UsernameLink $size="extraSmall" to={`/users/${reply.author?.id}`}>
+            {reply.author ? `@${reply.author.username}` : "Deleted User"}
           </UsernameLink>
 
           {"•"}

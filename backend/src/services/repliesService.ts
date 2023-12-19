@@ -9,7 +9,9 @@ const getAllReplies = async () => {
 };
 
 const getRepliesByTweet = async (tweetId: string) => {
-  const replies = await ReplyModel.find({ parentTweet: tweetId });
+  const replies = await ReplyModel.find({
+    parentTweet: tweetId,
+  }).populate<PopulatedReply>("author");
 
   return replies;
 };
