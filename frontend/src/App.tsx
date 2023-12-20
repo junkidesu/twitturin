@@ -31,6 +31,7 @@ import { icons } from "./assets";
 import { showModal } from "./reducers/modalReducer";
 import ErrorPage from "./views/util/ErrorPage";
 import ExplorePage from "./views/ExplorePage";
+import Alert from "./components/util/Alert";
 
 const RightSideBar = styled(SideBar)`
   margin-left: 50px;
@@ -53,6 +54,8 @@ const App = () => {
   return (
     <ThemeProvider theme={lightTheme}>
       <GlobalStyle />
+
+      <Alert />
 
       <LoadingStripe />
 
