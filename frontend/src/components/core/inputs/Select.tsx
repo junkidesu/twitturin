@@ -8,7 +8,7 @@ const SelectWrapper = styled.select`
   width: 100%;
   appearance: none;
   border: 2px solid ${({ theme }) => theme.colors.grey3};
-  border-radius: 5px;
+  border-radius: 1em;
 `;
 
 const Select = ({

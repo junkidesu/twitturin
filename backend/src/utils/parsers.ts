@@ -57,14 +57,19 @@ export const toNewUser = (object: unknown): NewUser => {
   if (!("username" in object)) throw new ParseError("user username missing");
   if (!("birthday" in object)) throw new ParseError("birthday missing");
   if (!("password" in object)) throw new ParseError("user password missing");
-  if (!("email" in object)) throw new ParseError("user email missing");
   if (!("kind" in object)) throw new ParseError("kind missing");
 
   const common = {
     username: parseString(object.username, "username").trim(),
-    birthday: parseDate(object.birthday).trim(),
+    birthday:
+      "birthday" in object && object.birthday
+        ? parseDate(object.birthday).trim()
+        : undefined,
     password: parseString(object.password, "password").trim(),
-    email: parseString(object.email, "email").trim(),
+    email:
+      "email" in object && object.email
+        ? parseString(object.email, "email").trim()
+        : undefined,
     fullName:
       "fullName" in object && object.fullName
         ? parseString(object.fullName, "fullName").trim()
@@ -117,7 +122,9 @@ export const toEditUser = (object: unknown): EditUser => {
         ? parseString(object.username, "username").trim()
         : undefined,
     email:
-      "email" in object ? parseString(object.email, "email").trim() : undefined,
+      "email" in object && object.email
+        ? parseString(object.email, "email").trim()
+        : undefined,
     birthday:
       "birthday" in object ? parseDate(object.birthday).trim() : undefined,
     country:

@@ -14,8 +14,7 @@ import { EditUser, User } from "../../types";
 import TextArea from "../../components/core/inputs/TextArea";
 import Button from "../../components/core/buttons/Button";
 import { useEffect, useState } from "react";
-import { useAppDispatch } from "../../hooks/store";
-import { show, hide } from "../../reducers/loadingStripeReducer";
+import useLoadingStripe from "../../hooks/useLoadingStripe";
 import { useNavigate } from "react-router-dom";
 import { useFilePicker } from "use-file-picker";
 import { pictures } from "../../assets";
@@ -49,7 +48,7 @@ const UpdateProfilePicture = ({ user }: { user: User }) => {
   const [profilePicture, setProfilePicture] = useState<File | undefined>(
     undefined
   );
-  const dispatch = useAppDispatch();
+  const { showLoadingStripe, hideLoadingStripe } = useLoadingStripe();
   const [updatePicture, { isLoading, isSuccess }] =
     useUpdateProfilePictureMutation();
   const { openFilePicker, filesContent, clear } = useFilePicker({
@@ -64,14 +63,14 @@ const UpdateProfilePicture = ({ user }: { user: User }) => {
 
   useEffect(() => {
     if (isSuccess) {
-      dispatch(hide());
+      hideLoadingStripe();
       setProfilePicture(undefined);
     }
-  }, [isSuccess, dispatch]);
+  }, [isSuccess, hideLoadingStripe]);
 
   useEffect(() => {
-    if (isLoading) dispatch(show());
-  }, [isLoading, dispatch]);
+    if (isLoading) showLoadingStripe();
+  }, [isLoading, showLoadingStripe]);
 
   const handleSubmit = async () => {
     if (profilePicture) {
@@ -126,19 +125,25 @@ const EditProfileForm = ({ user }: { user: User }) => {
   const [, country] = useField("text", "Country", user.country);
   const [, birthday] = useField("date", "Birthday", user.birthday);
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const [edit, { isLoading, isSuccess }] = useEditUserMutation();
+  const { showLoadingStripe, hideLoadingStripe } = useLoadingStripe();
+  const [edit, { isLoading, isSuccess, isError }] = useEditUserMutation();
 
   useEffect(() => {
-    if (isLoading) dispatch(show());
-  }, [isLoading, dispatch]);
+    if (isLoading) showLoadingStripe();
+  }, [isLoading, showLoadingStripe]);
 
   useEffect(() => {
     if (isSuccess) {
-      dispatch(hide());
+      hideLoadingStripe();
       navigate(`/users/${user.id}`);
     }
-  }, [isSuccess, dispatch, navigate, user.id]);
+  }, [isSuccess, hideLoadingStripe, navigate, user.id]);
+
+  useEffect(() => {
+    if (isError) {
+      hideLoadingStripe();
+    }
+  }, [isError, hideLoadingStripe]);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -171,12 +176,18 @@ const EditProfileForm = ({ user }: { user: User }) => {
 
 const EditProfilePage = () => {
   const id = useAppSelector(({ auth }) => auth.id);
-  const { data: user, isLoading } = useGetUserQuery(id!, { skip: !id });
+  const {
+    data: user,
+    isLoading,
+    isError,
+  } = useGetUserQuery(id!, { skip: !id });
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!id) navigate("/login");
   }, [id, navigate]);
+
+  if (isError) return <ErrorPage />;
 
   if (isLoading) return <div>User loading...</div>;
 

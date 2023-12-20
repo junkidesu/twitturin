@@ -83,8 +83,6 @@ const AdditionalInfoWrapper = styled(Box)`
 `;
 
 const AdditionalInfo = ({ user }: { user: User }) => {
-  const birthday = new Date(user.birthday);
-
   return (
     <Card $gap="1em">
       <AdditionalInfoWrapper $horizontal $center $gap="0.5em">
@@ -106,12 +104,14 @@ const AdditionalInfo = ({ user }: { user: User }) => {
         </AdditionalInfoWrapper>
       )}
 
-      <AdditionalInfoWrapper $horizontal $center $gap="0.5em">
-        <icons.CalendarIcon />
-        <Label $size="extraSmall">
-          {birthday.toDateString()} ({user.age} y.o.)
-        </Label>
-      </AdditionalInfoWrapper>
+      {user.birthday && (
+        <AdditionalInfoWrapper $horizontal $center $gap="0.5em">
+          <icons.CalendarIcon />
+          <Label $size="extraSmall">
+            {new Date(user.birthday).toDateString()} ({user.age!} y.o.)
+          </Label>
+        </AdditionalInfoWrapper>
+      )}
     </Card>
   );
 };

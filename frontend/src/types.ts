@@ -17,10 +17,10 @@ export interface UserCommon {
   username: string;
   fullName?: string;
   bio?: string;
-  email: string;
+  email?: string;
   country?: string;
-  birthday: string;
-  age: number;
+  birthday?: string;
+  age?: number;
   profilePicture?: string;
   followingCount: number;
   followersCount: number;

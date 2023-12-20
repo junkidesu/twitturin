@@ -1,13 +1,13 @@
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks/store";
+import { useAppSelector } from "../../hooks/store";
 import useField from "../../hooks/useField";
 import { useReplyMutation } from "../../services/repliesService";
 import Button from "../core/buttons/Button";
 import Form from "../core/Form";
 import TextArea from "../core/inputs/TextArea";
-import { show, hide } from "../../reducers/loadingStripeReducer";
 import lightTheme from "../../themes/lightTheme";
 import Box from "../containers/Box";
+import useLoadingStripe from "../../hooks/useLoadingStripe";
 
 type Props = {
   id: string;
@@ -17,21 +17,29 @@ type Props = {
 
 const ReplyForm = ({ id, parent, setVisible }: Props) => {
   const [replyToTweet, { isLoading, isSuccess, isError }] = useReplyMutation();
-  const dispatch = useAppDispatch();
+  const { showLoadingStripe, hideLoadingStripe } = useLoadingStripe();
   const [clearContent, content] = useField("text", "Type your reply...");
 
   const token = useAppSelector(({ auth }) => auth.token);
 
   useEffect(() => {
-    if (isLoading) dispatch(show());
+    if (isLoading) showLoadingStripe();
     else if (isSuccess) {
-      dispatch(hide());
+      hideLoadingStripe();
       clearContent();
       if (setVisible) setVisible(false);
     } else if (isError) {
-      dispatch(hide());
+      hideLoadingStripe();
     }
-  }, [isLoading, isSuccess, clearContent, isError, setVisible, dispatch]);
+  }, [
+    isLoading,
+    isSuccess,
+    clearContent,
+    isError,
+    setVisible,
+    showLoadingStripe,
+    hideLoadingStripe,
+  ]);
 
   if (!token) return null;
 

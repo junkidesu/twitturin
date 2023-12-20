@@ -13,8 +13,8 @@ export enum Major {
 export interface UserCommon {
   username: string;
   fullName?: string;
-  email: string;
-  birthday: string;
+  email?: string;
+  birthday?: string;
   country?: string;
   bio?: string;
   following: Types.ObjectId[];

@@ -21,7 +21,7 @@ const UserSchema = new Schema<UserCommon>(
     },
     email: {
       type: String,
-      required: true,
+      // required: true,
       validate: {
         validator: (v: string): boolean => {
           return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
@@ -30,7 +30,7 @@ const UserSchema = new Schema<UserCommon>(
     },
     birthday: {
       type: String,
-      required: true,
+      // required: true,
     },
     bio: { type: String },
     profilePicture: String,
@@ -58,6 +58,7 @@ const UserSchema = new Schema<UserCommon>(
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
         returnedObject.id = returnedObject._id?.toString() || returnedObject.id;
         delete returnedObject._id;
+        delete returnedObject.email;
         delete returnedObject.following;
         delete returnedObject.followers;
         delete returnedObject.__v;
@@ -90,6 +91,8 @@ UserSchema.virtual("followersCount").get(function () {
 });
 
 UserSchema.virtual("age").get(function () {
+  if (!this.birthday) return null;
+
   const today = new Date();
   const birthday = new Date(this.birthday);
 

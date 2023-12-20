@@ -12,12 +12,13 @@ import { useAddUserMutation } from "../../services/usersService";
 import { useAppDispatch, useAppSelector } from "../../hooks/store";
 import { useLoginMutation } from "../../services/authService";
 import { setCredentials } from "../../reducers/authReducer";
-import { show, hide } from "../../reducers/loadingStripeReducer";
 import Box from "../../components/containers/Box";
 import TextArea from "../../components/core/inputs/TextArea";
 import PageHeading from "../../components/util/PageHeading";
 import ErrorPage from "../util/ErrorPage";
 import Heading from "../../components/core/text/Heading";
+import Label from "../../components/core/text/Label";
+import useLoadingStripe from "../../hooks/useLoadingStripe";
 
 const KindButton = styled.button<{ $active: boolean }>`
   width: 100%;
@@ -43,11 +44,11 @@ type Kind = "student" | "teacher";
 const BioTextArea = styled(TextArea)`
   font-size: ${({ theme }) => theme.fontSizes.medium};
   border: 2px solid ${({ theme }) => theme.colors.grey3};
-  border-radius: 10px;
+  border-radius: 1em;
 
   &::placeholder {
-    color: ${({ theme }) => theme.colors.grey1};
-    font-size: ${({ theme }) => theme.fontSizes.small};
+    color: ${({ theme }) => theme.colors.grey2};
+    font-size: ${({ theme }) => theme.fontSizes.extraSmall};
   }
 `;
 
@@ -63,12 +64,11 @@ const SignUpPage = () => {
   const [, username] = useField("text", "Username");
   const [, fullName] = useField("text", "Full Name");
   const [, bio] = useField("text", "Biography");
-  const [, country] = useField("text", "Country");
   const [, password] = useField("password", "Password");
   const [, major] = useField(undefined, "Major", majors[0]);
   const [, subject] = useField("text", "Subject");
-  const [, email] = useField("email", "Email");
   const [, birthday] = useField("date", "Birthday");
+  const { showLoadingStripe, hideLoadingStripe } = useLoadingStripe();
 
   const token = useAppSelector(({ auth }) => auth.token);
 
@@ -76,14 +76,14 @@ const SignUpPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isLoading) dispatch(show());
-  }, [isLoading, dispatch]);
+    if (isLoading) showLoadingStripe();
+  }, [isLoading, showLoadingStripe]);
 
   useEffect(() => {
     if (isError) {
-      dispatch(hide());
+      hideLoadingStripe();
     }
-  }, [isError, dispatch]);
+  }, [isError, hideLoadingStripe]);
 
   useEffect(() => {
     const authenticate = async () => {
@@ -96,7 +96,7 @@ const SignUpPage = () => {
     };
 
     if (isSuccess) {
-      dispatch(hide());
+      hideLoadingStripe()
       authenticate();
     }
 
@@ -105,6 +105,7 @@ const SignUpPage = () => {
     token,
     navigate,
     isSuccess,
+    hideLoadingStripe,
     dispatch,
     login,
     username.value,
@@ -117,10 +118,8 @@ const SignUpPage = () => {
     const common = {
       username: username.value,
       password: password.value,
-      email: email.value,
       fullName: fullName.value ? fullName.value : undefined,
       bio: bio.value ? bio.value : undefined,
-      country: country.value ? country.value : undefined,
       birthday: birthday.value,
     };
 
@@ -137,8 +136,6 @@ const SignUpPage = () => {
             kind,
             subject: subject.value,
           };
-
-    console.log(newUser);
 
     await signUp(newUser);
   };
@@ -165,27 +162,31 @@ const SignUpPage = () => {
       </Box>
 
       <SignUpForm onSubmit={onSubmit}>
+        <Heading $level={4}>User Information</Heading>
         <Input {...username} required />
-        <Input {...email} required />
-        <Input {...fullName} />
-        <Input {...country} />
-        <BioTextArea {...bio} />
-        <Heading $level={4}>Birthday</Heading>
-        <DatePicker {...birthday} />
+        <Input {...password} required />
 
         {kind === "student" && (
           <>
+            <Heading $level={4}>Student Information</Heading>
+            <Select options={majors} {...major} required />
             <Input {...studentId} required />
-            <Select options={majors} {...major} />
           </>
         )}
         {kind === "teacher" && (
           <>
-            <Input {...subject} />
+            <Heading $level={4}>Teacher Information</Heading>
+            <Input {...subject} required />
           </>
         )}
 
-        <Input {...password} required />
+        <Heading $level={4}>Optional Information</Heading>
+        <Label $size="extraSmall" $bold>
+          Birthday
+        </Label>
+        <DatePicker {...birthday} />
+        <Input {...fullName} />
+        <BioTextArea {...bio} />
 
         <Button $width="100%">Sign Up</Button>
       </SignUpForm>

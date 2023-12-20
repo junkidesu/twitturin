@@ -7,7 +7,6 @@ import { useEffect } from "react";
 import { useLoginMutation } from "../../services/authService";
 import { TokenData } from "../../types";
 import { setCredentials } from "../../reducers/authReducer";
-import { show, hide } from "../../reducers/loadingStripeReducer";
 import Box from "../../components/containers/Box";
 import Form from "../../components/core/Form";
 import Label from "../../components/core/text/Label";
@@ -15,6 +14,7 @@ import RouterLink from "../../components/core/RouterLink";
 import styled from "styled-components";
 import PageHeading from "../../components/util/PageHeading";
 import Card from "../../components/containers/Card";
+import useLoadingStripe from "../../hooks/useLoadingStripe";
 
 const LoginForm = styled(Form)`
   padding: 1em;
@@ -23,6 +23,7 @@ const LoginForm = styled(Form)`
 const LoginPage = () => {
   const [, username] = useField("text", "Username");
   const [, password] = useField("password", "Password");
+  const { showLoadingStripe, hideLoadingStripe } = useLoadingStripe();
 
   const [login, { data: tokenData, isLoading, isError, isSuccess }] =
     useLoginMutation();
@@ -31,21 +32,21 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isLoading) dispatch(show());
-  }, [isLoading, dispatch]);
+    if (isLoading) showLoadingStripe();
+  }, [isLoading, showLoadingStripe]);
 
   useEffect(() => {
     if (isSuccess) {
-      dispatch(hide());
+      hideLoadingStripe()
       navigate(-1);
     }
-  }, [navigate, dispatch, isSuccess, tokenData]);
+  }, [navigate, hideLoadingStripe, isSuccess, tokenData]);
 
   useEffect(() => {
     if (isError) {
-      dispatch(hide());
+      hideLoadingStripe()
     }
-  }, [isError, dispatch]);
+  }, [isError, hideLoadingStripe]);
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

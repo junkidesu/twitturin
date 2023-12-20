@@ -7,10 +7,10 @@ import useField from "../../hooks/useField";
 import { useAddTweetMutation } from "../../services/tweetsService";
 import { useAppDispatch, useAppSelector } from "../../hooks/store";
 import { hideModal } from "../../reducers/modalReducer";
-import { hide, show } from "../../reducers/loadingStripeReducer";
 import { pictures } from "../../assets";
 import { useGetUserQuery } from "../../services/usersService";
 import Card from "../containers/Card";
+import useLoadingStripe from "../../hooks/useLoadingStripe";
 
 const TweetTextArea = styled(TextArea)`
   border: none;
@@ -39,24 +39,25 @@ const NewTweetForm = ({ className }: { className?: string }) => {
   const { data: user } = useGetUserQuery(id!);
   const [addTweet, { isLoading, isSuccess, isError }] = useAddTweetMutation();
   const dispatch = useAppDispatch();
+  const { showLoadingStripe, hideLoadingStripe } = useLoadingStripe();
 
   useEffect(() => {
-    if (isLoading) dispatch(show());
-  }, [isLoading, dispatch]);
+    if (isLoading) showLoadingStripe();
+  }, [isLoading, showLoadingStripe]);
 
   useEffect(() => {
     if (isSuccess) {
-      dispatch(hide());
+      hideLoadingStripe();
       dispatch(hideModal());
     }
-  }, [isSuccess, dispatch]);
+  }, [isSuccess, hideLoadingStripe, dispatch]);
 
   useEffect(() => {
     if (isError) {
-      dispatch(hide());
+      hideLoadingStripe();
       console.log("error");
     }
-  }, [isError, dispatch]);
+  }, [isError, hideLoadingStripe]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
