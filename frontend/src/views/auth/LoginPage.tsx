@@ -15,6 +15,7 @@ import styled from "styled-components";
 import PageHeading from "../../components/util/PageHeading";
 import Card from "../../components/containers/Card";
 import useLoadingStripe from "../../hooks/useLoadingStripe";
+import useAlert from "../../hooks/useAlert";
 
 const LoginForm = styled(Form)`
   padding: 1em;
@@ -24,9 +25,9 @@ const LoginPage = () => {
   const [, username] = useField("text", "Username");
   const [, password] = useField("password", "Password");
   const { showLoadingStripe, hideLoadingStripe } = useLoadingStripe();
+  const alertUser = useAlert();
 
-  const [login, { data: tokenData, isLoading, isError, isSuccess }] =
-    useLoginMutation();
+  const [login, { data: tokenData, isLoading, isSuccess }] = useLoginMutation();
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -37,26 +38,40 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      hideLoadingStripe()
+      hideLoadingStripe();
       navigate(-1);
     }
   }, [navigate, hideLoadingStripe, isSuccess, tokenData]);
 
-  useEffect(() => {
-    if (isError) {
-      hideLoadingStripe()
-    }
-  }, [isError, hideLoadingStripe]);
-
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const tokenData: TokenData = await login({
-      username: username.value,
-      password: password.value,
-    }).unwrap();
+    try {
+      const tokenData: TokenData = await login({
+        username: username.value,
+        password: password.value,
+      }).unwrap();
 
-    dispatch(setCredentials(tokenData));
+      dispatch(setCredentials(tokenData));
+    } catch (error) {
+      hideLoadingStripe();
+      if (error && typeof error === "object") {
+        if ("data" in error) {
+          if (
+            error.data &&
+            typeof error.data === "object" &&
+            "error" in error.data
+          ) {
+            const errorMessage: string =
+              "error" in error.data
+                ? (error.data.error as string)
+                : "Some error has occured! (Check the logs)";
+
+            alertUser(errorMessage);
+          }
+        }
+      }
+    }
   };
 
   return (

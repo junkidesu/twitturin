@@ -22,6 +22,7 @@ import ErrorPage from "../util/ErrorPage";
 import lightTheme from "../../themes/lightTheme";
 import PageHeading from "../../components/util/PageHeading";
 import Card from "../../components/containers/Card";
+import useAlert from "../../hooks/useAlert";
 
 const FormWrapper = styled(Form)`
   padding: 1em;
@@ -51,6 +52,7 @@ const UpdateProfilePicture = ({ user }: { user: User }) => {
   const { showLoadingStripe, hideLoadingStripe } = useLoadingStripe();
   const [updatePicture, { isLoading, isSuccess }] =
     useUpdateProfilePictureMutation();
+  const alertUser = useAlert();
   const { openFilePicker, filesContent, clear } = useFilePicker({
     readAs: "DataURL",
     accept: "image/*",
@@ -78,7 +80,27 @@ const UpdateProfilePicture = ({ user }: { user: User }) => {
 
       formData.append("picture", profilePicture);
 
-      await updatePicture({ id: user.id, body: formData });
+      try {
+        await updatePicture({ id: user.id, body: formData }).unwrap();
+      } catch (error) {
+        hideLoadingStripe();
+        if (error && typeof error === "object") {
+          if ("data" in error) {
+            if (
+              error.data &&
+              typeof error.data === "object" &&
+              "error" in error.data
+            ) {
+              const errorMessage: string =
+                "error" in error.data
+                  ? (error.data.error as string)
+                  : "Some error has occured! (Check the logs)";
+
+              alertUser(errorMessage);
+            }
+          }
+        }
+      }
     }
   };
 
@@ -126,7 +148,8 @@ const EditProfileForm = ({ user }: { user: User }) => {
   const [, birthday] = useField("date", "Birthday", user.birthday);
   const navigate = useNavigate();
   const { showLoadingStripe, hideLoadingStripe } = useLoadingStripe();
-  const [edit, { isLoading, isSuccess, isError }] = useEditUserMutation();
+  const [edit, { isLoading, isSuccess }] = useEditUserMutation();
+  const alertUser = useAlert();
 
   useEffect(() => {
     if (isLoading) showLoadingStripe();
@@ -138,12 +161,6 @@ const EditProfileForm = ({ user }: { user: User }) => {
       navigate(`/users/${user.id}`);
     }
   }, [isSuccess, hideLoadingStripe, navigate, user.id]);
-
-  useEffect(() => {
-    if (isError) {
-      hideLoadingStripe();
-    }
-  }, [isError, hideLoadingStripe]);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -157,12 +174,33 @@ const EditProfileForm = ({ user }: { user: User }) => {
       birthday: birthday.value,
     };
 
-    await edit({ id: user.id, body: toEdit });
+    try {
+      await edit({ id: user.id, body: toEdit }).unwrap();
+    } catch (error) {
+      hideLoadingStripe();
+
+      if (error && typeof error === "object") {
+        if ("data" in error) {
+          if (
+            error.data &&
+            typeof error.data === "object" &&
+            "error" in error.data
+          ) {
+            const errorMessage: string =
+              "error" in error.data
+                ? (error.data.error as string)
+                : "Some error has occured! (Check the logs)";
+
+            alertUser(errorMessage);
+          }
+        }
+      }
+    }
   };
 
   return (
     <FormWrapper onSubmit={onSubmit}>
-      <Input {...username} />
+      <Input {...username} required />
       <Input {...fullName} />
       <BioTextArea {...bio} />
       <Input {...email} />

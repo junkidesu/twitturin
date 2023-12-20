@@ -11,6 +11,7 @@ import { pictures } from "../../assets";
 import { useGetUserQuery } from "../../services/usersService";
 import Card from "../containers/Card";
 import useLoadingStripe from "../../hooks/useLoadingStripe";
+import useAlert from "../../hooks/useAlert";
 
 const TweetTextArea = styled(TextArea)`
   border: none;
@@ -37,9 +38,10 @@ const NewTweetForm = ({ className }: { className?: string }) => {
   const [clearContent, content] = useField("text", "Tweet your thoughts");
   const id = useAppSelector(({ auth }) => auth.id);
   const { data: user } = useGetUserQuery(id!);
-  const [addTweet, { isLoading, isSuccess, isError }] = useAddTweetMutation();
+  const [addTweet, { isLoading, isSuccess }] = useAddTweetMutation();
   const dispatch = useAppDispatch();
   const { showLoadingStripe, hideLoadingStripe } = useLoadingStripe();
+  const alertUser = useAlert();
 
   useEffect(() => {
     if (isLoading) showLoadingStripe();
@@ -52,18 +54,31 @@ const NewTweetForm = ({ className }: { className?: string }) => {
     }
   }, [isSuccess, hideLoadingStripe, dispatch]);
 
-  useEffect(() => {
-    if (isError) {
-      hideLoadingStripe();
-      console.log("error");
-    }
-  }, [isError, hideLoadingStripe]);
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    await addTweet({ content: content.value });
-    clearContent();
+    try {
+      await addTweet({ content: content.value }).unwrap();
+      clearContent();
+    } catch (error) {
+      hideLoadingStripe();
+      if (error && typeof error === "object") {
+        if ("data" in error) {
+          if (
+            error.data &&
+            typeof error.data === "object" &&
+            "error" in error.data
+          ) {
+            const errorMessage: string =
+              "error" in error.data
+                ? (error.data.error as string)
+                : "Some error has occured! (Check the logs)";
+
+            alertUser(errorMessage);
+          }
+        }
+      }
+    }
   };
 
   return (

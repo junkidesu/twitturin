@@ -30,6 +30,7 @@ morgan.token("body", (req: Request) => {
 });
 
 app.use(
+  "/api/*",
   morgan(":method :url :status :res[content-length] - :response-time ms :body")
 );
 

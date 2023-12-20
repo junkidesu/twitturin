@@ -28,9 +28,10 @@ import FlatButton from "../../../components/core/buttons/FlatButton";
 import { useAppDispatch, useAppSelector } from "../../../hooks/store";
 import { removeCredentials } from "../../../reducers/authReducer";
 import storageService from "../../../services/storageService";
-import { hide, show } from "../../../reducers/loadingStripeReducer";
 import ErrorPage from "../../util/ErrorPage";
 import Card from "../../../components/containers/Card";
+import useLoadingStripe from "../../../hooks/useLoadingStripe";
+import useAlert from "../../../hooks/useAlert";
 
 const Banner = styled.div`
   position: relative;
@@ -221,12 +222,14 @@ const DeleteButton = styled(NavButton)`
 
 const Settings = ({ user }: { user: User }) => {
   const navigate = useNavigate();
+  const alertUser = useAlert();
+  const { showLoadingStripe, hideLoadingStripe } = useLoadingStripe();
   const dispatch = useAppDispatch();
   const [deleteUser, { isLoading }] = useDeleteUserMutation();
 
   useEffect(() => {
-    if (isLoading) dispatch(show());
-  }, [dispatch, isLoading]);
+    if (isLoading) showLoadingStripe();
+  }, [showLoadingStripe, isLoading]);
 
   const handleSignOut = () => {
     storageService.removeAuthUser();
@@ -236,20 +239,31 @@ const Settings = ({ user }: { user: User }) => {
 
   const handleDeleteProfile = async () => {
     if (confirm("Are you sure you want to delete your profile?")) {
-      console.log("deleting profile...");
-
       try {
-        await deleteUser(user.id);
-        console.log("removing credentials");
+        await deleteUser(user.id).unwrap();
         dispatch(removeCredentials());
-        console.log("credentials removed");
-        console.log("cleaning data");
         storageService.removeAuthUser();
-        console.log("data cleaned");
-        dispatch(hide());
+        hideLoadingStripe();
         navigate("/home");
       } catch (error) {
-        dispatch(hide());
+        hideLoadingStripe();
+
+        if (error && typeof error === "object") {
+          if ("data" in error) {
+            if (
+              error.data &&
+              typeof error.data === "object" &&
+              "error" in error.data
+            ) {
+              const errorMessage: string =
+                "error" in error.data
+                  ? (error.data.error as string)
+                  : "Some error has occured! (Check the logs)";
+
+              alertUser(errorMessage);
+            }
+          }
+        }
       }
     }
   };

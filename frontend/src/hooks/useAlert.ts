@@ -1,7 +1,7 @@
 import { removeMessage, setMessage } from "../reducers/alertReducer";
 import { useAppDispatch } from "./store";
 
-let id: number | undefined;
+let id: number | undefined = undefined;
 
 const useAlert = () => {
   const dispatch = useAppDispatch();
@@ -13,7 +13,7 @@ const useAlert = () => {
 
     dispatch(setMessage(message));
 
-    id = setTimeout(() => {
+    id = window.setTimeout(() => {
       dispatch(removeMessage());
     }, 3000);
   };

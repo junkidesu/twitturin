@@ -10,10 +10,10 @@ import { Tweet } from "../../types";
 import Button from "../../components/core/buttons/Button";
 import { styled } from "styled-components";
 import Form from "../../components/core/Form";
-import { useAppDispatch } from "../../hooks/store";
 import { useEffect } from "react";
-import { hide, show } from "../../reducers/loadingStripeReducer";
 import PageHeading from "../../components/util/PageHeading";
+import useAlert from "../../hooks/useAlert";
+import useLoadingStripe from "../../hooks/useLoadingStripe";
 
 const FormWrapper = styled(Form)`
   align-items: end;
@@ -27,26 +27,46 @@ const FormWrapper = styled(Form)`
 
 const EditFields = ({ tweet }: { tweet: Tweet }) => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  const { showLoadingStripe, hideLoadingStripe } = useLoadingStripe();
   const [editTweet, { isLoading, isSuccess }] = useEditTweetMutation();
   const [, content] = useField("text", "Content", tweet.content);
+  const alertUser = useAlert();
 
   useEffect(() => {
-    if (isLoading) dispatch(show());
-  }, [isLoading, dispatch]);
+    if (isLoading) showLoadingStripe();
+  }, [isLoading, showLoadingStripe]);
 
   useEffect(() => {
     if (isSuccess) {
-      dispatch(hide());
+      hideLoadingStripe();
       navigate(`/tweets/${tweet.id}`);
     }
-  }, [isSuccess, navigate, tweet.id, dispatch]);
+  }, [isSuccess, navigate, tweet.id, hideLoadingStripe]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log("editing tweet...");
-    await editTweet({ id: tweet.id, content: content.value });
+    try {
+      await editTweet({ id: tweet.id, content: content.value }).unwrap();
+    } catch (error) {
+      hideLoadingStripe();
+      if (error && typeof error === "object") {
+        if ("data" in error) {
+          if (
+            error.data &&
+            typeof error.data === "object" &&
+            "error" in error.data
+          ) {
+            const errorMessage: string =
+              "error" in error.data
+                ? (error.data.error as string)
+                : "Some error has occured! (Check the logs)";
+
+            alertUser(errorMessage);
+          }
+        }
+      }
+    }
   };
 
   return (

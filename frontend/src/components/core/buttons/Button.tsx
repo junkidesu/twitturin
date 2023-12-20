@@ -15,7 +15,7 @@ const Button = styled.button<ButtonProps>`
     $size ? theme.fontSizes[$size] : theme.fontSizes.small};
   padding: 0.5em;
   border: 3px solid ${(props) => props.$fg || props.theme.colors.primary};
-  border-radius: ${(props) => (props.$rounded ? "10em" : "5px")};
+  border-radius: ${(props) => (props.$rounded ? "10em" : "1em")};
   transition: 0.1s;
   cursor: pointer;
   width: ${({ $width }) => $width || "fit-content"};

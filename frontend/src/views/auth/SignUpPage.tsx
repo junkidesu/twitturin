@@ -15,10 +15,10 @@ import { setCredentials } from "../../reducers/authReducer";
 import Box from "../../components/containers/Box";
 import TextArea from "../../components/core/inputs/TextArea";
 import PageHeading from "../../components/util/PageHeading";
-import ErrorPage from "../util/ErrorPage";
 import Heading from "../../components/core/text/Heading";
 import Label from "../../components/core/text/Label";
 import useLoadingStripe from "../../hooks/useLoadingStripe";
+import useAlert from "../../hooks/useAlert";
 
 const KindButton = styled.button<{ $active: boolean }>`
   width: 100%;
@@ -57,7 +57,9 @@ const SignUpForm = styled(Form)`
 `;
 
 const SignUpPage = () => {
-  const [signUp, { isLoading, isError, isSuccess }] = useAddUserMutation();
+  const [signUp, { isLoading, isSuccess }] =
+    useAddUserMutation();
+  const alertUser = useAlert();
   const [login] = useLoginMutation();
   const [kind, setKind] = useState<Kind>("student");
   const [, studentId] = useField("text", "StudentID");
@@ -80,12 +82,6 @@ const SignUpPage = () => {
   }, [isLoading, showLoadingStripe]);
 
   useEffect(() => {
-    if (isError) {
-      hideLoadingStripe();
-    }
-  }, [isError, hideLoadingStripe]);
-
-  useEffect(() => {
     const authenticate = async () => {
       const tokenData = await login({
         username: username.value,
@@ -96,7 +92,7 @@ const SignUpPage = () => {
     };
 
     if (isSuccess) {
-      hideLoadingStripe()
+      hideLoadingStripe();
       authenticate();
     }
 
@@ -137,10 +133,28 @@ const SignUpPage = () => {
             subject: subject.value,
           };
 
-    await signUp(newUser);
-  };
+    try {
+      await signUp(newUser).unwrap();
+    } catch (error) {
+      hideLoadingStripe();
+      if (error && typeof error === "object") {
+        if ("data" in error) {
+          if (
+            error.data &&
+            typeof error.data === "object" &&
+            "error" in error.data
+          ) {
+            const errorMessage: string =
+              "error" in error.data
+                ? (error.data.error as string)
+                : "Some error has occured! (Check the logs)";
 
-  if (isError) return <ErrorPage />;
+            alertUser(errorMessage);
+          }
+        }
+      }
+    }
+  };
 
   return (
     <Box $gap="0.1em" $width="500px">

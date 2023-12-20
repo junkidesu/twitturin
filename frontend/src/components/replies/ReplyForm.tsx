@@ -8,6 +8,7 @@ import TextArea from "../core/inputs/TextArea";
 import lightTheme from "../../themes/lightTheme";
 import Box from "../containers/Box";
 import useLoadingStripe from "../../hooks/useLoadingStripe";
+import useAlert from "../../hooks/useAlert";
 
 type Props = {
   id: string;
@@ -19,6 +20,7 @@ const ReplyForm = ({ id, parent, setVisible }: Props) => {
   const [replyToTweet, { isLoading, isSuccess, isError }] = useReplyMutation();
   const { showLoadingStripe, hideLoadingStripe } = useLoadingStripe();
   const [clearContent, content] = useField("text", "Type your reply...");
+  const alertUser = useAlert();
 
   const token = useAppSelector(({ auth }) => auth.token);
 
@@ -28,8 +30,6 @@ const ReplyForm = ({ id, parent, setVisible }: Props) => {
       hideLoadingStripe();
       clearContent();
       if (setVisible) setVisible(false);
-    } else if (isError) {
-      hideLoadingStripe();
     }
   }, [
     isLoading,
@@ -46,7 +46,31 @@ const ReplyForm = ({ id, parent, setVisible }: Props) => {
   const handleReply = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    await replyToTweet({ content: content.value, parent, parentId: id });
+    try {
+      await replyToTweet({
+        content: content.value,
+        parent,
+        parentId: id,
+      }).unwrap();
+    } catch (error) {
+      hideLoadingStripe();
+      if (error && typeof error === "object") {
+        if ("data" in error) {
+          if (
+            error.data &&
+            typeof error.data === "object" &&
+            "error" in error.data
+          ) {
+            const errorMessage: string =
+              "error" in error.data
+                ? (error.data.error as string)
+                : "Some error has occured! (Check the logs)";
+
+            alertUser(errorMessage);
+          }
+        }
+      }
+    }
   };
 
   return (
