@@ -8,9 +8,7 @@ import Select from "../../components/core/inputs/Select";
 import DatePicker from "../../components/core/inputs/DatePicker";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  useAddUserMutation,
-} from "../../services/usersService";
+import { useAddUserMutation } from "../../services/usersService";
 import { useAppDispatch, useAppSelector } from "../../hooks/store";
 import { useLoginMutation } from "../../services/authService";
 import { setCredentials } from "../../reducers/authReducer";
@@ -18,6 +16,8 @@ import { show, hide } from "../../reducers/loadingStripeReducer";
 import Box from "../../components/containers/Box";
 import TextArea from "../../components/core/inputs/TextArea";
 import PageHeading from "../../components/util/PageHeading";
+import ErrorPage from "../util/ErrorPage";
+import Heading from "../../components/core/text/Heading";
 
 const KindButton = styled.button<{ $active: boolean }>`
   width: 100%;
@@ -143,7 +143,7 @@ const SignUpPage = () => {
     await signUp(newUser);
   };
 
-  if (isError) return <div>Some error occurred!</div>;
+  if (isError) return <ErrorPage />;
 
   return (
     <Box $gap="0.1em" $width="500px">
@@ -170,6 +170,7 @@ const SignUpPage = () => {
         <Input {...fullName} />
         <Input {...country} />
         <BioTextArea {...bio} />
+        <Heading $level={4}>Birthday</Heading>
         <DatePicker {...birthday} />
 
         {kind === "student" && (

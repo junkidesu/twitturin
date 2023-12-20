@@ -1,12 +1,22 @@
+import styled from "styled-components";
 import { icons } from "../../assets";
 import { useAppSelector } from "../../hooks/store";
-import { useFollowMutation, useUnfollowMutation, useGetFollowingQuery } from "../../services/usersService";
+import {
+  useFollowMutation,
+  useUnfollowMutation,
+  useGetFollowingQuery,
+} from "../../services/usersService";
 import { User } from "../../types";
 import IconButton from "../core/buttons/IconButton";
 
 interface Props {
   user: User;
 }
+
+const FollowIconButton = styled(IconButton)`
+  /* align-items: center; */
+  justify-content: center;
+`;
 
 const FollowButton = ({ user }: Props) => {
   const id = useAppSelector(({ auth }) => auth.id);
@@ -29,7 +39,7 @@ const FollowButton = ({ user }: Props) => {
   };
 
   return (
-    <IconButton
+    <FollowIconButton
       icon={followedByMe ? <icons.UserCheckIcon /> : <icons.UserPlusIcon />}
       label={followedByMe ? "following" : "follow"}
       onClick={followedByMe ? handleUnfollow : handleFollow}

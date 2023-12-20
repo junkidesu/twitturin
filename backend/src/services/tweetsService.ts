@@ -90,7 +90,7 @@ const getLikes = async (id: string) => {
 };
 
 const getLikedTweets = async (userId: string) => {
-  const tweets = await TweetModel.find({ likedBy: userId });
+  const tweets = await TweetModel.find({ likedBy: userId }).populate("author");
 
   return tweets;
 };

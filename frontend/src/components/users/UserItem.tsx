@@ -28,6 +28,13 @@ const ProfilePicture = styled.img`
   cursor: pointer;
 `;
 
+const ProfileLink = styled(RouterLink)`
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
 const UserItem = ({ user }: { user: User }) => {
   return (
     <Wrapper>
@@ -37,17 +44,17 @@ const UserItem = ({ user }: { user: User }) => {
         />
 
         <Box>
-          <RouterLink $size="small" $bold to={`/users/${user.id}`}>
+          <ProfileLink $size="small" $bold to={`/users/${user.id}`}>
             {user.fullName || "TwitturIn User"}
-          </RouterLink>
+          </ProfileLink>
 
-          <RouterLink
+          <ProfileLink
             $size="extraSmall"
             $color={lightTheme.colors.grey2}
             to={`/users/${user.id}`}
           >
             @{user.username}
-          </RouterLink>
+          </ProfileLink>
         </Box>
       </Box>
 

@@ -15,6 +15,17 @@ import Card from "../../containers/Card";
 
 const UsernameLink = styled(RouterLink)`
   color: ${(props) => props.theme.colors.grey2};
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+const FullNameLink = styled(RouterLink)`
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const ProfilePicture = styled.img`
@@ -35,9 +46,9 @@ const TweetHeader = ({ tweet }: { tweet: Tweet }) => {
 
   return (
     <Box $horizontal $gap="0.5em">
-      <RouterLink $bold to={`/users/${tweet.author.id}`}>
+      <FullNameLink $bold to={`/users/${tweet.author.id}`}>
         {tweet.author.fullName || "Twittur User"}
-      </RouterLink>
+      </FullNameLink>
 
       <UsernameLink to={`/users/${tweet.author.id}`}>
         @{tweet.author.username}
