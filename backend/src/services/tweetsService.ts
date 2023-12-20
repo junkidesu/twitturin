@@ -19,9 +19,9 @@ const options: PopulateOptions[] = [
 ];
 
 const getAllTweets = async () => {
-  const tweets = await TweetModel.find<Tweet[]>({}).populate<PopulatedTweet>(
-    options
-  );
+  const tweets = await TweetModel.find<Tweet[]>({})
+    .sort({ createdAt: -1 })
+    .populate<PopulatedTweet>(options);
 
   return tweets;
 };
@@ -39,7 +39,9 @@ const getTweetById = async (id: string) => {
 const getTweetsByUser = async (userId: string) => {
   const tweets = await TweetModel.find<Tweet>({
     author: userId,
-  }).populate<PopulatedTweet>(options);
+  })
+    .sort({ createdAt: -1 })
+    .populate<PopulatedTweet>(options);
 
   return tweets;
 };
@@ -90,7 +92,9 @@ const getLikes = async (id: string) => {
 };
 
 const getLikedTweets = async (userId: string) => {
-  const tweets = await TweetModel.find({ likedBy: userId }).populate("author");
+  const tweets = await TweetModel.find({ likedBy: userId })
+    .sort({ createdAt: -1 })
+    .populate("author");
 
   return tweets;
 };
