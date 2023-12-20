@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development ts-node-dev src/index.ts",
+    "dev:remote": "cross-env NODE_ENV=development ts-node src/index.ts",
     "tsc": "tsc",
     "build:ui": "cd ../frontend && npm install && npm run build && cp -r ./dist ../backend/build",
     "lint": "eslint --ext .ts .",
@@ -31,6 +32,7 @@
     "cross-env": "^7.0.3",
     "eslint": "^8.52.0",
     "mongoose-unique-validator": "^4.0.0",
+    "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.2.2"
   },
