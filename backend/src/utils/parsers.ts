@@ -55,7 +55,6 @@ export const toNewUser = (object: unknown): NewUser => {
     throw new ParseError("Data missing or invalid");
 
   if (!("username" in object)) throw new ParseError("user username missing");
-  if (!("birthday" in object)) throw new ParseError("birthday missing");
   if (!("password" in object)) throw new ParseError("user password missing");
   if (!("kind" in object)) throw new ParseError("kind missing");
 

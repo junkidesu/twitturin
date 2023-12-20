@@ -4,7 +4,9 @@ import { RootState } from "../store";
 export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "/api",
+    baseUrl: import.meta.env.PROD
+      ? "https://twitturin-api.onrender.com"
+      : "/api",
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token;
 

@@ -1,4 +1,4 @@
-import path from "path";
+// import path from "path";
 import express, { Request } from "express";
 import cors from "cors";
 import env from "./utils/config";
@@ -45,12 +45,12 @@ app.use("/api/tweets", tweetsRouter);
 app.use("/api/replies", repliesRouter);
 app.use("/api/search", searchRouter);
 
-if (env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../build")));
-  app.use("*", (_req, res) => {
-    res.sendFile(path.join(__dirname, "../build/index.html"));
-  });
-}
+// if (env.NODE_ENV === "production") {
+//   app.use(express.static(path.join(__dirname, "../build")));
+//   app.use("*", (_req, res) => {
+//     res.sendFile(path.join(__dirname, "../build/index.html"));
+//   });
+// }
 
 if (env.NODE_ENV === "development")
   app.use("/docs", swaggerUi.serve, swaggerUi.setup(specs));
