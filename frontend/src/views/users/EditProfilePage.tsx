@@ -118,20 +118,28 @@ const UpdateProfilePicture = ({ user }: { user: User }) => {
         />
 
         <Box $horizontal $width="100%" $gap="1em">
-          <Button $width="100%" onClick={() => openFilePicker()}>
+          <Button
+            $width="100%"
+            onClick={() => openFilePicker()}
+            disabled={isLoading}
+          >
             Choose
           </Button>
           <Button
             $width="100%"
             $fg={lightTheme.colors.secondary}
             onClick={() => clear()}
-            disabled={!profilePicture}
+            disabled={!profilePicture || isLoading}
           >
             Clear
           </Button>
         </Box>
 
-        <Button $width="100%" onClick={handleSubmit} disabled={!profilePicture}>
+        <Button
+          $width="100%"
+          onClick={handleSubmit}
+          disabled={!profilePicture || isLoading}
+        >
           Submit
         </Button>
       </Card>

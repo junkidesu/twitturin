@@ -34,6 +34,10 @@ const FormWrapper = styled(Form)`
   padding: 0;
 `;
 
+const Wrapper = styled(Card)`
+  max-width: 500px;
+`;
+
 const NewTweetForm = ({ className }: { className?: string }) => {
   const [clearContent, content] = useField("text", "Tweet your thoughts");
   const id = useAppSelector(({ auth }) => auth.id);
@@ -82,7 +86,7 @@ const NewTweetForm = ({ className }: { className?: string }) => {
   };
 
   return (
-    <Card $horizontal className={className}>
+    <Wrapper $horizontal className={className}>
       <ProfilePicture
         src={user?.profilePicture || pictures.emptyProfilePicture}
       />
@@ -94,7 +98,7 @@ const NewTweetForm = ({ className }: { className?: string }) => {
           Tweet
         </Button>
       </FormWrapper>
-    </Card>
+    </Wrapper>
   );
 };
 
