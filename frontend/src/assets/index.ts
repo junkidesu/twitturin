@@ -1,4 +1,5 @@
 import emptyProfilePicture from "./images/empty-profile-picture.png";
+import appQRCode from "./images/app-qr-code.png";
 import CloseIcon from "./icons/close.svg?react";
 import HeartIcon from "./icons/heart.svg?react";
 import RepliesIcon from "./icons/replies.svg?react";
@@ -32,6 +33,7 @@ import MenuIcon from "./icons/menu.svg?react";
 
 export const pictures = {
   emptyProfilePicture,
+  appQRCode,
 };
 
 export const icons = {

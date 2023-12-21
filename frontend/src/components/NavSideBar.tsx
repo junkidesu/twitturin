@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Box from "./containers/Box";
 import FlatButton from "./core/buttons/FlatButton";
-import { icons } from "../assets";
+import { icons, pictures } from "../assets";
 import Button from "./core/buttons/Button";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks/store";
@@ -11,18 +11,39 @@ import { useGetUserQuery } from "../services/usersService";
 import LoadingUserItem from "./util/LoadingUserItem";
 import LoginSuggestion from "./util/LoginSuggestion";
 import UserItem from "./users/UserItem";
+import Link from "./core/Link";
 
 const NavButton = styled(FlatButton)`
   font-size: ${({ theme }) => theme.fontSizes.medium};
   padding: 0.9em 1em;
 `;
 
+const QRCode = styled.img.attrs({ src: pictures.appQRCode })`
+  width: 200px;
+  height: 200px;
+`;
+
+const AndroidQRCode = () => {
+  return (
+    <Box>
+      <QRCode />
+      <Link
+        href={
+          "https://github.com/luminous-or-me/twitturin-android/raw/main/app-debug.apk"
+        }
+      >
+        Get Android App Now!
+      </Link>
+    </Box>
+  );
+};
+
 const NavigationButtons = () => {
   const id = useAppSelector(({ auth }) => auth.id);
   const navigate = useNavigate();
 
   return (
-    <Box>
+    <Box $center>
       <NavButton
         icon={<icons.HomeIcon />}
         label="Home"
@@ -48,6 +69,8 @@ const NavigationButtons = () => {
         label="Profile"
         onClick={() => navigate(`/users/${id}`)}
       />
+
+      <AndroidQRCode />
     </Box>
   );
 };
@@ -58,7 +81,7 @@ const CurrentUserItem = () => {
 
   if (isLoading) return <LoadingUserItem />;
 
-  if (!user || isError) return <div>Some error occurred!</div>
+  if (!user || isError) return <div>Some error occurred!</div>;
 
   return <UserItem user={user} />;
 };
