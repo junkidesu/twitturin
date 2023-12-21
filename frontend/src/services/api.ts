@@ -5,7 +5,7 @@ export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.PROD
-      ? "https://twitturin-api.onrender.com"
+      ? "https://twitturin-api.onrender.com/api"
       : "/api",
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token;
