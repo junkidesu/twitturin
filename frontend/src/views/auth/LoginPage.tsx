@@ -16,6 +16,7 @@ import PageHeading from "../../components/util/PageHeading";
 import Card from "../../components/containers/Card";
 import useLoadingStripe from "../../hooks/useLoadingStripe";
 import useAlert from "../../hooks/useAlert";
+import storageService from "../../services/storageService";
 
 const LoginForm = styled(Form)`
   padding: 1em;
@@ -53,6 +54,7 @@ const LoginPage = () => {
       }).unwrap();
 
       dispatch(setCredentials(tokenData));
+      storageService.setAuthUser(tokenData);
     } catch (error) {
       hideLoadingStripe();
       if (error && typeof error === "object") {
@@ -89,7 +91,9 @@ const LoginPage = () => {
 
         <Input {...password} required />
 
-        <Button $width="100%">Log in</Button>
+        <Button $width="100%" disabled={isLoading}>
+          Log in
+        </Button>
       </LoginForm>
     </Box>
   );

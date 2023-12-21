@@ -98,13 +98,11 @@ export const toNewUser = (object: unknown): NewUser => {
   }
 
   if (object.kind === "teacher") {
+    if (!("subject" in object)) throw new ParseError("subject missing");
     return {
       ...common,
       kind: object.kind,
-      subject:
-        "subject" in object
-          ? parseString(object.subject, "subject")
-          : undefined,
+      subject: parseString(object.subject, "subject"),
     };
   }
 

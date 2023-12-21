@@ -23,10 +23,14 @@ const options: swaggerJsdoc.Options = {
     servers: [
       {
         url: "http://localhost:3001/api",
-        description: "development server",
+        description: "local development server",
       },
       {
-        url: "https://twitturin.onrender.com/api",
+        url: "https://twitturin-dev.onrender.com/api",
+        description: "remote development server",
+      },
+      {
+        url: "https://twitturin-api.onrender.com/api",
         description: "production server",
       },
     ],

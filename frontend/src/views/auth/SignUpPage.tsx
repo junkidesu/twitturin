@@ -19,6 +19,7 @@ import Heading from "../../components/core/text/Heading";
 import Label from "../../components/core/text/Label";
 import useLoadingStripe from "../../hooks/useLoadingStripe";
 import useAlert from "../../hooks/useAlert";
+import storageService from "../../services/storageService";
 
 const KindButton = styled.button<{ $active: boolean }>`
   width: 100%;
@@ -57,8 +58,7 @@ const SignUpForm = styled(Form)`
 `;
 
 const SignUpPage = () => {
-  const [signUp, { isLoading, isSuccess }] =
-    useAddUserMutation();
+  const [signUp, { isLoading }] = useAddUserMutation();
   const alertUser = useAlert();
   const [login] = useLoginMutation();
   const [kind, setKind] = useState<Kind>("student");
@@ -82,31 +82,8 @@ const SignUpPage = () => {
   }, [isLoading, showLoadingStripe]);
 
   useEffect(() => {
-    const authenticate = async () => {
-      const tokenData = await login({
-        username: username.value,
-        password: password.value,
-      }).unwrap();
-
-      dispatch(setCredentials(tokenData));
-    };
-
-    if (isSuccess) {
-      hideLoadingStripe();
-      authenticate();
-    }
-
     if (token) navigate("/");
-  }, [
-    token,
-    navigate,
-    isSuccess,
-    hideLoadingStripe,
-    dispatch,
-    login,
-    username.value,
-    password.value,
-  ]);
+  }, [token, navigate]);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -135,6 +112,17 @@ const SignUpPage = () => {
 
     try {
       await signUp(newUser).unwrap();
+
+      const tokenData = await login({
+        username: username.value,
+        password: password.value,
+      }).unwrap();
+
+      dispatch(setCredentials(tokenData));
+      storageService.setAuthUser(tokenData);
+      hideLoadingStripe();
+
+      navigate("/");
     } catch (error) {
       hideLoadingStripe();
       if (error && typeof error === "object") {
@@ -202,7 +190,9 @@ const SignUpPage = () => {
         <Input {...fullName} />
         <BioTextArea {...bio} />
 
-        <Button $width="100%">Sign Up</Button>
+        <Button $width="100%" disabled={isLoading}>
+          Sign Up
+        </Button>
       </SignUpForm>
     </Box>
   );

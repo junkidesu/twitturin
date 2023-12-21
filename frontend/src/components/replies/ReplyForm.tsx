@@ -78,7 +78,7 @@ const ReplyForm = ({ id, parent, setVisible }: Props) => {
       <TextArea {...content} required />
 
       <Box $horizontal $gap="0.5em">
-        <Button $bg="white" $size="extraSmall">
+        <Button $bg="white" $size="extraSmall" disabled={isLoading}>
           Submit
         </Button>
 

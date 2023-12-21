@@ -30,7 +30,7 @@ export interface StudentUser extends UserCommon {
 }
 
 export interface TeacherUser extends UserCommon {
-  subject?: string;
+  subject: string;
   kind: "teacher";
 }
 
