@@ -1,6 +1,11 @@
 import { RootState } from "../store";
-import { EditUser, NewUser, User } from "../types";
+import { EditUser, NewUser, Tweet, User } from "../types";
 import { api } from "./api";
+
+type PictureProps = {
+  id: string;
+  body: FormData;
+};
 
 export const usersApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -15,6 +20,17 @@ export const usersApi = api.injectEndpoints({
         url: `users/${id}`,
       }),
       providesTags: (_result, _error, arg) => [{ type: "User", id: arg }],
+    }),
+    getUserTweets: builder.query<Tweet[], string>({
+      query: (id) => ({
+        url: `users/${id}/tweets`,
+      }),
+      providesTags: (_result, _error, arg) => [{ type: "UserTweets", id: arg }],
+    }),
+    getLikedTweets: builder.query<Tweet[], string>({
+      query: (id) => ({
+        url: `users/${id}/likes`,
+      }),
     }),
     addUser: builder.mutation<User, NewUser>({
       query: (newUser) => ({
@@ -44,10 +60,7 @@ export const usersApi = api.injectEndpoints({
         }
       },
     }),
-    updateProfilePicture: builder.mutation<
-      User,
-      { id: string; body: FormData }
-    >({
+    updateProfilePicture: builder.mutation<User, PictureProps>({
       query: ({ id, body }) => ({
         url: `users/${id}/profilePicture`,
         method: "POST",
@@ -134,6 +147,8 @@ export const usersApi = api.injectEndpoints({
 export const {
   useGetUsersQuery,
   useGetUserQuery,
+  useGetUserTweetsQuery,
+  useGetLikedTweetsQuery,
   useAddUserMutation,
   useEditUserMutation,
   useUpdateProfilePictureMutation,

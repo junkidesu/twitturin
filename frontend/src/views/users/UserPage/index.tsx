@@ -4,6 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   useDeleteUserMutation,
   useGetUserQuery,
+  useGetUserTweetsQuery,
+  useGetLikedTweetsQuery,
 } from "../../../services/usersService";
 import LoadingUserProfile from "../../util/LoadingUserProfile";
 import Box from "../../../components/containers/Box";
@@ -18,10 +20,6 @@ import { useEffect, useState } from "react";
 import ReplyList from "../../../components/replies/ReplyList";
 import { useGetUserRepliesQuery } from "../../../services/repliesService";
 import LoadingReplyList from "../../../components/util/LoadingReplyList";
-import {
-  useGetLikedTweetsQuery,
-  useGetTweetsQuery,
-} from "../../../services/tweetsService";
 import LoadingTweetList from "../../../components/util/LoadingTweetList";
 import Empty from "../../../components/util/Empty";
 import FlatButton from "../../../components/core/buttons/FlatButton";
@@ -164,7 +162,7 @@ const UserTweets = ({ user }: { user: User }) => {
     isLoading,
     isFetching,
     isError,
-  } = useGetTweetsQuery(user.id);
+  } = useGetUserTweetsQuery(user.id);
 
   if (isLoading || isFetching) return <LoadingTweetList />;
 

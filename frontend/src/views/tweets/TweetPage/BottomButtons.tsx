@@ -31,7 +31,7 @@ const BottomButtons = ({ tweet }: { tweet: Tweet }) => {
     if (!userId) {
       navigate("/login");
     } else {
-      await like(tweet.id);
+      await like(tweet);
     }
   };
 
@@ -39,7 +39,7 @@ const BottomButtons = ({ tweet }: { tweet: Tweet }) => {
     if (!userId) {
       navigate("/login");
     } else {
-      await unlike(tweet.id);
+      await unlike(tweet);
     }
   };
 
