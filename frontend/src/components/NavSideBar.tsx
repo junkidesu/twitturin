@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Box from "./containers/Box";
 import FlatButton from "./core/buttons/FlatButton";
-import { icons, pictures } from "../assets";
+import { icons } from "../assets";
 import Button from "./core/buttons/Button";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks/store";
@@ -12,25 +12,75 @@ import LoadingUserItem from "./util/LoadingUserItem";
 import LoginSuggestion from "./util/LoginSuggestion";
 import UserItem from "./users/UserItem";
 import Link from "./core/Link";
+import { useGetLatestReleaseQuery } from "../services/githubService";
+import Label from "./core/text/Label";
+import QRCode from "react-qr-code";
+import { useState } from "react";
 
 const NavButton = styled(FlatButton)`
   font-size: ${({ theme }) => theme.fontSizes.medium};
   padding: 0.9em 1em;
 `;
 
-const QRCode = styled.img.attrs({ src: pictures.appQRCode })`
-  width: 200px;
-  height: 200px;
+const AccordionWrapper = styled(Box)`
+  border: 3px solid ${({ theme }) => theme.colors.grey3};
+  border-radius: 1em;
 `;
 
-const AndroidQRCode = () => {
+const HeadingWrapper = styled(Box)`
+  justify-content: center;
+  align-items: center;
+`;
+
+const Accordion = ({
+  children,
+  heading,
+}: {
+  children: React.ReactNode;
+  heading?: string;
+}) => {
+  const [visible, setVisible] = useState(false);
+
   return (
-    <Box>
-      <QRCode />
+    <AccordionWrapper $pad="l" $gap="2em">
+      <HeadingWrapper
+        $horizontal
+        $gap="1em"
+        onClick={() => setVisible(!visible)}
+      >
+        <Label $bold>{heading || "Accordion"}</Label>
+        {visible ? <icons.ChevronUpIcon /> : <icons.ChevronDownIcon />}
+      </HeadingWrapper>
+
+      {visible && children}
+    </AccordionWrapper>
+  );
+};
+
+const LatestRelease = () => {
+  const navigate = useNavigate();
+  const { data: release, isLoading } = useGetLatestReleaseQuery(undefined);
+
+  if (isLoading)
+    return (
+      <Box>
+        <Label>Loading...</Label>
+      </Box>
+    );
+
+  const onLinkClick = () => {
+    navigate("/release");
+  };
+
+  return (
+    <Box $center $gap="1em">
+      <QRCode
+        value={release!.assets[0].browser_download_url}
+        style={{ width: "150px", height: "150px" }}
+      />
       <Link
-        href={
-          "https://github.com/luminous-or-me/twitturin-android/raw/main/app-debug.apk"
-        }
+        href={release!.assets[0].browser_download_url}
+        onClick={onLinkClick}
       >
         Get Android App Now!
       </Link>
@@ -55,22 +105,10 @@ const NavigationButtons = () => {
         onClick={() => navigate("/explore")}
       />
       <NavButton
-        icon={<icons.MailIcon />}
-        label="Messages"
-        onClick={() => navigate("/messages")}
-      />
-      <NavButton
-        icon={<icons.BellIcon />}
-        label="Notifications"
-        onClick={() => navigate("/notifications")}
-      />
-      <NavButton
         icon={<icons.UserIcon />}
         label="Profile"
         onClick={() => navigate(`/users/${id}`)}
       />
-
-      <AndroidQRCode />
     </Box>
   );
 };
@@ -102,6 +140,7 @@ const NavSideBar = () => {
         <LoginSuggestion />
       </CustomSideBar>
     );
+
   return (
     <CustomSideBar $width="300px" $pad="s" $bg="white">
       <Box $gap="0.5em">
@@ -110,6 +149,10 @@ const NavSideBar = () => {
         <Button $width="100%" $bg="white" onClick={() => dispatch(showModal())}>
           Tweet
         </Button>
+
+        <Accordion heading="Latest Release">
+          <LatestRelease />
+        </Accordion>
       </Box>
 
       <CurrentUserItem />

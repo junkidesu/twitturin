@@ -37,6 +37,25 @@ export interface TeacherUser extends UserCommon {
   kind: "teacher";
 }
 
+export interface ReleaseInformation {
+  body?: string;
+  name?: string;
+  url: string;
+  html_url: string;
+  tag_name: string;
+  assets: [
+    {
+      url: string;
+      browser_download_url: string;
+      id: string;
+      name: string;
+      label?: string;
+      download_count: string;
+      created_at: string;
+    }
+  ];
+}
+
 export type User = StudentUser | TeacherUser;
 
 export type NewUser = UnionOmit<

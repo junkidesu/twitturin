@@ -32,6 +32,7 @@ import { showModal } from "./reducers/modalReducer";
 import ErrorPage from "./views/util/ErrorPage";
 import ExplorePage from "./views/ExplorePage";
 import Alert from "./components/util/Alert";
+import ReleasePage from "./views/ReleasePage";
 
 const RightSideBar = styled(SideBar)`
   margin-left: 50px;
@@ -74,6 +75,7 @@ const App = () => {
           <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/sign-up" element={<SignUpPage />} />
+          <Route path="/release" element={<ReleasePage />} />
           <Route
             path="/me"
             element={<Navigate to={id ? `/users/${id}` : "/login"} />}
