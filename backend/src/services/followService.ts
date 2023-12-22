@@ -25,46 +25,25 @@ const getFollowers = async (id: string) => {
 const followUser = async (me: Types.ObjectId, toFollow: string) => {
   if (me.toString() === toFollow) throw new AuthError("can't follow yourself");
 
-  const foundUser = await UserModel.findById(toFollow);
+  const followedUser = await UserModel.findByIdAndUpdate(
+    toFollow,
+    { $addToSet: { followers: me } },
+    { context: "query", new: true }
+  );
 
-  if (!foundUser) throw new NotFoundError("user not found");
+  if (!followedUser) throw new NotFoundError("user not found");
 
-  const currentUser = await UserModel.findById(me);
+  await UserModel.updateOne(
+    { _id: me },
+    { $addToSet: { following: toFollow } }
+  );
 
-  const followingStrings = currentUser!.following.map((u) => u.toString());
-  const followersStrings = foundUser.followers.map((u) => u.toString());
-
-  if (!followingStrings.includes(foundUser._id.toString())) {
-    currentUser!.following = currentUser!.following.concat(foundUser._id);
-  }
-
-  if (!followersStrings.includes(currentUser!._id.toString())) {
-    foundUser.followers = foundUser.followers.concat(currentUser!._id);
-  }
-
-  await currentUser!.save();
-  await foundUser.save();
-
-  return foundUser;
+  return followedUser;
 };
 
 const unfollowUser = async (me: Types.ObjectId, toUnfollow: string) => {
-  const foundUser = await UserModel.findById(toUnfollow);
-
-  if (!foundUser) throw new NotFoundError("user not found");
-
-  const currentUser = await UserModel.findById(me);
-
-  currentUser!.following = currentUser!.following.filter(
-    (u) => u.toString() !== toUnfollow
-  );
-
-  foundUser.followers = foundUser.followers.filter(
-    (u) => u.toString() !== me.toString()
-  );
-
-  await currentUser!.save();
-  await foundUser.save();
+  await UserModel.updateOne({ _id: me }, { $pull: { following: toUnfollow } });
+  await UserModel.updateOne({ _id: toUnfollow }, { $pull: { followers: me } });
 };
 
 export default {
