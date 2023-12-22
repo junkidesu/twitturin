@@ -2,6 +2,7 @@ import express from "express";
 import { toNewReply } from "../utils/parsers";
 import repliesService from "../services/repliesService";
 import { requireAuthentication, requireReplyAuthor } from "../utils/middleware";
+import likeService from "../services/likeService";
 
 const router = express.Router();
 
@@ -40,7 +41,7 @@ const router = express.Router();
  */
 router.get("/:id/likes", async (req, res, next) => {
   try {
-    const likedBy = await repliesService.getLikes(req.params.id);
+    const likedBy = await likeService.getReplyLikes(req.params.id);
 
     res.json(likedBy);
   } catch (error) {
@@ -275,7 +276,7 @@ router.delete(
  */
 router.post("/:id/likes", requireAuthentication, async (req, res, next) => {
   try {
-    const like = await repliesService.likeReply(req.params.id, req.user!);
+    const like = await likeService.likeReply(req.params.id, req.user!._id);
 
     res.json(like);
   } catch (error) {
@@ -323,7 +324,7 @@ router.post("/:id/likes", requireAuthentication, async (req, res, next) => {
  */
 router.delete("/:id/likes", requireAuthentication, async (req, res, next) => {
   try {
-    await repliesService.removeLike(req.params.id, req.user!._id);
+    await likeService.unlikeReply(req.params.id, req.user!._id);
     res.status(204).end();
   } catch (error) {
     next(error);
