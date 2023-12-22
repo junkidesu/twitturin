@@ -6,7 +6,7 @@ import LoadingTweetPage from "../../util/LoadingTweetPage";
 import Box from "../../../components/containers/Box";
 import BottomButtons from "./BottomButtons";
 import ReplyList from "../../../components/replies/ReplyList";
-import { useGetTweetRepliesQuery } from "../../../services/repliesService";
+import { useGetTweetRepliesQuery } from "../../../services/tweetsService";
 import { Tweet } from "../../../types";
 import LoadingReplyList from "../../../components/util/LoadingReplyList";
 import Empty from "../../../components/util/Empty";

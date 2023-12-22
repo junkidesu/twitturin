@@ -1,5 +1,5 @@
 import { RootState } from "../store";
-import { EditUser, NewUser, Tweet, User } from "../types";
+import { EditUser, NewUser, Reply, Tweet, User } from "../types";
 import { api } from "./api";
 
 type PictureProps = {
@@ -26,6 +26,14 @@ export const usersApi = api.injectEndpoints({
         url: `users/${id}/tweets`,
       }),
       providesTags: (_result, _error, arg) => [{ type: "UserTweets", id: arg }],
+    }),
+    getUserReplies: builder.query<Reply[], string>({
+      query: (id) => ({
+        url: `users/${id}/replies`,
+      }),
+      providesTags: (_result, _error, arg) => [
+        { type: "UserReplies", id: arg },
+      ],
     }),
     getLikedTweets: builder.query<Tweet[], string>({
       query: (id) => ({
@@ -149,6 +157,7 @@ export const {
   useGetUserQuery,
   useGetUserTweetsQuery,
   useGetLikedTweetsQuery,
+  useGetUserRepliesQuery,
   useAddUserMutation,
   useEditUserMutation,
   useUpdateProfilePictureMutation,

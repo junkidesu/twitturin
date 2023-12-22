@@ -1,5 +1,5 @@
 import { api } from "./api";
-import { NewTweet, Tweet, User } from "../types";
+import { NewTweet, Reply, Tweet, User } from "../types";
 import { RootState } from "../store";
 import { usersApi } from "./usersService";
 
@@ -17,6 +17,12 @@ export const tweetsApi = api.injectEndpoints({
       }),
       providesTags: (result) =>
         result ? [{ type: "Tweet", id: result.id }] : ["Tweet"],
+    }),
+    getTweetReplies: builder.query<Reply[], string>({
+      query: (id) => ({
+        url: `/tweets/${id}/replies`,
+      }),
+      providesTags: (_result, _error, arg) => [{ type: "Reply", id: arg }],
     }),
     addTweet: builder.mutation<Tweet, NewTweet>({
       query: (newTweet) => ({
@@ -192,6 +198,7 @@ export const tweetsApi = api.injectEndpoints({
 export const {
   useGetTweetsQuery,
   useGetTweetQuery,
+  useGetTweetRepliesQuery,
   useAddTweetMutation,
   useEditTweetMutation,
   useLikeTweetMutation,

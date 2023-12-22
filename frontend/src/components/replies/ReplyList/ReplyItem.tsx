@@ -9,7 +9,10 @@ import ReplyForm from "../ReplyForm";
 import lightTheme from "../../../themes/lightTheme";
 import { elapsedTime } from "../../../util/time";
 import Label from "../../core/text/Label";
-import { useLikeReplyMutation } from "../../../services/repliesService";
+import {
+  useLikeReplyMutation,
+  useUnlikeReplyMutation,
+} from "../../../services/repliesService";
 import { useAppSelector } from "../../../hooks/store";
 import { useNavigate } from "react-router-dom";
 
@@ -56,12 +59,14 @@ const ReplyItem = ({ reply, showChildReplies }: Props) => {
   const [formVisible, setFormVisible] = useState(false);
   const navigate = useNavigate();
   const [like] = useLikeReplyMutation();
+  const [unlike] = useUnlikeReplyMutation();
   const userId = useAppSelector(({ auth }) => auth.id);
 
   const likedByMe = userId ? reply.likedBy.includes(userId) : false;
 
   const handleLike = async () => {
-    if (!likedByMe) await like({ id: reply.id });
+    if (!likedByMe) await like(reply);
+    else await unlike(reply);
   };
 
   if (!visible)

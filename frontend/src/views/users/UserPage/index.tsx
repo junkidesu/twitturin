@@ -6,6 +6,7 @@ import {
   useGetUserQuery,
   useGetUserTweetsQuery,
   useGetLikedTweetsQuery,
+  useGetUserRepliesQuery,
 } from "../../../services/usersService";
 import LoadingUserProfile from "../../util/LoadingUserProfile";
 import Box from "../../../components/containers/Box";
@@ -18,7 +19,6 @@ import { User } from "../../../types";
 import PageNotFound from "../../util/PageNotFound";
 import { useEffect, useState } from "react";
 import ReplyList from "../../../components/replies/ReplyList";
-import { useGetUserRepliesQuery } from "../../../services/repliesService";
 import LoadingReplyList from "../../../components/util/LoadingReplyList";
 import LoadingTweetList from "../../../components/util/LoadingTweetList";
 import Empty from "../../../components/util/Empty";

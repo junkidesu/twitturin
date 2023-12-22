@@ -1,20 +1,55 @@
+import { RootState } from "../store";
 import { NewReply, Reply } from "../types";
 import { api } from "./api";
 import { tweetsApi } from "./tweetsService";
+import { usersApi } from "./usersService";
+
+export const changeLikedReply = (
+  id: string,
+  replies: Reply[],
+  userId: string
+): Reply[] => {
+  const found = replies.find((r) => r.id === id);
+
+  if (found)
+    return replies.map((r) =>
+      r.id !== id
+        ? r
+        : { ...r, likedBy: r.likedBy.concat(userId), likes: r.likes + 1 }
+    );
+
+  return replies.map((r) => ({
+    ...r,
+    replies: changeLikedReply(id, r.replies, userId),
+  }));
+};
+
+export const changeUnlikedReply = (
+  id: string,
+  replies: Reply[],
+  userId: string
+): Reply[] => {
+  const found = replies.find((r) => r.id === id);
+
+  if (found)
+    return replies.map((r) =>
+      r.id !== id
+        ? r
+        : {
+            ...r,
+            likedBy: r.likedBy.filter((u) => u !== userId),
+            likes: r.likes - 1,
+          }
+    );
+
+  return replies.map((r) => ({
+    ...r,
+    replies: changeUnlikedReply(id, r.replies, userId),
+  }));
+};
 
 export const repliesApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getTweetReplies: builder.query<Reply[], string>({
-      query: (id) => ({
-        url: `/tweets/${id}/replies`,
-      }),
-      providesTags: (_result, _error, arg) => [{ type: "Reply", id: arg }],
-    }),
-    getUserReplies: builder.query<Reply[], string>({
-      query: (id) => ({
-        url: `users/${id}/replies`,
-      }),
-    }),
     reply: builder.mutation<Reply, NewReply>({
       query: ({ content, parent, parentId: id }) => ({
         url: parent === "tweet" ? `tweets/${id}/replies` : `replies/${id}`,
@@ -24,6 +59,7 @@ export const repliesApi = api.injectEndpoints({
       invalidatesTags: (result) =>
         result
           ? [
+              { type: "UserReplies", id: result.author.id },
               { type: "Reply", id: result.tweet },
               { type: "Tweet", id: result.tweet },
             ]
@@ -46,27 +82,81 @@ export const repliesApi = api.injectEndpoints({
         }
       },
     }),
-    likeReply: builder.mutation<Reply, { id: string }>({
-      query: ({ id }) => ({
-        url: `replies/${id}/likes`,
+    likeReply: builder.mutation<Reply, Reply>({
+      query: (toLike) => ({
+        url: `replies/${toLike.id}/likes`,
         method: "POST",
       }),
-      invalidatesTags: (result) =>
-        result ? [{ type: "Reply", id: result?.tweet }] : ["Reply"],
+      async onQueryStarted(toLike, { dispatch, getState, queryFulfilled }) {
+        const userId = (getState() as RootState).auth.id!;
+        const updateTweetReply = dispatch(
+          tweetsApi.util.updateQueryData(
+            "getTweetReplies",
+            toLike.tweet,
+            (draft) => {
+              return changeLikedReply(toLike.id, draft, userId);
+            }
+          )
+        );
+
+        const updateUserReply = dispatch(
+          usersApi.util.updateQueryData(
+            "getUserReplies",
+            toLike.author.id,
+            (draft) => {
+              return changeLikedReply(toLike.id, draft, userId);
+            }
+          )
+        );
+
+        try {
+          await queryFulfilled;
+        } catch (error) {
+          updateTweetReply.undo();
+          updateUserReply.undo();
+        }
+      },
     }),
-    unlikeReply: builder.mutation<undefined, string>({
-      query: (id) => ({
-        url: `replies/${id}/likes`,
+    unlikeReply: builder.mutation<void, Reply>({
+      query: (toUnlike) => ({
+        url: `replies/${toUnlike.id}/likes`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Reply"],
+      async onQueryStarted(toUnlike, { dispatch, getState, queryFulfilled }) {
+        const userId = (getState() as RootState).auth.id!;
+        const updateTweetReply = dispatch(
+          tweetsApi.util.updateQueryData(
+            "getTweetReplies",
+            toUnlike.tweet,
+            (draft) => {
+              return changeUnlikedReply(toUnlike.id, draft, userId);
+            }
+          )
+        );
+
+        const updateUserReply = dispatch(
+          usersApi.util.updateQueryData(
+            "getUserReplies",
+            toUnlike.author.id,
+            (draft) => {
+              return changeUnlikedReply(toUnlike.id, draft, userId);
+            }
+          )
+        );
+
+        try {
+          await queryFulfilled;
+        } catch (error) {
+          updateTweetReply.undo();
+          updateUserReply.undo();
+        }
+      },
     }),
   }),
 });
 
 export const {
-  useGetTweetRepliesQuery,
-  useGetUserRepliesQuery,
   useReplyMutation,
   useLikeReplyMutation,
+  useUnlikeReplyMutation,
 } = repliesApi;
