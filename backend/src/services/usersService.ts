@@ -90,6 +90,11 @@ const removeUser = async (id: string) => {
 
   await TweetModel.deleteMany({ author: user._id });
   await ReplyModel.deleteMany({ author: user._id });
+
+  await UserModel.updateMany({ $pull: { followers: id, following: id } });
+
+  await TweetModel.updateMany({ $pull: { likedBy: id } });
+  await ReplyModel.updateMany({ $pull: { likedBy: id } });
 };
 
 export default {
