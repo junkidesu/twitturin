@@ -91,7 +91,7 @@ UserSchema.virtual("followersCount").get(function () {
 });
 
 UserSchema.virtual("age").get(function () {
-  if (!this.birthday) return null;
+  if (!this.birthday) return undefined;
 
   const today = new Date();
   const birthday = new Date(this.birthday);

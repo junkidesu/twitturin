@@ -3,6 +3,7 @@ import { toEditTweet, toNewTweet, toNewReply } from "../utils/parsers";
 import tweetsService from "../services/tweetsService";
 import repliesService from "../services/repliesService";
 import { requireAuthentication, requireTweetAuthor } from "../utils/middleware";
+import likeService from "../services/likeService";
 
 const router = express.Router();
 
@@ -306,7 +307,7 @@ router.put(
  */
 router.get("/:id/likes", async (req, res, next) => {
   try {
-    const likedBy = await tweetsService.getLikes(req.params.id);
+    const likedBy = await likeService.getTweetLikes(req.params.id);
 
     res.json(likedBy);
   } catch (error) {
@@ -351,9 +352,12 @@ router.get("/:id/likes", async (req, res, next) => {
  */
 router.post("/:id/likes", requireAuthentication, async (req, res, next) => {
   try {
-    await tweetsService.likeTweet(req.params.id, req.user!);
+    const likedTweet = await likeService.likeTweet(
+      req.params.id,
+      req.user!._id
+    );
 
-    res.json(req.user!);
+    res.json(likedTweet);
   } catch (error) {
     next(error);
   }
@@ -398,7 +402,7 @@ router.post("/:id/likes", requireAuthentication, async (req, res, next) => {
  */
 router.delete("/:id/likes", requireAuthentication, async (req, res, next) => {
   try {
-    await tweetsService.removeLike(req.params.id, req.user!._id);
+    await likeService.unlikeTweet(req.params.id, req.user!._id);
     res.status(204).end();
   } catch (error) {
     next(error);

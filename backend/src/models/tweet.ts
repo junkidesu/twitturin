@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 import { Tweet } from "../types";
+import mongooseAutoPopulate from "mongoose-autopopulate";
 
 const TweetSchema = new Schema<Tweet>(
   {
@@ -11,6 +12,7 @@ const TweetSchema = new Schema<Tweet>(
     author: {
       type: Schema.Types.ObjectId,
       required: true,
+      autopopulate: true,
       ref: "User",
     },
     likedBy: [
@@ -51,9 +53,12 @@ TweetSchema.virtual("replies", {
 TweetSchema.virtual("replyCount", {
   ref: "Reply",
   localField: "_id",
+  autopopulate: true,
   foreignField: "tweet",
   count: true,
 });
+
+TweetSchema.plugin(mongooseAutoPopulate);
 
 const TweetModel = model<Tweet>("Tweet", TweetSchema);
 
