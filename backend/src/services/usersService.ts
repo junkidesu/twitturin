@@ -44,15 +44,13 @@ const addUser = async (newUser: NewUser) => {
 };
 
 const editUser = async (id: string, toEdit: EditUser) => {
-  const user = await UserModel.findById(id);
-
-  if (!user) throw new NotFoundError("user not found");
-
   const updatedUser = await UserModel.findByIdAndUpdate(id, toEdit, {
     new: true,
     runValidators: true,
     context: "query",
   });
+
+  if (!updatedUser) throw new NotFoundError("user not found");
 
   return updatedUser;
 };

@@ -10,12 +10,12 @@ const getAllReplies = async () => {
 const getRepliesByTweet = async (tweetId: string) => {
   const replies = await ReplyModel.find({
     parentTweet: tweetId,
-  }).populate<PopulatedReply>("author");
+  });
 
   return replies;
 };
 
-const getRepliesByUser = async (userId: string) => {
+const getUserReplies = async (userId: string) => {
   const replies = await ReplyModel.find({ author: userId });
 
   return replies;
@@ -32,7 +32,7 @@ const replyToReply = async (
 
   const savedReply = await new ReplyModel({
     content,
-    tweet: foundReply?.tweet,
+    tweet: foundReply.tweet,
     parentReply: replyId,
     author,
   }).save();
@@ -53,7 +53,7 @@ const replyToTweet = async (
   });
 
   const savedReply = await reply.save();
-  return savedReply.populate<PopulatedReply>("author");
+  return savedReply;
 };
 
 const editReply = async (id: string, toEdit: NewReply) => {
@@ -63,7 +63,9 @@ const editReply = async (id: string, toEdit: NewReply) => {
     new: true,
   });
 
-  return editedReply!.populate<PopulatedReply>("author");
+  if (!editedReply) throw new NotFoundError("reply not found");
+
+  return editedReply;
 };
 
 const removeReply = async (id: string) => {
@@ -73,7 +75,7 @@ const removeReply = async (id: string) => {
 export default {
   getAllReplies,
   getRepliesByTweet,
-  getRepliesByUser,
+  getUserReplies,
   replyToTweet,
   replyToReply,
   editReply,

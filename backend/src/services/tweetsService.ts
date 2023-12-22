@@ -40,6 +40,8 @@ const editTweet = async (id: string, toEdit: EditTweet) => {
     runValidators: true,
   });
 
+  if (!updatedTweet) throw new NotFoundError("tweet not found");
+
   return updatedTweet;
 };
 

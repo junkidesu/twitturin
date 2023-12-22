@@ -231,7 +231,7 @@ router.get("/:id/tweets", async (req, res, next) => {
  */
 router.get("/:id/replies", async (req, res, next) => {
   try {
-    const replies = await repliesService.getRepliesByUser(req.params.id);
+    const replies = await repliesService.getUserReplies(req.params.id);
     res.json(replies);
   } catch (error) {
     next(error);
