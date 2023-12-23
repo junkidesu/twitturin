@@ -50,9 +50,8 @@ const UpdateProfilePicture = ({ user }: { user: User }) => {
     undefined
   );
   const { showLoadingStripe, hideLoadingStripe } = useLoadingStripe();
-  const [updatePicture, { isLoading, isSuccess }] =
-    useUpdateProfilePictureMutation();
-  const alertUser = useAlert();
+  const [updatePicture, { isLoading }] = useUpdateProfilePictureMutation();
+  const { errorAlert } = useAlert();
   const { openFilePicker, filesContent, clear } = useFilePicker({
     readAs: "DataURL",
     accept: "image/*",
@@ -63,44 +62,22 @@ const UpdateProfilePicture = ({ user }: { user: User }) => {
     },
   });
 
-  useEffect(() => {
-    if (isSuccess) {
-      hideLoadingStripe();
-      setProfilePicture(undefined);
-    }
-  }, [isSuccess, hideLoadingStripe]);
-
-  useEffect(() => {
-    if (isLoading) showLoadingStripe();
-  }, [isLoading, showLoadingStripe]);
-
   const handleSubmit = async () => {
     if (profilePicture) {
       const formData = new FormData();
 
       formData.append("picture", profilePicture);
 
+      showLoadingStripe();
+
       try {
         await updatePicture({ id: user.id, body: formData }).unwrap();
+        setProfilePicture(undefined);
       } catch (error) {
-        hideLoadingStripe();
-        if (error && typeof error === "object") {
-          if ("data" in error) {
-            if (
-              error.data &&
-              typeof error.data === "object" &&
-              "error" in error.data
-            ) {
-              const errorMessage: string =
-                "error" in error.data
-                  ? (error.data.error as string)
-                  : "Some error has occured! (Check the logs)";
-
-              alertUser(errorMessage);
-            }
-          }
-        }
+        errorAlert(error);
       }
+
+      hideLoadingStripe();
     }
   };
 
@@ -157,7 +134,7 @@ const EditProfileForm = ({ user }: { user: User }) => {
   const navigate = useNavigate();
   const { showLoadingStripe, hideLoadingStripe } = useLoadingStripe();
   const [edit, { isLoading, isSuccess }] = useEditUserMutation();
-  const alertUser = useAlert();
+  const { errorAlert } = useAlert();
 
   useEffect(() => {
     if (isLoading) showLoadingStripe();
@@ -182,28 +159,15 @@ const EditProfileForm = ({ user }: { user: User }) => {
       birthday: birthday.value,
     };
 
+    showLoadingStripe();
     try {
       await edit({ id: user.id, body: toEdit }).unwrap();
+      navigate(`/users/${user.id}`);
     } catch (error) {
-      hideLoadingStripe();
-
-      if (error && typeof error === "object") {
-        if ("data" in error) {
-          if (
-            error.data &&
-            typeof error.data === "object" &&
-            "error" in error.data
-          ) {
-            const errorMessage: string =
-              "error" in error.data
-                ? (error.data.error as string)
-                : "Some error has occured! (Check the logs)";
-
-            alertUser(errorMessage);
-          }
-        }
-      }
+      errorAlert(error);
     }
+
+    hideLoadingStripe();
   };
 
   return (
@@ -235,7 +199,7 @@ const EditProfilePage = () => {
 
   if (isError) return <ErrorPage />;
 
-  if (isLoading) return <div>User loading...</div>;
+  if (isLoading) return <Card>User loading...</Card>;
 
   if (!user) return <ErrorPage />;
 

@@ -2,6 +2,7 @@ import { api } from "./api";
 import { NewTweet, Reply, Tweet, User } from "../types";
 import { RootState } from "../store";
 import { usersApi } from "./usersService";
+import { updateTweetInList, like, unlike } from "../util/tweetHelpers";
 
 export const tweetsApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -20,7 +21,7 @@ export const tweetsApi = api.injectEndpoints({
     }),
     getTweetReplies: builder.query<Reply[], string>({
       query: (id) => ({
-        url: `/tweets/${id}/replies`,
+        url: `tweets/${id}/replies`,
       }),
       providesTags: (_result, _error, arg) => [{ type: "Reply", id: arg }],
     }),
@@ -46,6 +47,17 @@ export const tweetsApi = api.injectEndpoints({
         { type: "Tweet" },
       ],
     }),
+    deleteTweet: builder.mutation<void, Tweet>({
+      query: (toDelete) => ({
+        url: `tweets/${toDelete.id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (_result, _error, arg) => [
+        { type: "Tweet", id: arg.id },
+        { type: "Tweet", id: undefined },
+        { type: "UserTweets", id: arg.author.id },
+      ],
+    }),
     likeTweet: builder.mutation<User, Tweet>({
       query: (toLike) => ({
         url: `tweets/${toLike.id}/likes`,
@@ -55,58 +67,28 @@ export const tweetsApi = api.injectEndpoints({
         const userId = (getState() as RootState).auth.id!;
 
         const updateSpecificTweet = dispatch(
-          tweetsApi.util.updateQueryData("getTweet", toLike.id, (draft) => {
-            return {
-              ...draft,
-              likedBy: draft.likedBy.concat(userId),
-              likes: draft.likes + 1,
-            };
-          })
+          tweetsApi.util.updateQueryData("getTweet", toLike.id, like(userId))
         );
 
         const updateAllTweets = dispatch(
-          tweetsApi.util.updateQueryData("getTweets", undefined, (draft) => {
-            const tweet = draft.find((t) => t.id === toLike.id);
-
-            if (!tweet) return draft;
-
-            const likedTweet = {
-              ...tweet,
-              likedBy: tweet.likedBy.concat(userId),
-              likes: tweet.likes + 1,
-            };
-
-            return draft.map((t) => (t.id !== toLike.id ? t : likedTweet));
-          })
+          tweetsApi.util.updateQueryData(
+            "getTweets",
+            undefined,
+            updateTweetInList(toLike.id, like(userId))
+          )
         );
 
         const updateUserTweets = dispatch(
           usersApi.util.updateQueryData(
             "getUserTweets",
             toLike.author.id,
-            (draft) => {
-              const tweet = draft.find((t) => t.id === toLike.id);
-
-              if (!tweet) return draft;
-
-              const likedTweet = {
-                ...tweet,
-                likedBy: tweet.likedBy.concat(userId),
-                likes: tweet.likes + 1,
-              };
-
-              return draft.map((t) => (t.id !== toLike.id ? t : likedTweet));
-            }
+            updateTweetInList(toLike.id, like(userId))
           )
         );
 
         const updateLikedTweets = dispatch(
           usersApi.util.updateQueryData("getLikedTweets", userId, (draft) => {
-            const likedTweet = {
-              ...toLike,
-              likedBy: toLike.likedBy.concat(userId),
-              likes: toLike.likes + 1,
-            };
+            const likedTweet = like(userId)(toLike);
 
             return [likedTweet, ...draft];
           })
@@ -141,38 +123,18 @@ export const tweetsApi = api.injectEndpoints({
         );
 
         const updateAllTweets = dispatch(
-          tweetsApi.util.updateQueryData("getTweets", undefined, (draft) => {
-            const tweet = draft.find((t) => t.id === toUnlike.id);
-
-            if (!tweet) return draft;
-
-            const newTweet = {
-              ...tweet,
-              likedBy: tweet.likedBy.filter((u) => u !== userId),
-              likes: tweet.likes - 1,
-            };
-
-            return draft.map((t) => (t.id !== toUnlike.id ? t : newTweet));
-          })
+          tweetsApi.util.updateQueryData(
+            "getTweets",
+            undefined,
+            updateTweetInList(toUnlike.id, unlike(userId))
+          )
         );
 
         const updateUserTweets = dispatch(
           usersApi.util.updateQueryData(
             "getUserTweets",
             toUnlike.author.id,
-            (draft) => {
-              const tweet = draft.find((t) => t.id === toUnlike.id);
-
-              if (!tweet) return draft;
-
-              const newTweet = {
-                ...tweet,
-                likedBy: tweet.likedBy.filter((u) => u !== userId),
-                likes: tweet.likes - 1,
-              };
-
-              return draft.map((t) => (t.id !== toUnlike.id ? t : newTweet));
-            }
+            updateTweetInList(toUnlike.id, unlike(userId))
           )
         );
 
@@ -201,6 +163,7 @@ export const {
   useGetTweetRepliesQuery,
   useAddTweetMutation,
   useEditTweetMutation,
+  useDeleteTweetMutation,
   useLikeTweetMutation,
   useUnlikeTweetMutation,
 } = tweetsApi;

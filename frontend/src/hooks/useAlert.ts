@@ -18,7 +18,26 @@ const useAlert = () => {
     }, 3000);
   };
 
-  return alertUser;
+  const errorAlert = (error: unknown) => {
+    if (error && typeof error === "object") {
+      if ("data" in error) {
+        if (
+          error.data &&
+          typeof error.data === "object" &&
+          "error" in error.data
+        ) {
+          const errorMessage: string =
+            "error" in error.data
+              ? (error.data.error as string)
+              : "Some error has occured! (Check the logs)";
+
+          alertUser(errorMessage);
+        }
+      }
+    }
+  };
+
+  return { alertUser, errorAlert };
 };
 
 export default useAlert;

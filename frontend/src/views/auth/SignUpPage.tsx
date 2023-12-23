@@ -6,10 +6,10 @@ import Form from "../../components/core/Form";
 import { Major, NewUser } from "../../types";
 import Select from "../../components/core/inputs/Select";
 import DatePicker from "../../components/core/inputs/DatePicker";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAddUserMutation } from "../../services/usersService";
-import { useAppDispatch, useAppSelector } from "../../hooks/store";
+import { useAppDispatch } from "../../hooks/store";
 import { useLoginMutation } from "../../services/authService";
 import { setCredentials } from "../../reducers/authReducer";
 import Box from "../../components/containers/Box";
@@ -59,7 +59,7 @@ const SignUpForm = styled(Form)`
 
 const SignUpPage = () => {
   const [signUp, { isLoading }] = useAddUserMutation();
-  const alertUser = useAlert();
+  const { errorAlert } = useAlert();
   const [login] = useLoginMutation();
   const [kind, setKind] = useState<Kind>("student");
   const [, studentId] = useField("text", "StudentID");
@@ -72,18 +72,8 @@ const SignUpPage = () => {
   const [, birthday] = useField("date", "Birthday");
   const { showLoadingStripe, hideLoadingStripe } = useLoadingStripe();
 
-  const token = useAppSelector(({ auth }) => auth.token);
-
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isLoading) showLoadingStripe();
-  }, [isLoading, showLoadingStripe]);
-
-  useEffect(() => {
-    if (token) navigate("/");
-  }, [token, navigate]);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -110,6 +100,8 @@ const SignUpPage = () => {
             subject: subject.value,
           };
 
+    showLoadingStripe();
+
     try {
       await signUp(newUser).unwrap();
 
@@ -120,28 +112,12 @@ const SignUpPage = () => {
 
       dispatch(setCredentials(tokenData));
       storageService.setAuthUser(tokenData);
-      hideLoadingStripe();
-
       navigate("/");
     } catch (error) {
-      hideLoadingStripe();
-      if (error && typeof error === "object") {
-        if ("data" in error) {
-          if (
-            error.data &&
-            typeof error.data === "object" &&
-            "error" in error.data
-          ) {
-            const errorMessage: string =
-              "error" in error.data
-                ? (error.data.error as string)
-                : "Some error has occured! (Check the logs)";
-
-            alertUser(errorMessage);
-          }
-        }
-      }
+      errorAlert(error);
     }
+
+    hideLoadingStripe();
   };
 
   return (

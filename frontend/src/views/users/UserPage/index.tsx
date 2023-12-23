@@ -17,7 +17,7 @@ import RouterLink from "../../../components/core/RouterLink";
 import FollowButton from "../../../components/users/FollowButton";
 import { User } from "../../../types";
 import PageNotFound from "../../util/PageNotFound";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ReplyList from "../../../components/replies/ReplyList";
 import LoadingReplyList from "../../../components/util/LoadingReplyList";
 import LoadingTweetList from "../../../components/util/LoadingTweetList";
@@ -220,14 +220,10 @@ const DeleteButton = styled(NavButton)`
 
 const Settings = ({ user }: { user: User }) => {
   const navigate = useNavigate();
-  const alertUser = useAlert();
+  const { errorAlert } = useAlert();
   const { showLoadingStripe, hideLoadingStripe } = useLoadingStripe();
   const dispatch = useAppDispatch();
-  const [deleteUser, { isLoading }] = useDeleteUserMutation();
-
-  useEffect(() => {
-    if (isLoading) showLoadingStripe();
-  }, [showLoadingStripe, isLoading]);
+  const [deleteUser] = useDeleteUserMutation();
 
   const handleSignOut = () => {
     storageService.removeAuthUser();
@@ -237,32 +233,18 @@ const Settings = ({ user }: { user: User }) => {
 
   const handleDeleteProfile = async () => {
     if (confirm("Are you sure you want to delete your profile?")) {
+      showLoadingStripe();
+
       try {
         await deleteUser(user.id).unwrap();
         dispatch(removeCredentials());
         storageService.removeAuthUser();
-        hideLoadingStripe();
         navigate("/home");
       } catch (error) {
-        hideLoadingStripe();
-
-        if (error && typeof error === "object") {
-          if ("data" in error) {
-            if (
-              error.data &&
-              typeof error.data === "object" &&
-              "error" in error.data
-            ) {
-              const errorMessage: string =
-                "error" in error.data
-                  ? (error.data.error as string)
-                  : "Some error has occured! (Check the logs)";
-
-              alertUser(errorMessage);
-            }
-          }
-        }
+        errorAlert(error);
       }
+
+      hideLoadingStripe();
     }
   };
 

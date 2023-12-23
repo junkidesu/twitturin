@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { useEffect } from "react";
 import Form from "../core/Form";
 import TextArea from "../core/inputs/TextArea";
 import Button from "../core/buttons/Button";
@@ -42,47 +41,24 @@ const NewTweetForm = ({ className }: { className?: string }) => {
   const [clearContent, content] = useField("text", "Tweet your thoughts");
   const id = useAppSelector(({ auth }) => auth.id);
   const { data: user } = useGetUserQuery(id!);
-  const [addTweet, { isLoading, isSuccess }] = useAddTweetMutation();
+  const [addTweet, { isLoading }] = useAddTweetMutation();
   const dispatch = useAppDispatch();
   const { showLoadingStripe, hideLoadingStripe } = useLoadingStripe();
-  const alertUser = useAlert();
-
-  useEffect(() => {
-    if (isLoading) showLoadingStripe();
-  }, [isLoading, showLoadingStripe]);
-
-  useEffect(() => {
-    if (isSuccess) {
-      hideLoadingStripe();
-      dispatch(hideModal());
-    }
-  }, [isSuccess, hideLoadingStripe, dispatch]);
+  const { errorAlert } = useAlert();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    showLoadingStripe();
     try {
       await addTweet({ content: content.value }).unwrap();
       clearContent();
+      dispatch(hideModal());
     } catch (error) {
-      hideLoadingStripe();
-      if (error && typeof error === "object") {
-        if ("data" in error) {
-          if (
-            error.data &&
-            typeof error.data === "object" &&
-            "error" in error.data
-          ) {
-            const errorMessage: string =
-              "error" in error.data
-                ? (error.data.error as string)
-                : "Some error has occured! (Check the logs)";
-
-            alertUser(errorMessage);
-          }
-        }
-      }
+      errorAlert(error);
     }
+
+    hideLoadingStripe();
   };
 
   return (

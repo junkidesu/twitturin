@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Box from "../containers/Box";
+import Box from "./Box";
 import Label from "../core/text/Label";
 import { icons } from "../../assets";
 import React, { useState } from "react";
@@ -21,6 +21,7 @@ const ContentWrapper = styled(Box)`
 const SnackBarWrapper = styled(Box)`
   padding: 1em;
   align-items: center;
+  justify-content: space-between;
   color: ${({ theme }) => theme.colors.primary};
   background-color: #f5c6ff;
   border-radius: 1em;

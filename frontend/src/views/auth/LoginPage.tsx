@@ -3,7 +3,6 @@ import Button from "../../components/core/buttons/Button";
 import Input from "../../components/core/inputs/Input";
 import { useAppDispatch } from "../../hooks/store";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 import { useLoginMutation } from "../../services/authService";
 import { TokenData } from "../../types";
 import { setCredentials } from "../../reducers/authReducer";
@@ -26,27 +25,17 @@ const LoginPage = () => {
   const [, username] = useField("text", "Username");
   const [, password] = useField("password", "Password");
   const { showLoadingStripe, hideLoadingStripe } = useLoadingStripe();
-  const alertUser = useAlert();
+  const { errorAlert } = useAlert();
 
-  const [login, { data: tokenData, isLoading, isSuccess }] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (isLoading) showLoadingStripe();
-  }, [isLoading, showLoadingStripe]);
-
-  useEffect(() => {
-    if (isSuccess) {
-      hideLoadingStripe();
-      navigate(-1);
-    }
-  }, [navigate, hideLoadingStripe, isSuccess, tokenData]);
-
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    showLoadingStripe();
     try {
       const tokenData: TokenData = await login({
         username: username.value,
@@ -55,25 +44,12 @@ const LoginPage = () => {
 
       dispatch(setCredentials(tokenData));
       storageService.setAuthUser(tokenData);
+      navigate("/");
     } catch (error) {
-      hideLoadingStripe();
-      if (error && typeof error === "object") {
-        if ("data" in error) {
-          if (
-            error.data &&
-            typeof error.data === "object" &&
-            "error" in error.data
-          ) {
-            const errorMessage: string =
-              "error" in error.data
-                ? (error.data.error as string)
-                : "Some error has occured! (Check the logs)";
-
-            alertUser(errorMessage);
-          }
-        }
-      }
+      errorAlert(error);
     }
+
+    hideLoadingStripe();
   };
 
   return (

@@ -3,50 +3,7 @@ import { NewReply, Reply } from "../types";
 import { api } from "./api";
 import { tweetsApi } from "./tweetsService";
 import { usersApi } from "./usersService";
-
-export const changeLikedReply = (
-  id: string,
-  replies: Reply[],
-  userId: string
-): Reply[] => {
-  const found = replies.find((r) => r.id === id);
-
-  if (found)
-    return replies.map((r) =>
-      r.id !== id
-        ? r
-        : { ...r, likedBy: r.likedBy.concat(userId), likes: r.likes + 1 }
-    );
-
-  return replies.map((r) => ({
-    ...r,
-    replies: changeLikedReply(id, r.replies, userId),
-  }));
-};
-
-export const changeUnlikedReply = (
-  id: string,
-  replies: Reply[],
-  userId: string
-): Reply[] => {
-  const found = replies.find((r) => r.id === id);
-
-  if (found)
-    return replies.map((r) =>
-      r.id !== id
-        ? r
-        : {
-            ...r,
-            likedBy: r.likedBy.filter((u) => u !== userId),
-            likes: r.likes - 1,
-          }
-    );
-
-  return replies.map((r) => ({
-    ...r,
-    replies: changeUnlikedReply(id, r.replies, userId),
-  }));
-};
+import { updateReplies, like, unlike } from "../util/replyHelpers";
 
 export const repliesApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -93,9 +50,7 @@ export const repliesApi = api.injectEndpoints({
           tweetsApi.util.updateQueryData(
             "getTweetReplies",
             toLike.tweet,
-            (draft) => {
-              return changeLikedReply(toLike.id, draft, userId);
-            }
+            updateReplies(toLike.id, like(userId))
           )
         );
 
@@ -103,9 +58,7 @@ export const repliesApi = api.injectEndpoints({
           usersApi.util.updateQueryData(
             "getUserReplies",
             toLike.author.id,
-            (draft) => {
-              return changeLikedReply(toLike.id, draft, userId);
-            }
+            updateReplies(toLike.id, like(userId))
           )
         );
 
@@ -128,9 +81,7 @@ export const repliesApi = api.injectEndpoints({
           tweetsApi.util.updateQueryData(
             "getTweetReplies",
             toUnlike.tweet,
-            (draft) => {
-              return changeUnlikedReply(toUnlike.id, draft, userId);
-            }
+            updateReplies(toUnlike.id, unlike(userId))
           )
         );
 
@@ -138,9 +89,7 @@ export const repliesApi = api.injectEndpoints({
           usersApi.util.updateQueryData(
             "getUserReplies",
             toUnlike.author.id,
-            (draft) => {
-              return changeUnlikedReply(toUnlike.id, draft, userId);
-            }
+            updateReplies(toUnlike.id, unlike(userId))
           )
         );
 

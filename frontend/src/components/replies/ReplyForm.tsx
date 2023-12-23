@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useAppSelector } from "../../hooks/store";
 import useField from "../../hooks/useField";
 import { useReplyMutation } from "../../services/repliesService";
@@ -17,34 +16,19 @@ type Props = {
 };
 
 const ReplyForm = ({ id, parent, setVisible }: Props) => {
-  const [replyToTweet, { isLoading, isSuccess, isError }] = useReplyMutation();
+  const [replyToTweet, { isLoading }] = useReplyMutation();
   const { showLoadingStripe, hideLoadingStripe } = useLoadingStripe();
   const [clearContent, content] = useField("text", "Type your reply...");
-  const alertUser = useAlert();
+  const { errorAlert } = useAlert();
 
   const token = useAppSelector(({ auth }) => auth.token);
-
-  useEffect(() => {
-    if (isLoading) showLoadingStripe();
-    else if (isSuccess) {
-      hideLoadingStripe();
-      clearContent();
-      if (setVisible) setVisible(false);
-    }
-  }, [
-    isLoading,
-    isSuccess,
-    clearContent,
-    isError,
-    setVisible,
-    showLoadingStripe,
-    hideLoadingStripe,
-  ]);
 
   if (!token) return null;
 
   const handleReply = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    showLoadingStripe();
 
     try {
       await replyToTweet({
@@ -52,25 +36,14 @@ const ReplyForm = ({ id, parent, setVisible }: Props) => {
         parent,
         parentId: id,
       }).unwrap();
-    } catch (error) {
-      hideLoadingStripe();
-      if (error && typeof error === "object") {
-        if ("data" in error) {
-          if (
-            error.data &&
-            typeof error.data === "object" &&
-            "error" in error.data
-          ) {
-            const errorMessage: string =
-              "error" in error.data
-                ? (error.data.error as string)
-                : "Some error has occured! (Check the logs)";
 
-            alertUser(errorMessage);
-          }
-        }
-      }
+      clearContent();
+      if (setVisible) setVisible(false);
+    } catch (error) {
+      errorAlert(error);
     }
+
+    hideLoadingStripe();
   };
 
   return (

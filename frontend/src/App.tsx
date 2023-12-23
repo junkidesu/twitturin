@@ -10,7 +10,7 @@ import Header from "./components/Header";
 import SignUpPage from "./views/auth/SignUpPage";
 import UserPage from "./views/users/UserPage";
 import LoginPage from "./views/auth/LoginPage";
-import PageWrapper from "./components/util/PageWrapper";
+import PageWrapper from "./components/containers/PageWrapper";
 import TweetPage from "./views/tweets/TweetPage";
 import NewTweetModal from "./components/tweets/NewTweetModal";
 import MainPage from "./views/MainPage";
@@ -33,7 +33,7 @@ import ErrorPage from "./views/util/ErrorPage";
 import ExplorePage from "./views/ExplorePage";
 import Alert from "./components/util/Alert";
 import ReleasePage from "./views/ReleasePage";
-import SnackBar from "./components/util/SnackBar";
+import SnackBar from "./components/containers/SnackBar";
 import RouterLink from "./components/core/RouterLink";
 
 const RightSideBar = styled(SideBar)`

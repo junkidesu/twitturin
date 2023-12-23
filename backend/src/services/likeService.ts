@@ -26,7 +26,11 @@ const likeTweet = async (id: string, userId: Types.ObjectId) => {
 };
 
 const unlikeTweet = async (id: string, userId: Types.ObjectId) => {
-  await TweetModel.findByIdAndUpdate(id, { $pull: { likedBy: userId } });
+  await TweetModel.findByIdAndUpdate(
+    id,
+    { $pull: { likedBy: userId } },
+    { timestamps: false }
+  );
 };
 
 const getReplyLikes = async (id: string) => {
@@ -52,7 +56,11 @@ const likeReply = async (id: string, userId: Types.ObjectId) => {
 };
 
 const unlikeReply = async (id: string, userId: Types.ObjectId) => {
-  await ReplyModel.findByIdAndUpdate(id, { $pull: { likedBy: userId } });
+  await ReplyModel.findByIdAndUpdate(
+    id,
+    { $pull: { likedBy: userId } },
+    { timestamps: false }
+  );
 };
 
 export default {

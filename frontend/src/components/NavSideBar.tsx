@@ -116,7 +116,7 @@ const NavSideBar = () => {
           Tweet
         </Button>
 
-        <Accordion heading={<RouterLink to="/release">Android app</RouterLink>}>
+        <Accordion heading={<RouterLink to="/release">Latest Release</RouterLink>}>
           <LatestRelease />
         </Accordion>
       </Box>
