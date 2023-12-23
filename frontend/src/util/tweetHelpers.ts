@@ -24,6 +24,6 @@ export const unlike =
   (userId: string) =>
   (tweet: Tweet): Tweet => ({
     ...tweet,
-    likes: tweet.likes + 1,
-    likedBy: tweet.likedBy.concat(userId),
+    likes: tweet.likes - 1,
+    likedBy: tweet.likedBy.filter((u) => u !== userId),
   });

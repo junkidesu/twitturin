@@ -4,8 +4,11 @@ import useField from "../../hooks/useField";
 import {
   useEditUserMutation,
   useGetUserQuery,
-  useUpdateProfilePictureMutation,
 } from "../../services/usersService";
+import {
+  useRemoveAvatarMutation,
+  useSetAvatarMutation,
+} from "../../services/avatarService";
 import Box from "../../components/containers/Box";
 import Form from "../../components/core/Form";
 import DatePicker from "../../components/core/inputs/DatePicker";
@@ -17,7 +20,7 @@ import { useEffect, useState } from "react";
 import useLoadingStripe from "../../hooks/useLoadingStripe";
 import { useNavigate } from "react-router-dom";
 import { useFilePicker } from "use-file-picker";
-import { pictures } from "../../assets";
+import { icons, pictures } from "../../assets";
 import ErrorPage from "../util/ErrorPage";
 import lightTheme from "../../themes/lightTheme";
 import PageHeading from "../../components/util/PageHeading";
@@ -50,7 +53,9 @@ const UpdateProfilePicture = ({ user }: { user: User }) => {
     undefined
   );
   const { showLoadingStripe, hideLoadingStripe } = useLoadingStripe();
-  const [updatePicture, { isLoading }] = useUpdateProfilePictureMutation();
+  const [setAvatar, { isLoading: settingAvatar }] = useSetAvatarMutation();
+  const [removeAvatar, { isLoading: removingAvatar }] =
+    useRemoveAvatarMutation();
   const { errorAlert } = useAlert();
   const { openFilePicker, filesContent, clear } = useFilePicker({
     readAs: "DataURL",
@@ -62,7 +67,9 @@ const UpdateProfilePicture = ({ user }: { user: User }) => {
     },
   });
 
-  const handleSubmit = async () => {
+  const isLoading = settingAvatar || removingAvatar;
+
+  const handleUpdate = async () => {
     if (profilePicture) {
       const formData = new FormData();
 
@@ -71,7 +78,22 @@ const UpdateProfilePicture = ({ user }: { user: User }) => {
       showLoadingStripe();
 
       try {
-        await updatePicture({ id: user.id, body: formData }).unwrap();
+        await setAvatar({ id: user.id, body: formData }).unwrap();
+        setProfilePicture(undefined);
+      } catch (error) {
+        errorAlert(error);
+      }
+
+      hideLoadingStripe();
+    }
+  };
+
+  const handleDelete = async () => {
+    if (user.profilePicture) {
+      showLoadingStripe();
+
+      try {
+        await removeAvatar(user).unwrap();
         setProfilePicture(undefined);
       } catch (error) {
         errorAlert(error);
@@ -85,7 +107,7 @@ const UpdateProfilePicture = ({ user }: { user: User }) => {
     <Box $gap="0.1em">
       <PageHeading level={4} label="Choose Image" />
 
-      <Card $gap="1em">
+      <Card $gap="1em" $center>
         <ChosenImage
           src={
             !profilePicture
@@ -114,10 +136,20 @@ const UpdateProfilePicture = ({ user }: { user: User }) => {
 
         <Button
           $width="100%"
-          onClick={handleSubmit}
+          onClick={handleUpdate}
           disabled={!profilePicture || isLoading}
         >
-          Submit
+          Update
+        </Button>
+
+        <Button
+          $width="100%"
+          onClick={handleDelete}
+          disabled={!user.profilePicture || isLoading}
+          $fg="#ff0037"
+        >
+          {<icons.RemoveIcon />}
+          Delete
         </Button>
       </Card>
     </Box>
@@ -133,19 +165,8 @@ const EditProfileForm = ({ user }: { user: User }) => {
   const [, birthday] = useField("date", "Birthday", user.birthday);
   const navigate = useNavigate();
   const { showLoadingStripe, hideLoadingStripe } = useLoadingStripe();
-  const [edit, { isLoading, isSuccess }] = useEditUserMutation();
+  const [edit, { isLoading }] = useEditUserMutation();
   const { errorAlert } = useAlert();
-
-  useEffect(() => {
-    if (isLoading) showLoadingStripe();
-  }, [isLoading, showLoadingStripe]);
-
-  useEffect(() => {
-    if (isSuccess) {
-      hideLoadingStripe();
-      navigate(`/users/${user.id}`);
-    }
-  }, [isSuccess, hideLoadingStripe, navigate, user.id]);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -179,7 +200,9 @@ const EditProfileForm = ({ user }: { user: User }) => {
       <Input {...country} />
       <DatePicker {...birthday} />
 
-      <Button $width="100%">Edit Profile</Button>
+      <Button $width="100%" disabled={isLoading}>
+        Submit
+      </Button>
     </FormWrapper>
   );
 };

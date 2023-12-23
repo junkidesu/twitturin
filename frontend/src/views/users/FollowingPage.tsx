@@ -1,9 +1,7 @@
 import { useParams } from "react-router-dom";
 import Box from "../../components/containers/Box";
-import {
-  useGetFollowingQuery,
-  useGetUserQuery,
-} from "../../services/usersService";
+import { useGetUserQuery } from "../../services/usersService";
+import { useGetFollowingQuery } from "../../services/followService";
 import UserItem from "../../components/users/UserItem";
 import { User } from "../../types";
 import LoadingUserItem from "../../components/util/LoadingUserItem";

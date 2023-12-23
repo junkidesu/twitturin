@@ -113,13 +113,11 @@ export const tweetsApi = api.injectEndpoints({
         const userId = (getState() as RootState).auth.id!;
 
         const updateSpecificTweet = dispatch(
-          tweetsApi.util.updateQueryData("getTweet", toUnlike.id, (draft) => {
-            return {
-              ...draft,
-              likedBy: draft.likedBy.filter((u) => u !== userId),
-              likes: draft.likes - 1,
-            };
-          })
+          tweetsApi.util.updateQueryData(
+            "getTweet",
+            toUnlike.id,
+            unlike(userId)
+          )
         );
 
         const updateAllTweets = dispatch(

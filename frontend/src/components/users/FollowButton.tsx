@@ -5,7 +5,7 @@ import {
   useFollowMutation,
   useUnfollowMutation,
   useGetFollowingQuery,
-} from "../../services/usersService";
+} from "../../services/followService";
 import { User } from "../../types";
 import IconButton from "../core/buttons/IconButton";
 import useAlert from "../../hooks/useAlert";

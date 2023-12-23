@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { AuthError, User, NotFoundError, PopulatedTweet } from "../types";
+import { AuthError, User, NotFoundError } from "../types";
 import { Types } from "mongoose";
 import env from "./config";
 import UserModel from "../models/user";
@@ -67,14 +67,14 @@ const checkTweetAuthor = async (
   user: User & { _id: Types.ObjectId },
   id: string
 ) => {
-  const tweet = await TweetModel.findById<PopulatedTweet>(id);
+  const tweet = await TweetModel.findById<{
+    author: User & { _id: Types.ObjectId };
+  }>(id);
 
   if (!tweet) throw new NotFoundError("tweet not found");
 
   const author = tweet.author._id.toString();
-  console.log(author);
   const userId = user._id.toString();
-  console.log(userId);
 
   if (userId !== author) throw new AuthError("need to be author of tweet");
 };

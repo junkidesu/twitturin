@@ -93,7 +93,7 @@ export interface PopulatedUser {
 }
 
 export interface PopulatedTweet {
-  author: User & { _id: Types.ObjectId };
+  author: User;
 }
 
 export interface PopulatedReply {
