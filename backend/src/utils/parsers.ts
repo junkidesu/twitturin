@@ -123,7 +123,9 @@ export const toEditUser = (object: unknown): EditUser => {
         ? parseString(object.email, "email").trim()
         : undefined,
     birthday:
-      "birthday" in object ? parseDate(object.birthday).trim() : undefined,
+      "birthday" in object && object.birthday
+        ? parseDate(object.birthday).trim()
+        : undefined,
     country:
       "country" in object && object.country
         ? parseString(object.country, "country").trim()
