@@ -27,7 +27,7 @@ const FollowingList = ({ user }: { user: User }) => {
   return (
     <Box>
       {following.map((u) => (
-        <UserItem user={u} />
+        <UserItem key={u.id} user={u} />
       ))}
     </Box>
   );

@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import IconButton from "../core/buttons/IconButton";
 import { icons } from "../../assets";
-import { useAppDispatch, useAppSelector } from "../../hooks/store";
-import { hideModal } from "../../reducers/modalReducer";
+import { useAppSelector } from "../../hooks/store";
 import Box from "./Box";
+import useModal from "../../hooks/useModal";
 
 const ModalBox = styled(Box)`
   justify-content: space-around;
@@ -29,16 +29,13 @@ interface ModalProps {
 
 const Modal = ({ children }: ModalProps) => {
   const visible = useAppSelector((state) => state.modal);
-  const dispatch = useAppDispatch();
+  const { hideModal } = useModal();
 
   if (!visible) return null;
 
   return (
     <ModalBox $bg="#333333cc" $center>
-      <CloseButton
-        icon={<icons.CloseIcon />}
-        onClick={() => dispatch(hideModal())}
-      />
+      <CloseButton icon={<icons.CloseIcon />} onClick={() => hideModal()} />
       {children}
     </ModalBox>
   );

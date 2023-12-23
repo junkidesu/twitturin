@@ -5,8 +5,7 @@ import FlatButton from "./core/buttons/FlatButton";
 import { icons } from "../assets";
 import Button from "./core/buttons/Button";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../hooks/store";
-import { showModal } from "../reducers/modalReducer";
+import { useAppSelector } from "../hooks/store";
 import SideBar from "./containers/SideBar";
 import { useGetUserQuery } from "../services/usersService";
 import LoadingUserItem from "./util/LoadingUserItem";
@@ -17,6 +16,7 @@ import { useGetLatestReleaseQuery } from "../services/githubService";
 import Label from "./core/text/Label";
 import QRCode from "react-qr-code";
 import RouterLink from "./core/RouterLink";
+import useModal from "../hooks/useModal";
 
 const NavButton = styled(FlatButton)`
   font-size: ${({ theme }) => theme.fontSizes.medium};
@@ -98,7 +98,7 @@ const CustomSideBar = styled(SideBar)`
 
 const NavSideBar = () => {
   const id = useAppSelector(({ auth }) => auth.id);
-  const dispatch = useAppDispatch();
+  const { showModal } = useModal();
 
   if (!id)
     return (
@@ -112,11 +112,13 @@ const NavSideBar = () => {
       <Box $gap="0.5em">
         <NavigationButtons />
 
-        <Button $width="100%" $bg="white" onClick={() => dispatch(showModal())}>
+        <Button $width="100%" $bg="white" onClick={() => showModal()}>
           Tweet
         </Button>
 
-        <Accordion heading={<RouterLink to="/release">Latest Release</RouterLink>}>
+        <Accordion
+          heading={<RouterLink to="/release">Latest Release</RouterLink>}
+        >
           <LatestRelease />
         </Accordion>
       </Box>

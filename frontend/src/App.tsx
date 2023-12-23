@@ -3,7 +3,7 @@ import GlobalStyle from "./themes/GlobalStyle";
 import styled, { ThemeProvider } from "styled-components";
 import { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "./hooks/store";
+import { useAppSelector } from "./hooks/store";
 import Header from "./components/Header";
 import SignUpPage from "./views/auth/SignUpPage";
 import UserPage from "./views/users/UserPage";
@@ -26,7 +26,6 @@ import MessagesPage from "./views/MessagesPage";
 import Footer from "./components/Footer";
 import FloatingButton from "./components/core/buttons/FloatingButton";
 import { icons } from "./assets";
-import { showModal } from "./reducers/modalReducer";
 import ErrorPage from "./views/util/ErrorPage";
 import ExplorePage from "./views/ExplorePage";
 import Alert from "./components/util/Alert";
@@ -34,6 +33,7 @@ import ReleasePage from "./views/ReleasePage";
 import SnackBar from "./components/containers/SnackBar";
 import RouterLink from "./components/core/RouterLink";
 import useAuthentication from "./hooks/useAuthentication";
+import useModal from "./hooks/useModal";
 
 const RightSideBar = styled(SideBar)`
   margin-left: 50px;
@@ -44,7 +44,7 @@ const RightSideBar = styled(SideBar)`
 `;
 
 const App = () => {
-  const dispatch = useAppDispatch();
+  const { showModal } = useModal();
   const { initializeUser } = useAuthentication();
   const id = useAppSelector(({ auth }) => auth.id);
 
@@ -98,9 +98,10 @@ const App = () => {
       {id && (
         <FloatingButton
           icon={<icons.CreateIcon />}
-          onClick={() => dispatch(showModal())}
+          onClick={() => showModal()}
         />
       )}
+
       <SnackBar header="Twittur is better in the app!">
         <RouterLink to="/release">Go to download page</RouterLink>
       </SnackBar>

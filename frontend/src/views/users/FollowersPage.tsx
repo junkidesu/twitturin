@@ -27,7 +27,7 @@ const FollowersList = ({ user }: { user: User }) => {
   return (
     <Box>
       {followers.map((u) => (
-        <UserItem user={u} />
+        <UserItem key={u.id} user={u} />
       ))}
     </Box>
   );

@@ -4,13 +4,13 @@ import TextArea from "../core/inputs/TextArea";
 import Button from "../core/buttons/Button";
 import useField from "../../hooks/useField";
 import { useAddTweetMutation } from "../../services/tweetsService";
-import { useAppDispatch, useAppSelector } from "../../hooks/store";
-import { hideModal } from "../../reducers/modalReducer";
+import { useAppSelector } from "../../hooks/store";
 import { pictures } from "../../assets";
 import { useGetUserQuery } from "../../services/usersService";
 import Card from "../containers/Card";
 import useLoadingStripe from "../../hooks/useLoadingStripe";
 import useAlert from "../../hooks/useAlert";
+import useModal from "../../hooks/useModal";
 
 const TweetTextArea = styled(TextArea)`
   border: none;
@@ -42,7 +42,7 @@ const NewTweetForm = ({ className }: { className?: string }) => {
   const id = useAppSelector(({ auth }) => auth.id);
   const { data: user } = useGetUserQuery(id!);
   const [addTweet, { isLoading }] = useAddTweetMutation();
-  const dispatch = useAppDispatch();
+  const { hideModal } = useModal();
   const { showLoadingStripe, hideLoadingStripe } = useLoadingStripe();
   const { errorAlert } = useAlert();
 
@@ -53,7 +53,7 @@ const NewTweetForm = ({ className }: { className?: string }) => {
     try {
       await addTweet({ content: content.value }).unwrap();
       clearContent();
-      dispatch(hideModal());
+      hideModal();
     } catch (error) {
       errorAlert(error);
     }
