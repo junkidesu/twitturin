@@ -9,6 +9,7 @@ import Button from "../components/core/buttons/Button";
 import { ReleaseInformation } from "../types";
 import Label from "../components/core/text/Label";
 import { elapsedTime } from "../util/time";
+import Accordion from "../components/containers/Accordion";
 
 const Wrapper = styled(Box)`
   width: 500px;
@@ -17,7 +18,9 @@ const Wrapper = styled(Box)`
 const ReleaseNotes = ({ notes }: { notes?: string }) => {
   return (
     <Card>
-      <Markdown>{notes || "No release notes were provided."}</Markdown>
+      <Accordion heading="Release Notes">
+        <Markdown>{notes || "No release notes were provided."}</Markdown>
+      </Accordion>
     </Card>
   );
 };
@@ -74,8 +77,6 @@ const ReleasePage = () => {
       )}
 
       <Download release={release!} />
-
-      <PageHeading level={4} label={"Release notes"} />
 
       {isSuccess && <ReleaseNotes notes={release!.body} />}
     </Wrapper>

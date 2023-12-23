@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Box from "./containers/Box";
+import Accordion from "./containers/Accordion";
 import FlatButton from "./core/buttons/FlatButton";
 import { icons } from "../assets";
 import Button from "./core/buttons/Button";
@@ -15,47 +16,12 @@ import Link from "./core/Link";
 import { useGetLatestReleaseQuery } from "../services/githubService";
 import Label from "./core/text/Label";
 import QRCode from "react-qr-code";
-import { useState } from "react";
+import RouterLink from "./core/RouterLink";
 
 const NavButton = styled(FlatButton)`
   font-size: ${({ theme }) => theme.fontSizes.medium};
   padding: 0.9em 1em;
 `;
-
-const AccordionWrapper = styled(Box)`
-  border: 3px solid ${({ theme }) => theme.colors.grey3};
-  border-radius: 1em;
-`;
-
-const HeadingWrapper = styled(Box)`
-  justify-content: center;
-  align-items: center;
-`;
-
-const Accordion = ({
-  children,
-  heading,
-}: {
-  children: React.ReactNode;
-  heading?: string;
-}) => {
-  const [visible, setVisible] = useState(false);
-
-  return (
-    <AccordionWrapper $pad="l" $gap="2em">
-      <HeadingWrapper
-        $horizontal
-        $gap="1em"
-        onClick={() => setVisible(!visible)}
-      >
-        <Label $bold>{heading || "Accordion"}</Label>
-        {visible ? <icons.ChevronUpIcon /> : <icons.ChevronDownIcon />}
-      </HeadingWrapper>
-
-      {visible && children}
-    </AccordionWrapper>
-  );
-};
 
 const LatestRelease = () => {
   const navigate = useNavigate();
@@ -150,7 +116,7 @@ const NavSideBar = () => {
           Tweet
         </Button>
 
-        <Accordion heading="Latest Release">
+        <Accordion heading={<RouterLink to="/release">Android app</RouterLink>}>
           <LatestRelease />
         </Accordion>
       </Box>
