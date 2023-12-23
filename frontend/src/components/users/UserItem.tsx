@@ -6,6 +6,7 @@ import lightTheme from "../../themes/lightTheme";
 import RouterLink from "../core/RouterLink";
 import FollowButton from "./FollowButton";
 import Card from "../containers/Card";
+import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled(Card).attrs({
   $horizontal: true,
@@ -36,11 +37,14 @@ const ProfileLink = styled(RouterLink)`
 `;
 
 const UserItem = ({ user }: { user: User }) => {
+  const navigate = useNavigate();
+
   return (
     <Wrapper>
       <Box $horizontal $center $gap="1em">
         <ProfilePicture
           src={user.profilePicture || pictures.emptyProfilePicture}
+          onClick={() => navigate(`/users/${user.id}`)}
         />
 
         <Box>

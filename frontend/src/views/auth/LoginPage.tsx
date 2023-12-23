@@ -1,11 +1,8 @@
 import useField from "../../hooks/useField";
 import Button from "../../components/core/buttons/Button";
 import Input from "../../components/core/inputs/Input";
-import { useAppDispatch } from "../../hooks/store";
 import { useNavigate } from "react-router-dom";
-import { useLoginMutation } from "../../services/authService";
-import { TokenData } from "../../types";
-import { setCredentials } from "../../reducers/authReducer";
+import { Credentials } from "../../types";
 import Box from "../../components/containers/Box";
 import Form from "../../components/core/Form";
 import Label from "../../components/core/text/Label";
@@ -15,7 +12,7 @@ import PageHeading from "../../components/util/PageHeading";
 import Card from "../../components/containers/Card";
 import useLoadingStripe from "../../hooks/useLoadingStripe";
 import useAlert from "../../hooks/useAlert";
-import storageService from "../../services/storageService";
+import useAuthentication from "../../hooks/useAuthentication";
 
 const LoginForm = styled(Form)`
   padding: 1em;
@@ -26,24 +23,21 @@ const LoginPage = () => {
   const [, password] = useField("password", "Password");
   const { showLoadingStripe, hideLoadingStripe } = useLoadingStripe();
   const { errorAlert } = useAlert();
-
-  const [login, { isLoading }] = useLoginMutation();
-
-  const dispatch = useAppDispatch();
+  const { authenticate, isLoading } = useAuthentication();
   const navigate = useNavigate();
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    showLoadingStripe();
-    try {
-      const tokenData: TokenData = await login({
-        username: username.value,
-        password: password.value,
-      }).unwrap();
+    const credentials: Credentials = {
+      username: username.value,
+      password: password.value,
+    };
 
-      dispatch(setCredentials(tokenData));
-      storageService.setAuthUser(tokenData);
+    showLoadingStripe();
+
+    try {
+      await authenticate(credentials);
       navigate("/");
     } catch (error) {
       errorAlert(error);

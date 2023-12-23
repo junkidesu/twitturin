@@ -1,11 +1,9 @@
 import lightTheme from "./themes/lightTheme";
 import GlobalStyle from "./themes/GlobalStyle";
-import storageService from "./services/storageService";
 import styled, { ThemeProvider } from "styled-components";
 import { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "./hooks/store";
-import { setCredentials } from "./reducers/authReducer";
 import Header from "./components/Header";
 import SignUpPage from "./views/auth/SignUpPage";
 import UserPage from "./views/users/UserPage";
@@ -35,6 +33,7 @@ import Alert from "./components/util/Alert";
 import ReleasePage from "./views/ReleasePage";
 import SnackBar from "./components/containers/SnackBar";
 import RouterLink from "./components/core/RouterLink";
+import useAuthentication from "./hooks/useAuthentication";
 
 const RightSideBar = styled(SideBar)`
   margin-left: 50px;
@@ -46,13 +45,12 @@ const RightSideBar = styled(SideBar)`
 
 const App = () => {
   const dispatch = useAppDispatch();
+  const { initializeUser } = useAuthentication();
   const id = useAppSelector(({ auth }) => auth.id);
 
   useEffect(() => {
-    const tokenData = storageService.getAuthUser();
-
-    if (tokenData) dispatch(setCredentials(tokenData));
-  }, [dispatch]);
+    initializeUser();
+  }, [initializeUser]);
 
   return (
     <ThemeProvider theme={lightTheme}>

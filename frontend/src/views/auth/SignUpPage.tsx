@@ -3,15 +3,12 @@ import useField from "../../hooks/useField";
 import Input from "../../components/core/inputs/Input";
 import Button from "../../components/core/buttons/Button";
 import Form from "../../components/core/Form";
-import { Major, NewUser } from "../../types";
+import { Credentials, Major, NewUser } from "../../types";
 import Select from "../../components/core/inputs/Select";
 import DatePicker from "../../components/core/inputs/DatePicker";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAddUserMutation } from "../../services/usersService";
-import { useAppDispatch } from "../../hooks/store";
-import { useLoginMutation } from "../../services/authService";
-import { setCredentials } from "../../reducers/authReducer";
 import Box from "../../components/containers/Box";
 import TextArea from "../../components/core/inputs/TextArea";
 import PageHeading from "../../components/util/PageHeading";
@@ -19,7 +16,7 @@ import Heading from "../../components/core/text/Heading";
 import Label from "../../components/core/text/Label";
 import useLoadingStripe from "../../hooks/useLoadingStripe";
 import useAlert from "../../hooks/useAlert";
-import storageService from "../../services/storageService";
+import useAuthentication from "../../hooks/useAuthentication";
 
 const KindButton = styled.button<{ $active: boolean }>`
   width: 100%;
@@ -58,9 +55,9 @@ const SignUpForm = styled(Form)`
 `;
 
 const SignUpPage = () => {
-  const [signUp, { isLoading }] = useAddUserMutation();
+  const [signUp, { isLoading: signingUp }] = useAddUserMutation();
+  const { authenticate, isLoading: authenticating } = useAuthentication();
   const { errorAlert } = useAlert();
-  const [login] = useLoginMutation();
   const [kind, setKind] = useState<Kind>("student");
   const [, studentId] = useField("text", "StudentID");
   const [, username] = useField("text", "Username");
@@ -72,8 +69,9 @@ const SignUpPage = () => {
   const [, birthday] = useField("date", "Birthday");
   const { showLoadingStripe, hideLoadingStripe } = useLoadingStripe();
 
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  const isLoading = signingUp || authenticating;
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -100,18 +98,17 @@ const SignUpPage = () => {
             subject: subject.value,
           };
 
+    const credentials: Credentials = {
+      username: username.value,
+      password: password.value,
+    };
+
     showLoadingStripe();
 
     try {
       await signUp(newUser).unwrap();
 
-      const tokenData = await login({
-        username: username.value,
-        password: password.value,
-      }).unwrap();
-
-      dispatch(setCredentials(tokenData));
-      storageService.setAuthUser(tokenData);
+      await authenticate(credentials);
       navigate("/");
     } catch (error) {
       errorAlert(error);

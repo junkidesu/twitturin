@@ -117,7 +117,7 @@ const TweetItem = ({ tweet }: { tweet: Tweet }) => {
     <Card $horizontal $gap="1em">
       <ProfilePicture
         src={tweet.author.profilePicture || pictures.emptyProfilePicture}
-        onClick={() => navigate(`/tweets/${tweet.id}`)}
+        onClick={() => navigate(`/users/${tweet.author.id}`)}
       />
 
       <Box $gap="1em">
