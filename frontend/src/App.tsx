@@ -33,6 +33,8 @@ import ErrorPage from "./views/util/ErrorPage";
 import ExplorePage from "./views/ExplorePage";
 import Alert from "./components/util/Alert";
 import ReleasePage from "./views/ReleasePage";
+import SnackBar from "./components/util/SnackBar";
+import RouterLink from "./components/core/RouterLink";
 
 const RightSideBar = styled(SideBar)`
   margin-left: 50px;
@@ -101,6 +103,9 @@ const App = () => {
           onClick={() => dispatch(showModal())}
         />
       )}
+      <SnackBar header="Twittur is better in the app!">
+        <RouterLink to="/release">Go to download page</RouterLink>
+      </SnackBar>
       <Footer />
     </ThemeProvider>
   );

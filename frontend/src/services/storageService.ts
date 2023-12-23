@@ -1,13 +1,14 @@
 import { TokenData } from "../types";
 
-const KEY = "auth";
+const AUTH_KEY = "auth";
+const DOWNLOAD_KEY = "DOWNLOAD_SUGGESTED";
 
 const setAuthUser = (tokenData: TokenData) => {
-  window.localStorage.setItem(KEY, JSON.stringify(tokenData));
+  window.localStorage.setItem(AUTH_KEY, JSON.stringify(tokenData));
 };
 
 const getAuthUser = (): TokenData | undefined => {
-  const authString = window.localStorage.getItem(KEY);
+  const authString = window.localStorage.getItem(AUTH_KEY);
 
   if (!authString) return undefined;
 
@@ -18,4 +19,18 @@ const removeAuthUser = () => {
   window.localStorage.clear();
 };
 
-export default { setAuthUser, getAuthUser, removeAuthUser };
+const getDownloadSuggested = () => {
+  return window.localStorage.getItem(DOWNLOAD_KEY);
+};
+
+const setDownloadSuggested = () => {
+  window.localStorage.setItem(DOWNLOAD_KEY, "true");
+};
+
+export default {
+  setAuthUser,
+  getAuthUser,
+  removeAuthUser,
+  getDownloadSuggested,
+  setDownloadSuggested,
+};
