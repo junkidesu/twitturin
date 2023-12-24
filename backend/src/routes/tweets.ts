@@ -459,7 +459,7 @@ router.get("/:id/replies", async (req, res, next) => {
  *   post:
  *     security:
  *       - bearerAuth: []
- *     summary: Post a reply to another reply with the given ID.
+ *     summary: Post a reply to the tweet with the given ID.
  *     parameters:
  *       - in: path
  *         name: id
