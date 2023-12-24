@@ -15,6 +15,7 @@ import {
 } from "../../../services/repliesService";
 import { useAppSelector } from "../../../hooks/store";
 import { useNavigate } from "react-router-dom";
+import { RWebShare } from "react-web-share";
 
 interface Props {
   reply: Reply;
@@ -143,7 +144,15 @@ const ReplyItem = ({ reply, showChildReplies }: Props) => {
             onClick={() => setFormVisible(true)}
           />
 
-          <IconButton icon={<icons.ShareIcon />} />
+          <RWebShare
+            data={{
+              text: `Reply by ${reply.author.username}`,
+              title: "Twittur",
+              url: `https://twitturin.onrender.com/tweets/${reply.tweet}/#${reply.id}`,
+            }}
+          >
+            <IconButton icon={<icons.ShareIcon />} />
+          </RWebShare>
 
           <IconButton icon={<icons.BookmarkIcon />} />
         </Box>

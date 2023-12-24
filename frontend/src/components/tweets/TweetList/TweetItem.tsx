@@ -12,6 +12,7 @@ import { elapsedTime } from "../../../util/time";
 import Label from "../../core/text/Label";
 import lightTheme from "../../../themes/lightTheme";
 import Card from "../../containers/Card";
+import { RWebShare } from "react-web-share";
 
 const UsernameLink = styled(RouterLink)`
   color: ${(props) => props.theme.colors.grey2};
@@ -93,22 +94,38 @@ const TweetActions = ({ tweet }: { tweet: Tweet }) => {
 
   return (
     <Box $horizontal>
-      <IconButton
-        label={tweet.likes}
-        icon={<LikeIcon $liked={likedByMe} />}
-        onClick={likedByMe ? handleUnlike : handleLike}
-      />
+      <Box $horizontal>
+        <IconButton
+          label={tweet.likes}
+          icon={<LikeIcon $liked={likedByMe} />}
+          onClick={likedByMe ? handleUnlike : handleLike}
+        />
 
-      <RouterLink to={`/tweets/${tweet.id}`}>
-        <IconButton icon={<icons.RepliesIcon />} label={tweet.replyCount} />
-      </RouterLink>
+        <RouterLink to={`/tweets/${tweet.id}`}>
+          <IconButton icon={<icons.RepliesIcon />} label={tweet.replyCount} />
+        </RouterLink>
+      </Box>
 
-      <IconButton icon={<icons.BookmarkIcon />} />
+      <Box $horizontal>
+        <IconButton icon={<icons.BookmarkIcon />} />
 
-      <IconButton icon={<icons.ShareIcon />} />
+        <RWebShare
+          data={{
+            text: `Tweet by ${tweet.author.username}`,
+            title: "Twittur",
+            url: `https://twitturin.onrender.com/tweets/${tweet.id}`,
+          }}
+        >
+          <IconButton icon={<icons.ShareIcon />} />
+        </RWebShare>
+      </Box>
     </Box>
   );
 };
+
+const ContentWrapper = styled(Box)`
+  flex-grow: 1;
+`;
 
 const TweetItem = ({ tweet }: { tweet: Tweet }) => {
   const navigate = useNavigate();
@@ -120,13 +137,13 @@ const TweetItem = ({ tweet }: { tweet: Tweet }) => {
         onClick={() => navigate(`/users/${tweet.author.id}`)}
       />
 
-      <Box $gap="1em">
+      <ContentWrapper $gap="1em">
         <TweetHeader tweet={tweet} />
 
         <RouterLink to={`/tweets/${tweet.id}`}>{tweet.content}</RouterLink>
 
         <TweetActions tweet={tweet} />
-      </Box>
+      </ContentWrapper>
     </Card>
   );
 };

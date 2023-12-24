@@ -9,6 +9,7 @@ import {
 } from "../../../services/tweetsService";
 import { Tweet } from "../../../types";
 import Card from "../../../components/containers/Card";
+import { RWebShare } from "react-web-share";
 
 const Wrapper = styled(Card)`
   padding: 0.5em;
@@ -68,7 +69,16 @@ const BottomButtons = ({ tweet }: { tweet: Tweet }) => {
         $vertical
       />
       <IconButton icon={<icons.BookmarkIcon />} label="Save" $vertical />
-      <IconButton icon={<icons.ShareIcon />} label="Share" $vertical />
+
+      <RWebShare
+        data={{
+          text: `Tweet by ${tweet.author.username}`,
+          title: "Twittur",
+          url: `https://twitturin.onrender.com/tweets/${tweet.id}`,
+        }}
+      >
+        <IconButton icon={<icons.ShareIcon />} label="Share" $vertical />
+      </RWebShare>
     </Wrapper>
   );
 };
