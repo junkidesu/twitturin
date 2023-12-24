@@ -102,10 +102,11 @@ const App = () => {
         />
       )}
 
+      <Footer />
+
       <SnackBar header="Twittur is better in the app!">
         <RouterLink to="/release">Go to download page</RouterLink>
       </SnackBar>
-      <Footer />
     </ThemeProvider>
   );
 };

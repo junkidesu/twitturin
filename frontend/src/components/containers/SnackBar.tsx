@@ -14,7 +14,7 @@ const ContentWrapper = styled(Box)`
     bottom: 0px;
     width: 100%;
     padding: 1em;
-    z-index: 10000;
+    /* z-index: 10000; */
   }
 `;
 
