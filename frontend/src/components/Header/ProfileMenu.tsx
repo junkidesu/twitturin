@@ -1,7 +1,5 @@
-import storageService from "../../services/storageService";
+import useAuthentication from "../../hooks/useAuthentication";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../../hooks/store";
-import { removeCredentials } from "../../reducers/authReducer";
 import { icons } from "../../assets";
 import Menu from "../core/Menu";
 import VisibleItems from "../core/Menu/VisibleItems";
@@ -22,14 +20,13 @@ const MenuButton = styled(IconButton).attrs({ icon: <icons.MenuIcon /> })`
 `;
 
 const ProfileMenu = ({ id }: { username: string; id: string }) => {
+  const { logout } = useAuthentication();
   const [visible, setVisible] = useState(false);
-  const dispatch = useAppDispatch();
+
   const navigate = useNavigate();
 
   const handleSignOut = () => {
-    storageService.removeAuthUser();
-
-    dispatch(removeCredentials());
+    logout();
   };
 
   return (

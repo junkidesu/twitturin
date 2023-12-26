@@ -30,6 +30,7 @@ import ErrorPage from "../../util/ErrorPage";
 import Card from "../../../components/containers/Card";
 import useLoadingStripe from "../../../hooks/useLoadingStripe";
 import useAlert from "../../../hooks/useAlert";
+import useAuthentication from "../../../hooks/useAuthentication";
 
 const Banner = styled.div`
   position: relative;
@@ -219,6 +220,7 @@ const DeleteButton = styled(NavButton)`
 `;
 
 const Settings = ({ user }: { user: User }) => {
+  const { logout } = useAuthentication();
   const navigate = useNavigate();
   const { errorAlert } = useAlert();
   const { showLoadingStripe, hideLoadingStripe } = useLoadingStripe();
@@ -226,9 +228,7 @@ const Settings = ({ user }: { user: User }) => {
   const [deleteUser] = useDeleteUserMutation();
 
   const handleSignOut = () => {
-    storageService.removeAuthUser();
-
-    dispatch(removeCredentials());
+    logout();
   };
 
   const handleDeleteProfile = async () => {

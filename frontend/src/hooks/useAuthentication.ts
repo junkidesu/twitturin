@@ -1,4 +1,4 @@
-import { setCredentials } from "../reducers/authReducer";
+import { removeCredentials, setCredentials } from "../reducers/authReducer";
 import { useLoginMutation } from "../services/authService";
 import storageService from "../services/storageService";
 import { Credentials } from "../types";
@@ -23,7 +23,12 @@ const useAuthentication = () => {
     }
   };
 
-  return { initializeUser, authenticate, isLoading };
+  const logout = () => {
+    storageService.getAuthUser();
+    dispatch(removeCredentials());
+  };
+
+  return { initializeUser, authenticate, logout, isLoading };
 };
 
 export default useAuthentication;
