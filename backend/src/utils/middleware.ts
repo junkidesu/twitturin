@@ -22,7 +22,7 @@ const extractUser = async (tokenData: unknown) => {
     tokenData.id
   );
 
-  if (!user) return undefined;
+  if (!user) throw new NotFoundError("user not found");
 
   return user;
 };
@@ -45,39 +45,11 @@ export const userExtractor = async (
   }
 };
 
-const checkAuthentication = (req: Request) => {
-  if (!req.user) throw new AuthError("authentication required");
-};
-
 export const requireAuthentication = (
   req: Request,
   _res: Response,
   next: NextFunction
-) => {
-  try {
-    checkAuthentication(req);
-
-    next();
-  } catch (error) {
-    next(error);
-  }
-};
-
-const checkTweetAuthor = async (
-  user: User & { _id: Types.ObjectId },
-  id: string
-) => {
-  const tweet = await TweetModel.findById<{
-    author: User & { _id: Types.ObjectId };
-  }>(id);
-
-  if (!tweet) throw new NotFoundError("tweet not found");
-
-  const author = tweet.author._id.toString();
-  const userId = user._id.toString();
-
-  if (userId !== author) throw new AuthError("need to be author of tweet");
-};
+) => (req.user ? next() : next(new AuthError("authentication required")));
 
 export const requireTweetAuthor = async (
   req: Request,
@@ -86,26 +58,19 @@ export const requireTweetAuthor = async (
 ) => {
   if (!("id" in req.params) || !req.user) return next();
 
-  try {
-    await checkTweetAuthor(req.user, req.params.id);
-    next();
-  } catch (error) {
-    next(error);
-  }
-};
+  const tweet = await TweetModel.findById<{
+    author: User & { _id: Types.ObjectId };
+  }>(req.params.id);
 
-const checkReplyAuthor = async (
-  user: User & { _id: Types.ObjectId },
-  id: string
-) => {
-  const reply = await ReplyModel.findById(id);
+  if (!tweet) return next(new NotFoundError("tweet not found"));
 
-  if (!reply) throw new NotFoundError("reply not found");
+  const author = tweet.author._id.toString();
+  const userId = req.user._id.toString();
 
-  const author = reply.author.toString();
-  const userId = user._id.toString();
+  if (userId !== author)
+    return next(new AuthError("need to be author of tweet"));
 
-  if (userId !== author) throw new AuthError("need to be author of reply");
+  return next();
 };
 
 export const requireReplyAuthor = async (
@@ -115,17 +80,17 @@ export const requireReplyAuthor = async (
 ) => {
   if (!("id" in req.params) || !req.user) return next();
 
-  try {
-    await checkReplyAuthor(req.user, req.params.id);
-    next();
-  } catch (error) {
-    next(error);
-  }
-};
+  const reply = await ReplyModel.findById(req.params.id);
 
-const checkSameUser = (user: User & { _id: Types.ObjectId }, id: string) => {
-  if (user._id.toString() !== id)
-    throw new AuthError("action can only be done by same user");
+  if (!reply) return next(new NotFoundError("reply not found"));
+
+  const author = reply.author.toString();
+  const userId = req.user._id.toString();
+
+  if (userId !== author)
+    return next(new AuthError("need to be author of reply"));
+
+  return next();
 };
 
 export const requireSameUser = (
@@ -133,20 +98,12 @@ export const requireSameUser = (
   _res: Response,
   next: NextFunction
 ) => {
-  if (!req.user || (!("id" in req.params) && !("userId" in req.params)))
-    return next();
+  if (!req.user || !("id" in req.params)) return next();
 
-  try {
-    if ("userId" in req.params) {
-      checkSameUser(req.user, req.params.userId);
-    } else {
-      checkSameUser(req.user, req.params.id);
-    }
+  if (req.user._id.toString() !== req.params.id)
+    return next(new AuthError("action can only be done by same user"));
 
-    next();
-  } catch (error) {
-    next(error);
-  }
+  return next();
 };
 
 export const errorHandler = (

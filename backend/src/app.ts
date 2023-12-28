@@ -1,10 +1,10 @@
-// import path from "path";
 import express, { Request } from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import env from "./utils/config";
 import authRouter from "./routes/auth";
 import usersRouter from "./routes/users";
+import followingRouter from "./routes/following";
 import tweetsRouter from "./routes/tweets";
 import repliesRouter from "./routes/replies";
 import searchRouter from "./routes/search";
@@ -25,19 +25,15 @@ app.use(cors());
 app.use(mongoSanitize());
 app.disable("x-powered-by");
 
+const methods = ["POST", "PUT"];
 morgan.token("body", (req: Request) => {
-  if (req.method === "POST" || req.method === "PUT") {
-    if (req.baseUrl === "/api/auth" || req.baseUrl === "/api/users") {
-      return JSON.stringify({ ...req.body, password: undefined });
-    }
-
-    return JSON.stringify(req.body);
-  }
-
-  return "";
+  return methods.includes(req.method) && req.body
+    ? JSON.stringify({ ...req.body, password: undefined })
+    : "";
 });
 
 app.use(
+  "/api/*",
   morgan(":method :url :status :res[content-length] - :response-time ms :body")
 );
 
@@ -48,12 +44,13 @@ app.get("/ping", (_req, res) => {
 app.use(userExtractor);
 app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
+app.use("/api/following", followingRouter);
 app.use("/api/tweets", tweetsRouter);
 app.use("/api/replies", repliesRouter);
 app.use("/api/search", searchRouter);
 
 if (env.NODE_ENV === "development")
-  app.use("/docs", swaggerUi.serve, swaggerUi.setup(specs));
+  app.use("/swagger", swaggerUi.serve, swaggerUi.setup(specs));
 
 app.use(errorHandler);
 
