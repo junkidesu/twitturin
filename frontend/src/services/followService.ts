@@ -17,7 +17,7 @@ export const followApi = api.injectEndpoints({
     }),
     follow: builder.mutation<User, string>({
       query: (id) => ({
-        url: `users/following/${id}`,
+        url: `following/${id}`,
         method: "POST",
       }),
       async onQueryStarted(_id, { dispatch, getState, queryFulfilled }) {
@@ -38,7 +38,7 @@ export const followApi = api.injectEndpoints({
     }),
     unfollow: builder.mutation<undefined, string>({
       query: (id) => ({
-        url: `users/following/${id}`,
+        url: `following/${id}`,
         method: "DELETE",
       }),
       async onQueryStarted(id, { getState, dispatch, queryFulfilled }) {
