@@ -32,10 +32,14 @@ morgan.token("body", (req: Request) => {
     : "";
 });
 
-app.use(
-  "/api/*",
-  morgan(":method :url :status :res[content-length] - :response-time ms :body")
-);
+if (env.NODE_ENV !== "test") {
+  app.use(
+    "/api/*",
+    morgan(
+      ":method :url :status :res[content-length] - :response-time ms :body"
+    )
+  );
+}
 
 app.get("/ping", (_req, res) => {
   res.send("pong");

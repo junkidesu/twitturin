@@ -6,6 +6,7 @@ import env from "./config";
 import UserModel from "../models/user";
 import TweetModel from "../models/tweet";
 import ReplyModel from "../models/reply";
+import logger from "./logger";
 
 const parseToken = (text: string): string => {
   if (!text || !text.startsWith("Bearer "))
@@ -112,7 +113,7 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  console.log(`${error.name}: ${error.message}`);
+  logger.log(`${error.name}: ${error.message}`);
 
   if (error.name === "CastError")
     return res.status(400).json({ error: "invalid MongoDB id" });
