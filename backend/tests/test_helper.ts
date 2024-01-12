@@ -9,6 +9,7 @@ import {
   User,
 } from "../src/types";
 import UserModel from "../src/models/user";
+import TweetModel from "../src/models/tweet";
 
 const password = "password";
 const passwordHash = bcrypt.hashSync(password, 10);
@@ -33,6 +34,29 @@ export const initialUsers = [
   },
 ];
 
+export const initialTweets = [
+  {
+    _id: "65a043445c8428d4f2022473",
+    content: "this is my first tweet",
+    author: "657ebfc0a49f7f3984586061",
+  },
+  {
+    _id: "65a0427c5c8428d4f202245e",
+    content: "this is my second tweet",
+    author: "657ebfc0a49f7f3984586061",
+  },
+  {
+    _id: "65a041ec5c8428d4f202244e",
+    content: "teaching CS is fun",
+    author: "657ebfc0a49f7f3984586061",
+  },
+  {
+    _id: "65a040bf5c8428d4f202243e",
+    content: "air quality is bad",
+    author: "657ebfc0a49f7f3984586061",
+  },
+];
+
 export const initializeUsers = async () => {
   await UserModel.deleteMany({});
 
@@ -40,6 +64,18 @@ export const initializeUsers = async () => {
     const user = new UserModel(u);
 
     return user.save();
+  });
+
+  await Promise.all(promises);
+};
+
+export const initializeTweets = async () => {
+  await TweetModel.deleteMany({});
+
+  const promises = initialTweets.map((t) => {
+    const tweet = new TweetModel(t);
+
+    return tweet.save();
   });
 
   await Promise.all(promises);
@@ -57,6 +93,14 @@ export const userExists = async (username: string): Promise<boolean> => {
   const user = await UserModel.exists({ username });
 
   if (!user) return false;
+
+  return true;
+};
+
+export const tweetExists = async (content: string): Promise<boolean> => {
+  const tweet = await TweetModel.exists({ content });
+
+  if (!tweet) return false;
 
   return true;
 };
