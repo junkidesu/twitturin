@@ -1,15 +1,15 @@
 import supertest from "supertest";
 import bcrypt from "bcrypt";
-import app from "../src/app";
+import app from "../../src/app";
 import {
   Credentials,
   Major,
   NotFoundError,
   TokenData,
   User,
-} from "../src/types";
-import UserModel from "../src/models/user";
-import TweetModel from "../src/models/tweet";
+} from "../../src/types";
+import UserModel from "../../src/models/user";
+import TweetModel from "../../src/models/tweet";
 
 const password = "password";
 const passwordHash = bcrypt.hashSync(password, 10);

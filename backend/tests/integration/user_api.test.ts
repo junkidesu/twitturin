@@ -1,5 +1,5 @@
-import { connectDb, disconnectDb } from "../src/utils/mongo";
-import { Major, NewUser, TokenData } from "../src/types";
+import { connectDb, disconnectDb } from "../../src/utils/mongo";
+import { Major, NewUser, TokenData } from "../../src/types";
 import {
   api,
   initializeUsers,
@@ -7,7 +7,7 @@ import {
   userExists,
   authenticate,
   getUser,
-} from "./test_helper";
+} from "./util";
 
 beforeAll(async () => {
   await connectDb();
