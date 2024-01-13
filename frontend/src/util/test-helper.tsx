@@ -20,7 +20,7 @@ export const renderWithProviders = (ui: React.ReactElement) => {
   return render(ui, { wrapper: Wrapper });
 };
 
-const initialUsers: User[] = [
+export const initialUsers: User[] = [
   {
     subject: "Mechanical Engineering",
     username: "albero03",
@@ -38,7 +38,6 @@ const initialUsers: User[] = [
     major: "SE" as Major,
     studentId: "se12345",
     username: "student1",
-    fullName: "John Doe",
     birthday: "2001-09-30",
     country: "Uzbekistan",
     kind: "student",
