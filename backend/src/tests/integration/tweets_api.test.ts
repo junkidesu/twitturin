@@ -7,7 +7,7 @@ import {
   authenticate,
   tweetExists,
 } from "./util";
-import { connectDb, disconnectDb } from "../../src/utils/mongo";
+import { connectDb, disconnectDb } from "../../utils/mongo";
 
 beforeAll(async () => {
   await connectDb();

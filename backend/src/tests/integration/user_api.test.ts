@@ -1,5 +1,5 @@
-import { connectDb, disconnectDb } from "../../src/utils/mongo";
-import { Major, NewUser, TokenData } from "../../src/types";
+import { connectDb, disconnectDb } from "../../utils/mongo";
+import { Major, NewUser, TokenData } from "../../types";
 import {
   api,
   initializeUsers,
