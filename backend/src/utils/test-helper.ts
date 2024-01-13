@@ -1,15 +1,10 @@
 import supertest from "supertest";
 import bcrypt from "bcrypt";
 import app from "../app";
-import {
-  Credentials,
-  Major,
-  NotFoundError,
-  TokenData,
-  User,
-} from "../types";
+import { Credentials, Major, NotFoundError, TokenData, User } from "../types";
 import UserModel from "../models/user";
 import TweetModel from "../models/tweet";
+import ReplyModel from "../models/reply";
 
 const password = "password";
 const passwordHash = bcrypt.hashSync(password, 10);
@@ -57,6 +52,33 @@ export const initialTweets = [
   },
 ];
 
+export const initialReplies = [
+  {
+    content: "I agree!",
+    likedBy: [],
+    tweet: initialTweets[0]._id,
+    parentTweet: initialTweets[0]._id,
+    author: initialUsers[0]._id,
+    _id: "6587c7b1591dc9f39f308060",
+  },
+  {
+    content: "Well I disagree!",
+    likedBy: [],
+    tweet: initialTweets[0]._id,
+    parentReply: "6587c7b1591dc9f39f308060",
+    author: initialUsers[1]._id,
+    _id: "6587e5e93ce5fb3081ac2064",
+  },
+  {
+    content: "This is not true!",
+    likedBy: [],
+    tweet: initialTweets[0]._id,
+    parentTweet: initialTweets[0]._id,
+    author: initialUsers[1]._id,
+    _id: "658800abce6ed6aa117b7afa",
+  },
+];
+
 export const initializeUsers = async () => {
   await UserModel.deleteMany({});
 
@@ -76,6 +98,18 @@ export const initializeTweets = async () => {
     const tweet = new TweetModel(t);
 
     return tweet.save();
+  });
+
+  await Promise.all(promises);
+};
+
+export const initializeReplies = async () => {
+  await ReplyModel.deleteMany({});
+
+  const promises = initialReplies.map((r) => {
+    const reply = new ReplyModel(r);
+
+    return reply.save();
   });
 
   await Promise.all(promises);
@@ -101,6 +135,14 @@ export const tweetExists = async (content: string): Promise<boolean> => {
   const tweet = await TweetModel.exists({ content });
 
   if (!tweet) return false;
+
+  return true;
+};
+
+export const replyExists = async (content: string): Promise<boolean> => {
+  const reply = await ReplyModel.exists({ content });
+
+  if (!reply) return false;
 
   return true;
 };

@@ -7,6 +7,8 @@ import {
   userExists,
   authenticate,
   getUser,
+  initializeTweets,
+  initializeReplies,
 } from "../../utils/test-helper";
 
 beforeAll(async () => {
@@ -15,6 +17,8 @@ beforeAll(async () => {
 
 beforeEach(async () => {
   await initializeUsers();
+  await initializeTweets();
+  await initializeReplies();
 });
 
 describe("all users can", () => {

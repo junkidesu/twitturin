@@ -6,6 +6,7 @@ import {
   initializeUsers,
   authenticate,
   tweetExists,
+  initializeReplies,
 } from "../../utils/test-helper";
 import { connectDb, disconnectDb } from "../../utils/mongo";
 
@@ -16,6 +17,7 @@ beforeAll(async () => {
 beforeEach(async () => {
   await initializeUsers();
   await initializeTweets();
+  await initializeReplies();
 }, 10000);
 
 describe("all users can", () => {
