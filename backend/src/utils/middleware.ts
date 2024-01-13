@@ -81,11 +81,13 @@ export const requireReplyAuthor = async (
 ) => {
   if (!("id" in req.params) || !req.user) return next();
 
-  const reply = await ReplyModel.findById(req.params.id);
+  const reply = await ReplyModel.findById<{
+    author: User & { _id: Types.ObjectId };
+  }>(req.params.id);
 
   if (!reply) return next(new NotFoundError("reply not found"));
 
-  const author = reply.author.toString();
+  const author = reply.author._id.toString();
   const userId = req.user._id.toString();
 
   if (userId !== author)
