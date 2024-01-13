@@ -6,7 +6,7 @@ import {
   initializeUsers,
   authenticate,
   tweetExists,
-} from "./util";
+} from "../../utils/test-helper";
 import { connectDb, disconnectDb } from "../../utils/mongo";
 
 beforeAll(async () => {

@@ -7,7 +7,7 @@ import {
   userExists,
   authenticate,
   getUser,
-} from "./util";
+} from "../../utils/test-helper";
 
 beforeAll(async () => {
   await connectDb();
