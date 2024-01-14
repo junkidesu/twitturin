@@ -8,6 +8,7 @@ import followingRouter from "./routes/following";
 import tweetsRouter from "./routes/tweets";
 import repliesRouter from "./routes/replies";
 import searchRouter from "./routes/search";
+import testingRouter from "./routes/testing";
 import { errorHandler, userExtractor } from "./utils/middleware";
 import specs from "./swagger/specs";
 import swaggerUi from "swagger-ui-express";
@@ -31,6 +32,10 @@ morgan.token("body", (req: Request) => {
     ? JSON.stringify({ ...req.body, password: undefined })
     : "";
 });
+
+if (env.NODE_ENV === "test") {
+  app.use("/api/testing", testingRouter);
+}
 
 if (env.NODE_ENV !== "test") {
   app.use(

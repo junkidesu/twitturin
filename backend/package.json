@@ -9,7 +9,8 @@
     "tsc": "tsc",
     "lint": "eslint --ext .ts .",
     "test": "NODE_ENV=test jest --verbose --runInBand",
-    "start": "NODE_ENV=production node dist/index.js"
+    "start": "NODE_ENV=production node dist/index.js",
+    "start:test": "NODE_ENV=test ts-node src/index.ts"
   },
   "author": "Anvar Sheryatullaev",
   "license": "ISC",
