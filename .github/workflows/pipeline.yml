@@ -34,7 +34,7 @@ jobs:
           cd frontend && npm install
       - name: Build
         run: |
-          cd frontend && npm run tsc
+          cd frontend && npm run build
       - name: Lint
         run: |
           cd frontend && npm run lint
