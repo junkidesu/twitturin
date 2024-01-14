@@ -1,0 +1,14 @@
+{
+  "name": "twitturin",
+  "version": "1.0.0",
+  "description": "TwitturIn is a social media platform for the students of Turin Polytechnic University in Tashkent. This repository contains the source code of both the TwitturIn API and the frontend client.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Anvar Sheryatullayev",
+  "license": "ISC",
+  "workspaces": [
+    "packages/*"
+  ]
+}

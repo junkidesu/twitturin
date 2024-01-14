@@ -1,16 +1,13 @@
 {
-    "files.exclude": {
-        "**/.git": true,
-        "**/node_modules": true,
-        "**/.svn": true,
-        "**/.hg": true,
-        "**/CVS": true,
-        "**/.DS_Store": true,
-        "**/Thumbs.db": true
-    },
-    "eslint.workingDirectories": [
-        "./backend",
-        "./frontend"
-    ],
-    "editor.codeActionsOnSave": {}
+  "files.exclude": {
+    "**/.git": true,
+    "**/node_modules": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true
+  },
+  "eslint.workingDirectories": ["./packages/api", "./packages/client"],
+  "editor.codeActionsOnSave": {}
 }
