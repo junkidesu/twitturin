@@ -57,6 +57,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.10.0
       - name: End-to-end tests
         uses: cypress-io/github-action@v6
         with:
