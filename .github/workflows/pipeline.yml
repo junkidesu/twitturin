@@ -66,9 +66,8 @@ jobs:
           command: |
             cd frontend && npm run test:e2e
           start: |
-            cd backend && npm run start:test
-            cd frontend && npm run dev
-          wait-on: "http://localhost:5173"
+            cd backend && npm run start:test, cd frontend && npm run dev
+          wait-on: http://localhost:5173
         env:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
           SECRET: ${{ secrets.SECRET }}
