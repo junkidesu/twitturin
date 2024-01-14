@@ -17,12 +17,14 @@ const Select = ({
   onChange,
   placeholder,
   required,
+  id,
 }: {
   options: string[];
   value?: string;
   onChange?: React.ChangeEventHandler<HTMLSelectElement>;
   placeholder?: string;
   required?: boolean;
+  id?: string;
 }) => {
   return (
     <SelectWrapper
@@ -30,6 +32,7 @@ const Select = ({
       value={value}
       onChange={onChange}
       required={required}
+      id={id}
     >
       {options.map((m) => (
         <option key={m} value={m}>

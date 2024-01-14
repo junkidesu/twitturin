@@ -138,20 +138,21 @@ const SignUpPage = () => {
 
       <SignUpForm onSubmit={onSubmit}>
         <Heading $level={4}>User Information</Heading>
-        <Input {...username} required />
-        <Input {...password} required />
+        <Input {...username} required id="username" />
+        <Input {...password} required id="password" />
 
         {kind === "student" && (
           <>
             <Heading $level={4}>Student Information</Heading>
-            <Select options={majors} {...major} required />
-            <Input {...studentId} required />
+            <Select options={majors} {...major} required id="select-major" />
+            <Input {...studentId} required id="student-id" />
           </>
         )}
+
         {kind === "teacher" && (
           <>
             <Heading $level={4}>Teacher Information</Heading>
-            <Input {...subject} required />
+            <Input {...subject} required id="subject" />
           </>
         )}
 
@@ -159,9 +160,9 @@ const SignUpPage = () => {
         <Label $size="extraSmall" $bold>
           Birthday
         </Label>
-        <DatePicker {...birthday} />
-        <Input {...fullName} />
-        <BioTextArea {...bio} />
+        <DatePicker {...birthday} id="birthday-picker" />
+        <Input {...fullName} id="fullname" />
+        <BioTextArea {...bio} id="bio" />
 
         <Button $width="100%" disabled={isLoading}>
           Sign Up

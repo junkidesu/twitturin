@@ -40,7 +40,7 @@ const InputWrapper = styled(BorderedBox)<{ $focus: boolean }>`
   position: relative;
   justify-content: space-around;
   border-color: ${({ $focus, theme: { colors } }) =>
-    $focus ? colors.primary : colors.grey3 };
+    $focus ? colors.primary : colors.grey3};
 `;
 
 interface InputProps {
@@ -50,6 +50,7 @@ interface InputProps {
   type?: string;
   required?: boolean;
   className?: string;
+  id?: string;
 }
 
 const Input = (props: InputProps) => {
@@ -62,6 +63,7 @@ const Input = (props: InputProps) => {
       className={props.className}
       $focus={focus}
       $rounded
+      id={props.id}
     >
       <InputField
         {...props}
