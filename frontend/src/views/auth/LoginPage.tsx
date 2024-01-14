@@ -57,12 +57,12 @@ const LoginPage = () => {
       </Card>
 
       <LoginForm onSubmit={handleLogin}>
-        <Input {...username} required />
+        <Input {...username} required id="username" />
 
-        <Input {...password} required />
+        <Input {...password} required id="password" />
 
-        <Button $width="100%" disabled={isLoading}>
-          Log in
+        <Button $width="100%" disabled={isLoading} id="login-button">
+          Log In
         </Button>
       </LoginForm>
     </Box>
