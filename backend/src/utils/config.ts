@@ -23,11 +23,11 @@ const SECRET = process.env.SECRET;
 const S3_ACCESS_KEY = process.env.S3_ACCESS_KEY;
 const S3_ACCESS_SECRET = process.env.S3_ACCESS_SECRET;
 
-if (!PORT || !MONGODB_URI || !SECRET || !S3_ACCESS_KEY || !S3_ACCESS_SECRET)
+if (!MONGODB_URI || !SECRET || !S3_ACCESS_KEY || !S3_ACCESS_SECRET)
   throw new Error("Missing environmental variables");
 
 const env = {
-  PORT: Number(PORT),
+  PORT,
   MONGODB_URI,
   SECRET,
   S3_ACCESS_KEY,
