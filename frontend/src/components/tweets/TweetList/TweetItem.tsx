@@ -131,7 +131,7 @@ const TweetItem = ({ tweet }: { tweet: Tweet }) => {
   const navigate = useNavigate();
 
   return (
-    <Card $horizontal $gap="1em">
+    <Card $horizontal $gap="1em" id={tweet.id}>
       <ProfilePicture
         src={tweet.author.profilePicture || pictures.emptyProfilePicture}
         onClick={() => navigate(`/users/${tweet.author.id}`)}

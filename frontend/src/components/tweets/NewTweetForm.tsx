@@ -70,7 +70,7 @@ const NewTweetForm = ({ className }: { className?: string }) => {
       <FormWrapper onSubmit={handleSubmit}>
         <TweetTextArea {...content} required />
 
-        <Button $bg="white" disabled={isLoading}>
+        <Button $bg="white" disabled={isLoading} id="tweet-button">
           Tweet
         </Button>
       </FormWrapper>

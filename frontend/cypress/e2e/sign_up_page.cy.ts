@@ -30,6 +30,7 @@ describe("Sign Up Page", function () {
 
     cy.contains("Sign Up").click();
 
+    cy.contains("@new-username");
     cy.contains("Profile");
   });
 

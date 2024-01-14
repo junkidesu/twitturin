@@ -14,6 +14,8 @@ describe("Sign In Page", function () {
 
     cy.get("#login-button").click();
 
+    cy.contains("@initial1");
+
     cy.contains(/Profile/, { timeout: 20000 });
   });
 
