@@ -50,7 +50,7 @@ const TweetPage = () => {
       <PageHeading label="Replies" level={4} />
 
       <Card $gap="0.5em">
-        <ReplyForm id={tweet.id} parent="tweet" />
+        <ReplyForm parentId={tweet.id} parent="tweet" id="tweet-reply-form" />
       </Card>
 
       <TweetReplyList tweet={tweet} />

@@ -134,12 +134,14 @@ const ReplyItem = ({ reply, showChildReplies }: Props) => {
 
         <Box $horizontal $gap="0.5em">
           <IconButton
+            className="like-button"
             label={reply.likes}
             icon={<LikeIcon $liked={likedByMe} />}
             onClick={handleLike}
           />
 
           <IconButton
+            className="reply-button"
             icon={<icons.RepliesIcon />}
             onClick={() => setFormVisible(true)}
           />
@@ -158,7 +160,11 @@ const ReplyItem = ({ reply, showChildReplies }: Props) => {
         </Box>
 
         {formVisible && (
-          <ReplyForm id={reply.id} parent="reply" setVisible={setFormVisible} />
+          <ReplyForm
+            parentId={reply.id}
+            parent="reply"
+            setVisible={setFormVisible}
+          />
         )}
 
         {showChildReplies &&

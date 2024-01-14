@@ -10,12 +10,13 @@ import useLoadingStripe from "../../hooks/useLoadingStripe";
 import useAlert from "../../hooks/useAlert";
 
 type Props = {
-  id: string;
+  id?: string;
+  parentId: string;
   setVisible?: React.Dispatch<React.SetStateAction<boolean>>;
   parent: "tweet" | "reply";
 };
 
-const ReplyForm = ({ id, parent, setVisible }: Props) => {
+const ReplyForm = ({ id, parentId, parent, setVisible }: Props) => {
   const [replyToTweet, { isLoading }] = useReplyMutation();
   const { showLoadingStripe, hideLoadingStripe } = useLoadingStripe();
   const [clearContent, content] = useField("text", "Type your reply...");
@@ -34,7 +35,7 @@ const ReplyForm = ({ id, parent, setVisible }: Props) => {
       await replyToTweet({
         content: content.value,
         parent,
-        parentId: id,
+        parentId,
       }).unwrap();
 
       clearContent();
@@ -48,7 +49,7 @@ const ReplyForm = ({ id, parent, setVisible }: Props) => {
 
   return (
     <Form onSubmit={handleReply}>
-      <TextArea {...content} required />
+      <TextArea {...content} required id={id} />
 
       <Box $horizontal $gap="0.5em">
         <Button $bg="white" $size="extraSmall" disabled={isLoading}>
