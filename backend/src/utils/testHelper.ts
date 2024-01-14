@@ -5,6 +5,8 @@ import { Credentials, Major, NotFoundError, TokenData, User } from "../types";
 import UserModel from "../models/user";
 import TweetModel from "../models/tweet";
 import ReplyModel from "../models/reply";
+import TeacherModel from "../models/user/teacher";
+import StudentModel from "../models/user/student";
 
 const password = "password";
 const passwordHash = bcrypt.hashSync(password, 10);
@@ -33,22 +35,22 @@ export const initialTweets = [
   {
     _id: "65a043445c8428d4f2022473",
     content: "this is my first tweet",
-    author: "657ebfc0a49f7f3984586061",
+    author: initialUsers[0]._id,
   },
   {
     _id: "65a0427c5c8428d4f202245e",
     content: "this is my second tweet",
-    author: "657ebfc0a49f7f3984586061",
+    author: initialUsers[0]._id,
   },
   {
     _id: "65a041ec5c8428d4f202244e",
     content: "teaching CS is fun",
-    author: "657ebfc0a49f7f3984586061",
+    author: initialUsers[1]._id,
   },
   {
     _id: "65a040bf5c8428d4f202243e",
     content: "air quality is bad",
-    author: "657ebfc0a49f7f3984586061",
+    author: initialUsers[1]._id,
   },
 ];
 
@@ -83,7 +85,7 @@ export const initializeUsers = async () => {
   await UserModel.deleteMany({});
 
   const promises = initialUsers.map((u) => {
-    const user = new UserModel(u);
+    const user = "studentId" in u ? new StudentModel(u) : new TeacherModel(u);
 
     return user.save();
   });
@@ -113,6 +115,14 @@ export const initializeReplies = async () => {
   });
 
   await Promise.all(promises);
+};
+
+export const resetDb = async () => {
+  await Promise.all([
+    initializeUsers(),
+    initializeTweets(),
+    initializeReplies(),
+  ]);
 };
 
 export const authenticate = async (

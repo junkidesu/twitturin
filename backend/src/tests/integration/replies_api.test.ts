@@ -2,13 +2,11 @@ import {
   api,
   initialUsers,
   initialTweets,
-  initializeTweets,
-  initializeReplies,
-  initializeUsers,
   authenticate,
   replyExists,
   initialReplies,
-} from "../../utils/test-helper";
+  resetDb,
+} from "../../utils/testHelper";
 import { connectDb, disconnectDb } from "../../utils/mongo";
 
 beforeAll(async () => {
@@ -16,9 +14,7 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
-  await initializeUsers();
-  await initializeTweets();
-  await initializeReplies();
+  await resetDb();
 }, 10000);
 
 describe("replying to tweet", () => {

@@ -2,23 +2,19 @@ import { connectDb, disconnectDb } from "../../utils/mongo";
 import { Major, NewUser, TokenData } from "../../types";
 import {
   api,
-  initializeUsers,
   initialUsers,
   userExists,
   authenticate,
   getUser,
-  initializeTweets,
-  initializeReplies,
-} from "../../utils/test-helper";
+  resetDb,
+} from "../../utils/testHelper";
 
 beforeAll(async () => {
   await connectDb();
 });
 
 beforeEach(async () => {
-  await initializeUsers();
-  await initializeTweets();
-  await initializeReplies();
+  await resetDb();
 }, 10000);
 
 describe("all users can", () => {
