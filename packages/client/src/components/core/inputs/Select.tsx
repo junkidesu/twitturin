@@ -15,20 +15,17 @@ const Select = ({
   options,
   value,
   onChange,
-  placeholder,
   required,
   id,
 }: {
   options: string[];
   value?: string;
   onChange?: React.ChangeEventHandler<HTMLSelectElement>;
-  placeholder?: string;
   required?: boolean;
   id?: string;
 }) => {
   return (
     <SelectWrapper
-      placeholder={placeholder}
       value={value}
       onChange={onChange}
       required={required}
