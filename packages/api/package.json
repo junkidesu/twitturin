@@ -12,14 +12,6 @@
     "start": "NODE_ENV=production node dist/index.js",
     "start:test": "NODE_ENV=test ts-node src/index.ts"
   },
-  "bugs": {
-    "url": "https://github.com/luminous-or-me/twitturin/issues",
-    "email": "alvaro.sh03@gmail.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/luminous-or-me/twitturin.git"
-  },
   "author": "Anvar Sheryatullaev",
   "license": "ISC",
   "devDependencies": {

@@ -4,11 +4,26 @@
   "description": "TwitturIn is a social media platform for the students of Turin Polytechnic University in Tashkent. This repository contains the source code of both the TwitturIn API and the frontend client.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "lerna run lint",
+    "test": "lerna run test",
+    "start:api": "lerna run start:test --scope=@twitturin/api",
+    "start:client": "lerna run dev --scope=@twitturin/client"
+  },
+  "bugs": {
+    "url": "https://github.com/luminous-or-me/twitturin/issues",
+    "email": "alvaro.sh03@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/luminous-or-me/twitturin.git"
   },
   "author": "Anvar Sheryatullayev",
   "license": "ISC",
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "lerna": "^8.0.2"
+  }
 }
