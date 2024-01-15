@@ -63,3 +63,15 @@ jobs:
           api_key: ${{ secrets.RENDER_API_KEY }}
           wait_deploy: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
+  tag_release:
+    runs-on: ubuntu-22.04
+    needs: [check_quality, deploy]
+    if: ${{ github.event_name == 'push' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@1.64.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
+          DRY_RUN: true
