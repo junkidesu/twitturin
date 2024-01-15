@@ -10,7 +10,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:e2e": "cypress run --browser firefox"
+    "test:e2e": "cypress run"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",
@@ -34,7 +34,9 @@
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react": "^4.0.3",
+    "cypress": "^13.6.2",
     "eslint": "^8.52.0",
+    "eslint-plugin-cypress": "^2.15.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "jsdom": "^23.2.0",
