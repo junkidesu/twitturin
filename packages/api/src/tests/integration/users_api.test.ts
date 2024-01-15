@@ -1,6 +1,14 @@
 import { connectDb, disconnectDb } from "../../utils/mongo";
 import { Major, NewUser, TokenData } from "../../types";
 import {
+  beforeAll,
+  beforeEach,
+  describe,
+  test,
+  afterAll,
+  expect,
+} from "vitest";
+import {
   api,
   initialUsers,
   userExists,

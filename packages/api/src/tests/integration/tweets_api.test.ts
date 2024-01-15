@@ -6,6 +6,14 @@ import {
   tweetExists,
   resetDb,
 } from "../../utils/testHelper";
+import {
+  beforeAll,
+  beforeEach,
+  describe,
+  test,
+  afterAll,
+  expect,
+} from "vitest";
 import { connectDb, disconnectDb } from "../../utils/mongo";
 
 beforeAll(async () => {

@@ -19,7 +19,6 @@ Cypress.Commands.add("login", (username, password) => {
     localStorage.setItem("auth", JSON.stringify(body));
   });
 });
-
 //
 //
 // -- This is a child command --
@@ -36,7 +35,7 @@ Cypress.Commands.add("login", (username, password) => {
 // declare global {
 //   namespace Cypress {
 //     interface Chainable {
-//       login(email: string, password: string): Chainable<void>;
+//       login(email: string, password: string): Chainable<void>
 //       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
 //       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
 //       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
