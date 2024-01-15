@@ -4,7 +4,9 @@ on:
   push:
     branches:
       - main
-      - monorepo
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
 
 jobs:
   pipeline:
@@ -45,6 +47,33 @@ jobs:
         uses: JorgeLNJunior/render-deploy@v1.4.3
         with:
           service_id: ${{ secrets.API_SERVICE_ID }}
+          api_key: ${{ secrets.RENDER_API_KEY }}
+          wait_deploy: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy client to Render
+        uses: JorgeLNJunior/render-deploy@v1.4.3
+        with:
+          service_id: ${{ secrets.CLIENT_SERVICE_ID }}
+          api_key: ${{ secrets.RENDER_API_KEY }}
+          wait_deploy: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+  deploy:
+    needs: [pipeline]
+    runs-on: ubuntu-22.04
+    if: ${{ github.event_name == 'push' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy API to Render
+        uses: JorgeLNJunior/render-deploy@v1.4.3
+        with:
+          service_id: ${{ secrets.API_SERVICE_ID }}
+          api_key: ${{ secrets.RENDER_API_KEY }}
+          wait_deploy: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy client to Render
+        uses: JorgeLNJunior/render-deploy@v1.4.3
+        with:
+          service_id: ${{ secrets.CLIENT_SERVICE_ID }}
           api_key: ${{ secrets.RENDER_API_KEY }}
           wait_deploy: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
