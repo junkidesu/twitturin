@@ -44,6 +44,13 @@ if (env.NODE_ENV !== "test") {
       ":method :url :status :res[content-length] - :response-time ms :body"
     )
   );
+
+  app.use(
+    "/ping",
+    morgan(
+      ":method :url :status :res[content-length] - :response-time ms :body"
+    )
+  );
 }
 
 app.get("/ping", (_req, res) => {
