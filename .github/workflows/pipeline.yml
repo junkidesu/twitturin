@@ -79,7 +79,16 @@ jobs:
     if: ${{ github.event_name == 'push' }}
     steps:
       - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            api:
+              - 'packages/api/**'
+            client:
+              - 'packages/client**'
       - name: Bump version and push tag
+        if: steps.filter.outputs.api == 'true' || steps.filter.outputs.client == 'true'
         uses: anothrNick/github-tag-action@1.64.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
