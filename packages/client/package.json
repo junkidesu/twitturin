@@ -41,7 +41,8 @@
     "eslint-plugin-react-refresh": "^0.4.3",
     "jsdom": "^23.2.0",
     "typescript": "^5.2.2",
-    "vite": "^4.5.1",
-    "vitest": "^1.2.0"
+    "vite": ">=5.0.12",
+    "vitest": "^1.2.0",
+    "follow-redirects": ">=1.15.4"
   }
 }
