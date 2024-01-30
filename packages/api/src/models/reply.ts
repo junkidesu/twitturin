@@ -57,6 +57,13 @@ ReplySchema.virtual("likes").get(function () {
   return this.likedBy.length;
 });
 
+ReplySchema.virtual("isEdited").get(function (): boolean {
+  const createdAt = new Date(this.get("createdAt") as string).valueOf();
+  const updatedAt = new Date(this.get("updatedAt") as string).valueOf();
+
+  return createdAt < updatedAt;
+});
+
 ReplySchema.virtual("replies", {
   ref: "Reply",
   localField: "_id",
