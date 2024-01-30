@@ -44,6 +44,13 @@ TweetSchema.virtual("likes").get(function (): number {
   return this.likedBy.length;
 });
 
+TweetSchema.virtual("isEdited").get(function (): boolean {
+  const createdAt = new Date(this.get("createdAt") as string).valueOf();
+  const updatedAt = new Date(this.get("updatedAt") as string).valueOf();
+
+  return createdAt < updatedAt;
+});
+
 TweetSchema.virtual("replies", {
   ref: "Reply",
   localField: "_id",

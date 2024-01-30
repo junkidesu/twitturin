@@ -112,6 +112,53 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
+/**
+ * @openapi
+ * /users/{id}/profilePicture:
+ *   post:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Update user profile picture
+ *     tags: [users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: the id of the user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             $ref: '#/components/schemas/UpdateProfilePicture'
+ *     responses:
+ *       200:
+ *         description: successfully updated the profile picture
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       400:
+ *         description: invalid data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       401:
+ *         description: unauthorized editing of a user (i.e., invalid JWT, or user editing someone else's profile)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       404:
+ *         description: The user with the specified id was not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ */
 router.post(
   "/:id/profilePicture",
   requireAuthentication,
@@ -127,6 +174,7 @@ router.post(
         req.params.id,
         parseString(location)
       );
+
       return res.json(updatedUser);
     } catch (error) {
       return next(error);
@@ -134,13 +182,56 @@ router.post(
   }
 );
 
+/**
+ * @openapi
+ * /users/{id}/profilePicture:
+ *   delete:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Delete user profile picture
+ *     tags: [users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: the id of the user
+ *     responses:
+ *       200:
+ *         description: successfully deleted the profile picture
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       400:
+ *         description: Invalid MongoDB id was provided.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       401:
+ *         description: Unauthorized editing of a user (i.e., invalid JWT, or user editing someone else's profile)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ *       404:
+ *         description: The user with the specified id was not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/responses/Error'
+ */
 router.delete(
   "/:id/profilePicture",
   requireAuthentication,
   requireSameUser,
   async (req, res, next) => {
     try {
-      const updatedUser = await usersService.removeProfilePicture(req.params.id);
+      const updatedUser = await usersService.removeProfilePicture(
+        req.params.id
+      );
 
       res.json(updatedUser);
     } catch (error) {
