@@ -11,6 +11,7 @@ export const Reply = {
     "replies",
     "replyCount",
     "tweet",
+    "isEdited",
   ],
   properties: {
     id: {
@@ -77,6 +78,10 @@ export const Reply = {
       format: "date",
       example: "2023-12-05T09:35:52.282Z",
       description: "The time when the reply was last edited.",
+    },
+    isEdited: {
+      type: "boolean",
+      description: "Whether or not the reply was edited",
     },
   },
 };

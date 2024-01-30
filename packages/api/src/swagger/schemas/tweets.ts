@@ -8,6 +8,7 @@ export const Tweet = {
     "author",
     "likedBy",
     "likes",
+    "isEdited",
   ],
   properties: {
     id: {
@@ -26,7 +27,8 @@ export const Tweet = {
       items: {
         type: "string",
       },
-      description: "The list of the MongoDB ids of the users who liked this tweet.",
+      description:
+        "The list of the MongoDB ids of the users who liked this tweet.",
     },
     likes: {
       type: "number",
@@ -41,7 +43,7 @@ export const Tweet = {
     replyCount: {
       type: "number",
       example: 1,
-      description: "The number of replies on the tweet."
+      description: "The number of replies on the tweet.",
     },
     createdAt: {
       type: "string",
@@ -54,6 +56,10 @@ export const Tweet = {
       format: "date",
       example: "2023-12-05T09:35:52.282Z",
       description: "The time when the tweet was last edited.",
+    },
+    isEdited: {
+      type: "boolean",
+      description: "Whether or not the tweet was edited",
     },
   },
 };

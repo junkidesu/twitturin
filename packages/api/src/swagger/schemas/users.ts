@@ -1,6 +1,6 @@
 export const UserCommon = {
   type: "object",
-  required: ["username", "studentId", "email", "major", "birthday"],
+  required: ["username", "studentId", "major"],
   properties: {
     username: {
       type: "string",
@@ -113,7 +113,7 @@ export const NewUser = {
 
 export const User = {
   type: "object",
-  required: ["id", "followingCount", "followersCount", "age"],
+  required: ["id", "followingCount", "followersCount"],
   oneOf: [
     {
       $ref: "#/components/schemas/StudentUser",
@@ -147,6 +147,11 @@ export const User = {
       example: 21,
       description: "the age of the user",
     },
+    profilePicture: {
+      type: "string",
+      description:
+        "the URL of the profile picture (location in Amazon S3 bucket)",
+    },
   },
 };
 
@@ -165,6 +170,17 @@ export const EditUser = {
     country: {
       type: "string",
       description: "the new country of residence of the user",
+    },
+  },
+};
+
+export const UpdateProfilePicture = {
+  type: "object",
+  required: ["picture"],
+  properties: {
+    picture: {
+      type: "string",
+      format: "binary",
     },
   },
 };
