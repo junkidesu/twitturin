@@ -119,7 +119,5 @@ export interface NewTweet {
 }
 
 export interface SearchResults {
-  tweets: Tweet[];
   users: User[];
-  replies: Reply[];
 }
