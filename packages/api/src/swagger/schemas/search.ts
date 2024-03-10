@@ -1,13 +1,6 @@
 export const SearchData = {
   type: "object",
   properties: {
-    tweets: {
-      type: "array",
-      description: "The tweets that contain the given keyword",
-      items: {
-        $ref: "#/components/schemas/Tweet",
-      },
-    },
     users: {
       type: "array",
       description:

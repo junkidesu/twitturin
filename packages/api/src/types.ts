@@ -109,7 +109,6 @@ export interface TokenData {
 }
 
 export interface SearchResults {
-  tweets: PopulatedTweet[];
   users: User[];
   replies: Omit<PopulatedReply, "replies">[];
 }
