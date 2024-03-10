@@ -2,10 +2,6 @@ import useField from "../hooks/useField";
 import { useSearchQuery } from "../services/searchService";
 import Box from "../components/containers/Box";
 import Input from "../components/core/inputs/Input";
-import TweetList from "../components/tweets/TweetList";
-import LoadingTweetList from "../components/util/LoadingTweetList";
-import ReplyList from "../components/replies/ReplyList";
-import LoadingReplyList from "../components/util/LoadingReplyList";
 import UserItem from "../components/users/UserItem";
 import LoadingUserItem from "../components/util/LoadingUserItem";
 import Empty from "../components/util/Empty";
@@ -44,31 +40,19 @@ const SearchLists = ({ keyword }: Props) => {
   if (isLoading || isFetching)
     return (
       <Box $gap="0.1em">
-        <PageHeading label="Tweets" level={4} />
-
-        <LoadingTweetList />
-
-        <PageHeading label="Users" level={4} />
+        <PageHeading label="Found Users" level={4} />
 
         <>
           <LoadingUserItem />
           <LoadingUserItem />
           <LoadingUserItem />
         </>
-
-        <PageHeading label="Replies" level={4} />
-
-        <LoadingReplyList />
       </Box>
     );
 
   return (
     <Box $gap="0.1em">
-      <PageHeading label="Tweets" level={4} />
-
-      {keyword.value && <TweetList tweets={results?.tweets || []} />}
-
-      <PageHeading label="Users" level={4} />
+      <PageHeading label="Found Users" level={4} />
 
       {keyword.value &&
         (results?.users.length === 0 ? (
@@ -80,10 +64,6 @@ const SearchLists = ({ keyword }: Props) => {
             ))}
           </>
         ))}
-
-      <PageHeading label="Replies" level={4} />
-
-      {keyword.value && <ReplyList replies={results?.replies || []} />}
     </Box>
   );
 };

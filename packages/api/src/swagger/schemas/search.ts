@@ -9,12 +9,5 @@ export const SearchData = {
         $ref: "#/components/schemas/User",
       },
     },
-    replies: {
-      type: "array",
-      description: "The tweets that contain the given keyword",
-      items: {
-        $ref: "#/components/schemas/Reply",
-      },
-    },
   },
 };

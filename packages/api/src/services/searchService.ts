@@ -1,6 +1,5 @@
-import ReplyModel from "../models/reply";
 import UserModel from "../models/user";
-import { PopulatedReply, Reply, SearchResults, User } from "../types";
+import { SearchResults, User } from "../types";
 
 const search = async ({
   keyword,
@@ -18,13 +17,8 @@ const search = async ({
     ],
   });
 
-  const replies = await ReplyModel.find<Reply>({
-    content: { $regex: keyword, $options: "i" },
-  }).populate<PopulatedReply>("author");
-
   return {
     users,
-    replies,
   };
 };
 

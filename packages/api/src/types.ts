@@ -110,7 +110,6 @@ export interface TokenData {
 
 export interface SearchResults {
   users: User[];
-  replies: Omit<PopulatedReply, "replies">[];
 }
 
 export class ParseError extends Error {
