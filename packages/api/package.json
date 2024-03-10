@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "NODE_ENV=development ts-node-dev src/index.ts",
-    "dev:remote": "NODE_ENV=development node dist/index.js",
+    "dev:remote": "NODE_ENV=development node dist/src/index.js",
     "build": "tsc",
     "lint": "eslint --ext .ts .",
     "test": "NODE_ENV=test vitest run",
