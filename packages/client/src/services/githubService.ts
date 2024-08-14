@@ -9,7 +9,7 @@ export const githubApi = createApi({
   endpoints: (builder) => ({
     getLatestRelease: builder.query<ReleaseInformation, undefined>({
       query: () => ({
-        url: "repos/luminous-or-me/twitturin-android/releases/latest",
+        url: "repos/extractive-mana-pulse/Twittur-In-/releases/latest",
       }),
     }),
   }),
